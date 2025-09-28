@@ -1,0 +1,88 @@
+.landing {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+.landing-logo-container {
+  margin-bottom: 1.5rem;
+}
+
+.landing-logo {
+  width: 150px;
+  height: auto;
+}
+
+.title {
+  font-family: serif;
+  font-size: 2.5rem;
+  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.title .venture {
+  font-weight: bold;
+  -webkit-text-stroke: 1px white;
+  color: transparent;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.8rem 2rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn.primary {
+  background: white;
+  color: black;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.info {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 10%;
+  color: white;
+  text-align: left;
+}
+
+.info h2 {
+  font-size: 3rem;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.highlight-pink {
+  color: #ff2f92;
+}
+
+.highlight-yellow {
+  color: #ffeb00;
+}
+
+.info p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  color: #ccc;
+}
