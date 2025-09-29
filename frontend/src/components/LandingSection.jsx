@@ -11,7 +11,7 @@ export default function LandingSection({ logoUrl }) {
         <div className="name-buttons">
           <div className="name-container">
             <h1 className="type">TYPE<span className="venture">VENTURE</span></h1>
-            <p className="description">Discover typography rules through fun, interactive challenges that turn learning into play.</p>
+            <p className="description">From kerning to contrast, build your design skills step by step while earning points and badges.</p>
           </div>
           <div className="btn-container">
             <button className="login-btn">LOGIN / REGISTER</button>
@@ -20,12 +20,13 @@ export default function LandingSection({ logoUrl }) {
         </div>
       </div>
       <div className="landing-info-2">
-        <h2>
+        <h2 className="tagline-1">
           Play with <span className="highlight-pink">TYPE</span>
-          <br />
+        </h2>
+        <h2 className="tagline-2">
           Learn by <span className="highlight-yellow">DESIGN</span>
         </h2>
-        <p>
+        <p className="description-2">
           Discover typography rules through fun, interactive challenges
           that turn learning into play.
         </p>

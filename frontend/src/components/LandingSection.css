@@ -1,11 +1,10 @@
-
-
 .landing-page {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  width: 100%;
 }
 
 .landing-info-1 {
@@ -15,6 +14,10 @@
   align-items: center;
   text-align: center;
   padding: 0 10%;
+  margin-top: 25px;
+  height: 90vh;
+  width: 100%;
+  border: 2px solid transparent;
 }
 
 .landing-logo-container {
@@ -22,6 +25,7 @@
   border: 2px solid white;
   padding: 10px;
   margin-right: 50px;
+  background-color: black;
 }
 
 .landing-logo {
@@ -46,7 +50,7 @@
 .venture {
   font-family: 'Poppins';
   font-size: 100px;
-  color: black;
+  color: transparent;
   -webkit-text-stroke: 1px white;
   padding-left: 5px;
   margin: 0px;
@@ -74,8 +78,8 @@
   border: 2px solid white;
   font-size: 1rem;
   cursor: pointer;
-  color: black;
-  background-color: white;
+  color: white;
+  background-color: transparent;
   transition: all 0.3s ease;
   margin-top: 0px;
   margin-right: 20px;
@@ -84,7 +88,7 @@
 .login-btn:hover {
   transform: scale(1.05);
   border: 2px solid #fa0e70;
-  background-color: black;
+  background-color: transparent;
   color: #fa0e70;
 }
 
@@ -95,7 +99,7 @@
   font-size: 1rem;
   cursor: pointer;
   color: white;
-  background-color: black;
+  background-color: transparent;
   transition: all 0.3s ease;
   margin-top: 0px;
   margin-right: 20px;
@@ -105,37 +109,55 @@
 .guest-btn:hover {
   transform: scale(1.05);
   border: 2px solid yellow;
-  background-color: black;
+  background-color: transparent;
   color: yellow;
 }
 
-.info {
-  min-height: 100vh;
+.landing-info-2 {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  text-align: flex-start;
   padding: 0 10%;
-  color: white;
-  text-align: left;
+  margin-bottom: 50px;
+  height: 90vh;
+  width: 100%;
+  border: 2px solid transparent;
 }
 
-.info h2 {
-  font-size: 3rem;
-  line-height: 1.2;
-  margin-bottom: 1.5rem;
+.tagline-1 {
+  font-size: 50px;
+  font-family: 'Poppins';
+  color: white;
+  margin: 0;
+  margin-bottom: 5px;
+  margin-left: 125px;
+}
+
+.tagline-2 {
+  font-size: 75px;
+  font-family: 'Poppins';
+  color: white;
+  margin: 0;
+  margin-bottom: 10px;
+  margin-left: 125px;
 }
 
 .highlight-pink {
-  color: #ff2f92;
+  color: #fa0e70;
+  font-size: 75px;
 }
 
 .highlight-yellow {
-  color: #ffeb00;
+  color: yellow;
+  font-size: 100px;
 }
 
-.info p {
-  font-size: 1.2rem;
+.description-2 {
+  font-size: 20px;
+  font-family: 'Poppins';
   max-width: 600px;
-  color: #ccc;
+  color: white;
+  margin-left: 125px;
 }
