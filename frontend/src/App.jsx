@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Aurora from "./components/Bins/Aurora";
+import Aurora from "./components/Bins/background/Aurora";
 import LandingSection from "./components/LandingSection";
 import "./App.css";
 

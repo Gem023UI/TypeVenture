@@ -31,6 +31,18 @@ export default function LandingSection({ logoUrl }) {
           that turn learning into play.
         </p>
       </div>
+      <div className="landing-info-2">
+        <h2 className="tagline-1">
+          Play with <span className="highlight-pink">TYPE</span>
+        </h2>
+        <h2 className="tagline-2">
+          Learn by <span className="highlight-yellow">DESIGN</span>
+        </h2>
+        <p className="description-2">
+          Discover typography rules through fun, interactive challenges
+          that turn learning into play.
+        </p>
+      </div>
     </section>
   );
 }
