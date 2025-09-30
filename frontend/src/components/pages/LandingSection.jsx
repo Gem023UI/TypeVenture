@@ -1,8 +1,10 @@
 import React from "react";
-import Stack from "./Bins/media/Stack";
+import { useNavigate } from "react-router-dom";
+import Stack from "../Bins/media/Stack";
 import "./LandingSection.css";
 
 export default function LandingSection({ logoUrl }) {
+  const navigate = useNavigate();
   const images = [
     { id: 1, img: logoUrl }, // keep the passed logoUrl
     { id: 2, img: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759176984/pioneer2_ouxgbt.png" },
@@ -29,7 +31,9 @@ export default function LandingSection({ logoUrl }) {
             </p>
           </div>
           <div className="btn-container">
-            <button className="login-btn">LOGIN / REGISTER</button>
+            <button 
+              className="login-btn" 
+              onClick={() => navigate("/login")}>LOGIN / REGISTER</button>
             <button className="guest-btn">PLAY AS GUEST</button>
           </div>
         </div>
@@ -54,7 +58,7 @@ export default function LandingSection({ logoUrl }) {
             randomRotation={false}
             sensitivity={180}
             sendToBackOnClick={false}
-            cardDimensions={{ width: 200, height: 200 }}
+            cardDimensions={{ width: 300, height: 300 }}
             cardsData={images}
           />
         </div>

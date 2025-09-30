@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Aurora from "./components/Bins/background/Aurora";
-import LandingSection from "./components/LandingSection";
-import "./App.css";
+import LandingSection from "./components/pages/LandingSection";
+import LoginRegister from "./components/pages/Login&Register";
 
 function App() {
   const [logoUrl] = useState(
@@ -9,15 +10,25 @@ function App() {
   );
 
   return (
-    <div className="App">
-      <Aurora
-        colorStops={["#FA0370", "#FFFFFF", "#F9F30A"]}
-        blend={0.0}
-        amplitude={2.0}
-        speed={0.5}
-      />
-      <LandingSection logoUrl={logoUrl} />
-    </div>
+    <Router>
+      <div className="App">
+        {/* Aurora as full background */}
+        <Aurora
+          colorStops={["#FA0370", "#FFFFFF", "#F9F30A"]}
+          blend={0.0}
+          amplitude={2.0}
+          speed={0.5}
+        />
+
+        {/* Foreground content */}
+        <div className="page-content">
+          <Routes>
+            <Route path="/" element={<LandingSection logoUrl={logoUrl} />} />
+            <Route path="/login" element={<LoginRegister logoUrl={logoUrl} />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
 }
 
