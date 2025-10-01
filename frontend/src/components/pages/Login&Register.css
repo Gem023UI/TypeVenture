@@ -1,15 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
+/* Apply Poppins everywhere */
+* {
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
+}
+
 .login-register-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 90vh;
+    min-height: 100vh; /* fill viewport */
     width: 100%;
     padding: 20px;
 }
 
-.container{
+/* Main container */
+.container {
     background-color: #f6fef9;
     border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
@@ -18,28 +25,33 @@
     width: 768px;
     max-width: 100%;
     min-height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.container p{
+.container p {
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.3px;
     margin: 20px 0;
+    color: #000000;
 }
 
-.container span{
+.container span {
     font-size: 12px;
 }
 
-.container a{
-    color: #333;
+.container a {
+    color: black;
     font-size: 13px;
     text-decoration: none;
     margin: 15px 0 10px;
 }
 
-.container button{
-    background-color: #003023;
+/* Buttons */
+.container button {
+    background-color: black;
     color: #fff;
     font-size: 12px;
     padding: 10px 45px;
@@ -48,20 +60,31 @@
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    margin-top: 10px;
+    margin-top: 15px;
     cursor: pointer;
+    transition: background 0.3s ease;
 }
 
-.container button.hidden{
+.container button.hidden {
     background-color: transparent;
-    border-color: #fff;
+    border-color: #000000;
+    color: black;
+}
+
+.container button.hidden:hover {
+    background-color: black;
+    color: #fff;
+    border: 1.5px solid transparent;
 }
 
 .container button:hover {
-    background-color: #83c441;
+    background-color: transparent;
+    color: black;
+    border: 1.5px solid black;
 }
 
-.container form{
+/* Forms */
+.container form {
     background-color: #fff;
     display: flex;
     align-items: center;
@@ -69,67 +92,88 @@
     flex-direction: column;
     padding: 0 40px;
     height: 100%;
+    width: 100%;
+    text-align: center;
 }
 
-.container input{
+/* Input fields */
+.input-box {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container input {
     background-color: #eee;
     border: none;
     margin: 8px 0;
-    padding: 10px 15px;
-    font-size: 13px;
+    padding: 12px 15px;
+    font-size: 14px;
     border-radius: 8px;
     width: 100%;
     outline: none;
+    text-align: center;
 }
 
-.form-container{
+/* Form containers */
+.form-container {
     position: absolute;
     top: 0;
     height: 100%;
     transition: all 0.6s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
-.sign-in{
+.sign-in {
     left: 0;
     width: 50%;
     z-index: 2;
+    color: #000000;
 }
 
-.container.active .sign-in{
+.container.active .sign-in {
     transform: translateX(100%);
 }
 
-.sign-up{
+.sign-up {
     left: 0;
     width: 50%;
     opacity: 0;
     z-index: 1;
+    color: #000000;
 }
 
-.container.active .sign-up{
+.container.active .sign-up {
     transform: translateX(100%);
     opacity: 1;
     z-index: 5;
     animation: move 0.6s;
 }
 
-@keyframes move{
-    0%, 49.99%{
+@keyframes move {
+    0%, 49.99% {
         opacity: 0;
         z-index: 1;
     }
-    50%, 100%{
+    50%, 100% {
         opacity: 1;
         z-index: 5;
     }
 }
 
-.social-icons{
+/* Social icons */
+.social-icons {
     margin: 20px 0;
 }
 
-.social-icons a{
-    border: 1px solid #ccc;
+.social-icons a {
+    border: 1px solid #000000;
     border-radius: 20%;
     display: inline-flex;
     justify-content: center;
@@ -139,7 +183,8 @@
     height: 40px;
 }
 
-.toggle-container{
+/* Toggle container */
+.toggle-container {
     position: absolute;
     top: 0;
     left: 50%;
@@ -151,35 +196,41 @@
     z-index: 1000;
 }
 
-.container.active .toggle-container{
+.container.active .toggle-container {
     transform: translateX(-100%);
     border-radius: 0 150px 100px 0;
 }
 
-.trademark{
+/* Logo */
+.trademark {
     width: 50px;
     margin-top: 5px;
     display: block;
     padding: 5px;
 }
 
-.toggle{
-    background-color: #003023;
-    height: 100%;
+/* Toggle background */
+.toggle {
+    background-color: #fa0e70;
     color: #fff;
     position: relative;
     left: -100%;
-    height: 100%;
     width: 200%;
+    height: 100%;
     transform: translateX(0);
     transition: all 0.6s ease-in-out;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.container.active .toggle{
+.container.active .toggle {
     transform: translateX(50%);
 }
 
-.toggle-panel{
+/* Toggle panels */
+.toggle-panel {
     position: absolute;
     width: 50%;
     height: 100%;
@@ -187,31 +238,45 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 30px;
+    padding: 20px;
     text-align: center;
     top: 0;
     transform: translateX(0);
     transition: all 0.6s ease-in-out;
 }
 
-.toggle-left{
+.toggle-panel h1,
+.toggle-panel p,
+.toggle-panel h5 {
+    margin: 10px 0;
+    color: #000000;
+}
+
+/* Left panel */
+.toggle-left {
     transform: translateX(-200%);
+    background-color: #fa0e70;
 }
 
-.container.active .toggle-left{
-    transform: translateX(0);
+.container.active .toggle-left {
+    transform: translateX(-50%);
 }
 
-.toggle-right{
+/* Right panel */
+.toggle-right {
     right: 0;
     transform: translateX(0);
+    background-color: yellow;
+    color: #000;
 }
 
-.container.active .toggle-right{
+.container.active .toggle-right {
     transform: translateX(200%);
 }
 
-.input-box, .dropdown-btn {
+/* Inputs consistency */
+.input-box,
+.dropdown-btn {
     width: 100%;
     max-width: 300px;
     margin: 2px auto;
@@ -224,8 +289,8 @@
     border-radius: 5px;
     background-color: #f5f5f5;
     font-size: 16px;
-    color: #555;
     outline: none;
+    text-align: center;
 }
 
 .form-control:focus {
