@@ -39,7 +39,10 @@ exports.registerUser = async (req, res) => {
     let profilePictureUrl = "";
     if (req.file) {
       const uploadResult = await cloudinary.uploader.upload(req.file.path, {
-        folder: "user_profiles",
+        folder: "TypeVenture/profile pictures",
+        use_filename: true,
+        unique_filename: false,
+        resource_type: "image",
       });
       profilePictureUrl = uploadResult.secure_url;
 
