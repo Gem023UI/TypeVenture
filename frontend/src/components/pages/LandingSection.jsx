@@ -15,78 +15,80 @@ export default function LandingSection({ logoUrl }) {
   ];
 
   return (
-    <section className="landing-page">
-      <div className="landing-info-1">
-        <div className="landing-logo-container">
-          <img src={logoUrl} alt="Typeventure Logo" className="landing-logo" />
-        </div>
-        <div className="name-buttons">
-          <div className="name-container">
-            <h1 className="type">
-              TYPE<span className="venture">VENTURE</span>
-            </h1>
-            <p className="description">
-              From kerning to contrast, build your design skills step by step
-              while earning points and badges.
-            </p>
+    <section className="landing-page-wrapper">
+      <div className="landing-page">
+        <div className="landing-info-1">
+          <div className="landing-logo-container">
+            <img src={logoUrl} alt="Typeventure Logo" className="landing-logo" />
           </div>
-          <div className="btn-container">
-            <button 
-              className="login-btn" 
-              onClick={() => navigate("/login")}>LOGIN / REGISTER</button>
-            <button className="guest-btn">PLAY AS GUEST</button>
+          <div className="name-buttons">
+            <div className="name-container">
+              <h1 className="type">
+                TYPE<span className="venture">VENTURE</span>
+              </h1>
+              <p className="description">
+                From kerning to contrast, build your design skills step by step
+                while earning points and badges.
+              </p>
+            </div>
+            <div className="btn-container">
+              <button 
+                className="login-btn" 
+                onClick={() => navigate("/login")}>LOGIN / REGISTER</button>
+              <button className="guest-btn">PLAY AS GUEST</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="landing-info-2">
-        <h2 className="tagline-1">
-          Play with <span className="highlight-pink">TYPE</span>
-        </h2>
-        <h2 className="tagline-2">
-          Learn by <span className="highlight-yellow">DESIGN</span>
-        </h2>
-        <p className="description-2">
-          Discover typography rules through fun, interactive challenges that
-          turn learning into play.
-        </p>
-      </div>
-
-      <div className="landing-info-3">
-        <div className="pioneer-image">
-          <Stack
-            randomRotation={false}
-            sensitivity={180}
-            sendToBackOnClick={false}
-            cardDimensions={{ width: 300, height: 300 }}
-            cardsData={images}
-          />
-        </div>
-        <div className="texts">
-          <h2 className="tagline-3">
-            Turn <span className="highlight-pink">LETTERS</span>
+        <div className="landing-info-2">
+          <h2 className="tagline-1">
+            Play with <span className="highlight-pink">TYPE</span>
           </h2>
-          <h2 className="tagline-4">
-            Into <span className="highlight-yellow">LESSONS</span>
+          <h2 className="tagline-2">
+            Learn by <span className="highlight-yellow">DESIGN</span>
           </h2>
-          <p className="description-3">
+          <p className="description-2">
             Discover typography rules through fun, interactive challenges that
             turn learning into play.
           </p>
         </div>
-      </div>
 
-      <div className="landing-info-2">
-        <h2 className="tagline-1">
-          Where <span className="highlight-pink">TYPOGRAPHY</span>
-        </h2>
-        <h2 className="tagline-2">
-          Meets <span className="highlight-yellow">GAMEPLAY</span>
-        </h2>
-        <p className="description-2">
-          Discover typography rules through fun, interactive challenges that
-          turn learning into play.
-        </p>
+        <div className="landing-info-3">
+          <div className="pioneer-image">
+            <Stack
+              randomRotation={false}
+              sensitivity={180}
+              sendToBackOnClick={false}
+              cardDimensions={{ width: 300, height: 300 }}
+              cardsData={images}
+            />
+          </div>
+          <div className="texts">
+            <h2 className="tagline-3">
+              Turn <span className="highlight-pink">LETTERS</span>
+            </h2>
+            <h2 className="tagline-4">
+              Into <span className="highlight-yellow">LESSONS</span>
+            </h2>
+            <p className="description-3">
+              Discover typography rules through fun, interactive challenges that
+              turn learning into play.
+            </p>
+          </div>
+        </div>
+
+        <div className="landing-info-2">
+          <h2 className="tagline-1">
+            Where <span className="highlight-pink">TYPOGRAPHY</span>
+          </h2>
+          <h2 className="tagline-2">
+            Meets <span className="highlight-yellow">GAMEPLAY</span>
+          </h2>
+          <p className="description-2">
+            Discover typography rules through fun, interactive challenges that
+            turn learning into play.
+          </p>
+        </div>
       </div>
     </section>
   );

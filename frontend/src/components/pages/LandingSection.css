@@ -1,15 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-.landing-page {
+.landing-page-wrapper {
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Main landing section */
+.landing-page-wrapper .landing-page {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
   width: 100%;
 }
 
-.landing-info-1 {
+/* Section 1 */
+.landing-page-wrapper .landing-info-1 {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -19,10 +26,9 @@
   margin-top: 25px;
   height: 90vh;
   width: 100%;
-  border: 2px solid transparent;
 }
 
-.landing-logo-container {
+.landing-page-wrapper .landing-logo-container {
   border-radius: 20px;
   border: 2px solid white;
   padding: 10px;
@@ -30,27 +36,25 @@
   background-color: black;
 }
 
-.landing-logo {
+.landing-page-wrapper .landing-logo {
   width: 300px;
   height: auto;
 }
 
-.name-container {
+.landing-page-wrapper .name-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 20px;
 }
 
-.type {
-  font-family: 'Poppins';
+.landing-page-wrapper .type {
   font-size: 100px;
   color: white;
   margin: 0px;
 }
 
-.venture {
-  font-family: 'Poppins';
+.landing-page-wrapper .venture {
   font-size: 100px;
   color: transparent;
   -webkit-text-stroke: 1px white;
@@ -58,8 +62,7 @@
   margin: 0px;
 }
 
-.description {
-  font-family: 'Poppins';
+.landing-page-wrapper .description {
   font-size: 18px;
   color: white;
   max-width: 700px;
@@ -68,103 +71,97 @@
   padding: 5px;
 }
 
-.btn-container {
+/* Buttons */
+.landing-page-wrapper .btn-container {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 }
 
-.login-btn {
+.landing-page-wrapper .login-btn {
   padding: 0.8rem 2rem;
   border-radius: 999px;
-  border: 2px solid white;
+  border: 0px;
   font-size: 1rem;
   cursor: pointer;
   color: white;
-  background-color: transparent;
+  background-color: #fa0e70;
   transition: all 0.3s ease;
   margin-top: 0px;
   margin-right: 20px;
 }
 
-.login-btn:hover {
+.landing-page-wrapper .login-btn:hover {
   transform: scale(1.05);
   border: 2px solid #fa0e70;
-  background-color: transparent;
   color: #fa0e70;
+  background-color: transparent;
 }
 
-.guest-btn {
+.landing-page-wrapper .guest-btn {
   padding: 0.8rem 2rem;
   border-radius: 999px;
-  border: 2px solid white;
+  border: 0px;
   font-size: 1rem;
   cursor: pointer;
-  color: white;
-  background-color: transparent;
+  color: black;
+  background-color: yellow;
   transition: all 0.3s ease;
   margin-top: 0px;
   margin-right: 20px;
-
 }
 
-.guest-btn:hover {
+.landing-page-wrapper .guest-btn:hover {
   transform: scale(1.05);
   border: 2px solid yellow;
-  background-color: transparent;
   color: yellow;
+  background-color: transparent;
 }
 
-.landing-info-2 {
+/* Section 2 */
+.landing-page-wrapper .landing-info-2 {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  text-align: flex-start;
+  text-align: left;
   padding: 0 10%;
   margin-bottom: 50px;
   height: 90vh;
   width: 100%;
-  border: 2px solid transparent;
 }
 
-.tagline-1 {
+.landing-page-wrapper .tagline-1 {
   font-size: 50px;
-  font-family: 'Poppins';
   color: white;
-  margin: 0;
-  margin-bottom: 5px;
-  margin-left: 125px;
+  margin: 0 0 5px 125px;
 }
 
-.tagline-2 {
+.landing-page-wrapper .tagline-2 {
   font-size: 75px;
-  font-family: 'Poppins';
   color: white;
-  margin: 0;
-  margin-bottom: 10px;
-  margin-left: 125px;
+  margin: 0 0 10px 125px;
 }
 
-.highlight-pink {
+.landing-page-wrapper .highlight-pink {
   color: #fa0e70;
   font-size: 75px;
 }
 
-.highlight-yellow {
+.landing-page-wrapper .highlight-yellow {
   color: yellow;
   font-size: 100px;
 }
 
-.description-2 {
+.landing-page-wrapper .description-2 {
   font-size: 20px;
-  font-family: 'Poppins';
   max-width: 600px;
   color: white;
   margin-left: 125px;
 }
 
-.landing-info-3 {
+/* Section 3 */
+.landing-page-wrapper .landing-info-3 {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -173,50 +170,41 @@
   margin-bottom: 50px;
   height: 90vh;
   width: 100%;
-  border: 2px solid transparent;
 }
 
-.tagline-3 {
+.landing-page-wrapper .tagline-3 {
   font-size: 50px;
-  font-family: 'Poppins';
   color: white;
-  margin: 0;
-  margin-bottom: 5px;
-  margin-right: 25px;
+  margin: 0 25px 5px 0;
 }
 
-.tagline-4 {
+.landing-page-wrapper .tagline-4 {
   font-size: 75px;
-  font-family: 'Poppins';
   color: white;
-  margin: 0;
-  margin-bottom: 10px;
-  margin-right: 25px;
+  margin: 0 25px 10px 0;
 }
 
-.description-3 {
+.landing-page-wrapper .description-3 {
   font-size: 20px;
-  font-family: 'Poppins';
   max-width: 600px;
   color: white;
   margin-right: 25px;
   text-align: right;
 }
 
-.texts {
+.landing-page-wrapper .texts {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-  text-align: flex-end;
+  text-align: right;
   padding: 0 10%;
   margin-bottom: 50px;
   height: 90vh;
   width: 100%;
-  border: 2px solid transparent;
 }
 
-.pioneer-image {
+.landing-page-wrapper .pioneer-image {
   margin-left: 50px;
   justify-content: center;
   align-items: center;
