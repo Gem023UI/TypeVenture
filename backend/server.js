@@ -29,6 +29,6 @@ if (
 // Start server
 app.listen(process.env.PORT, () => {
   console.log(
-    `Server started on Port: ${process.env.PORT} in ${process.env.NODE_ENV} mode`
+    `Server Running on Port: ${process.env.PORT} in ${process.env.NODE_ENV} mode`
   );
 });
