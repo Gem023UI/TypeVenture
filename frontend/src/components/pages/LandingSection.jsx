@@ -6,7 +6,7 @@ import "./LandingSection.css";
 export default function LandingSection({ logoUrl }) {
   const navigate = useNavigate();
   const images = [
-    { id: 1, img: logoUrl }, // keep the passed logoUrl
+    { id: 1, img: logoUrl },
     { id: 2, img: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759176984/pioneer2_ouxgbt.png" },
     { id: 3, img: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759176984/pioneer1_vkmeuz.png" },
     { id: 4, img: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759176985/pioneer4_l0gqea.png" },
