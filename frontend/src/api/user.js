@@ -1,6 +1,4 @@
 import axios from "axios";
-
-// set backend API URL from env (vite uses import.meta.env)
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000/api";
 
 export const registerUser = async (formData) => {

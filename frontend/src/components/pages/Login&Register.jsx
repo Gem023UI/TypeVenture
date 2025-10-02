@@ -3,7 +3,6 @@ import "./Login&Register.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-// ✅ API URL for local dev or deployed backend
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000/api";
 
 export default function LoginRegister({ logoUrl }) {
