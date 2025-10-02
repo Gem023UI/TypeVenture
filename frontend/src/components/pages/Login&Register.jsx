@@ -3,41 +3,73 @@ import "./Login&Register.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+// FIXED: Add /api prefix and fallback
+const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure.onrender.com";
 
 export default function LoginRegister({ logoUrl }) {
   const [isActive, setIsActive] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Debug logging
+  console.log("🔍 API_URL:", API_URL);
+  console.log("🔍 All env vars:", import.meta.env);
 
   // REGISTER FUNCTION
   const handleRegister = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const formData = new FormData(e.target);
 
+    // Debug what we're sending
+    console.log("📤 Registering to:", `${API_URL}/api/user/register`);
+
     try {
-      await axios.post(`${API_URL}/user/register`, formData, {
+      const response = await axios.post(`${API_URL}/api/user/register`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      console.log("✅ Registration success:", response.data);
       alert("Registration successful! Please log in.");
       setIsActive(false); // switch to login view
+      e.target.reset(); // clear form
     } catch (err) {
-      alert(err.response?.data?.error || "Registration failed.");
+      console.error("❌ Registration error:", err.response || err);
+      alert(err.response?.data?.message || err.response?.data?.error || "Registration failed.");
+    } finally {
+      setLoading(false);
     }
   };
 
   // LOGIN FUNCTION
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const email = e.target.email.value;
     const password = e.target.password.value;
 
+    // Debug what we're sending
+    console.log("📤 Logging in to:", `${API_URL}/api/user/login`);
+    console.log("📤 Credentials:", { email, password: "***" });
+
     try {
-      await axios.post(`${API_URL}/user/login`, { email, password });
+      const response = await axios.post(
+        `${API_URL}/api/user/login`,
+        { email, password },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      console.log("✅ Login success:", response.data);
+      alert("Login successful!");
       navigate("/landing"); // redirect after login
     } catch (err) {
-      alert(err.response?.data?.error || "Login failed.");
+      console.error("❌ Login error:", err.response || err);
+      alert(err.response?.data?.message || err.response?.data?.error || "Login failed.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,6 +87,7 @@ export default function LoginRegister({ logoUrl }) {
                 name="email"
                 placeholder="Email"
                 required
+                disabled={loading}
               />
               <input
                 type="password"
@@ -62,10 +95,11 @@ export default function LoginRegister({ logoUrl }) {
                 name="password"
                 placeholder="Password"
                 required
+                disabled={loading}
               />
             </div>
-            <button type="submit" className="btn" name="submit">
-              LOGIN
+            <button type="submit" className="btn" name="submit" disabled={loading}>
+              {loading ? "LOGGING IN..." : "LOGIN"}
             </button>
           </form>
         </div>
@@ -81,6 +115,7 @@ export default function LoginRegister({ logoUrl }) {
                 name="avatar"
                 className="file-input"
                 placeholder="Upload Profile Picture"
+                disabled={loading}
               />
               <input
                 type="text"
@@ -88,6 +123,7 @@ export default function LoginRegister({ logoUrl }) {
                 name="username"
                 placeholder="User Name"
                 required
+                disabled={loading}
               />
               <input
                 type="email"
@@ -95,6 +131,7 @@ export default function LoginRegister({ logoUrl }) {
                 name="email"
                 placeholder="Email"
                 required
+                disabled={loading}
               />
               <input
                 type="password"
@@ -102,10 +139,11 @@ export default function LoginRegister({ logoUrl }) {
                 name="password"
                 placeholder="Password"
                 required
+                disabled={loading}
               />
             </div>
-            <button type="submit" className="btn" name="submit">
-              REGISTER
+            <button type="submit" className="btn" name="submit" disabled={loading}>
+              {loading ? "REGISTERING..." : "REGISTER"}
             </button>
           </form>
         </div>
