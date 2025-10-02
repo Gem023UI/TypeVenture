@@ -3,6 +3,9 @@ import "./Login&Register.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+// ✅ API URL for local dev or deployed backend
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000/api";
+
 export default function LoginRegister({ logoUrl }) {
   const [isActive, setIsActive] = useState(false);
   const navigate = useNavigate();
@@ -11,20 +14,16 @@ export default function LoginRegister({ logoUrl }) {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("username", e.target["register-username"].value);
-    formData.append("email", e.target["register-email"].value);
-    formData.append("password", e.target["register-password"].value);
-    formData.append("avatar", e.target["register-profile-picture"].files[0]);
+    const formData = new FormData(e.target);
 
     try {
-      await axios.post("http://localhost:5000/api/user/register", formData, {
+      await axios.post(`${API_URL}/user/register`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert("Registration successful! Please log in.");
       setIsActive(false); // switch to login view
     } catch (err) {
-      alert(err.response?.data?.message || "Registration failed.");
+      alert(err.response?.data?.error || "Registration failed.");
     }
   };
 
@@ -32,14 +31,14 @@ export default function LoginRegister({ logoUrl }) {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const email = e.target["login-email"].value;
-    const password = e.target["login-password"].value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
 
     try {
-      await axios.post("http://localhost:5000/api/user/login", { email, password });
+      await axios.post(`${API_URL}/user/login`, { email, password });
       navigate("/landing"); // redirect after login
     } catch (err) {
-      alert(err.response?.data?.message || "Login failed.");
+      alert(err.response?.data?.error || "Login failed.");
     }
   };
 
@@ -61,6 +60,7 @@ export default function LoginRegister({ logoUrl }) {
               <input
                 type="password"
                 id="login-password"
+                name="password"
                 placeholder="Password"
                 required
               />
@@ -78,8 +78,8 @@ export default function LoginRegister({ logoUrl }) {
             <div className="input-box">
               <input
                 type="file"
-                id="register-profile-picture"
-                name="profilePicture"
+                id="register-avatar"
+                name="avatar"
                 className="file-input"
                 placeholder="Upload Profile Picture"
               />
@@ -116,21 +116,14 @@ export default function LoginRegister({ logoUrl }) {
           <div className="toggle">
             {/* LEFT SIDE */}
             <div className="toggle-panel toggle-left">
-              <img
-                src={logoUrl}
-                alt="TypeVenture Logo"
-                className="trademark"
-              />
+              <img src={logoUrl} alt="TypeVenture Logo" className="trademark" />
               <h1>GREETINGS!</h1>
               <div className="hotlines">
                 <h5>"Sharpen your design eye while having fun!"</h5>
                 <p>For any inquiries, please contact us at:</p>
                 <p>(+63) 906 211 0919</p>
               </div>
-              <button
-                className="hidden"
-                onClick={() => setIsActive(false)}
-              >
+              <button className="hidden" onClick={() => setIsActive(false)}>
                 Not Registered Yet?
               </button>
             </div>
@@ -140,12 +133,8 @@ export default function LoginRegister({ logoUrl }) {
               <div className="social-icons">
                 <h1>WELCOME!</h1>
                 <p>Stay Updated with TypeVenture's Social Platforms</p>
-                {/* icons unchanged */}
               </div>
-              <button
-                className="hidden"
-                onClick={() => setIsActive(true)}
-              >
+              <button className="hidden" onClick={() => setIsActive(true)}>
                 Have an Account?
               </button>
             </div>
