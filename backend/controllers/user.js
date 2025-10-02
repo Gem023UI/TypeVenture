@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const User = require("../models/user");
 const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
 const validator = require("validator"); // npm install validator
