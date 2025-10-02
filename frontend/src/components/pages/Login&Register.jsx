@@ -3,7 +3,7 @@ import "./Login&Register.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function LoginRegister({ logoUrl }) {
   const [isActive, setIsActive] = useState(false);

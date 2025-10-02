@@ -34,5 +34,3 @@ function App() {
 
 export default App;
 
-const API = import.meta.env.VITE_API_URL;
-fetch(`${API}/api/user`)
