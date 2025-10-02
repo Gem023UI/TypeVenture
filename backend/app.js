@@ -1,12 +1,24 @@
 const express = require("express");
 const cors = require("cors");
-const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
 const app = express();
 
-// ✅ Enable CORS so React (usually on http://localhost:5173) can talk to backend
+// ✅ Allowed origins: local dev + deployed frontend (from env variable)
+const allowedOrigins = [
+  "http://localhost:5173",                // local dev
+  process.env.FRONTEND_URL                // e.g. https://your-frontend.vercel.app
+].filter(Boolean); // removes undefined if FRONTEND_URL not set
+
 app.use(cors({
-  origin: "http://localhost:5173", // frontend dev server
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error("Not allowed by CORS"));
+  },
   credentials: true
 }));
 
@@ -15,9 +27,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ✅ Routes
-app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
-// ✅ Health check route (optional, for debugging)
+// ✅ Health check route
 app.get("/", (req, res) => {
   res.send("API is running...");
 });

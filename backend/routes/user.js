@@ -5,7 +5,7 @@ const upload = require("../utils/multer");
 const {
   registerUser,
   loginUser,
-} = require("../controllers/auth");
+} = require("../controllers/user");
 
 // Auth routes
 router.post("/register", upload.single("avatar"), registerUser);

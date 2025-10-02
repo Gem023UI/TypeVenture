@@ -18,7 +18,7 @@ export default function LoginRegister({ logoUrl }) {
     formData.append("avatar", e.target["register-profile-picture"].files[0]);
 
     try {
-      await axios.post("http://localhost:5000/api/auth/register", formData, {
+      await axios.post("http://localhost:5000/api/user/register", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert("Registration successful! Please log in.");
@@ -36,7 +36,7 @@ export default function LoginRegister({ logoUrl }) {
     const password = e.target["login-password"].value;
 
     try {
-      await axios.post("http://localhost:5000/api/auth/login", { email, password });
+      await axios.post("http://localhost:5000/api/user/login", { email, password });
       navigate("/landing"); // redirect after login
     } catch (err) {
       alert(err.response?.data?.message || "Login failed.");
