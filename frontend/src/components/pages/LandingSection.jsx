@@ -71,8 +71,7 @@ export default function LandingSection({ logoUrl }) {
               Into <span className="highlight-yellow">LESSONS</span>
             </h2>
             <p className="description-3">
-              Discover typography rules through fun, interactive challenges that
-              turn learning into play.
+              Meet the pioneers of turning typography into an engaging and interactive experience.
             </p>
           </div>
         </div>
