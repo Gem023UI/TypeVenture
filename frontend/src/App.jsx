@@ -6,7 +6,7 @@ import LoginRegister from "./components/pages/Login&Register";
 
 function App() {
   const [logoUrl] = useState(
-    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759137664/3_ffrpo9.png"
+    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759634539/Logo_arbfm1.png"
   );
 
   return (
@@ -14,7 +14,7 @@ function App() {
       <div className="App">
         {/* Aurora as full background */}
         <Aurora
-          colorStops={["#FA0370", "#FFFFFF", "#F9F30A"]}
+          colorStops={["#6a45ff", "#ff8b2d", "#32ab1f"]} // violet, orange, green
           blend={0.0}
           amplitude={2.0}
           speed={0.5}
