@@ -1,21 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import Drawer from "./Drawer";
 
 const MainLayout = ({ children }) => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const handleDrawerOpen = () => setIsDrawerOpen(true);
+  const handleDrawerClose = () => setIsDrawerOpen(false);
+
   return (
-    <div className="drawer lg:drawer-open min-h-screen bg-base-100">
-      {/* Drawer toggle input */}
-      <input id="main-drawer" type="checkbox" className="drawer-toggle" />
+    <div className="min-h-screen bg-base-100 flex flex-col relative overflow-x-hidden">
+      {/* Header Section with Drawer toggle */}
+      <Header onMenuClick={handleDrawerOpen} />
 
-      {/* Drawer Content (main page area) */}
-      <div className="drawer-content flex flex-col">
-        <Header />
-        <main className="flex-1 p-6">{children}</main>
-      </div>
+      {/* Drawer Component */}
+      <Drawer isOpen={isDrawerOpen} onClose={handleDrawerClose} />
 
-      {/* Drawer Sidebar */}
-      <Drawer />
+      {/* Main Content Area */}
+      <main className="flex-1 p-6 z-10">{children}</main>
     </div>
   );
 };

@@ -1,62 +1,120 @@
-/* ===========================
-   DRAWER STYLING
-   =========================== */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-.drawer-side {
-  border-right: 1px solid #e5e7eb; /* Light gray divider */
-  transition: transform 0.3s ease-in-out;
+:root {
+  --color1: #5522ff; /* Primary */
+  --color2: #ff8b2d; /* Accent */
+  --color3: #32ab1f; /* Secondary */
+  --text-light: white;
 }
 
-.drawer .menu {
-  font-family: 'Poppins', sans-serif;
+/* Container for header and drawer */
+.drawer-container {
+  position: relative;
 }
 
-.drawer .menu li {
-  margin-bottom: 6px;
+/* Header Section */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.drawer .menu li a,
-.drawer .menu li button {
-  border-radius: 10px;
-  font-weight: 500;
-  color: #374151;
-  transition: all 0.2s ease-in-out;
+.header-left .menu-icon {
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.2s ease;
 }
 
-.drawer .menu li a:hover,
-.drawer .menu li button:hover {
-  background: #e0e7ff;
-  color: #1e40af;
+.header-left .menu-icon:hover {
+  color: #007bff;
 }
 
-.drawer .menu li a.active {
-  background: #2563eb;
-  color: #ffffff;
+.logo {
+  width: 40px;
+  height: 40px;
 }
 
-.drawer .menu li a.active svg {
-  color: #ffffff;
-}
-
-.drawer .menu li a svg,
-.drawer .menu li button svg {
+.site-title {
   font-size: 1.25rem;
-  color: #2563eb;
+  font-weight: 700;
+  color: #222;
 }
 
-.drawer .menu li a:hover svg,
-.drawer .menu li button:hover svg {
-  color: #1e40af;
+/* Overlay */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 40;
+  cursor: pointer;
 }
 
-.drawer .divider {
+/* Drawer Panel */
+.drawer-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 280px;
+  background-color: #ffffff;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+  z-index: 50;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.drawer-panel.open {
+  transform: translateX(0);
+}
+
+/* Drawer content - centered vertically and horizontally */
+.drawer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+/* Drawer Links */
+.drawer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.drawer-links li {
   margin: 10px 0;
 }
 
-/* Drawer animation fix for mobile toggle */
-@media (max-width: 1024px) {
-  .drawer-side {
-    background: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(12px);
-  }
+.drawer-links a {
+  text-decoration: none;
+  color: #333;
+  font-size: 1.1rem;
+  transition: color 0.2s ease;
+}
+
+.drawer-links a:hover {
+  color: #007bff;
+}
+
+/* Logout Button */
+.logout-btn {
+  background-color: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.logout-btn:hover {
+  background-color: #dc2626;
 }

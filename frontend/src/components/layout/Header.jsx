@@ -1,28 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import "./Header.css";
 
-const Header = () => {
+const Header = ({ onMenuClick }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="navbar bg-base-100 shadow-md px-6">
-      <div className="flex-1">
-        <Link to="/" className="text-2xl font-bold text-primary">
-          TypeVenture
-        </Link>
+    <header className={`header ${isScrolled ? "scrolled" : ""}`}>
+      <div className="header-left">
+        <FontAwesomeIcon icon={faBars} onClick={onMenuClick} />
+        <img
+          src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759670092/Logo_urcuji.png"
+          alt="TypeVenture Logo"
+          className="logo"
+        />
+        <h1>TypeVenture</h1>
       </div>
 
-      <div className="flex-none hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          <li><Link to="/about">About</Link></li>
-          <li><Link to="/games">Games</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
+      <div className="header-right">
+        <ul className="header-links">
+          <li className="purple"><Link to="/about">Pioneers</Link></li>
+          <li className="green"><Link to="/games">Citations</Link></li>
+          <li className="orange"><Link to="/contact">About Us</Link></li>
         </ul>
-      </div>
-
-      <div className="flex-none lg:hidden">
-        <label htmlFor="my-drawer" className="btn btn-ghost">
-          ☰
-        </label>
       </div>
     </header>
   );

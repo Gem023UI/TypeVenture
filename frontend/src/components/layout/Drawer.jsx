@@ -1,54 +1,43 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FiUser, FiAward, FiLogOut } from "react-icons/fi";
+import React, { useEffect, useState } from "react";
 import "./Drawer.css";
 
-const Drawer = () => {
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    window.location.href = "/login";
-  };
+const Drawer = ({ isOpen, onClose }) => {
+  const [avatarUrl, setAvatarUrl] = useState("");
+
+  useEffect(() => {
+    const storedAvatar = sessionStorage.getItem("profilePicture");
+    if (storedAvatar)
+      setAvatarUrl(storedAvatar);
+    else
+      setAvatarUrl("https://img.daisyui.com/images/profile/demo/batperson@192.webp");
+  }, []);
 
   return (
-    <div className="drawer lg:drawer-open">
-      <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content"></div>
+    <>
+      {isOpen && <div className="drawer-overlay" onClick={onClose}></div>}
 
-      <div className="drawer-side">
-        <label
-          htmlFor="my-drawer"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
+      <div className={`drawer-panel ${isOpen ? "open" : ""}`}>
+        <div className="drawer-content">
+          {/* Avatar */}
+          <div className="avatar">
+            <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+              <img src={avatarUrl} alt="User Avatar" />
+            </div>
+          </div>
 
-        <ul className="menu bg-base-200 text-base-content min-h-full w-72 p-4 space-y-3">
-          <li className="text-xl font-bold mb-2 text-primary">TypeVenture</li>
-          <div className="divider my-2"></div>
+          {/* Links */}
+          <ul className="drawer-links">
+            <li><a href="/profile" onClick={onClose}>Profile</a></li>
+            <li><a href="/statistics" onClick={onClose}>Statistics</a></li>
+          </ul>
 
-          <li>
-            <Link to="/profile" className="flex items-center gap-2">
-              <FiUser /> User Profile
-            </Link>
-          </li>
-          <li>
-            <Link to="/leaderboards" className="flex items-center gap-2">
-              <FiAward /> Leaderboards
-            </Link>
-          </li>
-
-          <div className="divider my-2"></div>
-
-          <li>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 text-error"
-            >
-              <FiLogOut /> Logout
-            </button>
-          </li>
-        </ul>
+          {/* Logout Button */}
+          <button className="logout-btn" onClick={() => console.log("Logout clicked")}>
+            Log Out
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
