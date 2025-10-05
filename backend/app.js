@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import userRoutes from "./routes/user.js";
+import lessonsRoutes from "./routes/lessons.js"
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use("/api/user", userRoutes);
+app.use("/api/lessons", lessonsRoutes);
 
 // Health check
 app.get("/", (req, res) => {

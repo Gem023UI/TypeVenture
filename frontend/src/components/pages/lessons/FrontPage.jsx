@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import MainLayout from "../layout/MainLayout";
+import MainLayout from "../../layout/MainLayout";
 import "./FrontPage.css";
 
-const LandingPage = () => {
+const FrontPage = () => {
   const [lessons, setLessons] = useState([]);
   const [selectedLesson, setSelectedLesson] = useState(null);
 
   // Fetch all lessons from backend
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/lessons`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/lessons`)
       .then((res) => res.json())
       .then((data) => {
         setLessons(data);
@@ -75,4 +75,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default FrontPage;

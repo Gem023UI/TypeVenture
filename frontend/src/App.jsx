@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Aurora from "./components/Bins/background/Aurora";
 import LandingSection from "./components/pages/LandingSection";
 import LoginRegister from "./components/pages/Login&Register";
+import FrontPage from "./components/pages/lessons/FrontPage";
 
 function App() {
   const [logoUrl] = useState(
@@ -25,6 +26,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingSection logoUrl={logoUrl} />} />
             <Route path="/login" element={<LoginRegister logoUrl={logoUrl} />} />
+            <Route path="/lessons/front" element={<FrontPage />} /> {/* <-- Add this line */}
           </Routes>
         </div>
       </div>
@@ -33,4 +35,3 @@ function App() {
 }
 
 export default App;
-
