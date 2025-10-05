@@ -4,7 +4,7 @@ import cloudinary from "cloudinary";
 import dotenv from "dotenv";
 
 // Load environment variables
-dotenv.config({ path: "./config/.env" });
+dotenv.config();
 
 // Connect MongoDB
 connectDatabase();

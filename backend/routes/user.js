@@ -1,12 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const multer = require("multer");
-const upload = require("../utils/multer");
+import express from "express";
+import multer from "multer";
+import upload from "../utils/multer.js";
+import { registerUser, loginUser } from "../controllers/user.js";
 
-const {
-  registerUser,
-  loginUser,
-} = require("../controllers/user");
+const router = express.Router();
 
 // Multer error handler middleware
 const handleMulterError = (err, req, res, next) => {
@@ -33,4 +30,4 @@ router.post("/register",
 
 router.post("/login", loginUser);
 
-module.exports = router;
+export default router;

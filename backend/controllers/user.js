@@ -1,10 +1,10 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const User = require("../models/user");
-const validator = require("validator");
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import User from "../models/user.js";
+import validator from "validator";
 
 // REGISTER
-exports.registerUser = async (req, res) => {
+export const registerUser = async (req, res) => {
   console.log("🔵 Register endpoint hit");
 
   try {
@@ -80,7 +80,7 @@ exports.registerUser = async (req, res) => {
 };
 
 // LOGIN
-exports.loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
   console.log("🔵 Login endpoint hit");
 
   try {

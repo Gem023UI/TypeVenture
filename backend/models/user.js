@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true, trim: true },
@@ -8,4 +8,6 @@ const userSchema = new mongoose.Schema({
   token: { type: String }, // <-- Add token field
 }, { timestamps: true });
 
-module.exports = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+
+export default User;
