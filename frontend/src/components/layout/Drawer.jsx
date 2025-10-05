@@ -1,15 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Drawer.css";
 
 const Drawer = ({ isOpen, onClose }) => {
   const [avatarUrl, setAvatarUrl] = useState("");
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
+    // Fetch avatar and username from sessionStorage
     const storedAvatar = sessionStorage.getItem("profilePicture");
+    const storedUsername = sessionStorage.getItem("userName");
+
     if (storedAvatar)
       setAvatarUrl(storedAvatar);
     else
-      setAvatarUrl("https://img.daisyui.com/images/profile/demo/batperson@192.webp");
+      setAvatarUrl("https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759649430/user_icon_ze74ys.jpg");
+
+    if (storedUsername)
+      setUsername(storedUsername);
+    else
+      setUsername("Guest User");
   }, []);
 
   return (
@@ -18,17 +27,25 @@ const Drawer = ({ isOpen, onClose }) => {
 
       <div className={`drawer-panel ${isOpen ? "open" : ""}`}>
         <div className="drawer-content">
-          {/* Avatar */}
+          {/* Avatar Section */}
           <div className="avatar">
-            <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+            <div className="avatar-image">
               <img src={avatarUrl} alt="User Avatar" />
+              <h2 className="avatar-username">{username}</h2>
             </div>
           </div>
 
           {/* Links */}
           <ul className="drawer-links">
-            <li><a href="/profile" onClick={onClose}>Profile</a></li>
-            <li><a href="/statistics" onClick={onClose}>Statistics</a></li>
+            <li className="purple">
+              <a href="/profile" onClick={onClose}>Profile</a>
+            </li>
+            <li className="green">
+              <a href="/statistics" onClick={onClose}>Statistics</a>
+            </li>
+            <li className="orange">
+              <a href="/leaderboards" onClick={onClose}>Leaderboards</a>
+            </li>
           </ul>
 
           {/* Logout Button */}

@@ -1,8 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-/* =========================
-   UNIVERSAL COLOR VARIABLES
-   ========================= */
 :root {
   --color1: #5522ff; /* Primary */
   --color2: #ff8b2d; /* Accent */
@@ -10,16 +7,12 @@
   --text-light: white;
 }
 
-/* =================================
-   GENERAL WRAPPER & LAYOUT SETTINGS
-   ================================= */
 .landing-page-wrapper {
   font-family: "Poppins", sans-serif;
   width: 100%;
   z-index: 1000;
 }
 
-/* Main landing section */
 .landing-page-wrapper .landing-page {
   display: flex;
   flex-direction: column;
@@ -28,7 +21,6 @@
   width: 100%;
 }
 
-/* Section 1 */
 .landing-page-wrapper .landing-info-1 {
   display: flex;
   flex-direction: row;
@@ -41,9 +33,6 @@
   width: 100%;
 }
 
-/* ======================
-   LOGO CONTAINER STYLING
-   ====================== */
 .landing-page-wrapper .landing-logo-container {
   --border-gradient: linear-gradient(135deg, var(--color1), var(--color2), var(--color3));
 
@@ -61,9 +50,6 @@
   height: auto;
 }
 
-/* ======================
-   TEXT & TITLE SECTIONS
-   ====================== */
 .landing-page-wrapper .name-container {
   display: flex;
   flex-direction: column;
@@ -94,9 +80,6 @@
   padding: 5px;
 }
 
-/* ======================
-   BUTTONS
-   ====================== */
 .landing-page-wrapper .btn-container {
   display: flex;
   flex-direction: row;
@@ -143,9 +126,6 @@
   background-color: transparent;
 }
 
-/* ======================
-   SECTION 2
-   ====================== */
 .landing-page-wrapper .landing-info-2 {
   display: flex;
   flex-direction: column;
@@ -187,9 +167,6 @@
   margin-left: 125px;
 }
 
-/* ======================
-   SECTION 3
-   ====================== */
 .landing-page-wrapper .landing-info-3 {
   display: flex;
   flex-direction: row;
