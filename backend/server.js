@@ -1,7 +1,7 @@
-const app = require("./app");
-const connectDatabase = require("./config/database");
-const cloudinary = require("cloudinary");
-const dotenv = require("dotenv");
+import app from './app.js';
+import connectDatabase from "./config/database.js";
+import cloudinary from "cloudinary";
+import dotenv from "dotenv";
 
 // Load environment variables
 dotenv.config({ path: "./config/.env" });
@@ -10,7 +10,7 @@ dotenv.config({ path: "./config/.env" });
 connectDatabase();
 
 // Cloudinary Config
-cloudinary.config({
+cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
@@ -27,8 +27,9 @@ if (
 }
 
 // Start server
-app.listen(process.env.PORT, () => {
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
   console.log(
-    `Server Running on Port: ${process.env.PORT} in ${process.env.NODE_ENV} mode`
+    `Server Running on Port: ${PORT} in ${process.env.NODE_ENV} mode`
   );
 });

@@ -1,0 +1,13 @@
+.lesson-list {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.lesson-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.lesson-list::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 3px;
+}

@@ -1,0 +1,62 @@
+/* ===========================
+   DRAWER STYLING
+   =========================== */
+
+.drawer-side {
+  border-right: 1px solid #e5e7eb; /* Light gray divider */
+  transition: transform 0.3s ease-in-out;
+}
+
+.drawer .menu {
+  font-family: 'Poppins', sans-serif;
+}
+
+.drawer .menu li {
+  margin-bottom: 6px;
+}
+
+.drawer .menu li a,
+.drawer .menu li button {
+  border-radius: 10px;
+  font-weight: 500;
+  color: #374151;
+  transition: all 0.2s ease-in-out;
+}
+
+.drawer .menu li a:hover,
+.drawer .menu li button:hover {
+  background: #e0e7ff;
+  color: #1e40af;
+}
+
+.drawer .menu li a.active {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.drawer .menu li a.active svg {
+  color: #ffffff;
+}
+
+.drawer .menu li a svg,
+.drawer .menu li button svg {
+  font-size: 1.25rem;
+  color: #2563eb;
+}
+
+.drawer .menu li a:hover svg,
+.drawer .menu li button:hover svg {
+  color: #1e40af;
+}
+
+.drawer .divider {
+  margin: 10px 0;
+}
+
+/* Drawer animation fix for mobile toggle */
+@media (max-width: 1024px) {
+  .drawer-side {
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(12px);
+  }
+}

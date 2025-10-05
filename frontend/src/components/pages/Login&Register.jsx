@@ -95,7 +95,7 @@ export default function LoginRegister({ logoUrl }) {
         showConfirmButton: false,
       });
 
-      setTimeout(() => navigate("/landing"), 2000);
+      setTimeout(() => navigate("/lessons/front"), 2000);
     } catch (err) {
       Swal.fire({
         icon: "error",
