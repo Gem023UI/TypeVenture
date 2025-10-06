@@ -1,76 +1,123 @@
 import React, { useEffect, useState } from "react";
+import { fetchAllLessons, fetchLessonById } from "../../../api/lessons";
 import MainLayout from "../../layout/MainLayout";
 import "./FrontPage.css";
 
 const FrontPage = () => {
   const [lessons, setLessons] = useState([]);
   const [selectedLesson, setSelectedLesson] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // Fetch all lessons from backend
+  // Fetch all lessons on load
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/lessons`)
-      .then((res) => res.json())
-      .then((data) => {
-        setLessons(data);
-        if (data.length > 0) setSelectedLesson(data[0]); // default to first lesson
-      })
-      .catch((err) => console.error("Error fetching lessons:", err));
+    const loadLessons = async () => {
+      setLoading(true);
+      const data = await fetchAllLessons();
+      if (data.length === 0) setError("No lessons found or failed to load.");
+      setLessons(data);
+      setLoading(false);
+    };
+    loadLessons();
   }, []);
 
-  const handleLessonClick = (lesson) => {
-    setSelectedLesson(lesson);
+  // Handle lesson selection
+  const handleLessonClick = async (id) => {
+    setLoading(true);
+    const data = await fetchLessonById(id);
+    if (!data) {
+      setError("Failed to load lesson details.");
+      setSelectedLesson(null);
+    } else {
+      setSelectedLesson(data);
+      setError("");
+    }
+    setLoading(false);
   };
 
   return (
     <MainLayout>
-      <div className="flex flex-col md:flex-row min-h-screen">
-        {/* === LEFT CONTAINER === */}
-        <div className="w-full md:w-1/3 bg-base-200 p-6 overflow-y-auto border-r border-gray-300">
-          <h2 className="text-2xl font-bold mb-4 text-primary">Lessons</h2>
-          <ul className="space-y-3">
-            {lessons.length > 0 ? (
-              lessons.map((lesson) => (
-                <li
-                  key={lesson._id}
-                  onClick={() => handleLessonClick(lesson)}
-                  className={`p-3 rounded-lg cursor-pointer transition-all ${
-                    selectedLesson && selectedLesson._id === lesson._id
-                      ? "bg-primary text-white"
-                      : "bg-white hover:bg-gray-100"
-                  }`}
-                >
-                  <h3 className="font-semibold">{lesson.title}</h3>
-                </li>
-              ))
-            ) : (
-              <p className="text-gray-500 italic">No lessons available</p>
-            )}
-          </ul>
-        </div>
+    <div className="frontpage-container" style={{ display: "flex", width: "100%", height: "100%" }}>
+      {/* ---------------- LEFT SECTION ---------------- */}
+      <div className="container-one">
+        <h2>Available Lessons</h2>
 
-        {/* === RIGHT CONTAINER === */}
-        <div className="w-full md:w-2/3 p-8 overflow-y-auto">
-          {selectedLesson ? (
-            <>
-              <h1 className="text-4xl font-bold text-primary mb-4">
-                {selectedLesson.title}
-              </h1>
-              <h2 className="text-xl font-semibold mb-2 text-gray-700">
-                {selectedLesson.content?.introduction}
-              </h2>
-              <div className="text-gray-700 leading-relaxed space-y-4 whitespace-pre-line">
-                <p>{selectedLesson.content?.discussionOne}</p>
-                <p>{selectedLesson.content?.discussionTwo}</p>
-              </div>
-              <button className="btn btn-primary mt-8">
-                Continue to Game {selectedLesson.gameNumber}
-              </button>
-            </>
-          ) : (
-            <p className="text-gray-500">Select a lesson to view its contents.</p>
-          )}
-        </div>
+        {loading && <p>Loading lessons...</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
+        <ul style={{ listStyleType: "none", padding: 0 }}>
+          {lessons.map((lesson) => (
+            <li
+              key={lesson._id}
+              onClick={() => handleLessonClick(lesson._id)}
+              style={{
+                padding: "10px",
+                marginBottom: "8px",
+                borderRadius: "6px",
+                cursor: "pointer",
+                backgroundColor:
+                  selectedLesson && selectedLesson._id === lesson._id
+                    ? "rgba(0,0,0,0.1)"
+                    : "rgba(255,255,255,0.6)",
+                transition: "0.2s",
+              }}
+            >
+              <strong>{lesson.title}</strong>
+              <p style={{ margin: "5px 0", fontSize: "0.9rem" }}>
+                Category: {lesson.category}
+              </p>
+              <p style={{ margin: "5px 0", fontSize: "0.8rem", opacity: 0.8 }}>
+                Difficulty: {lesson.difficultyRank}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
+
+      {/* ---------------- RIGHT SECTION ---------------- */}
+      <div className="container-two">
+        {selectedLesson ? (
+          <>
+            <h2>{selectedLesson.title}</h2>
+            <p>
+              <strong>Category:</strong> {selectedLesson.category}
+            </p>
+            <p>
+              <strong>Difficulty:</strong> {selectedLesson.difficultyRank}
+            </p>
+
+            <div className="lesson-content">
+              <h3>Introduction</h3>
+              <p>{selectedLesson.content?.introduction}</p>
+
+              <h3>Discussion One</h3>
+              <p>{selectedLesson.content?.discussionOne}</p>
+
+              <h3>Discussion Two</h3>
+              <p>{selectedLesson.content?.discussionTwo}</p>
+
+              {selectedLesson.sourceUrl && (
+                <p>
+                  <a
+                    href={selectedLesson.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: "var(--color1)" }}
+                  >
+                    View Source
+                  </a>
+                </p>
+              )}
+            </div>
+          </>
+        ) : (
+          <div style={{ textAlign: "center", opacity: 0.8 }}>
+            <h2>Select a Lesson</h2>
+            <p>Click a lesson on the left to view details.</p>
+          </div>
+        )}
+      </div>
+    </div>
     </MainLayout>
   );
 };

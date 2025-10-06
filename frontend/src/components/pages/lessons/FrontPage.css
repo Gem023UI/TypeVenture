@@ -1,13 +1,42 @@
-.lesson-list {
-  scrollbar-width: thin;
-  scrollbar-color: #888 #f1f1f1;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --color1: #5522ff; /* Primary */
+  --color2: #ff8b2d; /* Accent */
+  --color3: #32ab1f; /* Secondary */
+  --text-light: white;
 }
 
-.lesson-list::-webkit-scrollbar {
-  width: 6px;
+.lesson-containers {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  align-content: center;
+  justify-content: center;
 }
 
-.lesson-list::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 3px;
+.container-one {
+  width: 30%;
+  height: 100%;
+  padding: 10px;
+  margin: 30px 10px 30px 30px;
+  --border-gradient: linear-gradient(135deg, var(--color1), var(--color2), var(--color3));
+  border-radius: 8px;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)) padding-box,
+    var(--border-gradient) border-box;
+  border: 3px solid transparent;
+}
+
+.container-two {
+  width: 70%;
+  height: auto;
+  padding: 10px;
+  margin: 30px 30px 30px 10px;
+  --border-gradient: linear-gradient(135deg, var(--color1), var(--color2), var(--color3));
+  border-radius: 8px;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.500), rgba(255, 255, 255, 0.500)) padding-box,
+    var(--border-gradient) border-box;
+  border: 3px solid transparent;
 }
