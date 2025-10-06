@@ -5,7 +5,7 @@ const scoreSchema = new mongoose.Schema({
   username: { type: String, required: true },
   gameType: {
     type: String,
-    enum: ["quiz", "kerning", "typography"],
+    enum: ["quiz", "typography", "trial"],
     required: true
   },
   lessonNumber: { type: Number, required: true },

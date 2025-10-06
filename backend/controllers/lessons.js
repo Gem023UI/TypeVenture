@@ -1,11 +1,10 @@
-// controllers/lessons.js
 import Lesson from "../models/lessons.js";
 
 // GET all lessons
 export const getAllLessons = async (req, res) => {
   try {
     console.log("📚 Fetching all lessons...");
-    const lessons = await Lesson.find().sort({ difficultyRank: 1 });
+    const lessons = await Lesson.find().sort({ createdAt: -1 });
     console.log(`✅ Found ${lessons.length} lessons`);
     res.status(200).json(lessons);
   } catch (error) {

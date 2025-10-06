@@ -4,7 +4,9 @@
   --color1: #5522ff; /* Primary */
   --color2: #ff8b2d; /* Accent */
   --color3: #32ab1f; /* Secondary */
+  --color4: #825cff; /* Extra */
   --text-light: #ffffff;
+  --transparent: rgba(255, 255, 255, 0.5);
   --muted: rgba(0,0,0,0.6);
 }
 
@@ -29,12 +31,14 @@
   max-height: calc(100vh - 60px); /* limit height to viewport */
   padding: 14px;
   margin: 30px 10px 30px 30px;
-  --border-gradient: linear-gradient(135deg, var(--color1), var(--color2), var(--color3));
+
+  /* --border-gradient: linear-gradient(135deg, var(--color1), var(--color2), var(--color3));
   border-radius: 8px;
   background:
     linear-gradient(rgba(255,255,255,1.0), rgba(255,255,255,1.0)) padding-box,
-    var(--border-gradient) border-box;
-  border: 5px solid transparent;
+    var(--border-gradient) border-box; 
+  border: 5px solid transparent; */
+
   font-family: 'Poppins', sans-serif;
 
   display: flex;
@@ -47,6 +51,10 @@
 
   position: sticky;   /* make container sticky */
   top: 90px;          /* distance from top of viewport */
+
+  background-color: var(--color4);
+  border: 5px var(--text-light) solid;
+  border-radius: 8px;
 }
 
 /* Scrollable list inside LEFT column */
@@ -60,7 +68,7 @@
 
 /* heading */
 .container-one h2 {
-  color: var(--color1);
+  color: var(--text-light);
   margin-bottom: 5px;
   margin-top: 5px;
 }
@@ -71,18 +79,24 @@
   width: 70%;
   padding: 10px;
   margin: 30px 30px 30px 10px;
-  --border-gradient: linear-gradient(135deg, var(--color1), var(--color2), var(--color3));
+
+  /* --border-gradient: linear-gradient(135deg, var(--color1), var(--color2), var(--color3));
   border-radius: 8px;
   background:
     linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)) padding-box,
     var(--border-gradient) border-box;
-  border: 3px solid transparent;
+  border: 3px solid transparent; */
+
   font-family: 'Poppins', sans-serif;
 
   /* allow the right column to grow naturally with content, no internal scrollbar */
   height: auto;
   overflow: visible;
   box-sizing: border-box;
+
+  background-color: var(--transparent);
+  border: 5px var(--color4) solid;
+  border-radius: 8px;
 }
 
 /* base list item */

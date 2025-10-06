@@ -40,7 +40,8 @@ const FrontPage = () => {
     <div className="lesson-container">
       {/* ---------------- LEFT SECTION ---------------- */}
       <div className="container-one">
-        <h2>Available Lessons</h2>
+        <h2>LESSONS</h2>
+        <p>Complete the lessons to earn badges!</p>
 
         {loading && <p>Loading lessons...</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
@@ -58,26 +59,23 @@ const FrontPage = () => {
                 border: "3px solid",
                 backgroundColor:
                   selectedLesson && selectedLesson._id === lesson._id
-                    ? "#ffffff" // clicked bg color
-                    : "#5522ff", // default bg color
+                    ? "#ffffff"
+                    : "#825cff",
                 color:
                   selectedLesson && selectedLesson._id === lesson._id
-                    ? "#5522ff" // clicked text color
-                    : "#ffffff", // default text color
+                    ? "#825cff"
+                    : "#ffffff",
                 borderColor:
                   selectedLesson && selectedLesson._id === lesson._id
-                    ? "#5522ff" // clicked border
-                    : "#ffffff", // default border
+                    ? "#825cff"
+                    : "#ffffff",
                 transition: "0.2s",
               }}
             >
               <strong>{lesson.title}</strong>
-              <p style={{ margin: "5px 0", fontSize: "0.9rem" }}>
-                Category: {lesson.category}
-              </p>
-              <p style={{ margin: "5px 0", fontSize: "0.8rem", opacity: 0.8 }}>
-                Difficulty: {lesson.difficultyRank}
-              </p>
+                <p style={{ margin: "5px 0", fontSize: "12px" }}>
+                  {lesson.content?.description}
+                </p>
             </li>
           ))}
         </ul>
@@ -91,11 +89,11 @@ const FrontPage = () => {
             <p>
               <strong>Category:</strong> {selectedLesson.category}
             </p>
-            <p>
-              <strong>Difficulty:</strong> {selectedLesson.difficultyRank}
-            </p>
 
             <div className="lesson-content">
+              <h3>Description</h3>
+              <p>{selectedLesson.content?.description}</p>
+
               <h3>Introduction</h3>
               <p>{selectedLesson.content?.introduction}</p>
 
@@ -105,18 +103,16 @@ const FrontPage = () => {
               <h3>Discussion Two</h3>
               <p>{selectedLesson.content?.discussionTwo}</p>
 
-              {selectedLesson.sourceUrl && (
-                <p>
-                  <a
-                    href={selectedLesson.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ color: "var(--color1)" }}
-                  >
-                    View Source
-                  </a>
-                </p>
-              )}
+              <h3>Discussion Three</h3>
+              <p>{selectedLesson.content?.discussionThree}</p>
+
+              <h3>Discussion Four</h3>
+              <p>{selectedLesson.content?.discussionFour}</p>
+
+              <h3>Discussion Five</h3>
+              <p>{selectedLesson.content?.discussionFive}</p>
+
+              {selectedLesson.sourceUrl}
             </div>
           </>
         ) : (

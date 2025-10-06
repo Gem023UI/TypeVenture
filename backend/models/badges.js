@@ -7,11 +7,11 @@ const badgeSchema = new mongoose.Schema({
   criteria: {
     gameType: {
       type: String,
-      enum: ["quiz", "kerning", "typography", "overall"],
+      enum: ["quiz", "typography", "trial"],
       required: true,
     },
     minScore: { type: Number, default: 0 },
-    totalGamesRequired: { type: Number, default: 0 },
+    totalGamesRequired: { type: Number, default: 1 },
   },
   createdAt: { type: Date, default: Date.now },
 });

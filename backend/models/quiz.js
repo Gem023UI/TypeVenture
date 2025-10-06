@@ -16,4 +16,4 @@ const discussionQuizSchema = new mongoose.Schema({
 // Index for quick lesson-based lookups
 discussionQuizSchema.index({ lessonNumber: 1 });
 
-export default mongoose.model("DiscussionQuiz", discussionQuizSchema);
+export default mongoose.model("Quiz", discussionQuizSchema);

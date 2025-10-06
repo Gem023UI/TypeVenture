@@ -1,4 +1,3 @@
-// models/Lesson.js
 import mongoose from "mongoose";
 
 const lessonSchema = new mongoose.Schema({
@@ -6,20 +5,22 @@ const lessonSchema = new mongoose.Schema({
   sourceUrl: { type: String },
   category: {
     type: String,
-    enum: ["quiz", "kerning", "typography", "trial"],
+    enum: ["quiz", "typography", "trial"],
     required: true
   },
-  difficultyRank: { type: Number, required: true },
   content: {
+    description: { type: String, required: true },
     introduction: { type: String, required: true },
     discussionOne: { type: String, required: true },
-    discussionTwo: { type: String, required: true }
+    discussionTwo: { type: String, required: true },
+    discussionThree: { type: String, required: true },
+    discussionFour: { type: String, required: true },
+    discussionFive: { type: String, required: true }
   },
-  gameNumber: { type: Number, default: 4 },
   createdAt: { type: Date, default: Date.now }
 });
 
 // Index for efficient querying
-lessonSchema.index({ category: 1, difficultyRank: 1 });
+lessonSchema.index({ category: 1 });
 
 export default mongoose.model("Lesson", lessonSchema);
