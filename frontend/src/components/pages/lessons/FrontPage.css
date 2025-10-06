@@ -7,7 +7,7 @@
   --color4: #825cff; /* Extra */
   --text-light: #ffffff;
   --transparent: rgba(255, 255, 255, 0.5);
-  --muted: rgba(0,0,0,0.6);
+  --muted: black;
 }
 
 /* Layout wrapper */
@@ -26,9 +26,9 @@
 
 /* LEFT column */
 .container-one {
-  z-index: 2;
+  z-index: 1;
   width: 30%;
-  max-height: calc(100vh - 60px); /* limit height to viewport */
+  height: 100%;
   padding: 14px;
   margin: 30px 10px 30px 30px;
 
@@ -49,8 +49,8 @@
   box-sizing: border-box;
   overflow: hidden;
 
-  position: sticky;   /* make container sticky */
-  top: 90px;          /* distance from top of viewport */
+  position: sticky;
+  top: 14vh;
 
   background-color: var(--color4);
   border: 5px var(--text-light) solid;
@@ -94,9 +94,35 @@
   overflow: visible;
   box-sizing: border-box;
 
+  position: sticky;
+  top: 14vh;
+
   background-color: var(--transparent);
   border: 5px var(--color4) solid;
   border-radius: 8px;
+}
+
+.container-two h2 {
+  color: var(--color4);
+  margin: 10px 0px 5px 5px;
+}
+
+.container-two h7 {
+  color: var(--muted);
+  margin: 10px 0px 5px 5px;
+  font-size: 12px;
+}
+
+.lesson-content p {
+  color: var(--muted);
+  padding: 5px;
+  text-align: justify;
+  font-size: 15px;
+}
+
+.lesson-content h3 {
+  color: var(--color4);
+  padding: 5px;
 }
 
 /* base list item */

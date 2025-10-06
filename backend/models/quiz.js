@@ -1,4 +1,3 @@
-// models/DiscussionQuiz.js
 import mongoose from "mongoose";
 
 const questionSchema = new mongoose.Schema({
@@ -8,7 +7,7 @@ const questionSchema = new mongoose.Schema({
 });
 
 const discussionQuizSchema = new mongoose.Schema({
-  lessonNumber: { type: Number, required: true },
+  lessonNumber: { type: String, required: true },
   questions: [questionSchema],
   createdAt: { type: Date, default: Date.now }
 });

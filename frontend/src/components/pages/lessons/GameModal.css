@@ -1,0 +1,165 @@
+/* Start Game Button */
+.start-game-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #825cff;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.start-game-btn:hover {
+  background-color: #6b4acc;
+  transform: scale(1.05);
+}
+
+/* Modal Overlay */
+.game-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal Content Box */
+.game-modal-content {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  position: relative;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Close Button */
+.modal-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  color: #825cff;
+}
+
+/* Modal Header */
+.modal-header {
+  color: #825cff;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* Modal Description */
+.modal-description {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* Action Buttons Container */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Base Modal Button Styles */
+.modal-btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Primary Button */
+.modal-btn-primary {
+  background-color: #825cff;
+  color: #ffffff;
+}
+
+.modal-btn-primary:hover {
+  background-color: #6b4acc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(130, 92, 255, 0.3);
+}
+
+/* Secondary Button */
+.modal-btn-secondary {
+  background-color: #e0e0e0;
+  color: #666;
+}
+
+.modal-btn-secondary:hover {
+  background-color: #d0d0d0;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .game-modal-content {
+    padding: 30px 20px;
+    max-width: 95%;
+  }
+
+  .modal-header {
+    font-size: 24px;
+  }
+
+  .modal-description {
+    font-size: 14px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .modal-btn {
+    width: 100%;
+  }
+}
