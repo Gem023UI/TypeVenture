@@ -4,39 +4,138 @@
   --color1: #5522ff; /* Primary */
   --color2: #ff8b2d; /* Accent */
   --color3: #32ab1f; /* Secondary */
-  --text-light: white;
+  --text-light: #ffffff;
+  --muted: rgba(0,0,0,0.6);
 }
 
-.lesson-containers {
+/* Layout wrapper */
+.lesson-container {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  align-content: center;
   justify-content: center;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 10px;
+  /* full viewport height ensures left container stays visible */
+  min-height: 100vh;
 }
 
+/* LEFT column */
 .container-one {
+  z-index: 2;
   width: 30%;
-  height: 100%;
-  padding: 10px;
+  max-height: calc(100vh - 60px); /* limit height to viewport */
+  padding: 14px;
   margin: 30px 10px 30px 30px;
   --border-gradient: linear-gradient(135deg, var(--color1), var(--color2), var(--color3));
   border-radius: 8px;
   background:
-    linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)) padding-box,
+    linear-gradient(rgba(255,255,255,1.0), rgba(255,255,255,1.0)) padding-box,
     var(--border-gradient) border-box;
-  border: 3px solid transparent;
+  border: 5px solid transparent;
+  font-family: 'Poppins', sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  position: sticky;   /* make container sticky */
+  top: 90px;          /* distance from top of viewport */
 }
 
+/* Scrollable list inside LEFT column */
+.lesson-list {
+  width: 100%;
+  margin-top: 8px;
+  overflow-y: auto; /* scroll inside the left container */
+  padding-right: 6px; /* room for scrollbar */
+  max-height: calc(100vh - 100px); /* limit height inside container */
+}
+
+/* heading */
+.container-one h2 {
+  color: var(--color1);
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+/* RIGHT column */
 .container-two {
+  z-index: 1;
   width: 70%;
-  height: auto;
   padding: 10px;
   margin: 30px 30px 30px 10px;
   --border-gradient: linear-gradient(135deg, var(--color1), var(--color2), var(--color3));
   border-radius: 8px;
   background:
-    linear-gradient(rgba(255, 255, 255, 0.500), rgba(255, 255, 255, 0.500)) padding-box,
+    linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)) padding-box,
     var(--border-gradient) border-box;
   border: 3px solid transparent;
+  font-family: 'Poppins', sans-serif;
+
+  /* allow the right column to grow naturally with content, no internal scrollbar */
+  height: auto;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+/* base list item */
+.lesson-items {
+  width: 100%;
+  text-align: left;
+  color: var(--text-light);
+  border-radius: 5px;
+  box-sizing: border-box;
+
+  padding: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background-color 0.18s ease, transform 0.12s ease, box-shadow 0.18s;
+  display: block;
+}
+
+/* ensure strong/p inherit color */
+.lesson-items strong,
+.lesson-items p {
+  color: inherit;
+  margin: 0;
+}
+
+/* selected state */
+.lesson-items.selected {
+  background: var(--color1);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(85, 34, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+/* hover for non-selected elements */
+.lesson-items:not(.selected):hover {
+  filter: brightness(0.94);
+  transform: translateY(-2px);
+}
+
+/* helper classes */
+.status-text {
+  margin: 8px 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+.status-text.error {
+  color: #d9534f;
+}
+
+/* unobtrusive scrollbar for LEFT column list */
+.lesson-list::-webkit-scrollbar {
+  width: 8px;
+}
+.lesson-list::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.12);
+  border-radius: 8px;
 }

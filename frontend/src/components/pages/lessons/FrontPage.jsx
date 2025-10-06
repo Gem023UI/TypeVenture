@@ -37,7 +37,7 @@ const FrontPage = () => {
 
   return (
     <MainLayout>
-    <div className="frontpage-container" style={{ display: "flex", width: "100%", height: "100%" }}>
+    <div className="lesson-container">
       {/* ---------------- LEFT SECTION ---------------- */}
       <div className="container-one">
         <h2>Available Lessons</h2>
@@ -45,7 +45,7 @@ const FrontPage = () => {
         {loading && <p>Loading lessons...</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
 
-        <ul style={{ listStyleType: "none", padding: 0 }}>
+        <ul className="lesson-items" style={{ listStyleType: "none", padding: 0 }}>
           {lessons.map((lesson) => (
             <li
               key={lesson._id}
@@ -55,10 +55,19 @@ const FrontPage = () => {
                 marginBottom: "8px",
                 borderRadius: "6px",
                 cursor: "pointer",
+                border: "3px solid",
                 backgroundColor:
                   selectedLesson && selectedLesson._id === lesson._id
-                    ? "rgba(0,0,0,0.1)"
-                    : "rgba(255,255,255,0.6)",
+                    ? "#ffffff" // clicked bg color
+                    : "#5522ff", // default bg color
+                color:
+                  selectedLesson && selectedLesson._id === lesson._id
+                    ? "#5522ff" // clicked text color
+                    : "#ffffff", // default text color
+                borderColor:
+                  selectedLesson && selectedLesson._id === lesson._id
+                    ? "#5522ff" // clicked border
+                    : "#ffffff", // default border
                 transition: "0.2s",
               }}
             >
