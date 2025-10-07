@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchAllLessons, fetchLessonById } from "../../../api/lessons";
 import { getQuizByLessonId } from "../../../api/quiz";
+import { submitScore, getScoresByUsername, getLeaderboard } from "../../../api/scores";
 import MainLayout from "../../layout/MainLayout";
 import "./FrontPage.css";
 import "./QuizModal.css";
@@ -144,7 +145,7 @@ const FrontPage = () => {
   const handleCloseQuiz = async () => {
     // Submit score before closing if quiz was completed
     if (quizCompleted && score > 0) {
-      await submitScore();
+      await submitQuizScore();
     }
     
     setShowQuizModal(false);
@@ -168,19 +169,11 @@ const FrontPage = () => {
       const scoreData = {
         username: username,
         gameType: 'quiz',
-        lessonNumber: selectedLesson._id,
+        lessonId: selectedLesson._id,
         score: score
       };
 
-      const response = await fetch('http://localhost:5000/api/score', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(scoreData)
-      });
-
-      const data = await response.json();
+      const data = await submitScore(scoreData);
       
       if (data.success) {
         console.log('Score submitted successfully:', data);
@@ -367,7 +360,7 @@ const FrontPage = () => {
                           <div className="quiz-progress">
                             Question {currentQuestionIndex + 1} of {quizData.questions.length}
                           </div>
-                          <div className="quiz-score">Score: {score}</div>
+                          <div className="quiz-score">{score} PTS</div>
                         </div>
                         <div className="quiz-question">
                           <p>{quizData.questions[currentQuestionIndex].question}</p>
@@ -428,10 +421,10 @@ const FrontPage = () => {
                     <div className="quiz-completed">
                       <h2 className="modal-header">Quiz Completed!</h2>
                       <div className="quiz-final-score">
-                        Your Score: {score} / {quizData.questions.length}
+                        You Got {score} pts!
                       </div>
                       <div className="quiz-percentage">
-                        {Math.round((score / quizData.questions.length) * 100)}%
+                        {Math.round((score / (quizData.questions.length * 5)) * 100)}%
                       </div>
                       <button
                         className="modal-btn modal-btn-primary"

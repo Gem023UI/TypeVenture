@@ -1,5 +1,5 @@
 import express from "express";
-import { submitScore, getScoresByUsername, getLeaderboard } from "../controllers/scoreController.js";
+import { submitScore, getScoresByUsername, getLeaderboard } from "../controllers/scores.js";
 
 const router = express.Router();
 

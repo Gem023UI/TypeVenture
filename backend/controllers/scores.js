@@ -1,12 +1,12 @@
-import Score from "../models/score.js";
+import Score from "../models/scores.js";
 
 // Submit a new score
 export const submitScore = async (req, res) => {
   try {
-    const { username, gameType, lessonNumber, score } = req.body;
+    const { username, gameType, lessonId, score } = req.body;
 
     // Validation
-    if (!username || !gameType || !lessonNumber || score === undefined) {
+    if (!username || !gameType || !lessonId || score === undefined) {
       return res.status(400).json({
         success: false,
         message: "Missing required fields"
@@ -16,7 +16,7 @@ export const submitScore = async (req, res) => {
     const newScore = new Score({
       username,
       gameType,
-      lessonNumber,
+      lessonId,
       score
     });
 

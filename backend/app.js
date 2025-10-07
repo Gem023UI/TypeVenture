@@ -3,7 +3,7 @@ import cors from "cors";
 import userRoutes from "./routes/user.js";
 import lessonsRoutes from "./routes/lessons.js";
 import quizRoutes from "./routes/quiz.js";
-import scoreRoutes from "./routes/score.js";
+import scoreRoutes from "./routes/scores.js";
 
 const app = express();
 
