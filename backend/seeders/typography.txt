@@ -1,0 +1,443 @@
+import React, { useState } from 'react';
+import { AlertCircle, CheckCircle, RefreshCw, Info } from 'lucide-react';
+
+// Sample challenges (would come from your DB)
+const CHALLENGES = [
+  {
+    id: 1,
+    prompt: "Design a warning sign for a construction site",
+    scenario: "caution-sign",
+    displayText: "DANGER\nHARD HAT\nAREA",
+    designContext: {
+      readingDistance: "far",
+      targetAudience: "general",
+      purpose: "warning"
+    },
+    adjustableProperties: [
+      {
+        property: 'fontSize',
+        label: 'Font Size',
+        unit: 'px',
+        optimal: 48,
+        acceptable: { min: 42, max: 56 },
+        sliderRange: { min: 20, max: 80, step: 1 }
+      },
+      {
+        property: 'letterSpacing',
+        label: 'Letter Spacing',
+        unit: 'px',
+        optimal: 4,
+        acceptable: { min: 2, max: 6 },
+        sliderRange: { min: -2, max: 12, step: 0.5 }
+      },
+      {
+        property: 'lineHeight',
+        label: 'Line Height',
+        unit: '',
+        optimal: 1.2,
+        acceptable: { min: 1.1, max: 1.4 },
+        sliderRange: { min: 0.8, max: 2, step: 0.05 }
+      }
+    ],
+    difficulty: 'beginner'
+  },
+  {
+    id: 2,
+    prompt: "Create a readable paragraph for a blog post",
+    scenario: "blog-content",
+    displayText: "Typography is the art and technique of arranging type to make written language legible, readable, and appealing when displayed. The arrangement of type involves selecting typefaces, point sizes, line lengths, line-spacing, and letter-spacing.",
+    designContext: {
+      readingDistance: "medium",
+      targetAudience: "general",
+      purpose: "informational"
+    },
+    adjustableProperties: [
+      {
+        property: 'fontSize',
+        label: 'Font Size',
+        unit: 'px',
+        optimal: 18,
+        acceptable: { min: 16, max: 20 },
+        sliderRange: { min: 12, max: 28, step: 1 }
+      },
+      {
+        property: 'lineHeight',
+        label: 'Line Height',
+        unit: '',
+        optimal: 1.6,
+        acceptable: { min: 1.4, max: 1.8 },
+        sliderRange: { min: 1, max: 2.5, step: 0.05 }
+      },
+      {
+        property: 'letterSpacing',
+        label: 'Letter Spacing',
+        unit: 'px',
+        optimal: 0,
+        acceptable: { min: -0.5, max: 0.5 },
+        sliderRange: { min: -2, max: 4, step: 0.1 }
+      },
+      {
+        property: 'wordSpacing',
+        label: 'Word Spacing',
+        unit: 'px',
+        optimal: 0,
+        acceptable: { min: -2, max: 2 },
+        sliderRange: { min: -5, max: 10, step: 0.5 }
+      }
+    ],
+    difficulty: 'intermediate'
+  },
+  {
+    id: 3,
+    prompt: "Design an elegant invitation headline",
+    scenario: "event-poster",
+    displayText: "You're Invited\nto Celebrate",
+    designContext: {
+      readingDistance: "close",
+      targetAudience: "general",
+      purpose: "decorative"
+    },
+    adjustableProperties: [
+      {
+        property: 'fontSize',
+        label: 'Font Size',
+        unit: 'px',
+        optimal: 36,
+        acceptable: { min: 30, max: 44 },
+        sliderRange: { min: 20, max: 60, step: 1 }
+      },
+      {
+        property: 'letterSpacing',
+        label: 'Letter Spacing',
+        unit: 'px',
+        optimal: 2,
+        acceptable: { min: 1, max: 4 },
+        sliderRange: { min: -2, max: 10, step: 0.5 }
+      },
+      {
+        property: 'lineHeight',
+        label: 'Line Height',
+        unit: '',
+        optimal: 1.3,
+        acceptable: { min: 1.2, max: 1.5 },
+        sliderRange: { min: 0.9, max: 2, step: 0.05 }
+      }
+    ],
+    difficulty: 'intermediate'
+  }
+];
+
+function calculatePropertyScore(userValue, { optimal, acceptable }) {
+  // Perfect score if at optimal
+  if (Math.abs(userValue - optimal) < 0.01) return 100;
+  
+  // High score if in optimal zone (±5% of optimal or ±0.5 for small values)
+  const optimalZone = Math.max(Math.abs(optimal * 0.05), 0.5);
+  if (Math.abs(userValue - optimal) <= optimalZone) {
+    return 90 + (10 * (1 - Math.abs(userValue - optimal) / optimalZone));
+  }
+  
+  // Acceptable score if in acceptable range
+  if (userValue >= acceptable.min && userValue <= acceptable.max) {
+    const distanceFromOptimal = Math.abs(userValue - optimal);
+    const maxDistance = Math.max(
+      Math.abs(acceptable.max - optimal),
+      Math.abs(acceptable.min - optimal)
+    );
+    return 60 + (30 * (1 - distanceFromOptimal / maxDistance));
+  }
+  
+  // Poor score if outside acceptable range
+  const outsideDistance = userValue < acceptable.min 
+    ? acceptable.min - userValue 
+    : userValue - acceptable.max;
+  return Math.max(0, 60 - outsideDistance * 5);
+}
+
+function TypographyGame() {
+  const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
+  const [scores, setScores] = useState(null);
+  
+  const challenge = CHALLENGES[currentChallengeIndex];
+  
+  // Initialize typography values with middle of slider range
+  const [typographyValues, setTypographyValues] = useState(() => {
+    const initial = {};
+    challenge.adjustableProperties.forEach(prop => {
+      const mid = (prop.sliderRange.min + prop.sliderRange.max) / 2;
+      initial[prop.property] = mid;
+    });
+    return initial;
+  });
+
+  const handleSliderChange = (property, value) => {
+    setTypographyValues(prev => ({
+      ...prev,
+      [property]: parseFloat(value)
+    }));
+    if (submitted) setSubmitted(false);
+  };
+
+  const handleSubmit = () => {
+    const propertyScores = challenge.adjustableProperties.map(prop => {
+      const userValue = typographyValues[prop.property];
+      const score = calculatePropertyScore(userValue, {
+        optimal: prop.optimal,
+        acceptable: prop.acceptable
+      });
+      return {
+        property: prop.label,
+        score: Math.round(score),
+        userValue,
+        optimal: prop.optimal,
+        unit: prop.unit
+      };
+    });
+
+    const totalScore = Math.round(
+      propertyScores.reduce((sum, ps) => sum + ps.score, 0) / propertyScores.length
+    );
+
+    setScores({ total: totalScore, properties: propertyScores });
+    setSubmitted(true);
+  };
+
+  const handleNextChallenge = () => {
+    const nextIndex = (currentChallengeIndex + 1) % CHALLENGES.length;
+    setCurrentChallengeIndex(nextIndex);
+    setSubmitted(false);
+    setScores(null);
+    
+    // Reset values for new challenge
+    const initial = {};
+    CHALLENGES[nextIndex].adjustableProperties.forEach(prop => {
+      const mid = (prop.sliderRange.min + prop.sliderRange.max) / 2;
+      initial[prop.property] = mid;
+    });
+    setTypographyValues(initial);
+  };
+
+  const handleReset = () => {
+    const initial = {};
+    challenge.adjustableProperties.forEach(prop => {
+      const mid = (prop.sliderRange.min + prop.sliderRange.max) / 2;
+      initial[prop.property] = mid;
+    });
+    setTypographyValues(initial);
+    setSubmitted(false);
+    setScores(null);
+  };
+
+  const getTextStyle = () => {
+    const style = {
+      fontSize: `${typographyValues.fontSize}px`,
+      letterSpacing: `${typographyValues.letterSpacing}px`,
+      lineHeight: typographyValues.lineHeight,
+      wordSpacing: typographyValues.wordSpacing ? `${typographyValues.wordSpacing}px` : '0px',
+      fontFamily: challenge.scenario === 'caution-sign' ? 'Arial Black, sans-serif' : 
+                   challenge.scenario === 'event-poster' ? 'Georgia, serif' : 'Arial, sans-serif',
+      fontWeight: challenge.scenario === 'caution-sign' ? 'bold' : 'normal',
+      textAlign: challenge.scenario === 'caution-sign' ? 'center' : 'left',
+      whiteSpace: 'pre-wrap',
+      transition: 'all 0.1s ease'
+    };
+    return style;
+  };
+
+  const getScoreColor = (score) => {
+    if (score >= 90) return 'text-green-600';
+    if (score >= 70) return 'text-blue-600';
+    if (score >= 60) return 'text-yellow-600';
+    return 'text-red-600';
+  };
+
+  const getScoreLabel = (score) => {
+    if (score >= 90) return 'Excellent!';
+    if (score >= 70) return 'Good';
+    if (score >= 60) return 'Acceptable';
+    return 'Needs Improvement';
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="text-3xl font-bold text-slate-800">Typography Design Challenge</h1>
+              <p className="text-slate-600 mt-1">Challenge {currentChallengeIndex + 1} of {CHALLENGES.length}</p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={handleReset}
+                className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition"
+              >
+                <RefreshCw size={18} />
+                Reset
+              </button>
+              {submitted && (
+                <button
+                  onClick={handleNextChallenge}
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                >
+                  Next Challenge
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Challenge Info */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start gap-3">
+            <Info className="text-blue-600 mt-0.5 flex-shrink-0" size={20} />
+            <div>
+              <p className="font-semibold text-blue-900">{challenge.prompt}</p>
+              <div className="flex gap-4 mt-2 text-sm text-blue-700">
+                <span>Distance: {challenge.designContext.readingDistance}</span>
+                <span>Purpose: {challenge.designContext.purpose}</span>
+                <span>Difficulty: {challenge.difficulty}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Preview Area */}
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <h2 className="text-lg font-semibold text-slate-800 mb-4">Preview</h2>
+            <div 
+              className="bg-slate-50 rounded-lg p-8 min-h-64 flex items-center justify-center border-2 border-slate-200"
+              style={{
+                backgroundColor: challenge.scenario === 'caution-sign' ? '#FEF3C7' : '#F8FAFC'
+              }}
+            >
+              <div 
+                style={getTextStyle()}
+                className={challenge.scenario === 'caution-sign' ? 'text-slate-900' : 'text-slate-800'}
+              >
+                {challenge.displayText}
+              </div>
+            </div>
+          </div>
+
+          {/* Controls */}
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <h2 className="text-lg font-semibold text-slate-800 mb-4">Typography Controls</h2>
+            <div className="space-y-6">
+              {challenge.adjustableProperties.map((prop) => (
+                <div key={prop.property}>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="text-sm font-medium text-slate-700">
+                      {prop.label}
+                    </label>
+                    <span className="text-sm font-mono text-slate-600">
+                      {typographyValues[prop.property].toFixed(prop.unit === 'px' ? 1 : 2)}{prop.unit}
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min={prop.sliderRange.min}
+                    max={prop.sliderRange.max}
+                    step={prop.sliderRange.step}
+                    value={typographyValues[prop.property]}
+                    onChange={(e) => handleSliderChange(prop.property, e.target.value)}
+                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                  />
+                  <div className="flex justify-between text-xs text-slate-500 mt-1">
+                    <span>{prop.sliderRange.min}{prop.unit}</span>
+                    <span>{prop.sliderRange.max}{prop.unit}</span>
+                  </div>
+                </div>
+              ))}
+
+              <button
+                onClick={handleSubmit}
+                disabled={submitted}
+                className="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {submitted ? 'Submitted' : 'Submit Design'}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Score Display */}
+        {submitted && scores && (
+          <div className="bg-white rounded-lg shadow-sm p-6 mt-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-slate-800">Your Results</h2>
+              <div className="text-right">
+                <div className={`text-4xl font-bold ${getScoreColor(scores.total)}`}>
+                  {scores.total}
+                </div>
+                <div className="text-sm text-slate-600">{getScoreLabel(scores.total)}</div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {scores.properties.map((prop, idx) => (
+                <div key={idx} className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                  <div className="flex items-start justify-between mb-2">
+                    <span className="font-medium text-slate-700">{prop.property}</span>
+                    {prop.score >= 90 ? (
+                      <CheckCircle className="text-green-600" size={20} />
+                    ) : prop.score >= 60 ? (
+                      <AlertCircle className="text-yellow-600" size={20} />
+                    ) : (
+                      <AlertCircle className="text-red-600" size={20} />
+                    )}
+                  </div>
+                  <div className="space-y-1 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-slate-600">Your value:</span>
+                      <span className="font-mono font-medium">
+                        {prop.userValue.toFixed(prop.unit === 'px' ? 1 : 2)}{prop.unit}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-600">Optimal:</span>
+                      <span className="font-mono font-medium text-green-700">
+                        {prop.optimal}{prop.unit}
+                      </span>
+                    </div>
+                    <div className="flex justify-between mt-2 pt-2 border-t border-slate-200">
+                      <span className="text-slate-600">Score:</span>
+                      <span className={`font-bold ${getScoreColor(prop.score)}`}>
+                        {prop.score}/100
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h3 className="font-semibold text-blue-900 mb-2">Scoring Guide</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                <div>
+                  <span className="font-medium text-green-700">90-100:</span>
+                  <span className="text-slate-600 ml-1">Excellent</span>
+                </div>
+                <div>
+                  <span className="font-medium text-blue-700">70-89:</span>
+                  <span className="text-slate-600 ml-1">Good</span>
+                </div>
+                <div>
+                  <span className="font-medium text-yellow-700">60-69:</span>
+                  <span className="text-slate-600 ml-1">Acceptable</span>
+                </div>
+                <div>
+                  <span className="font-medium text-red-700">0-59:</span>
+                  <span className="text-slate-600 ml-1">Poor</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default TypographyGame;

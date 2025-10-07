@@ -4,6 +4,7 @@ import userRoutes from "./routes/user.js";
 import lessonsRoutes from "./routes/lessons.js";
 import quizRoutes from "./routes/quiz.js";
 import scoreRoutes from "./routes/scores.js";
+import typographyRoutes from "./routes/typography.js";
 
 const app = express();
 
@@ -44,6 +45,9 @@ console.log("✅ Lessons routes registered");
 app.use("/api/quiz", quizRoutes);
 console.log("✅ Quiz routes registered");
 
+app.use("/api/typography", typographyRoutes);
+console.log("✅ Typography routes registered");
+
 app.use("/api/score", scoreRoutes);
 console.log("✅ Score routes registered");
 
@@ -77,16 +81,18 @@ app.use((req, res) => {
     method: req.method,
     path: req.url,
     availableRoutes: [
-      "GET /api/test",
       "POST /api/user/register",
       "POST /api/user/login",
+      "POST /api/score",
+      "GET /api/test",
       "GET /api/lessons",
       "GET /api/quiz/test",
       "GET /api/quiz/all",
       "GET /api/quiz/lesson/:lessonId",
-      "POST /api/score",
       "GET /api/score/user/:username",
-      "GET /api/score/leaderboard"
+      "GET /api/score/leaderboard",
+      "GET /api/typography/all",
+      "GET /api/typography/lesson/:lessonId"
     ]
   });
 });
