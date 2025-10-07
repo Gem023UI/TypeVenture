@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import userRoutes from "./routes/user.js";
 import lessonsRoutes from "./routes/lessons.js";
-import quizRoutes from "./routes/quiz.js"; // Make sure this file exists!
+import quizRoutes from "./routes/quiz.js";
+import scoreRoutes from "./routes/score.js";
 
 const app = express();
 
@@ -41,7 +42,10 @@ app.use("/api/lessons", lessonsRoutes);
 console.log("✅ Lessons routes registered");
 
 app.use("/api/quiz", quizRoutes);
-console.log("✅ Quiz routes registered at /api/quiz");
+console.log("✅ Quiz routes registered");
+
+app.use("/api/score", scoreRoutes);
+console.log("✅ Score routes registered");
 
 // Health check
 app.get("/", (req, res) => {
@@ -79,7 +83,10 @@ app.use((req, res) => {
       "GET /api/lessons",
       "GET /api/quiz/test",
       "GET /api/quiz/all",
-      "GET /api/quiz/lesson/:lessonId"
+      "GET /api/quiz/lesson/:lessonId",
+      "POST /api/score",
+      "GET /api/score/user/:username",
+      "GET /api/score/leaderboard"
     ]
   });
 });

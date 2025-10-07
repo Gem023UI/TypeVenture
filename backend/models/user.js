@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, lowercase: true },
   password: { type: String, required: true },
   profilePicture: { type: String },
-  token: { type: String }, // <-- Add token field
+  token: { type: String },
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);

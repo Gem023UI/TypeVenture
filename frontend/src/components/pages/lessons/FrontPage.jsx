@@ -20,6 +20,7 @@ const FrontPage = () => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [score, setScore] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
+  const [showInfoModal, setShowInfoModal] = useState(false);
 
   // Fetch all lessons on load
   useEffect(() => {
@@ -59,7 +60,7 @@ const FrontPage = () => {
       },
       typography: {
         header: 'TYPOGRAPHY GAME',
-        description: 'Time for a practical test, good luck, designer!'
+        description: 'Time for a practical test. Good luck, designer!'
       }
     };
     return gameTypes[category] || { header: 'GAME', description: 'Start your challenge!' };
@@ -67,28 +68,40 @@ const FrontPage = () => {
 
   const handleStartGame = async () => {
     if (selectedLesson) {
-      if (selectedLesson.category === 'quiz') {
-        // Fetch quiz data
-        try {
-          const response = await getQuizByLessonId(selectedLesson._id);
-          if (response.success) {
-            setQuizData(response.data);
-            setCurrentQuestionIndex(0);
-            setSelectedAnswer(null);
-            setIsAnswerChecked(false);
-            setScore(0);
-            setQuizCompleted(false);
-            setShowQuizModal(true);
-          } else {
-            alert('No quiz available for this lesson');
-          }
-        } catch (error) {
-          console.error('Error loading quiz:', error);
-          alert('Failed to load quiz. Please try again.');
+      // Always show info modal first
+      setShowInfoModal(true);
+    }
+  };
+
+  const handleContinueToGame = async () => {
+    setShowInfoModal(false);
+    
+    if (!selectedLesson) {
+      alert('No lesson selected');
+      return;
+    }
+    
+    if (selectedLesson.category === 'quiz') {
+      // Fetch quiz data
+      try {
+        const response = await getQuizByLessonId(selectedLesson._id);
+        if (response.success) {
+          setQuizData(response.data);
+          setCurrentQuestionIndex(0);
+          setSelectedAnswer(null);
+          setIsAnswerChecked(false);
+          setScore(0);
+          setQuizCompleted(false);
+          setShowQuizModal(true);
+        } else {
+          alert('No quiz available for this lesson');
         }
-      } else {
-        setShowGameModal(true);
+      } catch (error) {
+        console.error('Error loading quiz:', error);
+        alert('Failed to load quiz. Please try again.');
       }
+    } else {
+      setShowGameModal(true);
     }
   };
 
@@ -106,7 +119,7 @@ const FrontPage = () => {
       setIsAnswerChecked(true);
       
       if (correct) {
-        setScore(score + 1);
+        setScore(score + 5);
       }
 
       // Auto proceed to next question after 2 seconds
@@ -128,7 +141,12 @@ const FrontPage = () => {
     }
   };
 
-  const handleCloseQuiz = () => {
+  const handleCloseQuiz = async () => {
+    // Submit score before closing if quiz was completed
+    if (quizCompleted && score > 0) {
+      await submitScore();
+    }
+    
     setShowQuizModal(false);
     setQuizData(null);
     setCurrentQuestionIndex(0);
@@ -136,6 +154,42 @@ const FrontPage = () => {
     setIsAnswerChecked(false);
     setScore(0);
     setQuizCompleted(false);
+  };
+
+  const submitQuizScore = async () => {
+    try {
+      const username = sessionStorage.getItem('username');
+      
+      if (!username) {
+        console.error('No username found in session storage');
+        return;
+      }
+
+      const scoreData = {
+        username: username,
+        gameType: 'quiz',
+        lessonNumber: selectedLesson._id,
+        score: score
+      };
+
+      const response = await fetch('http://localhost:5000/api/score', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(scoreData)
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        console.log('Score submitted successfully:', data);
+      } else {
+        console.error('Failed to submit score:', data.message);
+      }
+    } catch (error) {
+      console.error('Error submitting score:', error);
+    }
   };
 
   return (
@@ -207,6 +261,48 @@ const FrontPage = () => {
               Start Game
             </button>
 
+            {/* Info Modal - Shows game rules first */}
+            {showInfoModal && selectedLesson && (
+              <div 
+                className="game-modal-overlay"
+              >
+                <div 
+                  className="game-modal-content"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button 
+                    className="modal-close-btn"
+                    onClick={() => setShowInfoModal(false)}
+                  >
+                    ×
+                  </button>
+
+                  <h2 className="modal-header">
+                    {selectedLesson ? getGameInfo(selectedLesson.category).header : 'GAME'}
+                  </h2>
+
+                  <p className="modal-description">
+                    {selectedLesson ? getGameInfo(selectedLesson.category).description : 'Start your challenge!'}
+                  </p>
+
+                  <div className="modal-actions">
+                    <button
+                      className="modal-btn modal-btn-primary"
+                      onClick={handleContinueToGame}
+                    >
+                      Continue to Game
+                    </button>
+                    <button
+                      className="modal-btn modal-btn-secondary"
+                      onClick={() => setShowInfoModal(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Game Modal (for trial and typography categories) */}
             {showGameModal && (
               <div 
@@ -257,41 +353,57 @@ const FrontPage = () => {
             {showQuizModal && quizData && (
               <div 
                 className="quiz-modal-overlay"
-                onClick={handleCloseQuiz}
+                onClick={(e) => e.stopPropagation()}
               >
                 <div 
                   className="quiz-modal-content"
-                  onClick={(e) => e.stopPropagation()}
                 >
-                  <button 
-                    className="modal-close-btn"
-                    onClick={handleCloseQuiz}
-                  >
-                    ×
-                  </button>
-
                   {!quizCompleted ? (
                     <>
                       {/* Quiz Header */}
-                      <div className="quiz-header">
-                        <h2 className="modal-header">QUIZ GAME</h2>
-                        <div className="quiz-progress">
-                          Question {currentQuestionIndex + 1} of {quizData.questions.length}
+                      <div className="quiz-info">
+                        <div className="quiz-header">
+                          <h2 className="modal-header">QUIZ GAME</h2>
+                          <div className="quiz-progress">
+                            Question {currentQuestionIndex + 1} of {quizData.questions.length}
+                          </div>
+                          <div className="quiz-score">Score: {score}</div>
                         </div>
-                        <div className="quiz-score">Score: {score}</div>
-                      </div>
+                        <div className="quiz-question">
+                          <p>{quizData.questions[currentQuestionIndex].question}</p>
+                        </div>
 
-                      {/* Question */}
-                      <div className="quiz-question">
-                        <p>{quizData.questions[currentQuestionIndex].question}</p>
+                        {/* Check Answer Button */}
+                        {!isAnswerChecked && (
+                          <button
+                            className="quiz-check-btn"
+                            onClick={handleCheckAnswer}
+                            disabled={!selectedAnswer}
+                          >
+                            Check Answer
+                          </button>
+                        )}
+
+                        {/* Feedback */}
+                        {isAnswerChecked && (
+                          <div className={`quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`}>
+                            {isCorrect ? '✓ Correct!' : '✗ Incorrect!'}
+                          </div>
+                        )}
+
                       </div>
 
                       {/* Options */}
                       <div className="quiz-options">
-                        {quizData.questions[currentQuestionIndex].options.map((option, index) => (
+                      {quizData.questions[currentQuestionIndex].options.map((option, index) => {
+                        // Define color sequence: purple, green, orange, then repeat
+                        const colors = ['purple', 'green', 'orange'];
+                        const colorClass = colors[index % colors.length];
+                        
+                        return (
                           <button
                             key={index}
-                            className={`quiz-option ${
+                            className={`quiz-option quiz-option-${colorClass} ${
                               selectedAnswer === option ? 'selected' : ''
                             } ${
                               isAnswerChecked
@@ -307,26 +419,9 @@ const FrontPage = () => {
                           >
                             {option}
                           </button>
-                        ))}
-                      </div>
-
-                      {/* Check Answer Button */}
-                      {!isAnswerChecked && (
-                        <button
-                          className="quiz-check-btn"
-                          onClick={handleCheckAnswer}
-                          disabled={!selectedAnswer}
-                        >
-                          Check Answer
-                        </button>
-                      )}
-
-                      {/* Feedback */}
-                      {isAnswerChecked && (
-                        <div className={`quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`}>
-                          {isCorrect ? '✓ Correct!' : '✗ Incorrect!'}
-                        </div>
-                      )}
+                        );
+                      })}
+                    </div>
                     </>
                   ) : (
                     /* Quiz Completed */

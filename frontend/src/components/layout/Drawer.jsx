@@ -8,7 +8,7 @@ const Drawer = ({ isOpen, onClose }) => {
   useEffect(() => {
     // Fetch avatar and username from sessionStorage
     const storedAvatar = sessionStorage.getItem("profilePicture");
-    const storedUsername = sessionStorage.getItem("userName");
+    const storedUsername = sessionStorage.getItem("username");
 
     if (storedAvatar)
       setAvatarUrl(storedAvatar);

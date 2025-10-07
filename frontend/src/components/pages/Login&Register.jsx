@@ -85,9 +85,18 @@ export default function LoginRegister({ logoUrl }) {
       // ✅ Store JWT token in sessionStorage
       sessionStorage.setItem("token", response.data.token);
 
-      // ✅ Optionally store user info too
-      sessionStorage.setItem("user", JSON.stringify(response.data.user));
+      // ✅ Store username
+      sessionStorage.setItem("username", response.data.user.username);
 
+      // ✅ Store profile picture (if exists)
+      if (response.data.user.profilePicture) {
+        sessionStorage.setItem("profilePicture", response.data.user.profilePicture);
+      } else {
+        sessionStorage.setItem("profilePicture", ""); // or a default image URL
+      }
+
+      // ✅ Store complete user object (optional, for other data)
+      sessionStorage.setItem("user", JSON.stringify(response.data.user));
       Swal.fire({
         icon: "success",
         title: "Login Successful!",
