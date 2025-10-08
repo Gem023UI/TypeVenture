@@ -35,6 +35,8 @@ const FrontPage = () => {
   const [typographySubmitted, setTypographySubmitted] = useState(false);
   const [typographyScores, setTypographyScores] = useState(null);
   const [typographyValues, setTypographyValues] = useState({});
+  const [selectedFont, setSelectedFont] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
 
   // Fetch all lessons on load
   useEffect(() => {
@@ -126,9 +128,17 @@ const FrontPage = () => {
           const initial = {};
           response.data[0].adjustableProperties.forEach(prop => {
             const mid = (prop.sliderRange.min + prop.sliderRange.max) / 2;
-            initial[prop.property] = mid;
+            initial[prop.property] = prop.property === 'fontFamily' || prop.property === 'color'
+            ? (prop.options?.[0] || '')
+            : mid;
           });
           setTypographyValues(initial);
+
+          // Set initial font and color
+          const fontProp = response.data[0].adjustableProperties.find(p => p.property === 'fontFamily');
+          const colorProp = response.data[0].adjustableProperties.find(p => p.property === 'color');
+          if (fontProp) setSelectedFont(fontProp.options?.[0] || '');
+          if (colorProp) setSelectedColor(colorProp.options?.[0] || '');
           
           setTypographySubmitted(false);
           setTypographyScores(null);
@@ -224,7 +234,15 @@ const FrontPage = () => {
     }
   };
 
-  const calculatePropertyScore = (userValue, { optimal, acceptable }) => {
+  const calculatePropertyScore = (property, userValue, propData) => {
+    // Binary choice properties (font, color)
+    if (property === 'fontFamily' || property === 'color') {
+      return userValue === propData.correctAnswer ? 100 : 0;
+    }
+    
+    // Slider-based properties
+    const { optimal, acceptable } = propData;
+    
     if (Math.abs(userValue - optimal) < 0.01) return 100;
     
     const optimalZone = Math.max(Math.abs(optimal * 0.05), 0.5);
@@ -260,17 +278,29 @@ const FrontPage = () => {
     
     const currentChallenge = typographyData[currentChallengeIndex];
     const propertyScores = currentChallenge.adjustableProperties.map(prop => {
-      const userValue = typographyValues[prop.property];
-      const score = calculatePropertyScore(userValue, {
+      let userValue;
+      
+      if (prop.property === 'fontFamily') {
+        userValue = selectedFont;
+      } else if (prop.property === 'color') {
+        userValue = selectedColor;
+      } else {
+        userValue = typographyValues[prop.property];
+      }
+      
+      const score = calculatePropertyScore(prop.property, userValue, {
         optimal: prop.optimal,
-        acceptable: prop.acceptable
+        acceptable: prop.acceptable,
+        correctAnswer: prop.correctAnswer
       });
+      
       return {
         property: prop.label,
         score: Math.round(score),
-        userValue,
-        optimal: prop.optimal,
-        unit: prop.unit
+        userValue: prop.property === 'fontFamily' || prop.property === 'color' ? userValue : userValue,
+        optimal: prop.property === 'fontFamily' || prop.property === 'color' ? prop.correctAnswer : prop.optimal,
+        unit: prop.unit || '',
+        isCorrect: prop.property === 'fontFamily' || prop.property === 'color' ? (userValue === prop.correctAnswer) : null
       };
     });
 
@@ -293,9 +323,18 @@ const FrontPage = () => {
       const initial = {};
       typographyData[nextIndex].adjustableProperties.forEach(prop => {
         const mid = (prop.sliderRange.min + prop.sliderRange.max) / 2;
-        initial[prop.property] = mid;
+        initial[prop.property] = prop.property === 'fontFamily' || prop.property === 'color'
+        ? (prop.options?.[0] || '')
+        : mid;
       });
       setTypographyValues(initial);
+
+      // Reset font and color selections
+      const fontProp = typographyData[nextIndex].adjustableProperties.find(p => p.property === 'fontFamily');
+      const colorProp = typographyData[nextIndex].adjustableProperties.find(p => p.property === 'color');
+      if (fontProp) setSelectedFont(fontProp.options?.[0] || '');
+      if (colorProp) setSelectedColor(colorProp.options?.[0] || '');
+
     } else {
       // All challenges completed
       handleCloseTypography();
@@ -308,9 +347,18 @@ const FrontPage = () => {
     const initial = {};
     typographyData[currentChallengeIndex].adjustableProperties.forEach(prop => {
       const mid = (prop.sliderRange.min + prop.sliderRange.max) / 2;
-      initial[prop.property] = mid;
+      initial[prop.property] = prop.property === 'fontFamily' || prop.property === 'color'
+      ? (prop.options?.[0] || '')
+      : mid;
     });
     setTypographyValues(initial);
+
+    // Reset font and color
+    const fontProp = typographyData[currentChallengeIndex].adjustableProperties.find(p => p.property === 'fontFamily');
+    const colorProp = typographyData[currentChallengeIndex].adjustableProperties.find(p => p.property === 'color');
+    if (fontProp) setSelectedFont(fontProp.options?.[0] || '');
+    if (colorProp) setSelectedColor(colorProp.options?.[0] || '');
+
     setTypographySubmitted(false);
     setTypographyScores(null);
   };
@@ -362,14 +410,14 @@ const FrontPage = () => {
     
     const challenge = typographyData[currentChallengeIndex];
     const style = {
-      fontSize: `${typographyValues.fontSize}px`,
-      letterSpacing: `${typographyValues.letterSpacing}px`,
-      lineHeight: typographyValues.lineHeight,
+      fontSize: `${typographyValues.fontSize || 16}px`,
+      letterSpacing: `${typographyValues.letterSpacing || 0}px`,
+      lineHeight: typographyValues.lineHeight || 1.5,
       wordSpacing: typographyValues.wordSpacing ? `${typographyValues.wordSpacing}px` : '0px',
-      fontFamily: challenge.scenario === 'caution-sign' ? 'Arial Black, sans-serif' : 
-                  challenge.scenario === 'event-poster' ? 'Georgia, serif' : 'Arial, sans-serif',
+      fontFamily: selectedFont || 'Arial, sans-serif',
+      color: selectedColor || '#000000',
+      textAlign: typographyValues.textAlign || 'left',
       fontWeight: challenge.scenario === 'caution-sign' ? 'bold' : 'normal',
-      textAlign: challenge.scenario === 'caution-sign' ? 'center' : 'left',
       whiteSpace: 'pre-wrap',
       transition: 'all 0.1s ease'
     };
@@ -645,70 +693,142 @@ const FrontPage = () => {
 
             {/* Typography Modal */}
             {showTypographyModal && typographyData && (
-              <div className="quiz-modal-overlay" onClick={(e) => e.stopPropagation()}>
+              <div className="typography-modal-overlay" onClick={(e) => e.stopPropagation()}>
                 <div className="typography-modal-content">
-                  {/* Header */}
-                  <div className="typography-header">
-                    <h2 className="modal-header">TYPOGRAPHY CHALLENGE</h2>
-                    <div className="typography-progress">
-                      Challenge {currentChallengeIndex + 1} of {typographyData.length}
-                    </div>
-                    {typographyScores && (
-                      <div className="quiz-score">{typographyScores.total} PTS</div>
-                    )}
-                  </div>
 
-                  {/* Challenge Info */}
-                  <div className="typography-challenge-info">
-                    <p className="typography-prompt">{typographyData[currentChallengeIndex].prompt}</p>
-                    <div className="typography-context">
-                      <span>Distance: {typographyData[currentChallengeIndex].designContext.readingDistance}</span>
-                      <span>Purpose: {typographyData[currentChallengeIndex].designContext.purpose}</span>
-                      <span>Difficulty: {typographyData[currentChallengeIndex].difficulty}</span>
-                    </div>
-                  </div>
-
-                  <div className="typography-game-container">
-                    {/* Preview Area */}
-                    <div className="typography-preview-section">
-                      <h3>Preview</h3>
-                      <div 
-                        className="typography-preview-box"
-                        style={{
-                          backgroundColor: typographyData[currentChallengeIndex].scenario === 'caution-sign' ? '#FEF3C7' : '#F8FAFC'
-                        }}
-                      >
-                        <div style={getTypographyTextStyle()}>
-                          {typographyData[currentChallengeIndex].displayText}
-                        </div>
+                  <div className="typography-left">
+                    <h2>TYPOGRAPHY GAME</h2>
+                    {/* Challenge Info */}
+                    <div className="typography-challenge-info">
+                      <p className="typography-prompt">Challenge {currentChallengeIndex + 1}: {typographyData[currentChallengeIndex].prompt}</p>
+                      <div className="typography-context">
+                        <span>Distance: {typographyData[currentChallengeIndex].designContext.readingDistance}</span>
+                        <span>Purpose: {typographyData[currentChallengeIndex].designContext.purpose}</span>
+                        <span>Difficulty: {typographyData[currentChallengeIndex].difficulty}</span>
                       </div>
                     </div>
 
+                    <div className="typography-game-container">
+                      {/* Preview Area */}
+                      <div className="typography-preview-section">
+                        <h3>Preview</h3>
+                        <div 
+                          className="typography-preview-box"
+                          style={{
+                            backgroundColor: typographyData[currentChallengeIndex].scenario === 'caution-sign' ? '#FEF3C7' : '#F8FAFC'
+                          }}
+                        >
+                          <div style={getTypographyTextStyle()}>
+                            {typographyData[currentChallengeIndex].displayText}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="typography-right">
                     {/* Controls */}
                     <div className="typography-controls-section">
                       <h3>Typography Controls</h3>
                       <div className="typography-sliders">
                         {typographyData[currentChallengeIndex].adjustableProperties.map((prop) => (
                           <div key={prop.property} className="typography-slider-group">
-                            <div className="slider-label-row">
-                              <label>{prop.label}</label>
-                              <span className="slider-value">
-                                {typographyValues[prop.property]?.toFixed(prop.unit === 'px' ? 1 : 2)}{prop.unit}
-                              </span>
-                            </div>
-                            <input
-                              type="range"
-                              min={prop.sliderRange.min}
-                              max={prop.sliderRange.max}
-                              step={prop.sliderRange.step}
-                              value={typographyValues[prop.property] || prop.sliderRange.min}
-                              onChange={(e) => handleTypographySliderChange(prop.property, e.target.value)}
-                              className="typography-slider"
-                            />
-                            <div className="slider-range-labels">
-                              <span>{prop.sliderRange.min}{prop.unit}</span>
-                              <span>{prop.sliderRange.max}{prop.unit}</span>
-                            </div>
+                            {prop.property === 'fontFamily' ? (
+                              // Font selector dropdown
+                              <>
+                                <div className="slider-label-row">
+                                  <label>{prop.label}</label>
+                                </div>
+                                <select
+                                  value={selectedFont}
+                                  onChange={(e) => {
+                                    setSelectedFont(e.target.value);
+                                    if (typographySubmitted) setTypographySubmitted(false);
+                                  }}
+                                  className="typography-dropdown"
+                                  style={{
+                                    width: '100%',
+                                    padding: '8px',
+                                    borderRadius: '4px',
+                                    border: '2px solid #825cff',
+                                    fontSize: '14px',
+                                    backgroundColor: 'white',
+                                    cursor: 'pointer'
+                                  }}
+                                >
+                                  {prop.options?.map((font) => (
+                                    <option key={font} value={font}>{font}</option>
+                                  ))}
+                                </select>
+                              </>
+                            ) : prop.property === 'color' ? (
+                              // Color selector dropdown
+                              <>
+                                <div className="slider-label-row">
+                                  <label>{prop.label}</label>
+                                  <span className="slider-value" style={{ 
+                                    display: 'inline-block',
+                                    width: '20px',
+                                    height: '20px',
+                                    backgroundColor: selectedColor,
+                                    border: '1px solid #ccc',
+                                    borderRadius: '3px'
+                                  }}></span>
+                                </div>
+                                <select
+                                  value={selectedColor}
+                                  onChange={(e) => {
+                                    setSelectedColor(e.target.value);
+                                    if (typographySubmitted) setTypographySubmitted(false);
+                                  }}
+                                  className="typography-dropdown"
+                                  style={{
+                                    width: '100%',
+                                    padding: '8px',
+                                    borderRadius: '4px',
+                                    border: '2px solid #825cff',
+                                    fontSize: '14px',
+                                    backgroundColor: 'white',
+                                    cursor: 'pointer'
+                                  }}
+                                >
+                                  {prop.options?.map((color) => (
+                                    <option key={color} value={color}>
+                                      {color === '#000000' ? 'Black' : 
+                                      color === '#FFFFFF' ? 'White' :
+                                      color === '#FF0000' ? 'Red' :
+                                      color === '#FFA500' ? 'Orange' :
+                                      color === '#FFFF00' ? 'Yellow' :
+                                      color === '#1E40AF' ? 'Blue' :
+                                      color === '#065F46' ? 'Green' : color}
+                                    </option>
+                                  ))}
+                                </select>
+                              </>
+                            ) : (
+                              // Regular slider
+                              <>
+                                <div className="slider-label-row">
+                                  <label>{prop.label}</label>
+                                  <span className="slider-value">
+                                    {typographyValues[prop.property]?.toFixed(prop.unit === 'px' ? 1 : 2)}{prop.unit}
+                                  </span>
+                                </div>
+                                <input
+                                  type="range"
+                                  min={prop.sliderRange.min}
+                                  max={prop.sliderRange.max}
+                                  step={prop.sliderRange.step}
+                                  value={typographyValues[prop.property] || prop.sliderRange.min}
+                                  onChange={(e) => handleTypographySliderChange(prop.property, e.target.value)}
+                                  className="typography-slider"
+                                />
+                                <div className="slider-range-labels">
+                                  <span>{prop.sliderRange.min}{prop.unit}</span>
+                                  <span>{prop.sliderRange.max}{prop.unit}</span>
+                                </div>
+                              </>
+                            )}
                           </div>
                         ))}
                       </div>
@@ -749,11 +869,25 @@ const FrontPage = () => {
                           <div key={idx} className="property-result">
                             <div className="property-name">{prop.property}</div>
                             <div className="property-values">
-                              <div>Your value: <strong>{prop.userValue.toFixed(prop.unit === 'px' ? 1 : 2)}{prop.unit}</strong></div>
-                              <div>Optimal: <strong className="optimal-value">{prop.optimal}{prop.unit}</strong></div>
-                              <div className={`property-score ${getScoreColor(prop.score)}`}>
-                                Score: {prop.score}/100
-                              </div>
+                              {prop.isCorrect !== null ? (
+                                // Binary choice result
+                                <>
+                                  <div>Your choice: <strong>{prop.userValue}</strong></div>
+                                  <div>Correct answer: <strong className="optimal-value">{prop.optimal}</strong></div>
+                                  <div className={`property-score ${prop.isCorrect ? 'score-excellent' : 'score-poor'}`}>
+                                    {prop.isCorrect ? '✓ Correct (100/100)' : '✗ Incorrect (0/100)'}
+                                  </div>
+                                </>
+                              ) : (
+                                // Slider result
+                                <>
+                                  <div>Your value: <strong>{prop.userValue.toFixed(prop.unit === 'px' ? 1 : 2)}{prop.unit}</strong></div>
+                                  <div>Optimal: <strong className="optimal-value">{prop.optimal}{prop.unit}</strong></div>
+                                  <div className={`property-score ${getScoreColor(prop.score)}`}>
+                                    Score: {prop.score}/100
+                                  </div>
+                                </>
+                              )}
                             </div>
                           </div>
                         ))}

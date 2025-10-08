@@ -26,17 +26,61 @@
 /* ============================================
    TYPOGRAPHY MODAL OVERLAY & CONTAINER
    ============================================ */
+
+.typography-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--overlay-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
 .typography-modal-content {
+  z-index: 1000;
   background-color: var(--text-light);
+  border: 8px solid var(--text-light);
   border-radius: 16px;
   padding: 40px;
-  width: 85vw;
-  max-width: 1200px;
-  max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   position: relative;
-  animation: slideUp 0.3s ease;
+  animation: slideUp 0.6s ease;
+  width: 80vw;
+  height: 95vh;
+  max-width: 1600px;
+  margin-top: 300px;
+  will-change: transform;
+
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.typography-left {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-right: 20px;
+  align-items: center;
+}
+
+.typography-left h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+}
+
+.typography-right {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-left: 20px;
 }
 
 /* ============================================
@@ -65,6 +109,22 @@
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 25px;
+}
+
+.typography-challenge-info p {
+    margin: 0 0 15px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.typography-context span {
+  display: inline-flex;
+  background-color: var(--text-light);
+  color: var(--text-dark);
+  padding: 3px 5px;
+  border-radius: 6px;
+  font-size: 12px;
 }
 
 .typography-prompt {
@@ -150,11 +210,15 @@
 
 .typography-slider-group {
   background-color: var(--bg-lighter);
-  padding: 15px;
+  padding: 16px;
   border-radius: 10px;
   border: 1px solid var(--border-color);
+  transition: border-color 0.2s ease;
 }
 
+.typography-slider-group:hover {
+  border-color: var(--color4);
+}
 .slider-label-row {
   display: flex;
   justify-content: space-between;
@@ -186,6 +250,7 @@
   outline: none;
   cursor: pointer;
   -webkit-appearance: none;
+  appearance: none;
 }
 
 .typography-slider::-webkit-slider-thumb {
@@ -351,7 +416,13 @@
   background-color: var(--text-light);
   border: 2px solid var(--border-color);
   border-radius: 10px;
-  padding: 15px;
+  padding: 16px;
+  transition: all 0.2s ease;
+}
+
+.property-result:hover {
+  border-color: var(--color4);
+  box-shadow: 0 2px 8px rgba(130, 92, 255, 0.1);
 }
 
 .property-name {
@@ -386,6 +457,23 @@
   border-top: 1px solid var(--border-color);
   font-weight: 700;
   font-size: 14px;
+}
+
+/* Binary Choice Result Styles */
+.property-score.score-correct {
+  color: #22c55e;
+  background-color: rgba(34, 197, 94, 0.1);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-top: 2px solid #22c55e;
+}
+
+.property-score.score-incorrect {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-top: 2px solid #ef4444;
 }
 
 /* ============================================
@@ -494,6 +582,16 @@
   .typography-actions {
     flex-direction: column;
   }
+
+  .typography-dropdown {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .color-indicator {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -534,4 +632,64 @@
   .property-values {
     font-size: 12px;
   }
+
+  .typography-dropdown {
+    padding: 7px 9px;
+    font-size: 12px;
+  }
+
+  .color-indicator {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* ============================================
+   DROPDOWN SELECTORS (Font & Color)
+   ============================================ */
+.typography-dropdown {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 2px solid var(--color4);
+  font-size: 14px;
+  font-weight: 500;
+  background-color: var(--text-light);
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+}
+
+.typography-dropdown:hover {
+  border-color: var(--color1);
+  box-shadow: 0 2px 8px rgba(85, 34, 255, 0.15);
+}
+
+.typography-dropdown:focus {
+  border-color: var(--color1);
+  box-shadow: 0 0 0 3px rgba(85, 34, 255, 0.1);
+}
+
+.typography-dropdown option {
+  padding: 10px;
+  background-color: var(--text-light);
+  color: var(--text-dark);
+}
+
+/* Color Indicator */
+.color-indicator {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 2px solid var(--border-color);
+  vertical-align: middle;
+  transition: transform 0.2s ease;
+}
+
+.color-indicator:hover {
+  transform: scale(1.1);
+  border-color: var(--color4);
 }
