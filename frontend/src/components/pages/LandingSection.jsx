@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Stack from "../Bins/media/Stack";
+import Stack from "../bins/media/Stack";
 import "./LandingSection.css";
 
 export default function LandingSection({ logoUrl }) {

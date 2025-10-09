@@ -36,3 +36,18 @@ export const loginUser = async (credentials) => {
     throw error.response?.data?.message || "Login failed.";
   }
 };
+
+export const editProfile = async (formData) => {
+  try {
+    console.log("Editing profile at:", `${BASE_URL}/api/user/edit-profile`);
+    const response = await axios.put(`${BASE_URL}/api/user/edit-profile`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      withCredentials: true,
+    });
+    console.log("Edit profile success:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Edit profile error:", error.response || error);
+    throw error.response?.data?.error || "Profile update failed.";
+  }
+};

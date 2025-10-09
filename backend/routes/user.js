@@ -1,7 +1,11 @@
 import express from "express";
 import multer from "multer";
 import upload from "../utils/multer.js";
-import { registerUser, loginUser } from "../controllers/user.js";
+import { 
+  registerUser, 
+  loginUser, 
+  editProfile
+} from "../controllers/user.js";
 
 const router = express.Router();
 
@@ -29,5 +33,11 @@ router.post("/register",
 );
 
 router.post("/login", loginUser);
+
+router.put("/edit-profile", 
+  upload.single("avatar"), 
+  handleMulterError,
+  editProfile
+);
 
 export default router;

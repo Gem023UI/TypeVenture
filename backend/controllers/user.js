@@ -130,3 +130,72 @@ export const loginUser = async (req, res) => {
     });
   }
 };
+
+// EDIT PROFILE
+export const editProfile = async (req, res) => {
+  console.log("🔵 Edit profile endpoint hit");
+
+  try {
+    const { username, currentPassword, newPassword, hobbies } = req.body;
+
+    if (!username) {
+      return res.status(400).json({ error: "Username is required" });
+    }
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // If user wants to change password, verify current password
+    if (newPassword) {
+      if (!currentPassword) {
+        return res.status(400).json({ error: "Current password is required to set new password" });
+      }
+
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ error: "Current password is incorrect" });
+      }
+
+      // Validate new password
+      const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
+      if (!passwordRegex.test(newPassword)) {
+        return res.status(400).json({
+          error: "New password must be at least 6 characters long and contain at least 1 symbol",
+        });
+      }
+
+      user.password = await bcrypt.hash(newPassword, 10);
+    }
+
+    // Update hobbies if provided
+    if (hobbies !== undefined) {
+      user.hobbies = Array.isArray(hobbies) ? hobbies : [];
+    }
+
+    // Update profile picture if provided (from multer)
+    if (req.file) {
+      user.profilePicture = req.file.path;
+    }
+
+    await user.save();
+    console.log("✅ Profile updated successfully:", username);
+
+    res.json({
+      message: "Profile updated successfully",
+      user: {
+        username: user.username,
+        email: user.email,
+        profilePicture: user.profilePicture,
+        hobbies: user.hobbies,
+      },
+    });
+  } catch (err) {
+    console.error("❌ Edit profile error:", err);
+    res.status(500).json({
+      error: "Profile update failed",
+      details: err.message,
+    });
+  }
+};

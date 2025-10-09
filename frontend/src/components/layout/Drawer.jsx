@@ -49,7 +49,10 @@ const Drawer = ({ isOpen, onClose }) => {
           </ul>
 
           {/* Logout Button */}
-          <button className="logout-btn" onClick={() => console.log("Logout clicked")}>
+          <button className="logout-btn" onClick={() => {
+            sessionStorage.clear();
+            window.location.href = "/";
+          }}>
             Log Out
           </button>
         </div>
