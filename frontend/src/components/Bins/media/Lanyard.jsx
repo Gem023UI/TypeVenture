@@ -56,6 +56,7 @@ export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], 
     </div>
   );
 }
+
 function Band({ maxSpeed = 50, minSpeed = 0 }) {
   const band = useRef(),
     fixed = useRef(),
@@ -77,6 +78,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }) {
   const [dragged, drag] = useState(false);
   const [hovered, hover] = useState(false);
   const [isSmall, setIsSmall] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1024);
+  const [profileTexture, setProfileTexture] = useState(null);
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
@@ -85,6 +87,67 @@ function Band({ maxSpeed = 50, minSpeed = 0 }) {
     [0, 0, 0],
     [0, 1.5, 0]
   ]);
+
+  useEffect(() => {
+    const loadProfilePicture = () => {
+      const storedPicture = sessionStorage.getItem("profilePicture");
+      if (storedPicture) {
+        const textureLoader = new THREE.TextureLoader();
+        textureLoader.load(
+          storedPicture,
+          (loadedTexture) => {
+            // ROTATION (in radians)
+            loadedTexture.rotation = Math.PI; // 180 degrees
+            // Try: 0, Math.PI/2 (90°), Math.PI (180°), Math.PI*1.5 (270°)
+            
+            // CENTER POINT for rotation and scaling (0-1 range)
+            loadedTexture.center.set(0.5, 0.5); // Center of texture
+            // Try: (0, 0) top-left, (1, 1) bottom-right, (0.5, 0.5) center
+            
+            // OFFSET - shifts the texture position (negative to positive)
+            loadedTexture.offset.set(0.3, -0.2);
+            // Try: (0.1, 0) shift right, (-0.1, 0) shift left
+            // Try: (0, 0.1) shift up, (0, -0.1) shift down
+            
+            // REPEAT/SCALE - stretches or shrinks the texture
+            loadedTexture.repeat.set(-1.5, 1.5); // (width scale, height scale)
+            // Try: (1.5, 1.5) zoom out, (0.8, 0.8) zoom in
+            // Try: (1, -1) to flip vertically, (-1, 1) to flip horizontally
+            
+            // WRAPPING MODE
+            loadedTexture.wrapS = THREE.ClampToEdgeWrapping; // horizontal wrap
+            loadedTexture.wrapT = THREE.ClampToEdgeWrapping; // vertical wrap
+            // Options: THREE.ClampToEdgeWrapping, THREE.RepeatWrapping, THREE.MirroredRepeatWrapping
+            
+            // FILTERS
+            loadedTexture.minFilter = THREE.LinearFilter;
+            loadedTexture.magFilter = THREE.LinearFilter;
+            
+            loadedTexture.needsUpdate = true;
+            setProfileTexture(loadedTexture);
+          },
+          undefined,
+          (error) => {
+            console.error("Error loading profile picture:", error);
+          }
+        );
+      }
+    };
+
+    loadProfilePicture();
+
+    const handleStorageChange = () => {
+      loadProfilePicture();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('profilePictureUpdated', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('profilePictureUpdated', handleStorageChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (hovered) {
@@ -167,12 +230,14 @@ function Band({ maxSpeed = 50, minSpeed = 0 }) {
             )}>
             <mesh geometry={nodes.card.geometry}>
               <meshPhysicalMaterial
-                map={materials.base.map}
+                map={profileTexture || materials.base.map}
                 map-anisotropy={16}
                 clearcoat={1}
                 clearcoatRoughness={0.15}
                 roughness={0.9}
-                metalness={0.8} />
+                metalness={0.8}
+                side={THREE.FrontSide}
+              />
             </mesh>
             <mesh
               geometry={nodes.clip.geometry}
