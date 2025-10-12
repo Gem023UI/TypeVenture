@@ -58,10 +58,10 @@ export default function LandingSection({ logoUrl }) {
     <section className="landing-page-wrapper">
       <div className="landing-page">
         <div className="landing-info-1">
-          <div className="landing-logo-container float-in">
+          <div className="landing-logo-container">
             <img src={logoUrl} alt="Typeventure Logo" className="landing-logo" />
           </div>
-          <div className="name-buttons float-in">
+          <div className="name-buttons">
             <div className="name-container">
               <h1 className="type">
                 TYPE<span className="venture">VENTURE</span>
@@ -71,7 +71,7 @@ export default function LandingSection({ logoUrl }) {
                 while earning points and badges.
               </p>
             </div>
-            <div className="btn-container float-in">
+            <div className="btn-container">
               <button 
                 className="login-btn" 
                 onClick={() => navigate("/login")}>LOGIN / REGISTER</button>
@@ -82,13 +82,13 @@ export default function LandingSection({ logoUrl }) {
 
         <div className="landing-info-2">
           <div className="landing-info-2-texts">
-            <h2 className="tagline-1 float-in">
+            <h2 className="tagline-1">
               Play with <span className="highlight-pink">TYPE</span>
             </h2>
             <h2 className="tagline-2 float-in">
               Learn by <span className="highlight-yellow">DESIGN</span>
             </h2>
-            <p className="description-2 float-in">
+            <p className="description-2">
               Discover typography rules through fun, interactive challenges that
               turn learning into play.
             </p>
@@ -106,27 +106,27 @@ export default function LandingSection({ logoUrl }) {
               animationStagger={0.1}
               easeType="elastic.out(1, 0.5)"
               transformStyles={transformStyles}
-              enableHover={false}
+              enableHover={true}
             />
           </div>
           <div className="landing-info-3-texts">
-            <h2 className="tagline-3 float-in">
+            <h2 className="tagline-3">
               <span className="highlight-pink-letters">Letters</span> into <span className="highlight-yellow-lessons">Lessons</span>
             </h2>
-            <p className="description-3 float-in">
+            <p className="description-3">
               Meet the pioneers of turning typography into an engaging and interactive experience.
             </p>
           </div>
         </div>
 
         <div className="landing-info-4">
-          <h2 className="tagline-5 float-in">
+          <h2 className="tagline-5">
             Where <span className="highlight-pink">TYPOGRAPHY</span>
           </h2>
           <h2 className="tagline-6 float-in">
             Meets <span className="highlight-yellow">GAMEPLAY</span>
           </h2>
-          <p className="description-4 float-in">
+          <p className="description-4">
             Game - integrated typography lessons where learners can learn and enjoy altogether.
           </p>
         </div>

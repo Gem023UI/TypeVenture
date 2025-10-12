@@ -1,6 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Hegarty&family=Ovo&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
 
 :root {
   --color1: #FFFFFF; /* Primary */
@@ -55,21 +53,21 @@
 }
 
 .landing-page-wrapper .type {
-  font-size: 90px;
+  font-size: 100px;
+  font-weight: 900;
   color: #FFFFFF;
   margin: 0px;
-  font-family: "BBH Sans Hegarty";
-  letter-spacing: 5px;
+  letter-spacing: 2px;
 }
 
 .landing-page-wrapper .venture {
-  font-size: 90px;
+  font-size: 100px;
+  font-weight: 900;
   color: transparent;
-  -webkit-text-stroke: 1px #FFFFFF;
+  -webkit-text-stroke: 3px #FFFFFF;
   padding-left: 5px;
   margin: 0px;
-  font-family: "BBH Sans Hegarty";
-  letter-spacing: 5px;
+  letter-spacing: 2px;
 }
 
 .landing-page-wrapper .description {
@@ -168,14 +166,14 @@
 .landing-page-wrapper .highlight-pink {
   color: #0029FF;
   font-size: 75px;
-  font-family: 'BBH Sans Hegarty';
+  font-weight: 900;
   letter-spacing: 3px;
 }
 
 .landing-page-wrapper .highlight-yellow {
   color: #FF1414;
   font-size: 100px;
-  font-family: 'BBH Sans Hegarty';
+  font-weight: 900;
   letter-spacing: 3px;
 }
 
@@ -210,7 +208,6 @@
 
 .landing-page-wrapper .tagline-3 {
   font-size: 90px;
-  font-family: 'BBH Sans Hegarty';
   letter-spacing: 3px;
   margin: 50px 0px 10px 0px;
 }
@@ -227,11 +224,13 @@
 .landing-page-wrapper .highlight-pink-letters {
   color: #0029FF;
   font-size: 90px;
+  font-weight: 900;
 }
 
 .landing-page-wrapper .highlight-yellow-lessons {
   color: #FF1414;
   font-size: 90px;
+  font-weight: 900;
 }
 
 .landing-page-wrapper .landing-info-4 {
@@ -284,46 +283,3 @@
   padding-left: 75px;
   margin-bottom: 50px;
 }
-
-/* ===============================
-   FLOAT-IN / SCROLL REVEAL ANIMATION
-================================= */
-
-@keyframes floatIn {
-  0% {
-    opacity: 0;
-    transform: translateY(50px) scale(0.98);
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(-8px) scale(1.02);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Base hidden state */
-.float-in {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  will-change: transform, opacity;
-}
-
-/* Active when visible */
-.float-in.visible {
-  opacity: 1;
-  animation: floatIn 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-}
-
-/* Staggered cascade effect */
-.float-in[data-delay="1"] { animation-delay: 0.1s; }
-.float-in[data-delay="2"] { animation-delay: 0.3s; }
-.float-in[data-delay="3"] { animation-delay: 0.5s; }
-.float-in[data-delay="4"] { animation-delay: 0.7s; }
-.float-in[data-delay="5"] { animation-delay: 0.9s; }
-.float-in[data-delay="6"] { animation-delay: 1.1s; }
-.float-in[data-delay="7"] { animation-delay: 1.3s; }
-.float-in[data-delay="8"] { animation-delay: 1.5s; }
