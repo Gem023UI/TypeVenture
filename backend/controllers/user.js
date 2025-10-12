@@ -52,14 +52,25 @@ export const registerUser = async (req, res) => {
     const defaultProfilePicture = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759649430/user_icon_ze74ys.jpg";
     const defaultHobbies = ["None yet."];
 
-    profilePicture =
-      typeof profilePicture === "string" && profilePicture.trim() !== ""
-        ? profilePicture
-        : defaultProfilePicture;
+    profilePicture = defaultProfilePicture;
+
+    if (typeof hobbies === "string") {
+      try {
+        hobbies = JSON.parse(hobbies);
+      } catch (e) {
+        hobbies = defaultHobbies;
+      }
+    }
 
     if (!hobbies || !Array.isArray(hobbies) || hobbies.length === 0) {
       hobbies = defaultHobbies;
     }
+
+    console.log("🔍 FINAL VALUES BEFORE SAVING:");
+    console.log("  username:", username);
+    console.log("  email:", email);
+    console.log("  profilePicture:", profilePicture);
+    console.log("  hobbies:", hobbies);
 
     const newUser = new User({
       username,

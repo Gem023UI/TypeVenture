@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 // API base URL
-const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure.onrender.com";
+// const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure.onrender.com";
+const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5173/";
 
 export default function LoginRegister({ logoUrl }) {
   const [isActive, setIsActive] = useState(false);
@@ -42,28 +43,17 @@ export default function LoginRegister({ logoUrl }) {
 
     const formData = new FormData();
 
-    formData.append("username", username.trim());
-    formData.append("email", email.trim());
-    formData.append("password", password);
-
-    // ✅ Always include defaults
-    if (selectedImageFile) {
-      formData.append("profilePicture", selectedImageFile);
-    } else {
-      formData.append("profilePicture", defaultProfilePicture);
-    }
-
-    if (hobbies && hobbies.length > 0) {
-      formData.append("hobbies", JSON.stringify(hobbies));
-    } else {
-      formData.append("hobbies", JSON.stringify(defaultHobbies));
-    }
+    const payload = {
+      username: username.trim(),
+      email: email.trim(),
+      password: password,
+    };
 
     try {
       const response = await axios.post(
         `${API_URL}/api/user/register`,
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        payload,
+        { headers: { "Content-Type": "application/json" } }
       );
 
       console.log("✅ Registered:", response.data);
@@ -113,8 +103,15 @@ export default function LoginRegister({ logoUrl }) {
         }
       );
 
+      console.log("✅ Login response:", response.data);
+
+      // Store token and userId in localStorage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userId", response.data.user._id);
+
+      console.log("💾 Stored in localStorage:");
+      console.log("  token:", localStorage.getItem("token"));
+      console.log("  userId:", localStorage.getItem("userId"));
 
       Swal.fire({
         icon: "success",
@@ -160,7 +157,7 @@ export default function LoginRegister({ logoUrl }) {
               />
             </div>
             <button type="submit" className="btn" disabled={loading}>
-              {loading ? <Loader /> : "LOGIN"}
+              LOGIN
             </button>
           </form>
         </div>
