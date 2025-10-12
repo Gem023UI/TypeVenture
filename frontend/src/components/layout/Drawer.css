@@ -1,45 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --color1: #5522ff; /* Primary */
-  --color2: #ff8b2d; /* Accent */
-  --color3: #32ab1f; /* Secondary */
+  --color1: #FFFFFF; /* Primary */
+  --color2: #FF1414; /* Accent */
+  --color3: #0029FF; /* Secondary */
+  --color4: #a200ff; /* Tertiary */
   --text-light: white;
 }
 
-/* Container for header and drawer */
-.drawer-container {
-  position: relative;
-}
-
-/* Header Section */
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.header-left .menu-icon {
-  font-size: 1.8rem;
-  cursor: pointer;
-  color: #333;
-  transition: color 0.2s ease;
-}
-
-.header-left .menu-icon:hover {
-  color: #007bff;
-}
-
-.logo {
-  width: 40px;
-  height: 40px;
-}
-
-.site-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #222;
-}
 
 /* Overlay */
 .drawer-overlay {
@@ -91,9 +59,8 @@
 }
 
 .avatar-image img {
-  --border-gradient: linear-gradient(135deg, var(--color1), var(--color2), var(--color3));
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
   border-radius: 99%;
-  padding: 10px;
   background:
     linear-gradient(white, white) padding-box,
     var(--border-gradient) border-box;
@@ -104,10 +71,23 @@
 
 .avatar-image h2 {
   font-family: 'Poppins';
-  padding: 10px;
-  color: var(--color1);
   align-items: center;
   margin-bottom: 0px;
+  padding: 5%;
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-image: var(--border-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.avatar-image p, .avatar-email {
+  font-family: 'Poppins';
+  font-size: 12px;
+  color: black;
+  padding: 0%;
+  margin: 0%;
 }
 
 /* Drawer Links */
@@ -141,46 +121,48 @@
   font-weight: 500;
 }
 
-.drawer-links li.purple a { color: var(--color1); }
-.drawer-links li.green a  { color: var(--color3); }
-.drawer-links li.orange a { color: var(--color2); }
-
-.drawer-links li.purple:hover a,
-.drawer-links li.purple a:hover {
-  background-color: var(--color1);
-  color: var(--text-light);
-  border: 1px solid var(--text-light);
-  transform: translateY(-2px);
+.drawer-links li.red a,
+.drawer-links li.purple a, 
+.drawer-links li.blue a {
+  color: #FFFFFF;
+  padding: 10px;
+  border: 2px solid white;
+  width: 85%;
 }
 
-.drawer-links li.green:hover a,
-.drawer-links li.green a:hover {
-  background-color: var(--color3);
-  color: var(--text-light);
-  border: 1px solid rgba(255,255,255,0.15);
-  transform: translateY(-2px);
+.drawer-links li.red a, 
+.drawer-links li.purple a, 
+.drawer-links li.blue a { 
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff); 
+  
+  background: var(--border-gradient) border-box; 
+  border: 3px solid transparent;  
+  transition: all 0.3s ease;
 }
 
-.drawer-links li.orange:hover a,
-.drawer-links li.orange a:hover {
-  background-color: var(--color2);
-  color: var(--text-light);
-  border: 1px solid rgba(255,255,255,0.15);
-  transform: translateY(-2px);
+.drawer-links li.red a:hover,
+.drawer-links li.purple a:hover,
+.drawer-links li.blue a:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
 }
+
 
 /* Logout Button */
 .logout-btn {
-  background-color: #ef4444;
+  background-color: #FF1414;
   color: #fff;
   border: none;
   padding: 10px 28px;
+  width: 85%;
   border-radius: 6px;
   font-weight: 600;
+  font-family: 'Poppins';
   cursor: pointer;
-  transition: background-color 0.25s ease;
+  transition: 0.25s ease;
 }
 
 .logout-btn:hover {
-  background-color: #dc2626;
+  opacity: 0.8;
+  transform: scale(1.05);
 }

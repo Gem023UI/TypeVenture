@@ -3,6 +3,36 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 import validator from "validator";
 
+
+// GET USER BY ID
+export const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findById(id).select('-password -token');
+    
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({
+      user: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        profilePicture: user.profilePicture,
+        hobbies: user.hobbies,
+      },
+    });
+  } catch (err) {
+    console.error("❌ Get user error:", err);
+    res.status(500).json({
+      error: "Failed to fetch user",
+      details: err.message,
+    });
+  }
+};
+
 // REGISTER
 export const registerUser = async (req, res) => {
   console.log("🔵 Register endpoint hit");

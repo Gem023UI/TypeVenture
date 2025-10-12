@@ -4,7 +4,8 @@ import upload from "../utils/multer.js";
 import { 
   registerUser, 
   loginUser, 
-  editProfile
+  editProfile,
+  getUserById
 } from "../controllers/user.js";
 
 const router = express.Router();
@@ -29,6 +30,8 @@ const handleMulterError = (err, req, res, next) => {
 router.post("/register", registerUser);
 
 router.post("/login", loginUser);
+
+router.get("/profile/:id", getUserById);
 
 router.put("/edit-profile", 
   upload.single("avatar"), 
