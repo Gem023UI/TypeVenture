@@ -26,11 +26,7 @@ const handleMulterError = (err, req, res, next) => {
 };
 
 // Auth routes
-router.post("/register", 
-  upload.single("avatar"), 
-  handleMulterError,
-  registerUser
-);
+router.post("/register", registerUser);
 
 router.post("/login", loginUser);
 

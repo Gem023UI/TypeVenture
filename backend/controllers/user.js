@@ -8,7 +8,7 @@ export const registerUser = async (req, res) => {
   console.log("🔵 Register endpoint hit");
 
   try {
-    let { username, email, password } = req.body;
+    let { username, email, password, profilePicture, hobbies } = req.body;
 
     // ✅ Basic username validation
     if (!username || username.length < 5) {
@@ -48,28 +48,40 @@ export const registerUser = async (req, res) => {
       });
     }
 
-    // ✅ Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
+    const defaultProfilePicture = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759649430/user_icon_ze74ys.jpg";
+    const defaultHobbies = ["None yet."];
 
-    // ✅ Create new user
+    profilePicture =
+      typeof profilePicture === "string" && profilePicture.trim() !== ""
+        ? profilePicture
+        : defaultProfilePicture;
+
+    if (!hobbies || !Array.isArray(hobbies) || hobbies.length === 0) {
+      hobbies = defaultHobbies;
+    }
+
     const newUser = new User({
       username,
       email,
       password: hashedPassword,
-      profilePicture: "", // empty by default
+      profilePicture,
+      hobbies,
     });
 
     await newUser.save();
-    console.log("✅ User registered successfully:", username);
+      console.log("✅ User registered successfully:", username);
 
-    res.status(201).json({
-      message: "User registered successfully",
-      user: {
-        username: newUser.username,
-        email: newUser.email,
-        profilePicture: newUser.profilePicture,
-      },
-    });
+      res.status(201).json({
+        message: "User registered successfully",
+        user: {
+          _id: newUser._id,
+          username: newUser.username,
+          email: newUser.email,
+          profilePicture: newUser.profilePicture,
+          hobbies: newUser.hobbies,
+        },
+      });
   } catch (err) {
     console.error("❌ Registration error:", err);
     res.status(500).json({
@@ -92,12 +104,12 @@ export const loginUser = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: "Invalid email or password" });
+      return res.status(400).json({ error: "No existing email" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ error: "Invalid email or password" });
+      return res.status(400).json({ error: "Incorrect Password" });
     }
 
     // ✅ Generate JWT
@@ -116,9 +128,11 @@ export const loginUser = async (req, res) => {
       message: "Login successful",
       token,
       user: {
+        _id: user._id,
         username: user.username,
         email: user.email,
         profilePicture: user.profilePicture,
+        hobbies: user.hobbies,
       },
     });
 

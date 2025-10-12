@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Login&Register.css";
+import Loader from "../layout/Loader";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -11,22 +12,27 @@ export default function LoginRegister({ logoUrl }) {
   const [isActive, setIsActive] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [hobbies, setHobbies] = useState([]);
+  const [selectedImageFile, setSelectedImageFile] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const defaultProfilePicture = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759649430/user_icon_ze74ys.jpg";
+  const defaultHobbies = ["None yet."];
+
 
   // REGISTER FUNCTION
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    const username = e.target.username.value;
-    const email = e.target.email.value;
-    const password = e.target.password.value;
     const confirmPassword = e.target.confirmPassword.value;
-
-    // Check if passwords match
     if (password !== confirmPassword) {
       Swal.fire({
-        icon: "error",
-        title: "Passwords do not match!",
+        icon: "warning",
+        title: "Passwords do not match",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -34,28 +40,53 @@ export default function LoginRegister({ logoUrl }) {
       return;
     }
 
+    const formData = new FormData();
+
+    formData.append("username", username.trim());
+    formData.append("email", email.trim());
+    formData.append("password", password);
+
+    // ✅ Always include defaults
+    if (selectedImageFile) {
+      formData.append("profilePicture", selectedImageFile);
+    } else {
+      formData.append("profilePicture", defaultProfilePicture);
+    }
+
+    if (hobbies && hobbies.length > 0) {
+      formData.append("hobbies", JSON.stringify(hobbies));
+    } else {
+      formData.append("hobbies", JSON.stringify(defaultHobbies));
+    }
+
     try {
-      const response = await axios.post(`${API_URL}/api/user/register`, {
-        username,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${API_URL}/api/user/register`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      console.log("✅ Registered:", response.data);
 
       Swal.fire({
         icon: "success",
         title: "Registration Successful!",
-        text: "Please log in to continue.",
         timer: 2000,
         showConfirmButton: false,
       });
 
-      setIsActive(false); // Switch to login view
-      e.target.reset(); // Clear form
+      // Optional reset
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setHobbies([]);
     } catch (err) {
+      console.error("❌ Registration error:", err.response?.data || err);
       Swal.fire({
         icon: "error",
         title: "Registration Failed",
-        text: err.response?.data?.error || "An error occurred.",
+        text: err.response?.data?.error || "Invalid credentials.",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -82,28 +113,15 @@ export default function LoginRegister({ logoUrl }) {
         }
       );
 
-      // ✅ Store JWT token in sessionStorage
-      sessionStorage.setItem("token", response.data.token);
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userId", response.data.user._id);
 
-      // ✅ Store username
-      sessionStorage.setItem("username", response.data.user.username);
-
-      // ✅ Store profile picture (if exists)
-      if (response.data.user.profilePicture) {
-        sessionStorage.setItem("profilePicture", response.data.user.profilePicture);
-      } else {
-        sessionStorage.setItem("profilePicture", ""); // or a default image URL
-      }
-
-      // ✅ Store complete user object (optional, for other data)
-      sessionStorage.setItem("user", JSON.stringify(response.data.user));
       Swal.fire({
         icon: "success",
         title: "Login Successful!",
         timer: 2000,
         showConfirmButton: false,
       });
-
       setTimeout(() => navigate("/lessons/front"), 2000);
     } catch (err) {
       Swal.fire({
@@ -142,7 +160,7 @@ export default function LoginRegister({ logoUrl }) {
               />
             </div>
             <button type="submit" className="btn" disabled={loading}>
-              {loading ? "LOGGING IN..." : "LOGIN"}
+              {loading ? <Loader /> : "LOGIN"}
             </button>
           </form>
         </div>
@@ -158,6 +176,8 @@ export default function LoginRegister({ logoUrl }) {
                 placeholder="User Name"
                 required
                 disabled={loading}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
               <input
                 type="email"
@@ -165,6 +185,8 @@ export default function LoginRegister({ logoUrl }) {
                 placeholder="Email"
                 required
                 disabled={loading}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <input
                 type="password"
@@ -172,6 +194,8 @@ export default function LoginRegister({ logoUrl }) {
                 placeholder="Password"
                 required
                 disabled={loading}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <input
                 type="password"
@@ -179,10 +203,12 @@ export default function LoginRegister({ logoUrl }) {
                 placeholder="Confirm Password"
                 required
                 disabled={loading}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
             <button type="submit" className="btn2" disabled={loading}>
-              {loading ? "REGISTERING..." : "REGISTER"}
+              REGISTER
             </button>
           </form>
         </div>
@@ -322,6 +348,13 @@ export default function LoginRegister({ logoUrl }) {
           </div>
         </div>
       </div>
+
+      {loading && (
+        <div className="loader-overlay">
+          <Loader />
+        </div>
+      )}
+
     </div>
   );
 }
