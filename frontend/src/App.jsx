@@ -9,7 +9,11 @@ import Profile from './components/pages/Profile';
 
 function App() {
   const [logoUrl] = useState(
-    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759634539/Logo_arbfm1.png"
+    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759670092/Logo_urcuji.png"
+  );
+
+    const [consoleUrl] = useState (
+    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1760238483/controller_rgpxgl.png"
   );
 
   return (
@@ -17,7 +21,7 @@ function App() {
       <div className="App">
         {/* Aurora as full background */}
         <Aurora
-          colorStops={["#6a45ff", "#ff8b2d", "#32ab1f"]} // violet, orange, green
+          colorStops={["#FF1414", "#FFFFFF", "#0029FF"]} // violet, orange, green
           blend={0.0}
           amplitude={2.0}
           speed={0.5}
@@ -26,7 +30,7 @@ function App() {
         {/* Foreground content */}
         <div className="page-content">
           <Routes>
-            <Route path="/" element={<LandingSection logoUrl={logoUrl} />} />
+            <Route path="/" element={<LandingSection logoUrl={logoUrl} consoleUrl={consoleUrl} />} />
             <Route path="/login" element={<LoginRegister logoUrl={logoUrl} />} />
             <Route path="/lessons/front" element={<FrontPage />} />
             <Route path="/profile" element={<Profile />} />

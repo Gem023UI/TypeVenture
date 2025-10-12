@@ -103,16 +103,14 @@ void main() {
   float midPoint = 0.20;
   float auroraAlpha = smoothstep(midPoint - uBlend * 0.5, midPoint + uBlend * 0.5, intensity);
   
-  auroraAlpha = pow(auroraAlpha, 0.6); // Lower power = stronger opacity contrast
-
-  vec3 auroraColor = mix(vec3(0.9), rampColor, intensity);
+  vec3 auroraColor = intensity * rampColor;
   
   fragColor = vec4(auroraColor * auroraAlpha, auroraAlpha);
 }
 `;
 
 export default function Aurora(props) {
-  const { colorStops = ['#6a45ff', '#ff8b2d', '#32ab1f'], amplitude = 1.0, blend = 0.5 } = props;
+  const { colorStops = ['#5227FF', '#7cff67', '#5227FF'], amplitude = 1.0, blend = 0.5 } = props;
   const propsRef = useRef(props);
   propsRef.current = props;
 
@@ -130,7 +128,7 @@ export default function Aurora(props) {
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
     gl.canvas.style.backgroundColor = 'transparent';
 
     let program;
