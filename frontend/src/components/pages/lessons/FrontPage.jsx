@@ -9,11 +9,59 @@ import "./FrontPage.css";
 import "./QuizModal.css";
 import "./GameModal.css";
 
+const CheckIcon = () => (
+  <svg 
+    fill="#0029FF" 
+    version="1.1" 
+    xmlns="http://www.w3.org/2000/svg" 
+    viewBox="0 0 26.362 26.361"
+    style={{ width: '20px', height: '20px', marginRight: '20px', flexShrink: 0 }}
+  >
+    <g>
+      <path d="M24.361,0H2C0.896,0,0,0.896,0,2v22.361c0,1.104,0.896,2,2,2h22.36c1.104,0,2-0.896,2-2V2C26.361,0.896,25.465,0,24.361,0z M21.125,9.953l-8.199,8.2c-0.375,0.375-0.884,0.586-1.414,0.586c-0.529,0-1.039-0.21-1.414-0.586l-4.861-4.862 c-0.781-0.78-0.781-2.047,0-2.828c0.781-0.78,2.047-0.78,2.828,0l3.447,3.447l6.785-6.785c0.781-0.78,2.047-0.78,2.828,0 C21.908,7.907,21.908,9.172,21.125,9.953z"></path>
+    </g>
+  </svg>
+);
+
+const CrossIcon = () => (
+  <svg 
+    viewBox="0 0 32 32" 
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ width: '20px', height: '20px', marginRight: '20px', flexShrink: 0 }}
+  >
+    <g transform="translate(-206, -1037)">
+      <path 
+        d="M226.95,1056.54 C227.34,1056.93 227.34,1057.56 226.95,1057.95 C226.559,1058.34 225.926,1058.34 225.536,1057.95 L222,1054.41 L218.464,1057.95 C218.074,1058.34 217.441,1058.34 217.05,1057.95 C216.66,1057.56 216.66,1056.93 217.05,1056.54 L220.586,1053 L217.05,1049.46 C216.66,1049.07 216.66,1048.44 217.05,1048.05 C217.441,1047.66 218.074,1047.66 218.464,1048.05 L222,1051.59 L225.536,1048.05 C225.926,1047.66 226.559,1047.66 226.95,1048.05 C227.34,1048.44 227.34,1049.07 226.95,1049.46 L223.414,1053 L226.95,1056.54 L226.95,1056.54 Z M234,1037 L210,1037 C207.791,1037 206,1038.79 206,1041 L206,1065 C206,1067.21 207.791,1069 210,1069 L234,1069 C236.209,1069 238,1067.21 238,1065 L238,1041 C238,1038.79 236.209,1037 234,1037 L234,1037 Z" 
+        fill="#ff6161"
+      />
+    </g>
+  </svg>
+);
+
+const ListIcon = () => (
+  <svg 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ width: '24px', height: '24px', marginRight: '20px', verticalAlign: 'middle' }}
+  >
+    <path 
+      d="M8 6L21 6.00078M8 12L21 12.0008M8 18L21 18.0007M3 6.5H4V5.5H3V6.5ZM3 12.5H4V11.5H3V12.5ZM3 18.5H4V17.5H3V18.5Z" 
+      stroke="#ffffff" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 const FrontPage = () => {
   const [lessons, setLessons] = useState([]);
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [userScores, setUserScores] = useState([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const [showGameModal, setShowGameModal] = useState(false);
   const [showQuizModal, setShowQuizModal] = useState(false);
@@ -38,7 +86,41 @@ const FrontPage = () => {
   const [selectedFont, setSelectedFont] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
 
-  // Fetch all lessons on load
+  // Check if user has completed a specific lesson
+  const hasScore = (lessonId) => {
+    return userScores.some(score => 
+      score.lessonId === lessonId || 
+      score.lessonId === lessonId.toString()
+    );
+  };
+
+  // Toggle sidebar open/closed
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  // Fetch user scores when component mounts
+  const fetchUserScores = async () => {
+    try {
+      const username = localStorage.getItem("username");
+      
+      if (!username) {
+        console.log("No username found in localStorage");
+        return;
+      }
+
+      const response = await getScoresByUsername(username);
+      
+      if (response.success) {
+        setUserScores(response.data);
+        console.log("User scores loaded:", response.data);
+      }
+    } catch (err) {
+      console.error("Error fetching user scores:", err);
+    }
+  };
+
+  // Fetch all lessons and user scores on load
   useEffect(() => {
     const loadLessons = async () => {
       setLoading(true);
@@ -48,6 +130,7 @@ const FrontPage = () => {
       setLoading(false);
     };
     loadLessons();
+    fetchUserScores();
   }, []);
 
   // Handle lesson selection
@@ -208,7 +291,7 @@ const FrontPage = () => {
 
   const submitQuizScore = async () => {
     try {
-      const username = sessionStorage.getItem('username');
+      const username = localStorage.getItem('username');
       
       if (!username) {
         console.error('No username found in session storage');
@@ -379,7 +462,7 @@ const FrontPage = () => {
 
   const submitTypographyScore = async () => {
     try {
-      const username = sessionStorage.getItem('username');
+      const username = localStorage.getItem('username');
       
       if (!username) {
         console.error('No username found in session storage');
@@ -442,12 +525,33 @@ const FrontPage = () => {
     <MainLayout>
     <div className="lesson-container">
       {/* ---------------- LEFT SECTION ---------------- */}
-      <div className="container-one">
-        <h2>LESSONS</h2>
-        <p>Complete the lessons to earn badges!</p>
+      <div 
+        className={`container-one ${isSidebarOpen ? 'open' : 'closed'}`}
+        style={{
+          width: isSidebarOpen ? '30%' : '80px',
+          transition: 'width 0.3s ease',
+        }}
+      >
+        <div className="container-one-header">
+          <h2 
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center',
+              justifyContent: isSidebarOpen ? 'flex-start' : 'center',
+              cursor: 'pointer',
+              transition: 'justify-content 0.3s ease'
+            }}
+            onClick={toggleSidebar}
+            title={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+          >
+            <ListIcon />
+            {isSidebarOpen && 'LESSONS'}
+          </h2>
+        </div>
 
-        {loading && <p>Loading lessons...</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {isSidebarOpen && <p>Complete the lessons to earn badges!</p>}
+        {isSidebarOpen && loading && <p>Loading lessons...</p>}
+        {isSidebarOpen && error && <p style={{ color: "red" }}>{error}</p>}
 
         <ul className="lesson-items" style={{ listStyleType: "none", padding: 0 }}>
           {[...lessons].reverse().map((lesson) => (
@@ -455,42 +559,52 @@ const FrontPage = () => {
               key={lesson._id}
               onClick={() => handleLessonClick(lesson._id)}
               style={{
-                padding: "10px",
+                padding: isSidebarOpen ? "10px" : "10px 5px",
                 marginBottom: "8px",
                 borderRadius: "6px",
                 cursor: "pointer",
                 border: "3px solid",
+                transition: "all 0.3s ease",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: isSidebarOpen ? "flex-start" : "center",
+
                 backgroundColor:
                   selectedLesson && selectedLesson._id === lesson._id
                     ? "#ffffff"
-                    : "#825cff",
+                    : "transparent",
+
                 color:
                   selectedLesson && selectedLesson._id === lesson._id
-                    ? "#825cff"
+                    ? "purple"
                     : "#ffffff",
+
                 borderColor:
                   selectedLesson && selectedLesson._id === lesson._id
-                    ? "#825cff"
-                    : "#ffffff",
-                transition: "0.2s",
+                    ? "transparent"
+                    : "transparent",
               }}
+              title={isSidebarOpen ? "" : lesson.title}
             >
-              <strong>{lesson.title}</strong>
-              {/* <p style={{ margin: "5px 0", fontSize: "12px" }}>
-                {lesson.content?.description}
-              </p> */}
+              {hasScore(lesson._id) ? <CheckIcon /> : <CrossIcon />}
+              {isSidebarOpen && <strong>{lesson.title}</strong>}
             </li>
           ))}
         </ul>
       </div>
 
       {/* ---------------- RIGHT SECTION ---------------- */}
-      <div className="container-two">
+      <div className="container-two"
+      style={{
+        width: isSidebarOpen ? '70%' : 'calc(100% - 100px)',
+        transition: 'width 0.3s ease',
+      }}>
         {selectedLesson ? (
           <>
             <h2>{selectedLesson.title}</h2>
             <h7>{selectedLesson.sourceUrl}</h7>
 
+            {/* Lesson Contents */}
             <div className="lesson-content">
               <h3>Introduction</h3>
               <p>{selectedLesson.content?.introduction}</p>

@@ -1,13 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --color1: #5522ff; /* Primary */
-  --color2: #ff8b2d; /* Accent */
-  --color3: #32ab1f; /* Secondary */
-  --color4: #825cff; /* Extra */
-  --text-light: #ffffff;
+  --color1: #FFFFFF; /* Primary */
+  --color2: #FF1414; /* Accent */
+  --color3: #0029FF; /* Secondary */
+  --color4: #a200ff; /* Tertiary */
+  --text-light: white;
   --transparent: rgba(255, 255, 255, 0.5);
   --muted: black;
+
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  --text-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
 }
 
 /* Layout wrapper */
@@ -32,12 +35,11 @@
   padding: 14px;
   margin: 30px 10px 30px 30px;
 
-  /* --border-gradient: linear-gradient(135deg, var(--color1), var(--color2), var(--color3));
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
   border-radius: 8px;
   background:
-    linear-gradient(rgba(255,255,255,1.0), rgba(255,255,255,1.0)) padding-box,
     var(--border-gradient) border-box; 
-  border: 5px solid transparent; */
+  border: 1px solid transparent;
 
   font-family: 'Poppins', sans-serif;
 
@@ -51,10 +53,33 @@
 
   position: sticky;
   top: 14vh;
+  
+  transition: width 0.3s ease;
+}
 
-  background-color: var(--color4);
-  border: 5px var(--text-light) solid;
-  border-radius: 8px;
+/* Collapsed state */
+.container-one.closed {
+  width: 80px;
+  padding: 14px 8px;
+}
+
+.container-one.closed .container-one-header {
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.container-one.closed h2 {
+  justify-content: center;
+}
+
+.container-one.closed p {
+  display: none;
+}
+
+.container-one-header {
+  width: 100%;
+  padding-left: 14px;
+  margin-left: 6px;
 }
 
 /* Scrollable list inside LEFT column */
@@ -67,10 +92,11 @@
 }
 
 /* heading */
-.container-one h2 {
+.container-one-header h2 {
   color: var(--text-light);
   margin-bottom: 5px;
   margin-top: 5px;
+  padding-right: 6px;
 }
 
 /* RIGHT column */
@@ -80,26 +106,31 @@
   padding: 10px;
   margin: 30px 30px 30px 10px;
 
-  /* --border-gradient: linear-gradient(135deg, var(--color1), var(--color2), var(--color3));
   border-radius: 8px;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)) padding-box,
-    var(--border-gradient) border-box;
-  border: 3px solid transparent; */
+  background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)) padding-box;
 
   font-family: 'Poppins', sans-serif;
 
-  /* allow the right column to grow naturally with content, no internal scrollbar */
   height: auto;
   overflow: visible;
   box-sizing: border-box;
 
   position: sticky;
   top: 14vh;
+}
 
-  background-color: var(--transparent);
-  border: 5px var(--color4) solid;
-  border-radius: 8px;
+/* ✅ Apply the gradient color only to text elements inside the container */
+.container-two h1,
+.container-two h2,
+.container-two h3,
+.container-two h4,
+.container-two h5,
+.container-two h6 {
+  background: var(--text-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 .container-two h2 {
@@ -178,4 +209,23 @@
 .lesson-list::-webkit-scrollbar-thumb {
   background: rgba(0,0,0,0.12);
   border-radius: 8px;
+}
+
+/* Sidebar toggle hint */
+.container-one-header h2:hover {
+  opacity: 0.8;
+}
+
+/* Show tooltip on collapsed icons */
+.container-one.closed .lesson-items li {
+  position: relative;
+}
+
+/* Smooth icon transition */
+.container-one svg {
+  transition: margin 0.3s ease;
+}
+
+.container-one.closed svg {
+  margin-right: 0;
 }

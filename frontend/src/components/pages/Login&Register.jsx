@@ -105,13 +105,15 @@ export default function LoginRegister({ logoUrl }) {
 
       console.log("✅ Login response:", response.data);
 
-      // Store token and userId in localStorage
+      // Store token, userId, and username in localStorage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userId", response.data.user._id);
+      localStorage.setItem("username", response.data.user.username);
 
       console.log("💾 Stored in localStorage:");
       console.log("  token:", localStorage.getItem("token"));
       console.log("  userId:", localStorage.getItem("userId"));
+      console.log("  username:", localStorage.getItem("username"));
 
       Swal.fire({
         icon: "success",
