@@ -74,7 +74,6 @@
 
 /* Modal Content Box */
 .game-modal-content {
-  
   border-radius: 16px;
   padding: 40px;
   max-width: 500px;
@@ -150,7 +149,8 @@
   border: none;
   border-radius: 8px;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 500;
+  font-family: 'Poppins';
   cursor: pointer;
   transition: all 0.2s ease;
 }

@@ -4,11 +4,11 @@
    CSS VARIABLES
    ============================================ */
 :root {
-  --color1: #5522ff; /* Primary */
-  --color2: #ff8b2d; /* Accent */
-  --color3: #32ab1f; /* Secondary */
-  --color4: #825cff; /* Extra */
-  --text-light: #ffffff;
+  --color1: #FFFFFF; /* Primary */
+  --color2: #FF1414; /* Accent */
+  --color3: #0029FF; /* Secondary */
+  --color4: #a200ff; /* Tertiary */
+  --text-light: white;
   --text-dark: #333;
   --text-muted: #666;
   --bg-light: #f9f9f9;

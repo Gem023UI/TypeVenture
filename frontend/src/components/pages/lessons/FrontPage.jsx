@@ -647,7 +647,7 @@ const FrontPage = () => {
                       className="modal-btn modal-btn-primary"
                       onClick={handleContinueToGame}
                     >
-                      Continue to Game
+                      Let's Go!
                     </button>
                     <button
                       className="modal-btn modal-btn-secondary"
