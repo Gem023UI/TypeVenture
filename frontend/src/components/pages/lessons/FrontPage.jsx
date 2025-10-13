@@ -15,7 +15,7 @@ const CheckIcon = () => (
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg" 
     viewBox="0 0 26.362 26.361"
-    style={{ width: '20px', height: '20px', marginRight: '20px', flexShrink: 0 }}
+    style={{ width: '20px', height: '20px', marginRight: '0px', flexShrink: 0 }}
   >
     <g>
       <path d="M24.361,0H2C0.896,0,0,0.896,0,2v22.361c0,1.104,0.896,2,2,2h22.36c1.104,0,2-0.896,2-2V2C26.361,0.896,25.465,0,24.361,0z M21.125,9.953l-8.199,8.2c-0.375,0.375-0.884,0.586-1.414,0.586c-0.529,0-1.039-0.21-1.414-0.586l-4.861-4.862 c-0.781-0.78-0.781-2.047,0-2.828c0.781-0.78,2.047-0.78,2.828,0l3.447,3.447l6.785-6.785c0.781-0.78,2.047-0.78,2.828,0 C21.908,7.907,21.908,9.172,21.125,9.953z"></path>
@@ -27,7 +27,7 @@ const CrossIcon = () => (
   <svg 
     viewBox="0 0 32 32" 
     xmlns="http://www.w3.org/2000/svg"
-    style={{ width: '20px', height: '20px', marginRight: '20px', flexShrink: 0 }}
+    style={{ width: '20px', height: '20px', marginRight: '0px', flexShrink: 0 }}
   >
     <g transform="translate(-206, -1037)">
       <path 
@@ -43,7 +43,7 @@ const ListIcon = () => (
     viewBox="0 0 24 24" 
     fill="none" 
     xmlns="http://www.w3.org/2000/svg"
-    style={{ width: '24px', height: '24px', marginRight: '20px', verticalAlign: 'middle' }}
+    style={{ width: '24px', height: '24px', marginRight: '0px', verticalAlign: 'middle' }}
   >
     <path 
       d="M8 6L21 6.00078M8 12L21 12.0008M8 18L21 18.0007M3 6.5H4V5.5H3V6.5ZM3 12.5H4V11.5H3V12.5ZM3 18.5H4V17.5H3V18.5Z" 
@@ -539,6 +539,7 @@ const FrontPage = () => {
               alignItems: 'center',
               justifyContent: isSidebarOpen ? 'flex-start' : 'center',
               cursor: 'pointer',
+              gap: '15px',
               transition: 'justify-content 0.3s ease'
             }}
             onClick={toggleSidebar}
@@ -559,7 +560,7 @@ const FrontPage = () => {
               key={lesson._id}
               onClick={() => handleLessonClick(lesson._id)}
               style={{
-                padding: isSidebarOpen ? "10px" : "10px 5px",
+                padding: isSidebarOpen ? "10px" : "10px 0px",
                 marginBottom: "8px",
                 borderRadius: "6px",
                 cursor: "pointer",
@@ -567,6 +568,7 @@ const FrontPage = () => {
                 transition: "all 0.3s ease",
                 display: "flex",
                 alignItems: "center",
+                gap: '15px',
                 justifyContent: isSidebarOpen ? "flex-start" : "center",
 
                 backgroundColor:
@@ -617,9 +619,11 @@ const FrontPage = () => {
             </div>
 
             {/* Start Game Button */}
-            <button className="start-game-btn" onClick={handleStartGame}>
-              Start Game
-            </button>
+            <div className="start-game">
+              <button className="start-game-btn" onClick={handleStartGame}>
+                START GAME!
+              </button>
+            </div>
 
             {/* Info Modal - Shows game rules first */}
             {showInfoModal && selectedLesson && (
@@ -630,13 +634,6 @@ const FrontPage = () => {
                   className="game-modal-content"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <button 
-                    className="modal-close-btn"
-                    onClick={() => setShowInfoModal(false)}
-                  >
-                    ×
-                  </button>
-
                   <h2 className="modal-header">
                     {selectedLesson ? getGameInfo(selectedLesson.category).header : 'GAME'}
                   </h2>
@@ -1042,7 +1039,7 @@ const FrontPage = () => {
         ) : (
           <div style={{ textAlign: "center", opacity: 0.8 }}>
             <h2>Welcome to TypeVenture!</h2>
-            <p style={{ color: "#825cff" }}>
+            <p style={{ color: "black" }}>
               First start with the Introduction and work your way all the way down to earn badges and land a place at the Leaderboards!
             </p>
           </div>
