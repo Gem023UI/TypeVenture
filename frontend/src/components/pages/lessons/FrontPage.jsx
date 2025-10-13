@@ -791,7 +791,7 @@ const FrontPage = () => {
                         {Math.round((score / (quizData.questions.length * 5)) * 100)}%
                       </div>
                       <button
-                        className="modal-btn modal-btn-primary"
+                        className="quiz-end"
                         onClick={handleCloseQuiz}
                       >
                         Close
