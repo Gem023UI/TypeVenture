@@ -136,7 +136,7 @@
   --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff); 
   
   background: var(--border-gradient) border-box; 
-  border: 3px solid transparent;  
+  border: 5px solid transparent;  
   transition: all 0.3s ease;
 }
 

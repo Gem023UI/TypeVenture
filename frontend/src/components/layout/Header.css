@@ -1,9 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --color1: #5522ff; /* Primary */
-  --color2: #ff8b2d; /* Accent */
-  --color3: #32ab1f; /* Secondary */
+  --color1: #FFFFFF; /* Primary */
+  --color2: #FF1414; /* Accent */
+  --color3: #0029FF; /* Secondary */
+  --color4: #a200ff; /* Tertiary */
   --text-light: white;
 }
 
@@ -48,19 +49,25 @@
 .header-left h1 {
   font-size: 1.2rem;
   font-weight: 600;
-  color: var(--color1);
+  color: #0029FF;
 }
 
 .header-left a {
   font-size: 1.2rem;
   font-weight: 600;
-  color: var(--color1);
   text-decoration: none;
+
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-image: var(--border-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 .header-left svg {
   font-size: 1.25rem;
-  color: var(--color1);
+  color: #FF1414;
   cursor: pointer;
   transition: transform 0.2s ease;
   margin-left: 10px;
@@ -107,41 +114,23 @@
   display: inline-block;
   padding: 0.45rem 0.9rem;
   border-radius: 0.6rem;
-  color: #333;
   text-decoration: none;
   transition: background-color 0.18s ease, color 0.18s ease, transform 0.12s ease, border 0.18s;
   border: 1px solid transparent; /* default transparent border to avoid layout shift on hover */
   font-weight: 500;
+
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-image: var(--border-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  transition: all 0.3s ease;
 }
 
-/* Base colors for each item (so hover has a nice contrast) */
-.header-right .header-links li.purple a { color: var(--color1); }
-.header-right .header-links li.green a  { color: var(--color3); }
-.header-right .header-links li.orange a { color: var(--color2); }
-
-/* Hover states: target the anchor to ensure text color changes */
-.header-right .header-links li.purple:hover a,
-.header-right .header-links li.purple a:hover {
-  background-color: var(--color1);
-  color: var(--text-light);
-  border: 1px solid var(--text-light);
-  transform: translateY(-2px);
-}
-
-.header-right .header-links li.green:hover a,
-.header-right .header-links li.green a:hover {
-  background-color: var(--color3);
-  color: var(--text-light);
-  border: 1px solid rgba(255,255,255,0.15);
-  transform: translateY(-2px);
-}
-
-.header-right .header-links li.orange:hover a,
-.header-right .header-links li.orange a:hover {
-  background-color: var(--color2);
-  color: var(--text-light);
-  border: 1px solid rgba(255,255,255,0.15);
-  transform: translateY(-2px);
+.header-right .header-links li a:hover {
+  transform: scale(1.05);
 }
 
 /* pointer + accessibility */
