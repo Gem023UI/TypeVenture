@@ -10,10 +10,12 @@ export const getUserById = async (req, res) => {
     const { id } = req.params;
 
     const user = await User.findById(id).select('-password -token');
-    
+
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+
+    console.log("📦 USER FETCHED:", user); // just for debugging
 
     res.json({
       user: {
@@ -22,6 +24,7 @@ export const getUserById = async (req, res) => {
         email: user.email,
         profilePicture: user.profilePicture,
         hobbies: user.hobbies,
+        createdAt: user.createdAt ? user.createdAt.toISOString() : null, // ✅ ensure it's sent
       },
     });
   } catch (err) {
@@ -243,7 +246,7 @@ export const editProfile = async (req, res) => {
         user.profilePicture = await uploadToCloudinary(
           req.file.buffer, 
           req.file.mimetype, 
-          'profile pictures'  // ← CHANGE FOLDER NAME HERE
+          'TypeVenture/profile picture'  // ← CHANGE FOLDER NAME HERE
         );
         console.log("✅ Profile picture updated:", user.profilePicture);
       } catch (uploadError) {

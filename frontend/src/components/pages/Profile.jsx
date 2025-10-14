@@ -9,6 +9,7 @@ const Profile = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [hobbies, setHobbies] = useState([]);
+  const [dateJoined, setDateJoined] = useState("");
   
   const [showEditModal, setShowEditModal] = useState(false);
   
@@ -31,25 +32,31 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         const userId = localStorage.getItem("userId");
-        
+
         if (!userId) {
-          console.error("No userId found in localStorage");
+          console.error("❌ No userId found in localStorage");
           return;
         }
 
         const response = await getUserById(userId);
-        
+
         if (response.user) {
           setUsername(response.user.username);
           setEmail(response.user.email);
           setHobbies(response.user.hobbies || []);
-          
-          // Update sessionStorage for other components
-          sessionStorage.setItem("username", response.user.username);
-          sessionStorage.setItem("email", response.user.email);
-          sessionStorage.setItem("hobbies", JSON.stringify(response.user.hobbies || []));
-          if (response.user.profilePicture) {
-            sessionStorage.setItem("profilePicture", response.user.profilePicture);
+
+          // ✅ Format "Date Joined" properly
+          if (response.user.createdAt) {
+            const date = new Date(response.user.createdAt);
+            const formattedDate = date.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
+            setDateJoined(formattedDate);
+          } else {
+            console.warn("⚠️ No createdAt found in user data");
+            setDateJoined("Unknown");
           }
         }
       } catch (err) {
@@ -179,6 +186,11 @@ const Profile = () => {
           <div className="detail-group">
             <label>Email</label>
             <p>{email}</p>
+          </div>
+
+          <div className="detail-group">
+            <label>Date Joined</label>
+            <p>{dateJoined}</p>
           </div>
 
           <div className="detail-group">
