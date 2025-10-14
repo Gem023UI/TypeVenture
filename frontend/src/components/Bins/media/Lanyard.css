@@ -1,9 +1,9 @@
 .lanyard-wrapper {
   position: fixed;
   top: 0;
-  right: 0;               /* ✅ anchor to the right instead of left */
+  right: 0;
   z-index: 0;
-  width: 50%;             /* ✅ restrict to the right half of the screen */
+  width: 50%;
   height: 100vh;
   display: flex;
   justify-content: flex-end;
