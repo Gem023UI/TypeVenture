@@ -194,18 +194,29 @@ export const editProfile = async (req, res) => {
   console.log("🔵 Edit profile endpoint hit");
 
   try {
-    let { username, currentPassword, newPassword, hobbies } = req.body;
+    const { userId, currentPassword, newPassword, hobbies, username } = req.body;
 
-    if (!username) {
-      return res.status(400).json({ error: "Username is required" });
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required" });
     }
 
-    const user = await User.findOne({ username });
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // If user wants to change password, verify current password
+    // Update username if provided and changed
+    if (username && username !== user.username) {
+      // Check if new username is taken
+      const existingUser = await User.findOne({ username });
+      if (existingUser) {
+        return res.status(400).json({ error: "Username already taken" });
+      }
+      user.username = username;
+      console.log("✅ Username updated to:", username);
+    }
+
+    // Change password if newPassword provided
     if (newPassword && newPassword.trim() !== "") {
       if (!currentPassword || currentPassword.trim() === "") {
         return res.status(400).json({ error: "Current password is required to set new password" });
@@ -216,7 +227,6 @@ export const editProfile = async (req, res) => {
         return res.status(400).json({ error: "Current password is incorrect" });
       }
 
-      // Validate new password
       const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
       if (!passwordRegex.test(newPassword)) {
         return res.status(400).json({
@@ -231,7 +241,7 @@ export const editProfile = async (req, res) => {
     // Update hobbies if provided
     if (hobbies !== undefined) {
       try {
-        const parsedHobbies = typeof hobbies === 'string' ? JSON.parse(hobbies) : hobbies;
+        const parsedHobbies = typeof hobbies === "string" ? JSON.parse(hobbies) : hobbies;
         user.hobbies = Array.isArray(parsedHobbies) ? parsedHobbies : [];
         console.log("✅ Hobbies updated:", user.hobbies);
       } catch (e) {
@@ -239,31 +249,31 @@ export const editProfile = async (req, res) => {
       }
     }
 
-    // Update profile picture if provided (from Cloudinary via multer)
+    // Update profile picture if provided
     if (req.file && req.file.buffer) {
       try {
-        // Upload to 'profile_pictures' folder - you can change this!
         user.profilePicture = await uploadToCloudinary(
-          req.file.buffer, 
-          req.file.mimetype, 
-          'TypeVenture/profile picture'  // ← CHANGE FOLDER NAME HERE
+          req.file.buffer,
+          req.file.mimetype,
+          "typeventure/profile pictures"
         );
         console.log("✅ Profile picture updated:", user.profilePicture);
       } catch (uploadError) {
         console.error("❌ Cloudinary upload error:", uploadError);
-        return res.status(500).json({ 
+        return res.status(500).json({
           error: "Failed to upload profile picture",
-          details: uploadError.message 
+          details: uploadError.message,
         });
       }
     }
 
     await user.save();
-    console.log("✅ Profile updated successfully:", username);
+    console.log("✅ Profile updated successfully:", user.username);
 
     res.json({
       message: "Profile updated successfully",
       user: {
+        _id: user._id,
         username: user.username,
         email: user.email,
         profilePicture: user.profilePicture,
