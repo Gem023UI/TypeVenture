@@ -1,6 +1,6 @@
 import Score from "../models/scores.js";
 
-// Submit a new score
+// Submit a new score (deletes old score if exists)
 export const submitScore = async (req, res) => {
   try {
     const { username, gameType, lessonId, score } = req.body;
@@ -13,22 +13,45 @@ export const submitScore = async (req, res) => {
       });
     }
 
+    console.log("🔍 Checking for existing score...");
+    console.log("  Username:", username);
+    console.log("  Game Type:", gameType);
+    console.log("  Lesson ID:", lessonId);
+
+    // Delete ALL existing scores for this user, game type, and lesson
+    const deleteResult = await Score.deleteMany({
+      username: username,
+      gameType: gameType,
+      lessonId: lessonId
+    });
+
+    console.log("🗑️ Deleted", deleteResult.deletedCount, "old score(s)");
+
+    const wasReplaced = deleteResult.deletedCount > 0;
+
+    // Create new score
     const newScore = new Score({
       username,
       gameType,
       lessonId,
-      score
+      score,
+      completedAt: new Date()
     });
 
     await newScore.save();
+    console.log("✅ New score saved:", newScore);
 
     res.status(201).json({
       success: true,
-      message: "Score submitted successfully",
-      data: newScore
+      message: wasReplaced 
+        ? `Score replaced successfully (deleted ${deleteResult.deletedCount} old score(s))` 
+        : "Score submitted successfully",
+      data: newScore,
+      replaced: wasReplaced,
+      deletedCount: deleteResult.deletedCount
     });
   } catch (error) {
-    console.error("Error submitting score:", error);
+    console.error("❌ Error submitting score:", error);
     res.status(500).json({
       success: false,
       message: "Server error while submitting score",

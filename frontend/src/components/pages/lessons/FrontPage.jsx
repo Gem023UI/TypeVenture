@@ -287,6 +287,9 @@ const FrontPage = () => {
     setIsAnswerChecked(false);
     setScore(0);
     setQuizCompleted(false);
+    
+    // Refresh user scores after closing
+    fetchUserScores();
   };
 
   const submitQuizScore = async () => {
@@ -294,7 +297,7 @@ const FrontPage = () => {
       const username = localStorage.getItem('username');
       
       if (!username) {
-        console.error('No username found in session storage');
+        console.error('No username found in localStorage');
         return;
       }
 
@@ -308,7 +311,14 @@ const FrontPage = () => {
       const data = await submitScore(scoreData);
       
       if (data.success) {
-        console.log('Score submitted successfully:', data);
+        if (data.replaced) {
+          console.log('Previous score replaced with new score:', data);
+        } else {
+          console.log('First score submitted successfully:', data);
+        }
+        
+        // Refresh user scores to update the icons
+        fetchUserScores();
       } else {
         console.error('Failed to submit score:', data.message);
       }
@@ -458,6 +468,9 @@ const FrontPage = () => {
     setTypographyValues({});
     setTypographySubmitted(false);
     setTypographyScores(null);
+    
+    // Refresh user scores after closing
+    fetchUserScores();
   };
 
   const submitTypographyScore = async () => {
@@ -465,7 +478,7 @@ const FrontPage = () => {
       const username = localStorage.getItem('username');
       
       if (!username) {
-        console.error('No username found in session storage');
+        console.error('No username found in localStorage');
         return;
       }
 
@@ -479,7 +492,14 @@ const FrontPage = () => {
       const data = await submitScore(scoreData);
       
       if (data.success) {
-        console.log('Typography score submitted successfully:', data);
+        if (data.replaced) {
+          console.log('Previous typography score replaced with new score:', data);
+        } else {
+          console.log('First typography score submitted successfully:', data);
+        }
+        
+        // Refresh user scores to update the icons
+        fetchUserScores();
       } else {
         console.error('Failed to submit score:', data.message);
       }
