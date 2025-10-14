@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { getUserById } from "../../api/user";
 import { editProfile } from "../../api/user";
 import MainLayout from "../layout/MainLayout";
 import Lanyard from '../bins/media/Lanyard';
@@ -27,20 +28,37 @@ const Profile = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // Load user data from sessionStorage
-    const storedUsername = sessionStorage.getItem("username");
-    const storedEmail = sessionStorage.getItem("email");
-    const storedHobbies = sessionStorage.getItem("hobbies");
-
-    if (storedUsername) setUsername(storedUsername);
-    if (storedEmail) setEmail(storedEmail);
-    if (storedHobbies) {
+    const fetchUserData = async () => {
       try {
-        setHobbies(JSON.parse(storedHobbies));
-      } catch (e) {
-        setHobbies([]);
+        const userId = localStorage.getItem("userId");
+        
+        if (!userId) {
+          console.error("No userId found in localStorage");
+          return;
+        }
+
+        const response = await getUserById(userId);
+        
+        if (response.user) {
+          setUsername(response.user.username);
+          setEmail(response.user.email);
+          setHobbies(response.user.hobbies || []);
+          
+          // Update sessionStorage for other components
+          sessionStorage.setItem("username", response.user.username);
+          sessionStorage.setItem("email", response.user.email);
+          sessionStorage.setItem("hobbies", JSON.stringify(response.user.hobbies || []));
+          if (response.user.profilePicture) {
+            sessionStorage.setItem("profilePicture", response.user.profilePicture);
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+        setError("Failed to load user data");
       }
-    }
+    };
+
+    fetchUserData();
   }, []);
 
   const handleOpenEditModal = () => {

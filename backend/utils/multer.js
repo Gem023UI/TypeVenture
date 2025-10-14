@@ -1,25 +1,20 @@
 import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
 import path from "path";
 
-// Use import.meta.url to get __dirname equivalent in ES modules
-import { fileURLToPath } from "url";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, '/tmp'); // Use /tmp for Render (ephemeral storage)
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-  }
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+// Use memory storage instead of disk storage
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   console.log("📁 Multer checking file:", file.originalname);
 
-  // If no file is uploaded, that's okay - avatar is optional
   if (!file) {
     console.log("ℹ️ No file uploaded");
     return cb(null, false);
@@ -29,7 +24,6 @@ const fileFilter = (req, file, cb) => {
 
   if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png") {
     console.log("❌ Unsupported file type:", ext);
-    // Properly reject the file with an error
     return cb(new Error("Only .jpg, .jpeg, and .png files are allowed!"), false);
   }
 
@@ -45,4 +39,28 @@ const upload = multer({
   fileFilter,
 });
 
+// Function to upload to Cloudinary with configurable folder
+export const uploadToCloudinary = async (fileBuffer, mimetype, folderName = 'uploads') => {
+  try {
+    console.log(`📤 Uploading to Cloudinary folder: ${folderName}`);
+    
+    // Convert buffer to base64
+    const b64 = Buffer.from(fileBuffer).toString('base64');
+    const dataURI = `data:${mimetype};base64,${b64}`;
+    
+    // Upload to Cloudinary with specified folder
+    const result = await cloudinary.uploader.upload(dataURI, {
+      folder: folderName,
+      resource_type: 'auto',
+    });
+    
+    console.log(`✅ Upload successful to folder: ${folderName}`);
+    return result.secure_url;
+  } catch (error) {
+    console.error("❌ Cloudinary upload error:", error);
+    throw error;
+  }
+};
+
+export { cloudinary };
 export default upload;

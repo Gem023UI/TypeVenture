@@ -1,12 +1,9 @@
 import axios from "axios";
 
 // Add logging to debug
-const API_URL = import.meta.env.VITE_BACKEND_URL;
-console.log("API_URL:", API_URL); // Debug log
-console.log("All env vars:", import.meta.env); // See all available vars
+const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
 
-// Fallback if undefined
-const BASE_URL = API_URL || "https://typeventure.onrender.com";
+const BASE_URL = `${API_URL}`;
 
 export const registerUser = async (formData) => {
   try {
@@ -49,5 +46,27 @@ export const editProfile = async (formData) => {
   } catch (error) {
     console.error("Edit profile error:", error.response || error);
     throw error.response?.data?.error || "Profile update failed.";
+  }
+};
+
+export const getUserById = async (userId) => {
+  try {
+    const response = await fetch(`${API_URL}/api/user/profile/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Failed to fetch user data");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Get user error:", error);
+    throw error;
   }
 };

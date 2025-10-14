@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 import validator from "validator";
-
+import { uploadToCloudinary } from "../utils/multer.js";
 
 // GET USER BY ID
 export const getUserById = async (req, res) => {
@@ -191,7 +191,7 @@ export const editProfile = async (req, res) => {
   console.log("🔵 Edit profile endpoint hit");
 
   try {
-    const { username, currentPassword, newPassword, hobbies } = req.body;
+    let { username, currentPassword, newPassword, hobbies } = req.body;
 
     if (!username) {
       return res.status(400).json({ error: "Username is required" });
@@ -203,8 +203,8 @@ export const editProfile = async (req, res) => {
     }
 
     // If user wants to change password, verify current password
-    if (newPassword) {
-      if (!currentPassword) {
+    if (newPassword && newPassword.trim() !== "") {
+      if (!currentPassword || currentPassword.trim() === "") {
         return res.status(400).json({ error: "Current password is required to set new password" });
       }
 
@@ -222,16 +222,37 @@ export const editProfile = async (req, res) => {
       }
 
       user.password = await bcrypt.hash(newPassword, 10);
+      console.log("✅ Password updated");
     }
 
     // Update hobbies if provided
     if (hobbies !== undefined) {
-      user.hobbies = Array.isArray(hobbies) ? hobbies : [];
+      try {
+        const parsedHobbies = typeof hobbies === 'string' ? JSON.parse(hobbies) : hobbies;
+        user.hobbies = Array.isArray(parsedHobbies) ? parsedHobbies : [];
+        console.log("✅ Hobbies updated:", user.hobbies);
+      } catch (e) {
+        console.error("Error parsing hobbies:", e);
+      }
     }
 
-    // Update profile picture if provided (from multer)
-    if (req.file) {
-      user.profilePicture = req.file.path;
+    // Update profile picture if provided (from Cloudinary via multer)
+    if (req.file && req.file.buffer) {
+      try {
+        // Upload to 'profile_pictures' folder - you can change this!
+        user.profilePicture = await uploadToCloudinary(
+          req.file.buffer, 
+          req.file.mimetype, 
+          'profile pictures'  // ← CHANGE FOLDER NAME HERE
+        );
+        console.log("✅ Profile picture updated:", user.profilePicture);
+      } catch (uploadError) {
+        console.error("❌ Cloudinary upload error:", uploadError);
+        return res.status(500).json({ 
+          error: "Failed to upload profile picture",
+          details: uploadError.message 
+        });
+      }
     }
 
     await user.save();
