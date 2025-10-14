@@ -111,7 +111,7 @@ export const getLeaderboard = async (req, res) => {
       },
       {
         $project: {
-          userId: "$userInfo.userId",
+          username: "$userInfo.username",
           totalScore: 1,
           gamesPlayed: 1
         }
