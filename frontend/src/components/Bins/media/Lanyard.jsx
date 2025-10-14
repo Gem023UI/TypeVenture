@@ -15,7 +15,7 @@ import './Lanyard.css';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], fov = 20, transparent = true }) {
+export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], fov = 15, transparent = true }) {
   return (
     <div className="lanyard-wrapper">
       <Canvas
@@ -80,9 +80,9 @@ function Band({ maxSpeed = 50, minSpeed = 0 }) {
   const [isSmall, setIsSmall] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1024);
   const [profileTexture, setProfileTexture] = useState(null);
 
-  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
-  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
-  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.8]);
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.8]);
+  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 0.8]);
   useSphericalJoint(j3, card, [
     [0, 0, 0],
     [0, 1.5, 0]
@@ -105,12 +105,12 @@ function Band({ maxSpeed = 50, minSpeed = 0 }) {
             // Try: (0, 0) top-left, (1, 1) bottom-right, (0.5, 0.5) center
             
             // OFFSET - shifts the texture position (negative to positive)
-            loadedTexture.offset.set(0.3, -0.2);
+            loadedTexture.offset.set(0.45, -0.2);
             // Try: (0.1, 0) shift right, (-0.1, 0) shift left
             // Try: (0, 0.1) shift up, (0, -0.1) shift down
             
             // REPEAT/SCALE - stretches or shrinks the texture
-            loadedTexture.repeat.set(-1.5, 1.5); // (width scale, height scale)
+            loadedTexture.repeat.set(-1.9, 1.5); // (width scale, height scale)
             // Try: (1.5, 1.5) zoom out, (0.8, 0.8) zoom in
             // Try: (1, -1) to flip vertically, (-1, 1) to flip horizontally
             

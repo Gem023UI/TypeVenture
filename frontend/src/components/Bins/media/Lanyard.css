@@ -1,11 +1,14 @@
 .lanyard-wrapper {
-  position: relative;
+  position: fixed;
+  top: 0;
+  right: 0;               /* ✅ anchor to the right instead of left */
   z-index: 0;
-  width: 100%;
+  width: 50%;             /* ✅ restrict to the right half of the screen */
   height: 100vh;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   transform: scale(1);
-  transform-origin: center;
+  transform-origin: right;
+  pointer-events: none;
 }
