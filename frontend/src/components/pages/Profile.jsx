@@ -235,109 +235,121 @@ const Profile = () => {
                 ×
               </button>
 
-              <h2>Edit Profile</h2>
-
               <form onSubmit={handleSubmit}>
-                {/* Profile Picture */}
-                <div className="form-picture">
-                  {message && <div className="success-message">{message}</div>}
-                  {error && <div className="error-message">{error}</div>}
-                  <label>Profile Picture</label>
-                  {previewUrl && (
-                    <img 
-                      src={previewUrl} 
-                      alt="Profile Preview" 
-                      className="profile-preview"
+                <div className="form-content">
+                  <div className="form-picture">
+                    {message && <div className="success-message">{message}</div>}
+                    {error && <div className="error-message">{error}</div>}
+                    <label>Profile Picture</label>
+                    
+                    {previewUrl && (
+                      <img 
+                        src={previewUrl} 
+                        alt="Profile Preview" 
+                        className="profile-preview"
+                      />
+                    )}
+
+                    {/* Hidden file input */}
+                    <input 
+                      id="profileInput"
+                      type="file" 
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      style={{ display: 'none' }} // hide the default input
                     />
-                  )}
-                  <input 
-                    type="file" 
-                    accept="image/*"
-                    onChange={handleFileChange}
-                  />
+
+                    {/* Styled label acting as the button */}
+                    <label htmlFor="profileInput" className="custom-insert-button">
+                      Insert Profile Picture
+                    </label>
+                  </div>
+
+                  <div className="form-details">
+                    <h2>Edit Profile</h2>
+                      <div className="form-username-email">
+                        {/* Username */}
+                        <div className="form-username">
+                          <label>Username</label>
+                          <input 
+                            type="text" 
+                            value={editUsername} 
+                            onChange={(e) => setEditUsername(e.target.value)}
+                            required
+                          />
+                        </div>
+
+                        {/* Email */}
+                        <div className="form-email">
+                          <label>Email</label>
+                          <input 
+                            type="email" 
+                            value={editEmail} 
+                            onChange={(e) => setEditEmail(e.target.value)}
+                            required
+                          />
+                        </div>
+                      </div>
+                      {/* Hobbies */}
+                      <div className="form-hobbies">
+                        <label>Hobbies</label>
+                        <div className="hobby-input-group">
+                          <input 
+                            type="text" 
+                            value={hobbyInput}
+                            onChange={(e) => setHobbyInput(e.target.value)}
+                            placeholder="Add a hobby"
+                            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddHobby())}
+                          />
+                          <button type="button" onClick={handleAddHobby}>Add</button>
+                        </div>
+                        <div className="hobbies-list">
+                          {editHobbies.map((hobby, index) => (
+                            <span key={index} className="hobby-tag">
+                              {hobby}
+                              <button type="button" onClick={() => handleRemoveHobby(hobby)}>×</button>
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      {/* Password Section */}
+                      <div className="password-section">
+                        <h3>Change Password (Optional)</h3>
+                        <div className="password-field">
+                          <div className="form-password">
+                            <label>Current</label>
+                            <input 
+                              type="password" 
+                              value={currentPassword}
+                              onChange={(e) => setCurrentPassword(e.target.value)}
+                              placeholder="Enter current password"
+                            />
+                          </div>
+
+                          <div className="form-password">
+                            <label>New</label>
+                            <input 
+                              type="password" 
+                              value={newPassword}
+                              onChange={(e) => setNewPassword(e.target.value)}
+                              placeholder="Enter new password"
+                            />
+                          </div>
+
+                          <div className="form-password">
+                            <label>Confirm New</label>
+                            <input 
+                              type="password" 
+                              value={confirmPassword}
+                              onChange={(e) => setConfirmPassword(e.target.value)}
+                              placeholder="Confirm new password"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                  </div>
                 </div>
-
-                <div className="form-details">
-                    <div className="form-username-email">
-                      {/* Username */}
-                      <div className="form-username">
-                        <label>Username</label>
-                        <input 
-                          type="text" 
-                          value={editUsername} 
-                          onChange={(e) => setEditUsername(e.target.value)}
-                          required
-                        />
-                      </div>
-
-                      {/* Email */}
-                      <div className="form-email">
-                        <label>Email</label>
-                        <input 
-                          type="email" 
-                          value={editEmail} 
-                          onChange={(e) => setEditEmail(e.target.value)}
-                          required
-                        />
-                      </div>
-                    </div>
-                    {/* Hobbies */}
-                    <div className="form-hobbies">
-                      <label>Hobbies</label>
-                      <div className="hobby-input-group">
-                        <input 
-                          type="text" 
-                          value={hobbyInput}
-                          onChange={(e) => setHobbyInput(e.target.value)}
-                          placeholder="Add a hobby"
-                          onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddHobby())}
-                        />
-                        <button type="button" onClick={handleAddHobby}>Add</button>
-                      </div>
-                      <div className="hobbies-list">
-                        {editHobbies.map((hobby, index) => (
-                          <span key={index} className="hobby-tag">
-                            {hobby}
-                            <button type="button" onClick={() => handleRemoveHobby(hobby)}>×</button>
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    {/* Password Section */}
-                    <div className="password-section">
-                      <h3>Change Password (Optional)</h3>
-                      
-                      <div className="form-group">
-                        <label>Current Password</label>
-                        <input 
-                          type="password" 
-                          value={currentPassword}
-                          onChange={(e) => setCurrentPassword(e.target.value)}
-                          placeholder="Enter current password"
-                        />
-                      </div>
-
-                      <div className="form-group">
-                        <label>New Password</label>
-                        <input 
-                          type="password" 
-                          value={newPassword}
-                          onChange={(e) => setNewPassword(e.target.value)}
-                          placeholder="Enter new password"
-                        />
-                      </div>
-
-                      <div className="form-group">
-                        <label>Confirm New Password</label>
-                        <input 
-                          type="password" 
-                          value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
-                          placeholder="Confirm new password"
-                        />
-                      </div>
-                    </div>
-                </div>
+                {/* Profile Picture */}
 
                 {/* Done Button */}
                 <button 
