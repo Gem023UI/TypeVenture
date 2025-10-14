@@ -5,6 +5,7 @@ import { Canvas, extend, useFrame } from '@react-three/fiber';
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
+import { getUserById } from '../../../api/user';
 
 // replace with your own imports, see the usage snippet for details
 import cardGLB from './card.glb';
@@ -15,7 +16,7 @@ import './Lanyard.css';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], fov = 15, transparent = true }) {
+export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], fov = 12, transparent = true }) {
   return (
     <div className="lanyard-wrapper">
       <Canvas
@@ -89,63 +90,71 @@ function Band({ maxSpeed = 50, minSpeed = 0 }) {
   ]);
 
   useEffect(() => {
-    const loadProfilePicture = () => {
-      const storedPicture = sessionStorage.getItem("profilePicture");
-      if (storedPicture) {
-        const textureLoader = new THREE.TextureLoader();
-        textureLoader.load(
-          storedPicture,
-          (loadedTexture) => {
-            // ROTATION (in radians)
-            loadedTexture.rotation = Math.PI; // 180 degrees
-            // Try: 0, Math.PI/2 (90°), Math.PI (180°), Math.PI*1.5 (270°)
-            
-            // CENTER POINT for rotation and scaling (0-1 range)
-            loadedTexture.center.set(0.5, 0.5); // Center of texture
-            // Try: (0, 0) top-left, (1, 1) bottom-right, (0.5, 0.5) center
-            
-            // OFFSET - shifts the texture position (negative to positive)
-            loadedTexture.offset.set(0.45, -0.2);
-            // Try: (0.1, 0) shift right, (-0.1, 0) shift left
-            // Try: (0, 0.1) shift up, (0, -0.1) shift down
-            
-            // REPEAT/SCALE - stretches or shrinks the texture
-            loadedTexture.repeat.set(-1.9, 1.5); // (width scale, height scale)
-            // Try: (1.5, 1.5) zoom out, (0.8, 0.8) zoom in
-            // Try: (1, -1) to flip vertically, (-1, 1) to flip horizontally
-            
-            // WRAPPING MODE
-            loadedTexture.wrapS = THREE.ClampToEdgeWrapping; // horizontal wrap
-            loadedTexture.wrapT = THREE.ClampToEdgeWrapping; // vertical wrap
-            // Options: THREE.ClampToEdgeWrapping, THREE.RepeatWrapping, THREE.MirroredRepeatWrapping
-            
-            // FILTERS
-            loadedTexture.minFilter = THREE.LinearFilter;
-            loadedTexture.magFilter = THREE.LinearFilter;
-            
-            loadedTexture.needsUpdate = true;
-            setProfileTexture(loadedTexture);
-          },
-          undefined,
-          (error) => {
-            console.error("Error loading profile picture:", error);
-          }
-        );
+    const loadProfilePicture = async () => {
+      try {
+        // Get userId from localStorage
+        const userId = localStorage.getItem("userId");
+        if (!userId) return;
+
+        // Fetch user data from the database
+        const data = await getUserById(userId);
+
+        if (data?.user?.profilePicture) {
+          const textureLoader = new THREE.TextureLoader();
+          textureLoader.load(
+            data.user.profilePicture,
+            (loadedTexture) => {
+              // ROTATION (in radians)
+              loadedTexture.rotation = Math.PI; // 180 degrees
+              // Try: 0, Math.PI/2 (90°), Math.PI (180°), Math.PI*1.5 (270°)
+              
+              // CENTER POINT for rotation and scaling (0-1 range)
+              loadedTexture.center.set(0.5, 0.5); // Center of texture
+              // Try: (0, 0) top-left, (1, 1) bottom-right, (0.5, 0.5) center
+              
+              // OFFSET - shifts the texture position (negative to positive)
+              loadedTexture.offset.set(0.45, -0.2);
+              // Try: (0.1, 0) shift right, (-0.1, 0) shift left
+              // Try: (0, 0.1) shift up, (0, -0.1) shift down
+              
+              // REPEAT/SCALE - stretches or shrinks the texture
+              loadedTexture.repeat.set(-1.9, 1.5); // (width scale, height scale)
+              // Try: (1.5, 1.5) zoom out, (0.8, 0.8) zoom in
+              // Try: (1, -1) to flip vertically, (-1, 1) to flip horizontally
+              
+              // WRAPPING MODE
+              loadedTexture.wrapS = THREE.ClampToEdgeWrapping; // horizontal wrap
+              loadedTexture.wrapT = THREE.ClampToEdgeWrapping; // vertical wrap
+              // Options: THREE.ClampToEdgeWrapping, THREE.RepeatWrapping, THREE.MirroredRepeatWrapping
+              
+              // FILTERS
+              loadedTexture.minFilter = THREE.LinearFilter;
+              loadedTexture.magFilter = THREE.LinearFilter;
+              
+              loadedTexture.needsUpdate = true;
+              setProfileTexture(loadedTexture);
+            },
+            undefined,
+            (error) => {
+              console.error("Error loading profile picture:", error);
+            }
+          );
+        }
+      } catch (error) {
+        console.error("Failed to load profile picture from DB:", error);
       }
     };
 
     loadProfilePicture();
 
-    const handleStorageChange = () => {
+    const handleProfileUpdate = () => {
       loadProfilePicture();
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('profilePictureUpdated', handleStorageChange);
+    window.addEventListener('profilePictureUpdated', handleProfileUpdate);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('profilePictureUpdated', handleStorageChange);
+      window.removeEventListener('profilePictureUpdated', handleProfileUpdate);
     };
   }, []);
 
