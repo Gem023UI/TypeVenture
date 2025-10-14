@@ -3,10 +3,10 @@ import Score from "../models/scores.js";
 // Submit a new score (deletes old score if exists)
 export const submitScore = async (req, res) => {
   try {
-    const { username, gameType, lessonId, score } = req.body;
+    const { userId, gameType, lessonId, score } = req.body;
 
     // Validation
-    if (!username || !gameType || !lessonId || score === undefined) {
+    if (!userId || !gameType || !lessonId || score === undefined) {
       return res.status(400).json({
         success: false,
         message: "Missing required fields"
@@ -14,13 +14,13 @@ export const submitScore = async (req, res) => {
     }
 
     console.log("🔍 Checking for existing score...");
-    console.log("  Username:", username);
+    console.log("  User ID:", userId);
     console.log("  Game Type:", gameType);
     console.log("  Lesson ID:", lessonId);
 
     // Delete ALL existing scores for this user, game type, and lesson
     const deleteResult = await Score.deleteMany({
-      username: username,
+      userId: userId,
       gameType: gameType,
       lessonId: lessonId
     });
@@ -31,7 +31,7 @@ export const submitScore = async (req, res) => {
 
     // Create new score
     const newScore = new Score({
-      username,
+      userId,
       gameType,
       lessonId,
       score,
@@ -60,12 +60,12 @@ export const submitScore = async (req, res) => {
   }
 };
 
-// Get scores by username
-export const getScoresByUsername = async (req, res) => {
+// Get scores by userId
+export const getScoresByUserId = async (req, res) => {
   try {
-    const { username } = req.params;
+    const { userId } = req.params;
 
-    const scores = await Score.find({ username }).sort({ completedAt: -1 });
+    const scores = await Score.find({ userId }).sort({ completedAt: -1 });
 
     res.status(200).json({
       success: true,
@@ -93,9 +93,27 @@ export const getLeaderboard = async (req, res) => {
       { $match: filter },
       {
         $group: {
-          _id: "$username",
+          _id: "$userId",
           totalScore: { $sum: "$score" },
           gamesPlayed: { $sum: 1 }
+        }
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "_id",
+          foreignField: "_id",
+          as: "userInfo"
+        }
+      },
+      {
+        $unwind: "$userInfo"
+      },
+      {
+        $project: {
+          userId: "$userInfo.userId",
+          totalScore: 1,
+          gamesPlayed: 1
         }
       },
       { $sort: { totalScore: -1 } },

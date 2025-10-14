@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchAllLessons, fetchLessonById } from "../../../api/lessons";
 import { getQuizByLessonId } from "../../../api/quiz";
-import { submitScore, getScoresByUsername, getLeaderboard } from "../../../api/scores";
+import { submitScore, getScoresByUserId, getLeaderboard } from "../../../api/scores";
 import { getTypographyByLessonId } from "../../../api/typography";
 import MainLayout from "../../layout/MainLayout";
 import "./TypographyModal.css";
@@ -103,14 +103,14 @@ const FrontPage = () => {
   // Fetch user scores when component mounts
   const fetchUserScores = async () => {
     try {
-      const username = localStorage.getItem("username");
+      const userId = localStorage.getItem("userId");
       
-      if (!username) {
-        console.log("No username found in localStorage");
+      if (!userId) {
+        console.log("No user ID found in localStorage");
         return;
       }
 
-      const response = await getScoresByUsername(username);
+      const response = await getScoresByUserId(userId);
       
       if (response.success) {
         setUserScores(response.data);
@@ -302,15 +302,15 @@ const FrontPage = () => {
 
   const submitQuizScore = async () => {
     try {
-      const username = localStorage.getItem('username');
+      const userId = localStorage.getItem('userId');
       
-      if (!username) {
-        console.error('No username found in localStorage');
+      if (!userId) {
+        console.error('No user ID found in localStorage');
         return;
       }
 
       const scoreData = {
-        username: username,
+        userId: userId,
         gameType: 'quiz',
         lessonId: selectedLesson._id,
         score: score
@@ -499,7 +499,7 @@ const FrontPage = () => {
       
       // Create score data with average
       const scoreData = {
-        username: localStorage.getItem('username'),
+        userId: localStorage.getItem('userId'),
         gameType: 'typography',
         lessonId: selectedLesson._id,
         score: averageScore

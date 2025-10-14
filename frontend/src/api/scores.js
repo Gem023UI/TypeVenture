@@ -3,14 +3,15 @@ const BASE_URL = `${API_URL}/api/`;
 
 /**
  * Submit a new game score.
- * @param {Object} scoreData - { username, gameType, lessonId, score }
+ * @param {Object} scoreData - { userId, gameType, lessonId, score }
  */
 export const submitScore = async (scoreData) => {
   try {
+    const userId = localStorage.getItem('userId'); // Add this line
     const response = await fetch(`${BASE_URL}score`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(scoreData),
+      body: JSON.stringify({ ...scoreData, userId }), // Add userId
     });
 
     const data = await response.json();
@@ -22,12 +23,12 @@ export const submitScore = async (scoreData) => {
 };
 
 /**
- * Get all scores by username.
- * @param {string} username
+ * Get all scores by userId.
+ * @param {string} userId
  */
-export const getScoresByUsername = async (username) => {
+export const getScoresByUserId = async (userId) => {
   try {
-    const response = await fetch(`${BASE_URL}score/user/${username}`);
+    const response = await fetch(`${BASE_URL}score/user/${userId}`);
     const data = await response.json();
     return data;
   } catch (error) {

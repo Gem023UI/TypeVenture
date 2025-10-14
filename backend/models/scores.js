@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const scoreSchema = new mongoose.Schema({
-  username: { type: String, required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   gameType: {
     type: String,
     enum: ["quiz", "typography", "trial"],
@@ -13,7 +13,7 @@ const scoreSchema = new mongoose.Schema({
 });
 
 // Indexes for analytics
-scoreSchema.index({ username: 1 });
+scoreSchema.index({ userId: 1 });
 scoreSchema.index({ gameType: 1 });
 scoreSchema.index({ lessonId: 1 });
 
