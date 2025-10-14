@@ -23,7 +23,6 @@
   width: 100%;
   box-sizing: border-box;
   padding: 0 10px;
-  /* full viewport height ensures left container stays visible */
   min-height: 100vh;
 }
 

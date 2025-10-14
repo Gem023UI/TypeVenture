@@ -1,14 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap");
 
 /* ============================================
    CSS VARIABLES
    ============================================ */
 :root {
-  --color1: #5522ff; /* Primary */
-  --color2: #ff8b2d; /* Accent */
-  --color3: #32ab1f; /* Secondary */
-  --color4: #825cff; /* Extra */
-  --text-light: #ffffff;
+  --color1: #FFFFFF; /* Primary */
+  --color2: #FF1414; /* Accent */
+  --color3: #0029FF; /* Secondary */
+  --color4: #a200ff; /* Tertiary */
+  --text-light: white;
   --text-dark: #333;
   --text-muted: #666;
   --bg-light: #f9f9f9;
@@ -42,38 +44,51 @@
 
 .typography-modal-content {
   z-index: 1000;
-  background-color: var(--text-light);
-  border: 8px solid var(--text-light);
   border-radius: 16px;
   padding: 40px;
   overflow-y: auto;
+  overflow-x: hidden; /* ✅ ADD THIS */
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   position: relative;
   animation: slideUp 0.6s ease;
   width: 80vw;
-  height: 95vh;
+  height: 75vh;
   max-width: 1600px;
-  margin-top: 300px;
   will-change: transform;
 
   display: flex;
   flex-direction: row;
   position: relative;
+
+  /* Gradient border trick */
+  border: 4px solid transparent;
+  border-radius: 16px;
+  background:
+    linear-gradient(rgb(255, 255, 255), rgba(255, 255, 255, 0.7)) padding-box,
+    var(--border-gradient) border-box;
+  background-clip: padding-box, border-box;
+  background-origin: border-box;
 }
 
 .typography-left {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  padding-right: 20px;
   align-items: center;
+  padding-right: 10px;
+
+  width: 45%;
+  height: 100%; /* ✅ CHANGED */
+  overflow-y: auto; /* ✅ ADD THIS */
+  overflow-x: hidden; /* ✅ ADD THIS */
+  position: relative; /* ✅ CHANGED from sticky */
 }
 
 .typography-left h2 {
   font-size: 28px;
   font-weight: 700;
   color: var(--text-dark);
-  margin-bottom: 20px;
+  padding-bottom: 20px;
+  margin: 0px;
 }
 
 .typography-right {
@@ -81,23 +96,12 @@
   flex-direction: column;
   flex: 1;
   padding-left: 20px;
-}
 
-/* ============================================
-   HEADER SECTION
-   ============================================ */
-.typography-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 2px solid var(--border-color);
-}
-
-.typography-progress {
-  color: var(--text-muted);
-  font-size: 14px;
+  width: auto;
+  height: 100%; /* ✅ CHANGED */
+  overflow-y: auto; /* ✅ ADD THIS */
+  overflow-x: hidden; /* ✅ ADD THIS */
+  position: relative; /* ✅ CHANGED from sticky */
 }
 
 /* ============================================
@@ -150,21 +154,14 @@
 }
 
 /* ============================================
-   GAME CONTAINER (Preview + Controls)
-   ============================================ */
-.typography-game-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 25px;
-  margin-bottom: 25px;
-}
-
-/* ============================================
    PREVIEW SECTION
    ============================================ */
 .typography-preview-section {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .typography-preview-section h3 {
@@ -184,6 +181,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  
 }
 
 /* ============================================
@@ -192,6 +190,8 @@
 .typography-controls-section {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .typography-controls-section h3 {
@@ -206,6 +206,7 @@
   flex-direction: column;
   gap: 20px;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .typography-slider-group {
@@ -214,11 +215,19 @@
   border-radius: 10px;
   border: 1px solid var(--border-color);
   transition: border-color 0.2s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .typography-slider-group:hover {
   border-color: var(--color4);
 }
+
+/* ✅ ADD THIS - Increase z-index when dropdown is focused */
+.typography-slider-group:focus-within {
+  z-index: 100;
+}
+
 .slider-label-row {
   display: flex;
   justify-content: space-between;
@@ -299,6 +308,7 @@
 .typography-actions {
   display: flex;
   gap: 12px;
+  width: 100%;
 }
 
 .typography-btn {
@@ -325,18 +335,18 @@
 }
 
 .typography-btn-submit {
-  background-color: var(--color4);
+  background-color: #0029FF;
   color: var(--text-light);
 }
 
 .typography-btn-submit:hover:not(:disabled) {
-  background-color: var(--color1);
+  background-color: #a200ff;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(85, 34, 255, 0.3);
 }
 
 .typography-btn-submit:disabled {
-  background-color: var(--color1);
+  background-color: #a200ff;
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -345,11 +355,15 @@
    RESULTS SECTION
    ============================================ */
 .typography-results {
-  background-color: var(--bg-lighter);
-  border-radius: 12px;
+  position: fixed;
+  z-index: 100000;
+  background-color: #FFFFFF;
+
+  width: 90%;
+  height: auto;
+
+  margin-bottom: 50px;
   padding: 25px;
-  margin-top: 25px;
-  border: 2px solid var(--border-color);
   animation: slideDown 0.4s ease;
 }
 
@@ -360,12 +374,14 @@
   margin-bottom: 25px;
   padding-bottom: 20px;
   border-bottom: 2px solid var(--border-color);
+
+  color: #FFFFFF;
 }
 
 .results-header h3 {
   font-size: 22px;
   font-weight: 700;
-  color: var(--text-dark);
+  color: #FFFFFF;
   margin: 0;
 }
 
@@ -487,7 +503,7 @@
 .typography-btn-next,
 .typography-btn-close {
   padding: 15px 40px;
-  background-color: var(--color4);
+  background-color: #a200ff;
   color: var(--text-light);
   border: none;
   border-radius: 10px;
@@ -660,6 +676,11 @@
   transition: all 0.2s ease;
   font-family: 'Poppins', sans-serif;
   outline: none;
+  position: relative;
+  z-index: 50;
+  appearance: none; /* ✅ ADD THIS */
+  -webkit-appearance: none; /* ✅ ADD THIS */
+  -moz-appearance: none; /* ✅ ADD THIS */
 }
 
 .typography-dropdown:hover {
@@ -670,12 +691,14 @@
 .typography-dropdown:focus {
   border-color: var(--color1);
   box-shadow: 0 0 0 3px rgba(85, 34, 255, 0.1);
+  z-index: 101; /* ✅ ADD THIS - Ensure dropdown is above other elements */
 }
 
 .typography-dropdown option {
   padding: 10px;
   background-color: var(--text-light);
   color: var(--text-dark);
+  font-size: 14px; /* ✅ ADD THIS */
 }
 
 /* Color Indicator */
@@ -692,4 +715,34 @@
 .color-indicator:hover {
   transform: scale(1.1);
   border-color: var(--color4);
+}
+
+/* ============================================
+   CUSTOM SCROLLBARS FOR TYPOGRAPHY MODAL
+   ============================================ */
+
+.typography-modal-overlay::-webkit-scrollbar,
+.typography-modal-content::-webkit-scrollbar,
+.typography-left::-webkit-scrollbar,
+.typography-right::-webkit-scrollbar,
+.typography-results::-webkit-scrollbar,
+.results-properties::-webkit-scrollbar {
+  width: 0px;
+}
+
+.typography-left::-webkit-scrollbar-track,
+.typography-right::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+.typography-left::-webkit-scrollbar-thumb,
+.typography-right::-webkit-scrollbar-thumb {
+  background: rgba(160, 32, 255, 0.3);
+  border-radius: 10px;
+}
+
+.typography-left::-webkit-scrollbar-thumb:hover,
+.typography-right::-webkit-scrollbar-thumb:hover {
+  background: rgba(160, 32, 255, 0.5);
 }

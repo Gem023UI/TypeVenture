@@ -85,6 +85,7 @@ const FrontPage = () => {
   const [typographyValues, setTypographyValues] = useState({});
   const [selectedFont, setSelectedFont] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
+  const [challengeScores, setChallengeScores] = useState([]);
 
   // Check if user has completed a specific lesson
   const hasScore = (lessonId) => {
@@ -210,10 +211,12 @@ const FrontPage = () => {
           // Initialize typography values with middle of slider range
           const initial = {};
           response.data[0].adjustableProperties.forEach(prop => {
-            const mid = (prop.sliderRange.min + prop.sliderRange.max) / 2;
-            initial[prop.property] = prop.property === 'fontFamily' || prop.property === 'color'
-            ? (prop.options?.[0] || '')
-            : mid;
+            if (prop.property === 'fontFamily' || prop.property === 'color' || prop.property === 'textAlign') {
+              initial[prop.property] = prop.sliderRange.options?.[0] || '';
+            } else {
+              const mid = (prop.sliderRange.min + prop.sliderRange.max) / 2;
+              initial[prop.property] = mid;
+            }
           });
           setTypographyValues(initial);
 
@@ -234,6 +237,11 @@ const FrontPage = () => {
         alert('Failed to load typography challenges. Please try again.');
       }
     } else {
+      setTypographySubmitted(false);
+      setTypographyScores(null);
+      setChallengeScores([]);
+      setShowTypographyModal(true);
+
       setShowGameModal(true);
     }
   };
@@ -329,7 +337,7 @@ const FrontPage = () => {
 
   const calculatePropertyScore = (property, userValue, propData) => {
     // Binary choice properties (font, color)
-    if (property === 'fontFamily' || property === 'color') {
+    if (property === 'fontFamily' || property === 'color' || property === 'textAlign') {
       return userValue === propData.correctAnswer ? 100 : 0;
     }
     
@@ -359,10 +367,18 @@ const FrontPage = () => {
   };
 
   const handleTypographySliderChange = (property, value) => {
-    setTypographyValues(prev => ({
-      ...prev,
-      [property]: parseFloat(value)
-    }));
+    // Don't parse string values for dropdown properties
+    if (property === 'fontFamily' || property === 'color' || property === 'textAlign') {
+      setTypographyValues(prev => ({
+        ...prev,
+        [property]: value  // Keep as string
+      }));
+    } else {
+      setTypographyValues(prev => ({
+        ...prev,
+        [property]: parseFloat(value)  // Parse numeric values only
+      }));
+    }
     if (typographySubmitted) setTypographySubmitted(false);
   };
 
@@ -377,6 +393,8 @@ const FrontPage = () => {
         userValue = selectedFont;
       } else if (prop.property === 'color') {
         userValue = selectedColor;
+      } else if (prop.property === 'textAlign') {
+        userValue = typographyValues[prop.property];
       } else {
         userValue = typographyValues[prop.property];
       }
@@ -390,10 +408,10 @@ const FrontPage = () => {
       return {
         property: prop.label,
         score: Math.round(score),
-        userValue: prop.property === 'fontFamily' || prop.property === 'color' ? userValue : userValue,
-        optimal: prop.property === 'fontFamily' || prop.property === 'color' ? prop.correctAnswer : prop.optimal,
-        unit: prop.unit || '',
-        isCorrect: prop.property === 'fontFamily' || prop.property === 'color' ? (userValue === prop.correctAnswer) : null
+        userValue: userValue,
+        optimal: (prop.property === 'fontFamily' || prop.property === 'color' || prop.property === 'textAlign') ? prop.sliderRange.correctAnswer : prop.optimal,
+        unit: prop.sliderRange.unit || '',
+        isCorrect: (prop.property === 'fontFamily' || prop.property === 'color' || prop.property === 'textAlign') ? (userValue === prop.sliderRange.correctAnswer) : null
       };
     });
 
@@ -403,6 +421,10 @@ const FrontPage = () => {
 
     setTypographyScores({ total: totalScore, properties: propertyScores });
     setTypographySubmitted(true);
+
+    const newChallengeScores = [...challengeScores, totalScore];
+    setChallengeScores(newChallengeScores);
+    console.log('Challenge scores so far:', newChallengeScores);
   };
 
   const handleNextTypographyChallenge = () => {
@@ -415,21 +437,31 @@ const FrontPage = () => {
       // Reset values for new challenge
       const initial = {};
       typographyData[nextIndex].adjustableProperties.forEach(prop => {
-        const mid = (prop.sliderRange.min + prop.sliderRange.max) / 2;
-        initial[prop.property] = prop.property === 'fontFamily' || prop.property === 'color'
-        ? (prop.options?.[0] || '')
-        : mid;
+        if (prop.property === 'fontFamily' || prop.property === 'color' || prop.property === 'textAlign') {
+          initial[prop.property] = prop.sliderRange.options?.[0] || '';
+        } else {
+          const mid = (prop.sliderRange.min + prop.sliderRange.max) / 2;
+          initial[prop.property] = mid;
+        }
       });
       setTypographyValues(initial);
 
       // Reset font and color selections
       const fontProp = typographyData[nextIndex].adjustableProperties.find(p => p.property === 'fontFamily');
       const colorProp = typographyData[nextIndex].adjustableProperties.find(p => p.property === 'color');
-      if (fontProp) setSelectedFont(fontProp.options?.[0] || '');
-      if (colorProp) setSelectedColor(colorProp.options?.[0] || '');
+      if (fontProp) setSelectedFont(fontProp.sliderRange.options?.[0] || '');
+      if (colorProp) setSelectedColor(colorProp.sliderRange.options?.[0] || '');
 
     } else {
-      // All challenges completed
+      // All challenges completed, calculate average
+      const averageScore = Math.round(
+        challengeScores.reduce((sum, score) => sum + score, 0) / challengeScores.length
+      );
+      console.log('All challenges completed! Average score:', averageScore);
+      
+      // Store average score for submission
+      setTypographyScores({ total: averageScore, properties: [] });
+      
       handleCloseTypography();
     }
   };
@@ -439,27 +471,47 @@ const FrontPage = () => {
     
     const initial = {};
     typographyData[currentChallengeIndex].adjustableProperties.forEach(prop => {
-      const mid = (prop.sliderRange.min + prop.sliderRange.max) / 2;
-      initial[prop.property] = prop.property === 'fontFamily' || prop.property === 'color'
-      ? (prop.options?.[0] || '')
-      : mid;
+      if (prop.property === 'fontFamily' || prop.property === 'color' || prop.property === 'textAlign') {
+        initial[prop.property] = prop.sliderRange.options?.[0] || '';
+      } else {
+        const mid = (prop.sliderRange.min + prop.sliderRange.max) / 2;
+        initial[prop.property] = mid;
+      }
     });
     setTypographyValues(initial);
 
     // Reset font and color
     const fontProp = typographyData[currentChallengeIndex].adjustableProperties.find(p => p.property === 'fontFamily');
     const colorProp = typographyData[currentChallengeIndex].adjustableProperties.find(p => p.property === 'color');
-    if (fontProp) setSelectedFont(fontProp.options?.[0] || '');
-    if (colorProp) setSelectedColor(colorProp.options?.[0] || '');
+    if (fontProp) setSelectedFont(fontProp.sliderRange.options?.[0] || '');
+    if (colorProp) setSelectedColor(colorProp.sliderRange.options?.[0] || '');
 
     setTypographySubmitted(false);
     setTypographyScores(null);
   };
 
   const handleCloseTypography = async () => {
-    // Submit score before closing if there's a score
-    if (typographyScores && typographyScores.total > 0) {
-      await submitTypographyScore();
+    // ✅ MODIFIED - Calculate and submit average score
+    if (challengeScores.length > 0) {
+      const averageScore = Math.round(
+        challengeScores.reduce((sum, score) => sum + score, 0) / challengeScores.length
+      );
+      
+      // Create score data with average
+      const scoreData = {
+        username: localStorage.getItem('username'),
+        gameType: 'typography',
+        lessonId: selectedLesson._id,
+        score: averageScore
+      };
+      
+      console.log('Submitting average score:', averageScore);
+      const data = await submitScore(scoreData);
+      
+      if (data.success) {
+        console.log('Average typography score submitted:', data);
+        fetchUserScores();
+      }
     }
     
     setShowTypographyModal(false);
@@ -468,44 +520,10 @@ const FrontPage = () => {
     setTypographyValues({});
     setTypographySubmitted(false);
     setTypographyScores(null);
+    setChallengeScores([]); // ✅ ADD THIS - Reset challenge scores
     
     // Refresh user scores after closing
     fetchUserScores();
-  };
-
-  const submitTypographyScore = async () => {
-    try {
-      const username = localStorage.getItem('username');
-      
-      if (!username) {
-        console.error('No username found in localStorage');
-        return;
-      }
-
-      const scoreData = {
-        username: username,
-        gameType: 'typography',
-        lessonId: selectedLesson._id,
-        score: typographyScores.total
-      };
-
-      const data = await submitScore(scoreData);
-      
-      if (data.success) {
-        if (data.replaced) {
-          console.log('Previous typography score replaced with new score:', data);
-        } else {
-          console.log('First typography score submitted successfully:', data);
-        }
-        
-        // Refresh user scores to update the icons
-        fetchUserScores();
-      } else {
-        console.error('Failed to submit score:', data.message);
-      }
-    } catch (error) {
-      console.error('Error submitting typography score:', error);
-    }
   };
 
   const getTypographyTextStyle = () => {
@@ -517,8 +535,8 @@ const FrontPage = () => {
       letterSpacing: `${typographyValues.letterSpacing || 0}px`,
       lineHeight: typographyValues.lineHeight || 1.5,
       wordSpacing: typographyValues.wordSpacing ? `${typographyValues.wordSpacing}px` : '0px',
-      fontFamily: selectedFont || 'Arial, sans-serif',
-      color: selectedColor || '#000000',
+      fontFamily: typographyValues.fontFamily || selectedFont || 'Arial, sans-serif',
+      color: typographyValues.color || selectedColor || '#000000',
       textAlign: typographyValues.textAlign || 'left',
       fontWeight: challenge.scenario === 'caution-sign' ? 'bold' : 'normal',
       whiteSpace: 'pre-wrap',
@@ -829,20 +847,9 @@ const FrontPage = () => {
 
                   <div className="typography-left">
                     <h2>TYPOGRAPHY GAME</h2>
-                    {/* Challenge Info */}
-                    <div className="typography-challenge-info">
-                      <p className="typography-prompt">Challenge {currentChallengeIndex + 1}: {typographyData[currentChallengeIndex].prompt}</p>
-                      <div className="typography-context">
-                        <span>Distance: {typographyData[currentChallengeIndex].designContext.readingDistance}</span>
-                        <span>Purpose: {typographyData[currentChallengeIndex].designContext.purpose}</span>
-                        <span>Difficulty: {typographyData[currentChallengeIndex].difficulty}</span>
-                      </div>
-                    </div>
-
                     <div className="typography-game-container">
                       {/* Preview Area */}
                       <div className="typography-preview-section">
-                        <h3>Preview</h3>
                         <div 
                           className="typography-preview-box"
                           style={{
@@ -858,6 +865,16 @@ const FrontPage = () => {
                   </div>
 
                   <div className="typography-right">
+                    {/* Challenge Info */}
+                    <div className="typography-challenge-info">
+                      <p className="typography-prompt">Challenge {currentChallengeIndex + 1}: {typographyData[currentChallengeIndex].prompt}</p>
+                      <div className="typography-context">
+                        <span>Distance: {typographyData[currentChallengeIndex].designContext.readingDistance}</span>
+                        <span>Purpose: {typographyData[currentChallengeIndex].designContext.purpose}</span>
+                        <span>Difficulty: {typographyData[currentChallengeIndex].difficulty}</span>
+                      </div>
+                    </div>
+
                     {/* Controls */}
                     <div className="typography-controls-section">
                       <h3>Typography Controls</h3>
@@ -871,11 +888,15 @@ const FrontPage = () => {
                                   <label>{prop.label}</label>
                                 </div>
                                 <select
-                                  value={selectedFont}
-                                  onChange={(e) => {
-                                    setSelectedFont(e.target.value);
-                                    if (typographySubmitted) setTypographySubmitted(false);
-                                  }}
+                                value={typographyValues.fontFamily || selectedFont}
+                                onChange={(e) => {
+                                  setSelectedFont(e.target.value);
+                                  setTypographyValues(prev => ({
+                                    ...prev,
+                                    fontFamily: e.target.value
+                                  }));
+                                  if (typographySubmitted) setTypographySubmitted(false);
+                                }}
                                   className="typography-dropdown"
                                   style={{
                                     width: '100%',
@@ -887,7 +908,7 @@ const FrontPage = () => {
                                     cursor: 'pointer'
                                   }}
                                 >
-                                  {prop.options?.map((font) => (
+                                  {prop.sliderRange?.options?.map((font) => (
                                     <option key={font} value={font}>{font}</option>
                                   ))}
                                 </select>
@@ -907,12 +928,15 @@ const FrontPage = () => {
                                   }}></span>
                                 </div>
                                 <select
-                                  value={selectedColor}
-                                  onChange={(e) => {
-                                    setSelectedColor(e.target.value);
-                                    if (typographySubmitted) setTypographySubmitted(false);
-                                  }}
-                                  className="typography-dropdown"
+                                value={typographyValues.color || selectedColor}
+                                onChange={(e) => {
+                                  setSelectedColor(e.target.value);
+                                  setTypographyValues(prev => ({
+                                    ...prev,
+                                    color: e.target.value
+                                  }));
+                                  if (typographySubmitted) setTypographySubmitted(false);
+                                }}ssName="typography-dropdown"
                                   style={{
                                     width: '100%',
                                     padding: '8px',
@@ -923,7 +947,7 @@ const FrontPage = () => {
                                     cursor: 'pointer'
                                   }}
                                 >
-                                  {prop.options?.map((color) => (
+                                  {prop.sliderRange?.options?.map((color) => (
                                     <option key={color} value={color}>
                                       {color === '#000000' ? 'Black' : 
                                       color === '#FFFFFF' ? 'White' :
@@ -936,13 +960,42 @@ const FrontPage = () => {
                                   ))}
                                 </select>
                               </>
+                            ) : prop.property === 'textAlign' ? (
+                              // Text Alignment dropdown
+                              <>
+                                <div className="slider-label-row">
+                                  <label>{prop.label}</label>
+                                </div>
+                                <select
+                                  value={typographyValues[prop.property] || prop.sliderRange.options?.[0] || 'left'}
+                                  onChange={(e) => {
+                                    handleTypographySliderChange(prop.property, e.target.value);
+                                  }}
+                                  className="typography-dropdown"
+                                  style={{
+                                    width: '100%',
+                                    padding: '8px',
+                                    borderRadius: '4px',
+                                    border: '2px solid #825cff',
+                                    fontSize: '14px',
+                                    backgroundColor: 'white',
+                                    cursor: 'pointer'
+                                  }}
+                                >
+                                  {prop.sliderRange?.options?.map((align) => (
+                                    <option key={align} value={align}>
+                                      {align.charAt(0).toUpperCase() + align.slice(1)}
+                                    </option>
+                                  ))}
+                                </select>
+                              </>
                             ) : (
                               // Regular slider
                               <>
                                 <div className="slider-label-row">
                                   <label>{prop.label}</label>
                                   <span className="slider-value">
-                                    {typographyValues[prop.property]?.toFixed(prop.unit === 'px' ? 1 : 2)}{prop.unit}
+                                    {typographyValues[prop.property]?.toFixed(prop.sliderRange.unit === 'px' ? 1 : 2)}{prop.sliderRange.unit}
                                   </span>
                                 </div>
                                 <input
@@ -955,8 +1008,8 @@ const FrontPage = () => {
                                   className="typography-slider"
                                 />
                                 <div className="slider-range-labels">
-                                  <span>{prop.sliderRange.min}{prop.unit}</span>
-                                  <span>{prop.sliderRange.max}{prop.unit}</span>
+                                  <span>{prop.sliderRange.min}{prop.sliderRange.unit}</span>
+                                  <span>{prop.sliderRange.max}{prop.sliderRange.unit}</span>
                                 </div>
                               </>
                             )}
@@ -1043,14 +1096,6 @@ const FrontPage = () => {
                       </div>
                     </div>
                   )}
-
-                  {/* Close Button */}
-                  <button 
-                    className="modal-close-btn"
-                    onClick={handleCloseTypography}
-                  >
-                    ×
-                  </button>
                 </div>
               </div>
             )}

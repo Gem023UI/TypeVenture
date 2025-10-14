@@ -13,7 +13,6 @@
   background: rgba(255, 255, 255, 0.7); /* semi-transparent white */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  position: sticky;
   top: 0;
   z-index: 10;
   transition: background 0.3s ease, box-shadow 0.3s ease;
