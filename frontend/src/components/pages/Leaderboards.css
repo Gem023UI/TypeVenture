@@ -18,7 +18,7 @@
 
 .leaderboard-header-section {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 70px;
 }
 
 .leaderboard-header-section h1 {
@@ -59,6 +59,15 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  margin-top: 50px;
+}
+
+.overall-leaderboard-column {
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .column-header {
@@ -70,7 +79,7 @@
   margin: 0;
 }
 
-.quiz-header {
+.quizzes-header {
   background: #0029FF;
 }
 
@@ -79,7 +88,11 @@
 }
 
 .total-header {
-  background: #a200ff;
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff); 
+  
+  background: var(--border-gradient) border-box; 
+  border: 5px solid transparent;  
+  transition: all 0.3s ease;
 }
 
 .column-header h2 {
@@ -98,10 +111,43 @@
 .top-player-label {
   font-size: 18px;
   font-weight: bold;
-  color: #825cff;
+  color: var(--color1);
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+
+.tilted-card-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  /* text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); */
+}
+
+.trophy-crown {
+  font-size: 48px;
+  margin-bottom: 5px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.tilted-username {
+  color: var(--color2);
+  font-size: 24px;
+  font-weight: bold;
+  margin: 5px 0 5px 0;
+}
+
+.tilted-score {
+  color: var(--color3);
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
 }
 
 /* Scrollable List */

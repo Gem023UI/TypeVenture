@@ -52,3 +52,19 @@ export const getLeaderboard = async (gameType) => {
     return { success: false, message: "Failed to load leaderboard" };
   }
 };
+
+/**
+ * Get leaderboard with full user details (for display).
+ * @param {string} [gameType]
+ */
+export const getLeaderboardWithDetails = async (gameType) => {
+  try {
+    const query = gameType ? `?gameType=${gameType}` : "";
+    const response = await fetch(`${BASE_URL}score/leaderboard-details${query}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching leaderboard with details:", error);
+    return { success: false, message: "Failed to load leaderboard" };
+  }
+};

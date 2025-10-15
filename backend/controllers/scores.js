@@ -133,3 +133,60 @@ export const getLeaderboard = async (req, res) => {
     });
   }
 };
+
+// Get leaderboard with full user details
+export const getLeaderboardWithUserDetails = async (req, res) => {
+  try {
+    const { gameType } = req.query;
+
+    const filter = gameType ? { gameType } : {};
+
+    const leaderboard = await Score.aggregate([
+      { $match: filter },
+      {
+        $group: {
+          _id: "$userId",
+          totalScore: { $sum: "$score" },
+          gamesPlayed: { $sum: 1 }
+        }
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "_id",
+          foreignField: "_id",
+          as: "userInfo"
+        }
+      },
+      {
+        $unwind: "$userInfo"
+      },
+      {
+        $project: {
+          username: "$userInfo.username",
+          profileImage: "$userInfo.profilePicture",
+          email: "$userInfo.email",
+          fullName: "$userInfo.username",
+          bio: { $ifNull: [{ $arrayElemAt: ["$userInfo.hobbies", 0] }, "No bio available"] },
+          createdAt: "$userInfo.createdAt",
+          totalScore: 1,
+          gamesPlayed: 1
+        }
+      },
+      { $sort: { totalScore: -1 } },
+      { $limit: 10 }
+    ]);
+
+    res.status(200).json({
+      success: true,
+      data: leaderboard
+    });
+  } catch (error) {
+    console.error("Error fetching leaderboard with details:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching leaderboard",
+      error: error.message
+    });
+  }
+};
