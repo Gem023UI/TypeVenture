@@ -13,7 +13,7 @@ export const submitScore = async (req, res) => {
       });
     }
 
-    console.log("🔍 Checking for existing score...");
+    console.log("ðŸ” Checking for existing score...");
     console.log("  User ID:", userId);
     console.log("  Game Type:", gameType);
     console.log("  Lesson ID:", lessonId);
@@ -25,7 +25,7 @@ export const submitScore = async (req, res) => {
       lessonId: lessonId
     });
 
-    console.log("🗑️ Deleted", deleteResult.deletedCount, "old score(s)");
+    console.log("ðŸ—‘ï¸ Deleted", deleteResult.deletedCount, "old score(s)");
 
     const wasReplaced = deleteResult.deletedCount > 0;
 
@@ -39,7 +39,7 @@ export const submitScore = async (req, res) => {
     });
 
     await newScore.save();
-    console.log("✅ New score saved:", newScore);
+    console.log("âœ… New score saved:", newScore);
 
     res.status(201).json({
       success: true,
@@ -51,7 +51,7 @@ export const submitScore = async (req, res) => {
       deletedCount: deleteResult.deletedCount
     });
   } catch (error) {
-    console.error("❌ Error submitting score:", error);
+    console.error("âŒ Error submitting score:", error);
     res.status(500).json({
       success: false,
       message: "Server error while submitting score",

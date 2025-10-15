@@ -78,6 +78,7 @@
 .quiz-header {
   margin-bottom: 30px;
   text-align: center;
+  background: transparent !important;
 }
 
 .quiz-progress {
