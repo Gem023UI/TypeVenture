@@ -77,13 +77,23 @@ const Leaderboard = () => {
         const response = await getUserById(userId);
         console.log("📦 Full user response:", response);
         
-        if (response.success && response.data) {
-        console.log("✅ User data loaded:", response.data);
-        setSelectedUser(response.data);
+        // Backend returns { user: {...} } directly
+        if (response.user) {
+            const userData = {
+            _id: response.user._id,
+            username: response.user.username,
+            email: response.user.email,
+            profileImage: response.user.profilePicture,
+            fullName: response.user.username,
+            bio: response.user.hobbies?.join(", ") || "No bio available",
+            createdAt: response.user.createdAt
+            };
+            console.log("✅ User data loaded:", userData);
+            setSelectedUser(userData);
         } else {
-        console.error("❌ Failed to load user:", response);
-        setSelectedUser(null);
-        alert("Failed to load user profile");
+            console.error("❌ Failed to load user:", response);
+            setSelectedUser(null);
+            alert("Failed to load user profile");
         }
         
         setLoadingProfile(false);
@@ -146,16 +156,14 @@ const Leaderboard = () => {
     );
     };
 
-  const renderLeaderboardList = (data, startRank = 2) => {
-    if (!data || data.length <= 1) {
-        return <div className="no-more-data">No other players yet</div>;
+ const renderLeaderboardList = (data, startRank = 1) => {
+    if (!data || data.length === 0) {
+        return <div className="no-more-data">No players yet</div>;
     }
-
-    const displayData = data.slice(1);
 
     return (
         <div className="leaderboard-list">
-        {displayData.map((entry, index) => {
+        {data.map((entry, index) => {
             const rank = startRank + index;
             return (
             <a
@@ -178,7 +186,7 @@ const Leaderboard = () => {
         })}
         </div>
     );
-    };
+};
 
   return (
     <MainLayout>
