@@ -191,10 +191,10 @@ export const loginUser = async (req, res) => {
 
 // EDIT PROFILE
 export const editProfile = async (req, res) => {
-  console.log("🔵 Edit profile endpoint hit");
+  console.log("🟡 Incoming body fields:", req.body);
 
   try {
-    const { userId, currentPassword, newPassword, hobbies, username } = req.body;
+    const { userId, currentPassword, newPassword, hobbies, username, email } = req.body;
 
     if (!userId) {
       return res.status(400).json({ error: "User ID is required" });
@@ -214,6 +214,16 @@ export const editProfile = async (req, res) => {
       }
       user.username = username;
       console.log("✅ Username updated to:", username);
+    }
+
+    if (req.body.email && req.body.email !== user.email) {
+      // Check if the new email is already in use
+      const existingEmail = await User.findOne({ email: req.body.email });
+      if (existingEmail) {
+        return res.status(400).json({ error: "Email already in use" });
+      }
+      user.email = email;
+      console.log("✅ Email updated to:", email);
     }
 
     // Change password if newPassword provided

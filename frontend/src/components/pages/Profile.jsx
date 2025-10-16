@@ -129,6 +129,7 @@ const Profile = () => {
 
       const formData = new FormData();
       formData.append("username", editUsername);
+      formData.append("email", editEmail);
       
       if (selectedFile) {
         formData.append("avatar", selectedFile);
