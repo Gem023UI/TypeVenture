@@ -66,7 +66,7 @@ const Leaderboard = () => {
       }
     };
         fetchLeaderboards();
-    }, []);
+  }, []);
 
   const handleUserClick = async (userId) => {
     try {
@@ -102,7 +102,7 @@ const Leaderboard = () => {
         setLoadingProfile(false);
         alert("Failed to load user profile");
     }
-    };
+  };
 
   const closeProfileModal = () => {
     setShowProfileModal(false);
@@ -140,7 +140,7 @@ const Leaderboard = () => {
             showMobileWarning={false}
             showTooltip={false}
             displayOverlayContent={true}
-            overlayContent={
+            /* overlayContent={
             <div className="tilted-card-overlay">
             <div className="trophy-crown">
                 <svg height="48px" width="48px" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -150,11 +150,11 @@ const Leaderboard = () => {
             <h3 className="tilted-username">{topPlayer.username}</h3>
             <p className="tilted-score">{topPlayer.totalScore} pts</p>
             </div>
-            }
+            } */
         />
         </div>
     );
-    };
+  };
 
  const renderLeaderboardList = (data, startRank = 1) => {
     if (!data || data.length === 0) {
@@ -186,7 +186,7 @@ const Leaderboard = () => {
         })}
         </div>
     );
-};
+  };
 
   return (
     <MainLayout>
@@ -255,17 +255,15 @@ const Leaderboard = () => {
                       alt={selectedUser.username}
                       className="profile-modal-image"
                     />
-                    <h2>{selectedUser.username}</h2>
-                    <p className="profile-email">{selectedUser.email}</p>
                   </div>
 
                   <div className="profile-modal-body">
                     <div className="profile-info-section">
-                      <h3>Profile Information</h3>
                       <div className="profile-info-grid">
                         <div className="info-item">
                           <span className="info-label">Full Name:</span>
-                          <span className="info-value">{selectedUser.fullName || "Not provided"}</span>
+                          <span className="info-value">{selectedUser.username || "Not provided"}</span>
+                          <span className="info-value">{selectedUser.email || "Not provided"}</span>
                         </div>
                         <div className="info-item">
                           <span className="info-label">Bio:</span>

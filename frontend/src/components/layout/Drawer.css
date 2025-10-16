@@ -66,7 +66,8 @@
     var(--border-gradient) border-box;
   border: 3px solid transparent;
   width: 150px;
-  height: auto;
+  height: 150px;
+  object-fit: cover;
 }
 
 .avatar-image h2 {

@@ -117,12 +117,12 @@
   letter-spacing: 1px;
 }
 
-.tilted-card-overlay {
+/* .tilted-card-overlay {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  /* text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); */
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 .trophy-crown {
@@ -148,7 +148,7 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0;
-}
+} */
 
 /* Scrollable List */
 .scrollable-list {
@@ -158,7 +158,7 @@
 }
 
 .scrollable-list::-webkit-scrollbar {
-  width: 8px;
+  width: 0px;
 }
 
 .scrollable-list::-webkit-scrollbar-track {
@@ -283,15 +283,27 @@
 }
 
 .profile-modal-content {
-  background: white;
-  border-radius: 20px;
-  max-width: 600px;
-  width: 90%;
-  max-height: 80vh;
+  max-width: 1000px;
+  width: 100%;
+  max-height: 55vh;
   overflow-y: auto;
   position: relative;
   animation: slideUp 0.3s ease;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+  /* Gradient border trick */
+  border: 4px solid transparent;
+  border-radius: 16px;
+  background:
+    linear-gradient(rgb(255, 255, 255), rgba(255, 255, 255, 0.7)) padding-box,
+    var(--border-gradient) border-box;
+  background-clip: padding-box, border-box;
+  background-origin: border-box;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes slideUp {
@@ -330,20 +342,21 @@
 }
 
 .profile-modal-header {
-  background: linear-gradient(135deg, #825cff 0%, #6366F1 100%);
-  padding: 40px 30px;
+  background: transparent;
+  padding: 30px;
   text-align: center;
   color: white;
+  width: 40%;
+  height: 100%;
 }
 
 .profile-modal-image {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  border: 5px solid white;
+  width: 360px;
+  height: 360px;
+  border-radius: 20px;
   object-fit: cover;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  margin: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .profile-modal-header h2 {
@@ -360,17 +373,11 @@
 
 .profile-modal-body {
   padding: 30px;
+  width: 70%;
 }
 
 .profile-info-section {
   margin-bottom: 30px;
-}
-
-.profile-info-section h3 {
-  font-size: 20px;
-  color: #374151;
-  margin-bottom: 15px;
-  font-weight: bold;
 }
 
 .profile-info-grid {
