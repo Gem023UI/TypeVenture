@@ -261,12 +261,11 @@ const Leaderboard = () => {
                     <div className="profile-info-section">
                       <div className="profile-info-grid">
                         <div className="info-item">
-                          <span className="info-label">Full Name:</span>
-                          <span className="info-value">{selectedUser.username || "Not provided"}</span>
+                          <span className="info-username">{selectedUser.username || "Not provided"}</span>
                           <span className="info-value">{selectedUser.email || "Not provided"}</span>
                         </div>
                         <div className="info-item">
-                          <span className="info-label">Bio:</span>
+                          <span className="info-label">Hobbies:</span>
                           <span className="info-value">{selectedUser.bio || "No bio available"}</span>
                         </div>
                         <div className="info-item">

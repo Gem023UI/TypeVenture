@@ -161,19 +161,6 @@
   width: 0px;
 }
 
-.scrollable-list::-webkit-scrollbar-track {
-  background: #F3F4F6;
-}
-
-.scrollable-list::-webkit-scrollbar-thumb {
-  background: #D1D5DB;
-  border-radius: 4px;
-}
-
-.scrollable-list::-webkit-scrollbar-thumb:hover {
-  background: #9CA3AF;
-}
-
 /* Leaderboard List */
 .leaderboard-list {
   display: flex;
@@ -195,7 +182,6 @@
 }
 
 .leaderboard-item:hover {
-  background-color: #F3F4F6;
   transform: translateX(5px);
 }
 
@@ -219,11 +205,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.leaderboard-item:hover .item-user {
-  color: #6366F1;
-  text-decoration: underline;
 }
 
 .item-score {
@@ -283,8 +264,8 @@
 }
 
 .profile-modal-content {
-  max-width: 1000px;
-  width: 100%;
+  max-width: 1200px;
+  width: fit-content;
   max-height: 55vh;
   overflow-y: auto;
   position: relative;
@@ -351,24 +332,18 @@
 }
 
 .profile-modal-image {
-  width: 360px;
-  height: 360px;
+  width: 260px;
+  height: 260px;
   border-radius: 20px;
   object-fit: cover;
   margin: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 .profile-modal-header h2 {
   margin: 10px 0 5px 0;
   font-size: 32px;
   font-weight: bold;
-}
-
-.profile-email {
-  opacity: 0.9;
-  font-size: 16px;
-  margin: 0;
 }
 
 .profile-modal-body {
@@ -382,33 +357,49 @@
 
 .profile-info-grid {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
+  flex-direction: column;}
 
 .info-item {
   display: flex;
   flex-direction: column;
   gap: 5px;
   padding: 15px;
-  background: #F9FAFB;
+  background: transparent;
   border-radius: 8px;
-  border-left: 4px solid #825cff;
+}
+
+.info-username {
+  font-size: 70px;
+  font-family: 'Poppins';
+  font-weight: 800;
+
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-image: var(--border-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  padding-top: 20px;
+}
+
+.info-value {
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-image: var(--border-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 .info-label {
   font-size: 13px;
-  color: #6B7280;
+  color: #000;
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 0.5px;
 }
 
-.info-value {
-  font-size: 16px;
-  color: #111827;
-  font-weight: 500;
-}
 
 .profile-achievements-section h3 {
   font-size: 20px;
@@ -449,7 +440,7 @@
 
 /* Scrollbar for modal */
 .profile-modal-content::-webkit-scrollbar {
-  width: 8px;
+  width: 0px;
 }
 
 .profile-modal-content::-webkit-scrollbar-track {
