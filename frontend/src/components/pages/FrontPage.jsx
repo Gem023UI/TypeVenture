@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { fetchAllLessons, fetchLessonById } from "../../../api/lessons";
-import { getQuizByLessonId } from "../../../api/quiz";
-import { submitScore, getScoresByUserId, getLeaderboard } from "../../../api/scores";
-import { getTypographyByLessonId } from "../../../api/typography";
-import MainLayout from "../../layout/MainLayout";
+import { fetchAllLessons, fetchLessonById } from "../../api/lessons";
+import { getQuizByLessonId } from "../../api/quiz";
+import { submitScore, getScoresByUserId, getLeaderboard } from "../../api/scores";
+import { getTypographyByLessonId } from "../../api/typography";
+import MainLayout from "../layout/MainLayout";
 import "./TypographyModal.css";
 import "./FrontPage.css";
 import "./QuizModal.css";

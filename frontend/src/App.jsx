@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Aurora from "./components/bins/background/Aurora";
 import LandingSection from "./components/pages/LandingSection";
 import LoginRegister from "./components/pages/Login&Register";
-import FrontPage from "./components/pages/lessons/FrontPage";
+import FrontPage from "./components/pages/FrontPage";
 import Profile from './components/pages/Profile';
 import Leaderboard from './components/pages/Leaderboards';
 
@@ -36,7 +36,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingSection logoUrl={logoUrl} consoleUrl={consoleUrl} />} />
             <Route path="/login" element={<LoginRegister logoUrl={logoUrl} />} />
-            <Route path="/lessons/front" element={<FrontPage />} />
+            <Route path="/lessons" element={<FrontPage />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/leaderboards" element={<Leaderboard />} />
           </Routes>
