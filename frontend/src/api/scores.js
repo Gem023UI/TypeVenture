@@ -2,16 +2,16 @@ const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
 const BASE_URL = `${API_URL}/api/`;
 
 /**
- * Submit a new game score.
+ * Submit a new game score (existing - no achievement processing).
  * @param {Object} scoreData - { userId, gameType, lessonId, score }
  */
 export const submitScore = async (scoreData) => {
   try {
-    const userId = localStorage.getItem('userId'); // Add this line
+    const userId = localStorage.getItem('userId');
     const response = await fetch(`${BASE_URL}score`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...scoreData, userId }), // Add userId
+      body: JSON.stringify({ ...scoreData, userId }),
     });
 
     const data = await response.json();
@@ -19,6 +19,27 @@ export const submitScore = async (scoreData) => {
   } catch (error) {
     console.error("Error submitting score:", error);
     return { success: false, message: "Failed to submit score" };
+  }
+};
+
+/**
+ * NEW FUNCTION - Submit a new game score WITH achievement processing.
+ * @param {Object} scoreData - { userId, gameType, lessonId, score }
+ */
+export const submitScoreWithAchievement = async (scoreData) => {
+  try {
+    const userId = localStorage.getItem('userId');
+    const response = await fetch(`${BASE_URL}score/with-achievement`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...scoreData, userId }),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error submitting score with achievement:", error);
+    return { success: false, message: "Failed to submit score with achievement" };
   }
 };
 

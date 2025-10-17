@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getUserById } from "../../api/user";
 import { editProfile } from "../../api/user";
+import { getUserAchievements } from "../../api/achievements";
 import MainLayout from "../layout/MainLayout";
 import Lanyard from '../bins/media/Lanyard';
 import "./Profile.css";
@@ -27,6 +28,8 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+
+  const [achievements, setAchievements] = useState([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -66,6 +69,30 @@ const Profile = () => {
     };
 
     fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    const fetchAchievements = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+
+        if (!userId) {
+          console.error("❌ No userId found in localStorage");
+          return;
+        }
+
+        const response = await getUserAchievements(userId);
+
+        if (response.success) {
+          setAchievements(response.data);
+          console.log("Achievements loaded:", response.data);
+        }
+      } catch (err) {
+        console.error("Error fetching achievements:", err);
+      }
+    };
+
+    fetchAchievements();
   }, []);
 
   const handleOpenEditModal = () => {
@@ -217,6 +244,31 @@ const Profile = () => {
         {/* Lanyard Section */}
         <div className="lanyard-section">
           <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
+        </div>
+
+        {/* Achievements Section */}
+        <div className="achievements-section">
+          <h2>Achievements</h2>
+          {achievements.length > 0 ? (
+            <div className="achievements-grid">
+              {achievements.map((achievement) => (
+                <div key={achievement._id} className="achievement-card">
+                  <img 
+                    src={achievement.imageUrl} 
+                    alt={`${achievement.tier} medal`}
+                    className="achievement-badge"
+                  />
+                  <p className="achievement-lesson-title">{achievement.lessonTitle}</p>
+                  <span className={`achievement-tier-label ${achievement.tier}`}>
+                    {achievement.tier.toUpperCase()}
+                  </span>
+                  <span className="achievement-score-label">Score: {achievement.score}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="no-achievements">No achievements yet. Complete lessons to earn badges!</p>
+          )}
         </div>
 
         {/* Edit Modal */}

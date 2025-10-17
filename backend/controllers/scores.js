@@ -1,4 +1,5 @@
 import Score from "../models/scores.js";
+import { processAchievement } from "./achievements.js";
 
 // Submit a new score (deletes old score if exists)
 export const submitScore = async (req, res) => {
@@ -52,6 +53,71 @@ export const submitScore = async (req, res) => {
     });
   } catch (error) {
     console.error("âŒ Error submitting score:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error while submitting score",
+      error: error.message
+    });
+  }
+};
+
+export const submitScoreWithAchievement = async (req, res) => {
+  try {
+    const { userId, gameType, lessonId, score } = req.body;
+
+    // Validation
+    if (!userId || !gameType || !lessonId || score === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields"
+      });
+    }
+
+    console.log("🔍 Checking for existing score...");
+    console.log("  User ID:", userId);
+    console.log("  Game Type:", gameType);
+    console.log("  Lesson ID:", lessonId);
+
+    // Delete ALL existing scores for this user, game type, and lesson
+    const deleteResult = await Score.deleteMany({
+      userId: userId,
+      gameType: gameType,
+      lessonId: lessonId
+    });
+
+    console.log("🗑️ Deleted", deleteResult.deletedCount, "old score(s)");
+
+    const wasReplaced = deleteResult.deletedCount > 0;
+
+    // Create new score
+    const newScore = new Score({
+      userId,
+      gameType,
+      lessonId,
+      score,
+      completedAt: new Date()
+    });
+
+    await newScore.save();
+    console.log("✅ New score saved:", newScore);
+
+    // 🏆 Process achievement after score is saved
+    const achievementResult = await processAchievement(userId, lessonId, score);
+    
+    console.log("🏆 Achievement processing result:", achievementResult);
+
+    res.status(201).json({
+      success: true,
+      message: wasReplaced 
+        ? `Score replaced successfully (deleted ${deleteResult.deletedCount} old score(s))` 
+        : "Score submitted successfully",
+      data: newScore,
+      replaced: wasReplaced,
+      deletedCount: deleteResult.deletedCount,
+      achievement: achievementResult // Include achievement info in response
+    });
+  } catch (error) {
+    console.error("❌ Error submitting score:", error);
     res.status(500).json({
       success: false,
       message: "Server error while submitting score",

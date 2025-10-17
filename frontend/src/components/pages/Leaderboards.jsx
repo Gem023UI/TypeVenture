@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getLeaderboardWithDetails } from "../../api/scores";
 import { getUserById } from "../../api/user";
+import { getUserAchievements } from "../../api/achievements";
 import MainLayout from "../layout/MainLayout";
 import TiltedCard from "../bins/media/TiltedCard";
 import "./Leaderboards.css";
@@ -37,6 +38,7 @@ const Leaderboard = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [loadingProfile, setLoadingProfile] = useState(false);
+  const [selectedUserAchievements, setSelectedUserAchievements] = useState([]);
 
   useEffect(() => {
     const fetchLeaderboards = async () => {
@@ -70,43 +72,54 @@ const Leaderboard = () => {
 
   const handleUserClick = async (userId) => {
     try {
-        console.log("🔍 Fetching user with ID:", userId);
-        setLoadingProfile(true);
-        setShowProfileModal(true);
+      console.log("🔍 Fetching user with ID:", userId);
+      setLoadingProfile(true);
+      setShowProfileModal(true);
+      
+      const response = await getUserById(userId);
+      console.log("📦 Full user response:", response);
+      
+      // Backend returns { user: {...} } directly
+      if (response.user) {
+        const userData = {
+          _id: response.user._id,
+          username: response.user.username,
+          email: response.user.email,
+          profileImage: response.user.profilePicture,
+          fullName: response.user.username,
+          bio: response.user.hobbies?.join(", ") || "No bio available",
+          createdAt: response.user.createdAt
+        };
+        console.log("✅ User data loaded:", userData);
+        setSelectedUser(userData);
         
-        const response = await getUserById(userId);
-        console.log("📦 Full user response:", response);
-        
-        // Backend returns { user: {...} } directly
-        if (response.user) {
-            const userData = {
-            _id: response.user._id,
-            username: response.user.username,
-            email: response.user.email,
-            profileImage: response.user.profilePicture,
-            fullName: response.user.username,
-            bio: response.user.hobbies?.join(", ") || "No bio available",
-            createdAt: response.user.createdAt
-            };
-            console.log("✅ User data loaded:", userData);
-            setSelectedUser(userData);
+        // ✅ ADD THIS: Fetch user achievements
+        const achievementsResponse = await getUserAchievements(userId);
+        if (achievementsResponse.success) {
+          setSelectedUserAchievements(achievementsResponse.data);
+          console.log("✅ User achievements loaded:", achievementsResponse.data);
         } else {
-            console.error("❌ Failed to load user:", response);
-            setSelectedUser(null);
-            alert("Failed to load user profile");
+          setSelectedUserAchievements([]);
+          console.log("⚠️ No achievements found for user");
         }
-        
-        setLoadingProfile(false);
-    } catch (err) {
-        console.error("❌ Error fetching user profile:", err);
-        setLoadingProfile(false);
+      } else {
+        console.error("❌ Failed to load user:", response);
+        setSelectedUser(null);
         alert("Failed to load user profile");
+      }
+      
+      setLoadingProfile(false);
+    } catch (err) {
+      console.error("❌ Error fetching user profile:", err);
+      setLoadingProfile(false);
+      alert("Failed to load user profile");
     }
   };
 
   const closeProfileModal = () => {
     setShowProfileModal(false);
     setSelectedUser(null);
+    setSelectedUserAchievements([]);
   };
 
   const renderTopPlayer = (data, title) => {
@@ -279,13 +292,22 @@ const Leaderboard = () => {
                       </div>
                     </div>
 
-                    {selectedUser.achievements && selectedUser.achievements.length > 0 && (
+                    {selectedUserAchievements && selectedUserAchievements.length > 0 && (
                       <div className="profile-achievements-section">
                         <h3>Achievements</h3>
-                        <div className="achievements-list">
-                          {selectedUser.achievements.map((achievement, idx) => (
-                            <div key={idx} className="achievement-badge">
-                              {achievement}
+                        <div className="achievements-grid-modal">
+                          {selectedUserAchievements.map((achievement) => (
+                            <div key={achievement._id} className="achievement-card-modal">
+                              <img 
+                                src={achievement.imageUrl} 
+                                alt={`${achievement.tier} medal`}
+                                className="achievement-badge-modal"
+                              />
+                              <p className="achievement-lesson-title-modal">{achievement.lessonTitle}</p>
+                              <span className={`achievement-tier-label-modal ${achievement.tier}`}>
+                                {achievement.tier.toUpperCase()}
+                              </span>
+                              <span className="achievement-score-label-modal">Score: {achievement.score}</span>
                             </div>
                           ))}
                         </div>

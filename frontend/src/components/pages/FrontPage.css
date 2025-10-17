@@ -228,3 +228,55 @@
 .container-one.closed svg {
   margin-right: 0;
 }
+
+/* Achievement Modal Styles */
+.achievement-modal-content {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.achievement-display {
+  margin: 30px 0;
+}
+
+.achievement-image {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 20px;
+  animation: bounceIn 0.6s ease-out;
+}
+
+.achievement-tier {
+  font-size: 28px;
+  font-weight: bold;
+  color: #825cff;
+  margin: 10px 0;
+  text-transform: uppercase;
+}
+
+.achievement-score {
+  font-size: 18px;
+  color: #666;
+  margin-top: 10px;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

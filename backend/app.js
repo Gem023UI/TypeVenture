@@ -5,6 +5,7 @@ import lessonsRoutes from "./routes/lessons.js";
 import quizRoutes from "./routes/quiz.js";
 import scoreRoutes from "./routes/scores.js";
 import typographyRoutes from "./routes/typography.js";
+import achievementRoutes from "./routes/achievements.js";
 
 const app = express();
 
@@ -51,6 +52,9 @@ console.log("✅ Typography routes registered");
 app.use("/api/score", scoreRoutes);
 console.log("✅ Score routes registered");
 
+app.use("/api/achievements", achievementRoutes);
+console.log("✅ Achievement routes registered");
+
 // Health check
 app.get("/", (req, res) => {
   res.json({ 
@@ -92,7 +96,9 @@ app.use((req, res) => {
       "GET /api/score/user/:username",
       "GET /api/score/leaderboard",
       "GET /api/typography/all",
-      "GET /api/typography/lesson/:lessonId"
+      "GET /api/typography/lesson/:lessonId",
+      "GET /api/achievements/user/:userId",
+      "GET /api/achievements/lesson/:lessonId"
     ]
   });
 });

@@ -3,6 +3,8 @@ import { fetchAllLessons, fetchLessonById } from "../../api/lessons";
 import { getQuizByLessonId } from "../../api/quiz";
 import { submitScore, getScoresByUserId, getLeaderboard } from "../../api/scores";
 import { getTypographyByLessonId } from "../../api/typography";
+import { getUserAchievements } from "../../api/achievements";
+import { submitScoreWithAchievement } from "../../api/scores";
 import MainLayout from "../layout/MainLayout";
 import "./TypographyModal.css";
 import "./FrontPage.css";
@@ -87,7 +89,10 @@ const FrontPage = () => {
   const [selectedColor, setSelectedColor] = useState('');
   const [challengeScores, setChallengeScores] = useState([]);
 
-  // Check if user has completed a specific lesson
+  const [userAchievements, setUserAchievements] = useState([]);
+  const [showAchievementModal, setShowAchievementModal] = useState(false);
+  const [earnedAchievement, setEarnedAchievement] = useState(null);
+
   const hasScore = (lessonId) => {
     return userScores.some(score => 
       score.lessonId === lessonId || 
@@ -95,12 +100,10 @@ const FrontPage = () => {
     );
   };
 
-  // Toggle sidebar open/closed
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Fetch user scores when component mounts
   const fetchUserScores = async () => {
     try {
       const userId = localStorage.getItem("userId");
@@ -121,7 +124,26 @@ const FrontPage = () => {
     }
   };
 
-  // Fetch all lessons and user scores on load
+  const fetchUserAchievements = async () => {
+    try {
+      const userId = localStorage.getItem("userId");
+      
+      if (!userId) {
+        console.log("No user ID found in localStorage");
+        return;
+      }
+
+      const response = await getUserAchievements(userId);
+      
+      if (response.success) {
+        setUserAchievements(response.data);
+        console.log("User achievements loaded:", response.data);
+      }
+    } catch (err) {
+      console.error("Error fetching user achievements:", err);
+    }
+  };
+
   useEffect(() => {
     const loadLessons = async () => {
       setLoading(true);
@@ -132,9 +154,9 @@ const FrontPage = () => {
     };
     loadLessons();
     fetchUserScores();
+    fetchUserAchievements();
   }, []);
 
-  // Handle lesson selection
   const handleLessonClick = async (id) => {
     setLoading(true);
     const data = await fetchLessonById(id);
@@ -168,7 +190,6 @@ const FrontPage = () => {
 
   const handleStartGame = async () => {
     if (selectedLesson) {
-      // Always show info modal first
       setShowInfoModal(true);
     }
   };
@@ -182,7 +203,6 @@ const FrontPage = () => {
     }
     
     if (selectedLesson.category === 'quiz') {
-      // Fetch quiz data
       try {
         const response = await getQuizByLessonId(selectedLesson._id);
         if (response.success) {
@@ -201,14 +221,12 @@ const FrontPage = () => {
         alert('Failed to load quiz. Please try again.');
       }
     } else if (selectedLesson.category === 'typography') {
-      // Fetch typography challenges
       try {
         const response = await getTypographyByLessonId(selectedLesson._id);
         if (response.success && response.data && response.data.length > 0) {
           setTypographyData(response.data);
           setCurrentChallengeIndex(0);
           
-          // Initialize typography values with middle of slider range
           const initial = {};
           response.data[0].adjustableProperties.forEach(prop => {
             if (prop.property === 'fontFamily' || prop.property === 'color' || prop.property === 'textAlign') {
@@ -220,7 +238,6 @@ const FrontPage = () => {
           });
           setTypographyValues(initial);
 
-          // Set initial font and color
           const fontProp = response.data[0].adjustableProperties.find(p => p.property === 'fontFamily');
           const colorProp = response.data[0].adjustableProperties.find(p => p.property === 'color');
           if (fontProp) setSelectedFont(fontProp.options?.[0] || '');
@@ -263,10 +280,9 @@ const FrontPage = () => {
         setScore(score + 5);
       }
 
-      // Auto proceed to next question after 2 seconds
       setTimeout(() => {
         handleNextQuestion();
-      }, 2000);
+      }, 1500);
     }
   };
 
@@ -277,13 +293,11 @@ const FrontPage = () => {
       setIsAnswerChecked(false);
       setIsCorrect(false);
     } else {
-      // Quiz completed
       setQuizCompleted(true);
     }
   };
 
   const handleCloseQuiz = async () => {
-    // Submit score before closing if quiz was completed
     if (quizCompleted && score > 0) {
       await submitQuizScore();
     }
@@ -296,7 +310,6 @@ const FrontPage = () => {
     setScore(0);
     setQuizCompleted(false);
     
-    // Refresh user scores after closing
     fetchUserScores();
   };
 
@@ -316,7 +329,7 @@ const FrontPage = () => {
         score: score
       };
 
-      const data = await submitScore(scoreData);
+      const data = await submitScoreWithAchievement(scoreData);
       
       if (data.success) {
         if (data.replaced) {
@@ -325,8 +338,13 @@ const FrontPage = () => {
           console.log('First score submitted successfully:', data);
         }
         
-        // Refresh user scores to update the icons
         fetchUserScores();
+        fetchUserAchievements();
+        
+        if (data.achievement && data.achievement.success) {
+          setEarnedAchievement(data.achievement.data);
+          setShowAchievementModal(true);
+        }
       } else {
         console.error('Failed to submit score:', data.message);
       }
@@ -491,13 +509,11 @@ const FrontPage = () => {
   };
 
   const handleCloseTypography = async () => {
-    // ✅ MODIFIED - Calculate and submit average score
     if (challengeScores.length > 0) {
       const averageScore = Math.round(
         challengeScores.reduce((sum, score) => sum + score, 0) / challengeScores.length
       );
       
-      // Create score data with average
       const scoreData = {
         userId: localStorage.getItem('userId'),
         gameType: 'typography',
@@ -506,11 +522,17 @@ const FrontPage = () => {
       };
       
       console.log('Submitting average score:', averageScore);
-      const data = await submitScore(scoreData);
+      const data = await submitScoreWithAchievement(scoreData);
       
       if (data.success) {
         console.log('Average typography score submitted:', data);
         fetchUserScores();
+        fetchUserAchievements();
+        
+        if (data.achievement && data.achievement.success) {
+          setEarnedAchievement(data.achievement.data);
+          setShowAchievementModal(true);
+        }
       }
     }
     
@@ -520,9 +542,8 @@ const FrontPage = () => {
     setTypographyValues({});
     setTypographySubmitted(false);
     setTypographyScores(null);
-    setChallengeScores([]); // ✅ ADD THIS - Reset challenge scores
+    setChallengeScores([]);
     
-    // Refresh user scores after closing
     fetchUserScores();
   };
 
@@ -712,7 +733,7 @@ const FrontPage = () => {
                     className="modal-close-btn"
                     onClick={() => setShowGameModal(false)}
                   >
-                    ×
+                    Ã—
                   </button>
 
                   <h2 className="modal-header">
@@ -782,7 +803,7 @@ const FrontPage = () => {
                         {/* Feedback */}
                         {isAnswerChecked && (
                           <div className={`quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`}>
-                            {isCorrect ? '✓ Correct!' : '✗ Incorrect!'}
+                            {isCorrect ? 'Correct!' : 'Incorrect!'}
                           </div>
                         )}
 
@@ -1059,7 +1080,7 @@ const FrontPage = () => {
                                   <div>Your choice: <strong>{prop.userValue}</strong></div>
                                   <div>Correct answer: <strong className="optimal-value">{prop.optimal}</strong></div>
                                   <div className={`property-score ${prop.isCorrect ? 'score-excellent' : 'score-poor'}`}>
-                                    {prop.isCorrect ? '✓ Correct (100/100)' : '✗ Incorrect (0/100)'}
+                                    {prop.isCorrect ? 'âœ“ Correct (100/100)' : 'âœ— Incorrect (0/100)'}
                                   </div>
                                 </>
                               ) : (
@@ -1100,6 +1121,49 @@ const FrontPage = () => {
               </div>
             )}
 
+            {/* Achievement Modal */}
+            {showAchievementModal && earnedAchievement && (
+              <div 
+                className="game-modal-overlay"
+                onClick={() => setShowAchievementModal(false)}
+              >
+                <div 
+                  className="achievement-modal-content"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button 
+                    className="modal-close-btn"
+                    onClick={() => setShowAchievementModal(false)}
+                  >
+                    ×
+                  </button>
+
+                  <h2 className="modal-header">🏆 Achievement Unlocked!</h2>
+                  
+                  <div className="achievement-display">
+                    <img 
+                      src={earnedAchievement.imageUrl} 
+                      alt={`${earnedAchievement.tier} medal`}
+                      className="achievement-image"
+                    />
+                    <h3 className="achievement-tier">
+                      {earnedAchievement.tier.charAt(0).toUpperCase() + earnedAchievement.tier.slice(1)} Medal
+                    </h3>
+                    <p className="achievement-score">Score: {earnedAchievement.score}</p>
+                  </div>
+
+                  <div className="modal-actions">
+                    <button
+                      className="modal-btn modal-btn-primary"
+                      onClick={() => setShowAchievementModal(false)}
+                    >
+                      Awesome!
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
           </>
         ) : (
           <div style={{ textAlign: "center", opacity: 0.8 }}>
@@ -1115,4 +1179,4 @@ const FrontPage = () => {
   );
 };
 
-export default FrontPage;
+export default FrontPage

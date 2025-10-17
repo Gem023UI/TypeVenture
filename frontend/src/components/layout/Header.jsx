@@ -22,7 +22,7 @@ const Header = ({ onMenuClick }) => {
           alt="TypeVenture Logo"
           className="logo"
         />
-        <a href="./lessons/front">TypeVenture</a>
+        <a href="./lessons">TypeVenture</a>
       </div>
 
       <div className="header-right">
