@@ -265,9 +265,8 @@
 
 .profile-modal-content {
   max-width: 1200px;
-  width: fit-content;
   max-height: 55vh;
-  overflow-y: auto;
+  overflow-y: auto; 
   position: relative;
   animation: slideUp 0.3s ease;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -281,10 +280,11 @@
   background-clip: padding-box, border-box;
   background-origin: border-box;
 
-  display: flex;
-  flex-direction: row;
+  /* display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
+
 }
 
 @keyframes slideUp {
@@ -298,28 +298,31 @@
   }
 }
 
-.modal-close-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: #EF4444;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 28px;
-  cursor: pointer;
+.profile-container {
+  width: 100%;
+  height: fit-content;
+  max-height: 350px;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  z-index: 10;
 }
 
-.modal-close-btn:hover {
-  background: #DC2626;
-  transform: rotate(90deg);
+.profile-achievements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 20px;
+}
+
+.profile-achievements-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .profile-modal-header {
@@ -340,14 +343,8 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
-.profile-modal-header h2 {
-  margin: 10px 0 5px 0;
-  font-size: 32px;
-  font-weight: bold;
-}
-
 .profile-modal-body {
-  padding: 30px;
+  padding: 0px 30px;
   width: 70%;
 }
 
@@ -400,27 +397,53 @@
   letter-spacing: 0.5px;
 }
 
-
 .profile-achievements-section h3 {
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-image: var(--border-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  font-family: 'Poppins';
   font-size: 20px;
-  color: #374151;
-  margin-bottom: 15px;
-  font-weight: bold;
+  margin-bottom: 20px;
 }
 
-.achievements-list {
-  display: flex;
-  flex-wrap: wrap;
+.achievements-grid-modal {
+  display: grid;
+  grid-template-columns: repeat(auto-fill);
   gap: 10px;
+  width: fit-content;
 }
 
-.achievement-badge {
-  background: linear-gradient(135deg, #825cff 0%, #6366F1 100%);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 600;
+.achievement-card-modal img {
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+  background: none !important;
+  background-color: transparent !important;
+  mix-blend-mode: normal !important;
+}
+
+.achievement-card-modal {
+  border-radius: 12px;
+  padding: 5px;
+  text-align: center;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+  gap: 10px;
+  background: none !important;
+  border: none !important;
+}
+
+.achievement-lesson-title-modal {
+  color: #000;
+  font-family: 'Poppins';
 }
 
 .modal-loading,

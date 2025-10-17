@@ -254,47 +254,48 @@ const Leaderboard = () => {
         {showProfileModal && (
           <div className="profile-modal-overlay" onClick={closeProfileModal}>
             <div className="profile-modal-content" onClick={(e) => e.stopPropagation()}>
-              <button className="modal-close-btn" onClick={closeProfileModal}>
-                ×
-              </button>
 
               {loadingProfile ? (
                 <div className="modal-loading">Loading profile...</div>
               ) : selectedUser ? (
                 <>
-                  <div className="profile-modal-header">
-                    <img 
-                      src={selectedUser.profileImage || "https://via.placeholder.com/150"} 
-                      alt={selectedUser.username}
-                      className="profile-modal-image"
-                    />
-                  </div>
+                  <div className="profile-container">
+                    <div className="profile-modal-header">
+                      <img 
+                        src={selectedUser.profileImage || "https://via.placeholder.com/150"} 
+                        alt={selectedUser.username}
+                        className="profile-modal-image"
+                      />
+                    </div>
 
-                  <div className="profile-modal-body">
-                    <div className="profile-info-section">
-                      <div className="profile-info-grid">
-                        <div className="info-item">
-                          <span className="info-username">{selectedUser.username || "Not provided"}</span>
-                          <span className="info-value">{selectedUser.email || "Not provided"}</span>
-                        </div>
-                        <div className="info-item">
-                          <span className="info-label">Hobbies:</span>
-                          <span className="info-value">{selectedUser.bio || "No bio available"}</span>
-                        </div>
-                        <div className="info-item">
-                          <span className="info-label">Member Since:</span>
-                          <span className="info-value">
-                            {selectedUser.createdAt 
-                              ? new Date(selectedUser.createdAt).toLocaleDateString()
-                              : "Unknown"}
-                          </span>
+                    <div className="profile-modal-body">
+                      <div className="profile-info-section">
+                        <div className="profile-info-grid">
+                          <div className="info-item">
+                            <span className="info-username">{selectedUser.username || "Not provided"}</span>
+                            <span className="info-value">{selectedUser.email || "Not provided"}</span>
+                          </div>
+                          <div className="info-item">
+                            <span className="info-label">Hobbies:</span>
+                            <span className="info-value">{selectedUser.bio || "No bio available"}</span>
+                          </div>
+                          <div className="info-item">
+                            <span className="info-label">Member Since:</span>
+                            <span className="info-value">
+                              {selectedUser.createdAt 
+                                ? new Date(selectedUser.createdAt).toLocaleDateString()
+                                : "Unknown"}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
+                  </div>
 
+                  <div className="profile-achievements">
                     {selectedUserAchievements && selectedUserAchievements.length > 0 && (
                       <div className="profile-achievements-section">
-                        <h3>Achievements</h3>
+                        <h3>A C H I E V E M E N T S</h3>
                         <div className="achievements-grid-modal">
                           {selectedUserAchievements.map((achievement) => (
                             <div key={achievement._id} className="achievement-card-modal">
@@ -305,9 +306,8 @@ const Leaderboard = () => {
                               />
                               <p className="achievement-lesson-title-modal">{achievement.lessonTitle}</p>
                               <span className={`achievement-tier-label-modal ${achievement.tier}`}>
-                                {achievement.tier.toUpperCase()}
+                                {achievement.tier.toUpperCase()} -  {achievement.score} PTS!
                               </span>
-                              <span className="achievement-score-label-modal">Score: {achievement.score}</span>
                             </div>
                           ))}
                         </div>
