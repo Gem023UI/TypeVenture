@@ -13,6 +13,13 @@
   --text-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
 }
 
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .profile-container {
   display: flex;
   flex-direction: row;
@@ -40,7 +47,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 50px;
   z-index: 1;
   min-height: 300px;
 }
@@ -439,56 +445,75 @@
 
 /* Achievements Section */
 .achievements-section {
-  background: white;
+  background: transparent;
   border-radius: 12px;
-  padding: 30px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 30px;
+  width: 100%;
+  padding: 30px;
+  margin-bottom: 50px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.achievements-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins';
 }
 
 .achievements-section h2 {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
-  font-weight: 600;
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-image: var(--border-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  font-family: 'Poppins';
+  font-size: 50px;
 }
 
 .achievements-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 20px;
 }
 
 .achievement-card {
-  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
-  border: 2px solid #e0e0e0;
   border-radius: 12px;
-  padding: 20px;
+  padding: 5px;
   text-align: center;
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 300px;
   gap: 10px;
 }
 
 .achievement-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(130, 92, 255, 0.2);
-  border-color: #825cff;
 }
 
-.achievement-badge {
-  width: 80px;
-  height: 80px;
+.achievement-card img {
+  width: 300px;
+  height: auto;
   object-fit: contain;
-  margin-bottom: 10px;
+  background: none !important;
+  background-color: transparent !important;
+  mix-blend-mode: normal !important;
 }
 
 .achievement-lesson-title {
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 600;
-  color: #333;
+  color: #FFFFFF;
   margin: 5px 0;
   min-height: 40px;
   display: flex;
@@ -516,14 +541,8 @@
 }
 
 .achievement-tier-label.gold {
-  background: #FFD700;
-  color: #333;
-}
-
-.achievement-score-label {
-  font-size: 12px;
-  color: #666;
-  font-weight: 500;
+  background: #ceaf00;
+  color: #fff;
 }
 
 .no-achievements {

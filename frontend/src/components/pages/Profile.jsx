@@ -201,74 +201,77 @@ const Profile = () => {
 
   return (
     <MainLayout>
-      <div className="profile-container">
-        {/* Profile Details Section */}
-        <div className="profile-details-section">
-          <h2>Profile Details</h2>
-          
-          <div className="detail-username">
-            <p>{username}</p>
-          </div>
-
-          <div className="detail-email">
-            <p>{email}</p>
-          </div>
-
-          <div className="detail-date">
-            <label>Date Joined: </label>
-            <p>{dateJoined}</p>
-          </div>
-
-          <div className="detail-group">
-            <div className="hobbies-display">
-              {hobbies.length > 0 ? (
-                hobbies.map((hobby, index) => (
-                  <span key={index} className="hobby-tag-display">
-                    {hobby}
-                  </span>
-                ))
-              ) : (
-                <p className="no-hobbies">No hobbies added yet</p>
-              )}
+      <div className="profile-section">
+        <div className="profile-container">
+          {/* Profile Details Section */}
+          <div className="profile-details-section">
+            <h2>Profile Details</h2>
+            
+            <div className="detail-username">
+              <p>{username}</p>
             </div>
+
+            <div className="detail-email">
+              <p>{email}</p>
+            </div>
+
+            <div className="detail-date">
+              <label>Date Joined: </label>
+              <p>{dateJoined}</p>
+            </div>
+
+            <div className="detail-group">
+              <div className="hobbies-display">
+                {hobbies.length > 0 ? (
+                  hobbies.map((hobby, index) => (
+                    <span key={index} className="hobby-tag-display">
+                      {hobby}
+                    </span>
+                  ))
+                ) : (
+                  <p className="no-hobbies">No hobbies added yet</p>
+                )}
+              </div>
+            </div>
+
+            <button 
+              className="edit-profile-btn"
+              onClick={handleOpenEditModal}
+            >
+              Edit Profile
+            </button>
           </div>
 
-          <button 
-            className="edit-profile-btn"
-            onClick={handleOpenEditModal}
-          >
-            Edit Profile
-          </button>
-        </div>
-
-        {/* Lanyard Section */}
-        <div className="lanyard-section">
-          <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
+          {/* Lanyard Section */}
+          <div className="lanyard-section">
+            <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
+          </div>
         </div>
 
         {/* Achievements Section */}
         <div className="achievements-section">
-          <h2>Achievements</h2>
-          {achievements.length > 0 ? (
-            <div className="achievements-grid">
-              {achievements.map((achievement) => (
-                <div key={achievement._id} className="achievement-card">
-                  <img 
-                    src={achievement.imageUrl} 
-                    alt={`${achievement.tier} medal`}
-                    className="achievement-badge"
-                  />
-                  <p className="achievement-lesson-title">{achievement.lessonTitle}</p>
-                  <span className={`achievement-tier-label ${achievement.tier}`}>
-                    {achievement.tier.toUpperCase()}
-                  </span>
-                  <span className="achievement-score-label">Score: {achievement.score}</span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="no-achievements">No achievements yet. Complete lessons to earn badges!</p>
-          )}
+          <h2>A C H I E V E M E N T S</h2>
+          <div className="achievements-container">
+            {achievements.length > 0 ? (
+              <div className="achievements-grid">
+                {achievements.map((achievement) => (
+                  <div key={achievement._id} className="achievement-card">
+                    <img 
+                      src={achievement.imageUrl} 
+                      alt={`${achievement.tier} medal`}
+                      className="achievement-badge"
+                    />
+                    <p className="achievement-lesson-title">{achievement.lessonTitle}</p>
+                    <span className={`achievement-tier-label ${achievement.tier}`}>
+                      {achievement.tier.toUpperCase()} - {achievement.score} PTS!
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="no-achievements">No achievements yet. Complete lessons to earn badges!</p>
+            )}
+          </div>
         </div>
 
         {/* Edit Modal */}
