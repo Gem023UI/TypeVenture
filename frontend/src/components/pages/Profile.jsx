@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import * as Chart from 'chart.js';
+import { getScoresByUserId } from "../../api/scores";
 import { getUserById } from "../../api/user";
 import { editProfile } from "../../api/user";
 import { getUserAchievements } from "../../api/achievements";
@@ -14,7 +16,6 @@ const Profile = () => {
   
   const [showEditModal, setShowEditModal] = useState(false);
   
-  // Modal fields
   const [editUsername, setEditUsername] = useState("");
   const [editEmail, setEditEmail] = useState("");
   const [editHobbies, setEditHobbies] = useState([]);
@@ -30,6 +31,18 @@ const Profile = () => {
   const [error, setError] = useState("");
 
   const [achievements, setAchievements] = useState([]);
+
+  const [allScores, setAllScores] = useState([]);
+  const [quizScores, setQuizScores] = useState([]);
+  const [typographyScores, setTypographyScores] = useState([]);
+  const [scoresLoading, setScoresLoading] = useState(true);
+
+  const allChartRef = useRef(null);
+  const quizChartRef = useRef(null);
+  const typographyChartRef = useRef(null);
+  const allChartInstance = useRef(null);
+  const quizChartInstance = useRef(null);
+  const typographyChartInstance = useRef(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -94,6 +107,259 @@ const Profile = () => {
 
     fetchAchievements();
   }, []);
+
+  useEffect(() => {
+    const fetchScores = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+        if (!userId) return;
+
+        const response = await getScoresByUserId(userId);
+
+        if (response.success && response.data) {
+          const sortedScores = response.data.sort(
+            (a, b) => new Date(a.completedAt) - new Date(b.completedAt)
+          );
+
+          const formattedAll = sortedScores.map((score, index) => ({
+            index: index + 1,
+            score: score.score,
+            date: new Date(score.completedAt).toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric'
+            })
+          }));
+
+          const quizData = sortedScores
+            .filter(score => score.gameType === 'quiz')
+            .map((score, index) => ({
+              index: index + 1,
+              score: score.score,
+              date: new Date(score.completedAt).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric'
+              })
+            }));
+
+          const typographyData = sortedScores
+            .filter(score => score.gameType === 'typography')
+            .map((score, index) => ({
+              index: index + 1,
+              score: score.score,
+              date: new Date(score.completedAt).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric'
+              })
+            }));
+
+          setAllScores(formattedAll);
+          setQuizScores(quizData);
+          setTypographyScores(typographyData);
+        }
+      } catch (err) {
+        console.error("Error fetching scores:", err);
+      } finally {
+        setScoresLoading(false);
+      }
+    };
+
+    fetchScores();
+  }, []);
+
+  useEffect(() => {
+    Chart.Chart.register(
+      Chart.LineController,
+      Chart.LineElement,
+      Chart.PointElement,
+      Chart.LinearScale,
+      Chart.CategoryScale,
+      Chart.Title,
+      Chart.Tooltip,
+      Chart.Legend,
+      Chart.Filler
+    );
+
+    // Create All Scores Chart
+    if (allScores.length > 0 && allChartRef.current) {
+      if (allChartInstance.current) {
+        allChartInstance.current.destroy();
+      }
+
+      const ctx = allChartRef.current.getContext('2d');
+      allChartInstance.current = new Chart.Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: allScores.map(s => s.date),
+          datasets: [{
+            label: 'Score',
+            data: allScores.map(s => s.score),
+            borderColor: '#8884d8',
+            backgroundColor: 'rgba(136, 132, 216, 0.1)',
+            tension: 0.3,
+            fill: true,
+            pointRadius: 4,
+            pointHoverRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top'
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return 'Score: ' + context.parsed.y;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              title: {
+                display: true,
+                text: 'Score'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Date'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Create Quiz Chart
+    if (quizScores.length > 0 && quizChartRef.current) {
+      if (quizChartInstance.current) {
+        quizChartInstance.current.destroy();
+      }
+
+      const ctx = quizChartRef.current.getContext('2d');
+      quizChartInstance.current = new Chart.Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: quizScores.map(s => s.date),
+          datasets: [{
+            label: 'Quiz Score',
+            data: quizScores.map(s => s.score),
+            borderColor: '#82ca9d',
+            backgroundColor: 'rgba(130, 202, 157, 0.1)',
+            tension: 0.3,
+            fill: true,
+            pointRadius: 4,
+            pointHoverRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top'
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return 'Score: ' + context.parsed.y;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              title: {
+                display: true,
+                text: 'Score'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Date'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Create Typography Chart
+    if (typographyScores.length > 0 && typographyChartRef.current) {
+      if (typographyChartInstance.current) {
+        typographyChartInstance.current.destroy();
+      }
+
+      const ctx = typographyChartRef.current.getContext('2d');
+      typographyChartInstance.current = new Chart.Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: typographyScores.map(s => s.date),
+          datasets: [{
+            label: 'Typography Score',
+            data: typographyScores.map(s => s.score),
+            borderColor: '#ffc658',
+            backgroundColor: 'rgba(255, 198, 88, 0.1)',
+            tension: 0.3,
+            fill: true,
+            pointRadius: 4,
+            pointHoverRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top'
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return 'Score: ' + context.parsed.y;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              title: {
+                display: true,
+                text: 'Score'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Date'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Cleanup function
+    return () => {
+      if (allChartInstance.current) allChartInstance.current.destroy();
+      if (quizChartInstance.current) quizChartInstance.current.destroy();
+      if (typographyChartInstance.current) typographyChartInstance.current.destroy();
+    };
+  }, [allScores, quizScores, typographyScores]);
 
   const handleOpenEditModal = () => {
     // Pre-fill modal with current data
@@ -272,6 +538,59 @@ const Profile = () => {
               <p className="no-achievements">No achievements yet. Complete lessons to earn badges!</p>
             )}
           </div>
+        </div>
+
+        {/* Score Progress Section */}
+        <div className="progress-section">
+          <h2>S C O R E   P R O G R E S S</h2>
+          
+          {scoresLoading ? (
+            <p className="no-achievements">Loading score history...</p>
+          ) : (
+            <>
+              {/* Overall History Chart */}
+              <div style={{ marginBottom: '60px' }}>
+                <h3 style={{ fontSize: '20px', marginBottom: '20px', textAlign: 'center' }}>
+                  Overall Score History
+                </h3>
+                {allScores.length > 0 ? (
+                  <div style={{ width: '100%', height: '300px' }}>
+                    <canvas ref={allChartRef}></canvas>
+                  </div>
+                ) : (
+                  <p className="no-achievements">No scores recorded yet.</p>
+                )}
+              </div>
+
+              {/* Quiz History Chart */}
+              <div style={{ marginBottom: '60px' }}>
+                <h3 style={{ fontSize: '20px', marginBottom: '20px', textAlign: 'center' }}>
+                  Quiz Score History
+                </h3>
+                {quizScores.length > 0 ? (
+                  <div style={{ width: '100%', height: '300px' }}>
+                    <canvas ref={quizChartRef}></canvas>
+                  </div>
+                ) : (
+                  <p className="no-achievements">No quiz scores recorded yet.</p>
+                )}
+              </div>
+
+              {/* Typography History Chart */}
+              <div style={{ marginBottom: '40px' }}>
+                <h3 style={{ fontSize: '20px', marginBottom: '20px', textAlign: 'center' }}>
+                  Typography Score History
+                </h3>
+                {typographyScores.length > 0 ? (
+                  <div style={{ width: '100%', height: '300px' }}>
+                    <canvas ref={typographyChartRef}></canvas>
+                  </div>
+                ) : (
+                  <p className="no-achievements">No typography scores recorded yet.</p>
+                )}
+              </div>
+            </>
+          )}
         </div>
 
         {/* Edit Modal */}

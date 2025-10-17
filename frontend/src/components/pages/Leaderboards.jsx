@@ -259,7 +259,7 @@ const Leaderboard = () => {
                 <div className="modal-loading">Loading profile...</div>
               ) : selectedUser ? (
                 <>
-                  <div className="profile-container">
+                  <div className="profile-modal-container">
                     <div className="profile-modal-header">
                       <img 
                         src={selectedUser.profileImage || "https://via.placeholder.com/150"} 
