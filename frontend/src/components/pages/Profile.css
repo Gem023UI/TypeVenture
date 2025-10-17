@@ -175,6 +175,10 @@
   gap: 20px;
 }
 
+.edit-modal-content::-webkit-scrollbar {
+  width: 0%;
+}
+
 .edit-modal-content form {
   display: flex;
   flex-direction: column;
@@ -189,6 +193,7 @@
   justify-content: center;
   gap: 30px;
   width: 100%;
+  font-family: 'Poppins';
 }
 
 .modal-close-btn {
