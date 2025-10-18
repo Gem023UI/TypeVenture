@@ -77,3 +77,19 @@ export const getUserById = async (userId) => {
     throw error;
   }
 };
+
+export const deleteAccount = async (credentials) => {
+  try {
+    console.log("Deleting account at:", `${BASE_URL}/api/user/delete-account`);
+    const response = await axios.delete(`${BASE_URL}/api/user/delete-account`, {
+      data: credentials,
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    });
+    console.log("Delete account success:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Delete account error:", error.response || error);
+    throw error.response?.data?.error || "Account deletion failed.";
+  }
+};

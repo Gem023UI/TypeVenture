@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 import validator from "validator";
 import { uploadToCloudinary } from "../utils/multer.js";
+import Score from "../models/scores.js";
+import UserAchievement from "../models/userAchievements.js";
 
 // GET USER BY ID
 export const getUserById = async (req, res) => {
@@ -294,6 +296,64 @@ export const editProfile = async (req, res) => {
     console.error("❌ Edit profile error:", err);
     res.status(500).json({
       error: "Profile update failed",
+      details: err.message,
+    });
+  }
+};
+
+// DELETE ACCOUNT
+export const deleteAccount = async (req, res) => {
+  console.log("🔴 Delete account endpoint hit");
+
+  try {
+    const { userId, username, password } = req.body;
+
+    if (!userId || !username || !password) {
+      return res.status(400).json({ 
+        error: "User ID, username, and password are required" 
+      });
+    }
+
+    // Find the user
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Verify username matches
+    if (user.username !== username) {
+      return res.status(400).json({ error: "Username does not match" });
+    }
+
+    // Verify password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: "Password is incorrect" });
+    }
+
+    // Delete all related records
+    // Import these at the top of your file:
+    // import Score from "../models/scores.js";
+    // import UserAchievement from "../models/userAchievements.js";
+    
+    await Score.deleteMany({ userId: userId });
+    console.log("✅ Deleted user scores");
+    
+    await UserAchievement.deleteMany({ userId: userId });
+    console.log("✅ Deleted user achievements");
+    
+    await User.findByIdAndDelete(userId);
+    console.log("✅ Deleted user account");
+
+    res.json({
+      success: true,
+      message: "Account and all related data deleted successfully"
+    });
+
+  } catch (err) {
+    console.error("❌ Delete account error:", err);
+    res.status(500).json({
+      error: "Account deletion failed",
       details: err.message,
     });
   }

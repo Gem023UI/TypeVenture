@@ -44,6 +44,12 @@ const Profile = () => {
   const quizChartInstance = useRef(null);
   const typographyChartInstance = useRef(null);
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteUsername, setDeleteUsername] = useState("");
+  const [deletePassword, setDeletePassword] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -465,6 +471,40 @@ const Profile = () => {
     }
   };
 
+  const handleDeleteAccount = async (e) => {
+    e.preventDefault();
+    setDeleteLoading(true);
+    setDeleteError("");
+
+    try {
+      const userId = localStorage.getItem("userId");
+      
+      if (!userId) {
+        setDeleteError("User session not found");
+        setDeleteLoading(false);
+        return;
+      }
+
+      const response = await deleteAccount({
+        userId,
+        username: deleteUsername,
+        password: deletePassword
+      });
+
+      if (response.success) {
+        // Clear all localStorage data
+        localStorage.clear();
+        
+        // Redirect to login or home page
+        window.location.href = "/login"; // Change this to your login route
+      }
+    } catch (err) {
+      setDeleteError(err.toString());
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
   return (
     <MainLayout>
       <div className="profile-section">
@@ -499,13 +539,20 @@ const Profile = () => {
                 )}
               </div>
             </div>
-
-            <button 
-              className="edit-profile-btn"
-              onClick={handleOpenEditModal}
-            >
-              Edit Profile
-            </button>
+            <div className="profile-buttons">
+              <button 
+                className="edit-profile-btn"
+                onClick={handleOpenEditModal}
+              >
+                Edit Profile
+              </button>
+              <button 
+                className="delete-profile-btn"
+                onClick={() => setShowDeleteModal(true)}
+              >
+                Delete Account
+              </button>
+            </div>
           </div>
 
           {/* Lanyard Section */}
@@ -734,6 +781,95 @@ const Profile = () => {
                 >
                   {loading ? "Saving..." : "Done"}
                 </button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Delete Account Modal */}
+        {showDeleteModal && (
+          <div 
+            className="edit-modal-overlay"
+            onClick={() => setShowDeleteModal(false)}
+          >
+            <div 
+              className="edit-modal-content"
+              onClick={(e) => e.stopPropagation()}
+              style={{ maxWidth: "400px" }}
+            >
+              <button 
+                className="modal-close-btn"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                ×
+              </button>
+
+              <form onSubmit={handleDeleteAccount}>
+                <h2 style={{ color: "#dc3545", marginBottom: "20px" }}>Delete Account</h2>
+                
+                {deleteError && <div className="error-message">{deleteError}</div>}
+                
+                <p style={{ marginBottom: "20px", color: "#666", textAlign: "center" }}>
+                  This action cannot be undone. Please enter your username and password to confirm.
+                </p>
+
+                <div style={{ marginBottom: "15px" }}>
+                  <label>Username: </label>
+                  <input 
+                    type="text" 
+                    value={deleteUsername}
+                    onChange={(e) => setDeleteUsername(e.target.value)}
+                    placeholder="Enter your username"
+                    required
+                  />
+                </div>
+
+                <div style={{ marginBottom: "30px" }}>
+                  <label>Password:  </label>
+                  <input 
+                    type="password" 
+                    value={deletePassword}
+                    onChange={(e) => setDeletePassword(e.target.value)}
+                    placeholder="Enter your password"
+                    required
+                  />
+                </div>
+
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <button 
+                    type="button"
+                    onClick={() => setShowDeleteModal(false)}
+                    style={{
+                      flex: 1,
+                      padding: "10px",
+                      backgroundColor: "#6c757d",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      fontFamily: "Poppins",
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit"
+                    disabled={deleteLoading}
+                    style={{
+                      flex: 1,
+                      padding: "10px",
+                      backgroundColor: "#dc3545",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "5px",
+                      fontFamily: "Poppins",
+                      cursor: deleteLoading ? "not-allowed" : "pointer",
+                      opacity: deleteLoading ? 0.6 : 1
+                    }}
+                  >
+                    {deleteLoading ? "Deleting..." : "Delete Account"}
+                  </button>
+                </div>
               </form>
             </div>
           </div>

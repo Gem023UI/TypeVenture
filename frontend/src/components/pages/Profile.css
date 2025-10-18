@@ -18,6 +18,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 }
 
 .profile-container {
@@ -119,10 +120,21 @@
   font-size: 14px;
 }
 
-.edit-profile-btn {
+.profile-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  gap: 20px;
+}
+
+.edit-profile-btn,
+.delete-profile-btn {
   margin-top: 35px;
   margin-bottom: 50px;
-  padding: 10px;
+  padding: 15px;
   color: white;
   border: none;
   border-radius: 16px;
@@ -138,10 +150,6 @@
   background: var(--border-gradient) border-box; 
   border: 5px solid transparent;  
   transition: all 0.3s ease;
-}
-
-.edit-profile-btn:hover {
-  background-color: #6a49d9;
 }
 
 /* Edit Modal Styles */
@@ -164,7 +172,7 @@
   max-width: 1000px;
   max-height: 70vh;
   background:
-    linear-gradient(rgb(255, 255, 255), rgba(255, 255, 255, 0.9)) padding-box,
+    linear-gradient(rgb(255, 255, 255), rgba(255, 255, 255, 0.384)) padding-box,
     var(--border-gradient) border-box;
   border: 4px solid transparent;
   border-radius: 16px;
@@ -173,6 +181,7 @@
   display: flex;
   flex-direction: column; /* stack content by default for mobile */
   gap: 20px;
+  font-family: 'Poppins';
 }
 
 .edit-modal-content::-webkit-scrollbar {
@@ -556,6 +565,29 @@
   font-size: 16px;
   padding: 40px 20px;
   font-style: italic;
+}
+
+.progress-section {
+  font-family: 'Poppins';
+  width: 100%;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-section h2 {
+    --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-image: var(--border-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  font-family: 'Poppins';
+  font-size: 50px;
+  letter-spacing: 5px;
 }
 
 /* Responsive adjustments */

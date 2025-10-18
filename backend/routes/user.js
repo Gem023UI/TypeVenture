@@ -5,7 +5,8 @@ import {
   registerUser, 
   loginUser, 
   editProfile,
-  getUserById
+  getUserById,
+  deleteAccount
 } from "../controllers/user.js";
 
 const router = express.Router();
@@ -38,5 +39,7 @@ router.put("/edit-profile",
   handleMulterError,
   editProfile
 );
+
+router.delete("/delete-account", deleteAccount);
 
 export default router;
