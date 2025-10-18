@@ -1,11 +1,12 @@
 import express from "express";
-import { optionalAuth } from "../middlewares/auth.js";
 import { getTypographyByLessonId, getAllTypography } from "../controllers/typography.js";
 
 const router = express.Router();
 
-// Optional auth - works for both guests and logged-in users
-router.get("/lesson/:lessonId", optionalAuth, getTypographyByLessonId);
-router.get("/all", optionalAuth, getAllTypography);
+// GET - Get typography challenges by lesson ID
+router.get("/lesson/:lessonId", getTypographyByLessonId);
+
+// GET - Get all typography challenges
+router.get("/all", getAllTypography);
 
 export default router;

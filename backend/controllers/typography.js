@@ -1,4 +1,4 @@
-import Typography from "../models/typography.js";
+import Typography from "../models/Typography.js";
 
 // Get typography challenges by lesson ID
 export const getTypographyByLessonId = async (req, res) => {

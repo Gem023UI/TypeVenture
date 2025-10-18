@@ -1,14 +1,15 @@
 import express from "express";
-import { optionalAuth } from "../middlewares/auth.js";
 import { getQuizByLessonId } from "../controllers/quiz.js";
 
 const router = express.Router();
 
+// Debug middleware for this router
 router.use((req, res, next) => {
-  console.log("🔍 Quiz route hit:", req.method, req.path);
+  console.log("📝 Quiz route hit:", req.method, req.path);
   next();
 });
 
+// Test endpoint to verify route is working
 router.get("/test", (req, res) => {
   console.log("✅ Test route working!");
   res.json({ 
@@ -18,6 +19,7 @@ router.get("/test", (req, res) => {
   });
 });
 
+// GET all quizzes (for debugging)
 router.get("/all", async (req, res) => {
   try {
     const Quiz = (await import("../models/quiz.js")).default;
@@ -35,9 +37,9 @@ router.get("/all", async (req, res) => {
   }
 });
 
-router.get("/lesson/:lessonId", optionalAuth, (req, res, next) => {
+// GET quiz by lesson ID
+router.get("/lesson/:lessonId", (req, res, next) => {
   console.log("🎯 Getting quiz for lesson:", req.params.lessonId);
-  console.log("🔐 User authenticated:", req.user ? "Yes" : "No (Guest)");
   next();
 }, getQuizByLessonId);
 
