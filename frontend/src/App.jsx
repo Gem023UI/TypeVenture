@@ -4,6 +4,7 @@ import Aurora from "./components/bins/background/Aurora";
 import LandingSection from "./components/pages/LandingSection";
 import LoginRegister from "./components/pages/Login&Register";
 import FrontPage from "./components/pages/FrontPage";
+import GuestGame from './components/pages/GuestGame';
 import Profile from './components/pages/Profile';
 import Leaderboard from './components/pages/Leaderboards';
 
@@ -37,6 +38,7 @@ function App() {
             <Route path="/" element={<LandingSection logoUrl={logoUrl} consoleUrl={consoleUrl} />} />
             <Route path="/login" element={<LoginRegister logoUrl={logoUrl} />} />
             <Route path="/lessons" element={<FrontPage />} />
+            <Route path="/guest-game" element={<GuestGame />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/leaderboards" element={<Leaderboard />} />
           </Routes>

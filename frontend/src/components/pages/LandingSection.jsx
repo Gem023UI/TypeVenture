@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Stack from "../bins/media/Stack";
@@ -7,6 +8,8 @@ import "./LandingSection.css";
 
 export default function LandingSection({ logoUrl }) {
   const navigate = useNavigate();
+
+  const [showGuestModal, setShowGuestModal] = useState(false);
 
   useEffect(() => {
     const elements = document.querySelectorAll(".float-in");
@@ -75,7 +78,12 @@ export default function LandingSection({ logoUrl }) {
               <button 
                 className="login-btn" 
                 onClick={() => navigate("/login")}>LOGIN / REGISTER</button>
-              <button className="guest-btn">PLAY AS GUEST</button>
+              <button 
+              className="guest-btn"
+              onClick={() => setShowGuestModal(true)}
+            >
+              PLAY AS GUEST
+            </button>
             </div>
           </div>
         </div>
@@ -131,6 +139,121 @@ export default function LandingSection({ logoUrl }) {
           </p>
         </div>
       </div>
+
+      {/* Guest Mode Modal */}
+      {showGuestModal && (
+        <div 
+          className="game-modal-overlay"
+          onClick={() => setShowGuestModal(false)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
+          }}
+        >
+          <div 
+            className="game-modal-content"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: 'white',
+              padding: '40px',
+              borderRadius: '12px',
+              maxWidth: '500px',
+              width: '90%',
+              textAlign: 'center'
+            }}
+          >
+            <h2 style={{ 
+              color: '#825cff', 
+              marginBottom: '20px',
+              fontSize: '28px'
+            }}>
+              Choose Your Game
+            </h2>
+            <p style={{ 
+              color: '#666', 
+              marginBottom: '30px',
+              fontSize: '16px'
+            }}>
+              Select which game mode you'd like to try as a guest
+            </p>
+            
+            <div style={{ 
+              display: 'flex', 
+              gap: '15px', 
+              flexDirection: 'column' 
+            }}>
+              <button
+                onClick={() => {
+                  setShowGuestModal(false);
+                  navigate('/guest-game?mode=quiz');
+                }}
+                style={{
+                  padding: '15px 30px',
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  backgroundColor: '#825cff',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#6b4acc'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = '#825cff'}
+              >
+                📝 Quiz Game
+              </button>
+              
+              <button
+                onClick={() => {
+                  setShowGuestModal(false);
+                  navigate('/guest-game?mode=typography');
+                }}
+                style={{
+                  padding: '15px 30px',
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  backgroundColor: '#10b981',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#059669'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = '#10b981'}
+              >
+                🎨 Typography Game
+              </button>
+              
+              <button
+                onClick={() => setShowGuestModal(false)}
+                style={{
+                  padding: '12px 30px',
+                  fontSize: '16px',
+                  backgroundColor: 'transparent',
+                  color: '#666',
+                  border: '2px solid #ddd',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  marginTop: '10px'
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </section>
   );
 }

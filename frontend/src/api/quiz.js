@@ -8,6 +8,6 @@ export const getQuizByLessonId = async (lessonId) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching quiz:", error);
-    throw error;
+    return { success: false, message: error.message };
   }
 };

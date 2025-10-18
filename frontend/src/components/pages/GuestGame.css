@@ -1,0 +1,23 @@
+/* Guest Game Specific Styles */
+.guest-game-header {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #825cff 0%, #6b4acc 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.guest-game-header h1 {
+  color: white;
+  margin: 0;
+  font-size: 28px;
+}
+
+.guest-game-header button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(130, 92, 255, 0.3);
+}

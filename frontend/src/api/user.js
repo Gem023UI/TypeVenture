@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Add logging to debug
-const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_LOCAL_URL;
 
 const BASE_URL = `${API_URL}`;
 
