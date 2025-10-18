@@ -171,18 +171,18 @@ export default function LandingSection({ logoUrl }) {
             }}
           >
             <h2 style={{ 
-              color: '#825cff', 
+              color: '#a200ff', 
               marginBottom: '20px',
               fontSize: '28px'
             }}>
               Choose Your Game
             </h2>
             <p style={{ 
-              color: '#666', 
+              color: '#000', 
               marginBottom: '30px',
               fontSize: '16px'
             }}>
-              Select which game mode you'd like to try as a guest
+              Select which game mode you'd like to try!
             </p>
             
             <div style={{ 
@@ -197,19 +197,19 @@ export default function LandingSection({ logoUrl }) {
                 }}
                 style={{
                   padding: '15px 30px',
+                  fontFamily: 'Poppins',
                   fontSize: '18px',
                   fontWeight: 'bold',
-                  backgroundColor: '#825cff',
+                  letterSpacing: '5px',
+                  backgroundColor: '#0029FF',
                   color: 'white',
                   border: 'none',
                   borderRadius: '8px',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease'
                 }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#6b4acc'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#825cff'}
               >
-                📝 Quiz Game
+                QUIZ GAME
               </button>
               
               <button
@@ -219,19 +219,19 @@ export default function LandingSection({ logoUrl }) {
                 }}
                 style={{
                   padding: '15px 30px',
+                  fontFamily: 'Poppins',
                   fontSize: '18px',
                   fontWeight: 'bold',
-                  backgroundColor: '#10b981',
+                  letterSpacing: '5px',
+                  backgroundColor: '#FF1414',
                   color: 'white',
                   border: 'none',
                   borderRadius: '8px',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease'
                 }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#059669'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#10b981'}
               >
-                🎨 Typography Game
+                TYPOGRAPHY GAME
               </button>
               
               <button
@@ -239,8 +239,9 @@ export default function LandingSection({ logoUrl }) {
                 style={{
                   padding: '12px 30px',
                   fontSize: '16px',
-                  backgroundColor: 'transparent',
-                  color: '#666',
+                  fontFamily: 'Poppins',
+                  backgroundColor: '#FFF',
+                  color: '#000',
                   border: '2px solid #ddd',
                   borderRadius: '8px',
                   cursor: 'pointer',
