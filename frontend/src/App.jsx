@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Aurora from "./components/bins/background/Aurora";
-import LandingSection from "./components/pages/LandingSection";
-import LoginRegister from "./components/pages/Login&Register";
-import FrontPage from "./components/pages/FrontPage";
-import GuestGame from './components/pages/GuestGame';
-import Profile from './components/pages/Profile';
-import Leaderboard from './components/pages/Leaderboards';
-import ProtectedRoute from './components/ProtectedRoutes';
+import Aurora from "./components/bins/background/Aurora.jsx";
+import LandingSection from "./components/pages/LandingSection.jsx";
+import LoginRegister from "./components/pages/Login&Register.jsx";
+import FrontPage from "./components/pages/FrontPage.jsx";
+import GuestGame from './components/pages/GuestGame.jsx';
+import Profile from './components/pages/Profile.jsx';
+import Leaderboard from './components/pages/Leaderboards.jsx';
+import ProtectedRoute from './components/ProtectedRoutes.jsx';
 
 function App() {
   const [logoUrl] = useState(
