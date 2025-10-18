@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../models/user.js";
 import validator from "validator";
 import { uploadToCloudinary } from "../utils/multer.js";
 import Score from "../models/scores.js";
+import User from "../models/user.js";
 import UserAchievement from "../models/userAchievements.js";
 
 // GET USER BY ID
@@ -329,12 +329,7 @@ export const deleteAccount = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ error: "Password is incorrect" });
-    }
-
-    // Delete all related records
-    // Import these at the top of your file:
-    // import Score from "../models/scores.js";
-    // import UserAchievement from "../models/userAchievements.js";
+    };
     
     await Score.deleteMany({ userId: userId });
     console.log("✅ Deleted user scores");

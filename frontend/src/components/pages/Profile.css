@@ -590,6 +590,10 @@
   letter-spacing: 5px;
 }
 
+.progress-charts {
+  width: 100%;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .achievements-grid {

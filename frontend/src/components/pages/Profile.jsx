@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import * as Chart from 'chart.js';
 import { getScoresByUserId } from "../../api/scores";
-import { getUserById } from "../../api/user";
-import { editProfile } from "../../api/user";
+import { getUserById, editProfile, deleteAccount } from "../../api/user";
 import { getUserAchievements } from "../../api/achievements";
 import MainLayout from "../layout/MainLayout";
 import Lanyard from '../bins/media/Lanyard';
@@ -596,7 +595,7 @@ const Profile = () => {
           ) : (
             <>
               {/* Overall History Chart */}
-              <div style={{ marginBottom: '60px' }}>
+              <div className="progress-charts" style={{ marginBottom: '60px' }}>
                 <h3 style={{ fontSize: '20px', marginBottom: '20px', textAlign: 'center' }}>
                   Overall Score History
                 </h3>
@@ -610,7 +609,7 @@ const Profile = () => {
               </div>
 
               {/* Quiz History Chart */}
-              <div style={{ marginBottom: '60px' }}>
+              <div className="progress-charts" style={{ marginBottom: '60px' }}>
                 <h3 style={{ fontSize: '20px', marginBottom: '20px', textAlign: 'center' }}>
                   Quiz Score History
                 </h3>
@@ -624,7 +623,7 @@ const Profile = () => {
               </div>
 
               {/* Typography History Chart */}
-              <div style={{ marginBottom: '40px' }}>
+              <div className="progress-charts" style={{ marginBottom: '40px' }}>
                 <h3 style={{ fontSize: '20px', marginBottom: '20px', textAlign: 'center' }}>
                   Typography Score History
                 </h3>
