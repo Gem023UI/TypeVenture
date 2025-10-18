@@ -1,6 +1,7 @@
 import express from "express";
 import multer from "multer";
 import upload from "../utils/multer.js";
+import { authenticateUser } from "../middlewares/auth.js";
 import { 
   registerUser, 
   loginUser, 
@@ -11,7 +12,6 @@ import {
 
 const router = express.Router();
 
-// Multer error handler middleware
 const handleMulterError = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
     console.error("❌ Multer error:", err);
@@ -27,19 +27,16 @@ const handleMulterError = (err, req, res, next) => {
   next();
 };
 
-// Auth routes
 router.post("/register", registerUser);
-
 router.post("/login", loginUser);
 
-router.get("/profile/:id", getUserById);
-
+router.get("/profile/:id", authenticateUser, getUserById);
 router.put("/edit-profile", 
+  authenticateUser,
   upload.single("avatar"), 
   handleMulterError,
   editProfile
 );
-
-router.delete("/delete-account", deleteAccount);
+router.delete("/delete-account", authenticateUser, deleteAccount);
 
 export default router;
