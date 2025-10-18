@@ -1,10 +1,11 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000/api"; // Adjust to your backend URL
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+const BASE_URL = `${API_URL}/api/`;
 
 export const getQuizByLessonId = async (lessonId) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/quiz/lesson/${lessonId}`);
+    const response = await axios.get(`${BASE_URL}/quiz/lesson/${lessonId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching quiz:", error);
