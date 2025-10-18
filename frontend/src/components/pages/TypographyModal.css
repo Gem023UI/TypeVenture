@@ -47,7 +47,7 @@
   border-radius: 16px;
   padding: 40px;
   overflow-y: auto;
-  overflow-x: hidden; /* ✅ ADD THIS */
+  overflow-x: hidden;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   position: relative;
   animation: slideUp 0.6s ease;
@@ -59,6 +59,7 @@
   display: flex;
   flex-direction: row;
   position: relative;
+  font-family: 'Poppins';
 
   /* Gradient border trick */
   border: 4px solid transparent;

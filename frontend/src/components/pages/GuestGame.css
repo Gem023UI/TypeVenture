@@ -1,4 +1,25 @@
-/* Guest Game Specific Styles */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --color1: #FFFFFF; /* Primary */
+  --color2: #FF1414; /* Accent */
+  --color3: #0029FF; /* Secondary */
+  --color4: #a200ff; /* Tertiary */
+  --text-light: white;
+  --transparent: rgba(255, 255, 255, 0.5);
+  --muted: black;
+
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  --text-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+}
+
+.guest-container {
+    font-family: 'Poppins' !important;
+    animation: slideUp 0.5s ease;
+}
+
+
+
 .guest-game-header {
   max-width: 1200px;
   margin: 0 auto 20px;

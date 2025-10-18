@@ -51,7 +51,8 @@
   position: relative;
   display: flex;
   flex-direction: row;
-  animation: slideUp 0.3s ease;
+  font-family: 'Poppins';
+  animation: slideUp 0.5s ease;
 
   /* Gradient border trick */
   border: 4px solid transparent;

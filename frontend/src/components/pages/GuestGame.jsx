@@ -921,20 +921,19 @@ const GuestGame = () => {
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      backgroundColor: '#f8f9fa',
-      padding: '20px'
-    }}>
+    <div className="guest-container" style={{ padding: '20px' }}>
       {/* Header */}
       <div style={{
         maxWidth: '1200px',
-        margin: '0 auto 20px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <h1 style={{ color: '#825cff' }}>
+        <h1 style={{ 
+            color: '#FFF', 
+            fontFamily: 'Poppins',
+            padding: '0px 40px'
+        }}>
           Guest Mode - {gameMode === 'quiz' ? 'Quiz Game' : 'Typography Game'}
         </h1>
         <button
@@ -945,12 +944,13 @@ const GuestGame = () => {
           }}
           style={{
             padding: '10px 20px',
-            backgroundColor: '#825cff',
+            backgroundColor: '#000',
             color: 'white',
             border: 'none',
             borderRadius: '8px',
             cursor: 'pointer',
-            fontSize: '16px'
+            fontSize: '16px',
+            fontFamily: 'Poppins'
           }}
         >
           Back to Home
