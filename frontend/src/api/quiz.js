@@ -5,7 +5,7 @@ const BASE_URL = `${API_URL}/api/`;
 
 export const getQuizByLessonId = async (lessonId) => {
   try {
-    const response = await axios.get(`${BASE_URL}/quiz/lesson/${lessonId}`);
+    const response = await axios.get(`${BASE_URL}quiz/lesson/${lessonId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching quiz:", error);
