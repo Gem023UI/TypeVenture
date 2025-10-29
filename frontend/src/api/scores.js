@@ -1,5 +1,5 @@
-const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
-const BASE_URL = `${API_URL}/api/`;
+const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
+const BASE_URL = `${API_URL}`;
 
 /**
  * Submit a new game score (existing - no achievement processing).
@@ -8,7 +8,7 @@ const BASE_URL = `${API_URL}/api/`;
 export const submitScore = async (scoreData) => {
   try {
     const userId = localStorage.getItem('userId');
-    const response = await fetch(`${BASE_URL}score`, {
+    const response = await fetch(`${BASE_URL}/api/score`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...scoreData, userId }),
@@ -29,7 +29,7 @@ export const submitScore = async (scoreData) => {
 export const submitScoreWithAchievement = async (scoreData) => {
   try {
     const userId = localStorage.getItem('userId');
-    const response = await fetch(`${BASE_URL}score/with-achievement`, {
+    const response = await fetch(`${BASE_URL}/api/score/with-achievement`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...scoreData, userId }),
@@ -49,7 +49,7 @@ export const submitScoreWithAchievement = async (scoreData) => {
  */
 export const getScoresByUserId = async (userId) => {
   try {
-    const response = await fetch(`${BASE_URL}score/user/${userId}`);
+    const response = await fetch(`${BASE_URL}/api/score/user/${userId}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -65,7 +65,7 @@ export const getScoresByUserId = async (userId) => {
 export const getLeaderboard = async (gameType) => {
   try {
     const query = gameType ? `?gameType=${gameType}` : "";
-    const response = await fetch(`${BASE_URL}score/leaderboard${query}`);
+    const response = await fetch(`${BASE_URL}/api/score/leaderboard${query}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -81,7 +81,7 @@ export const getLeaderboard = async (gameType) => {
 export const getLeaderboardWithDetails = async (gameType) => {
   try {
     const query = gameType ? `?gameType=${gameType}` : "";
-    const response = await fetch(`${BASE_URL}score/leaderboard-details${query}`);
+    const response = await fetch(`${BASE_URL}/api/score/leaderboard-details${query}`);
     const data = await response.json();
     return data;
   } catch (error) {
