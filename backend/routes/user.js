@@ -8,6 +8,7 @@ import {
   getUserById,
   deleteAccount
 } from "../controllers/user.js";
+import { verifyToken } from "../middlewares/auth.js";
 
 const router = express.Router();
 
@@ -32,14 +33,15 @@ router.post("/register", registerUser);
 
 router.post("/login", loginUser);
 
-router.get("/profile/:id", getUserById);
+router.get("/profile/:id", verifyToken, getUserById);
 
 router.put("/edit-profile", 
+  verifyToken,
   upload.single("avatar"), 
   handleMulterError,
   editProfile
 );
 
-router.delete("/delete-account", deleteAccount);
+router.delete("/delete-account", verifyToken, deleteAccount);
 
 export default router;

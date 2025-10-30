@@ -14,11 +14,7 @@ import Leaderboard from './components/pages/Leaderboards';
 
 function App() {
   const [logoUrl] = useState(
-    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759670092/Logo_urcuji.png"
-  );
-
-    const [consoleUrl] = useState (
-    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1760238483/controller_rgpxgl.png"
+    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png"
   );
 
   return (
@@ -26,7 +22,7 @@ function App() {
       <div className="App">
         {/* Aurora as full background */}
         <Aurora
-          colorStops={["#FF1414", "#FFFFFF", "#0029FF"]} // violet, orange, green
+          colorStops={["#0029FF", "#FFFFFF", "#FF1414"]}
           blend={0.0}
           amplitude={2.0}
           speed={0.5}
@@ -35,7 +31,7 @@ function App() {
         {/* Foreground content */}
         <div className="page-content">
           <Routes>
-            <Route path="/" element={<LandingSection logoUrl={logoUrl} consoleUrl={consoleUrl} />} />
+            <Route path="/" element={<LandingSection logoUrl={logoUrl} />} />
             <Route path="/login" element={<LoginRegister logoUrl={logoUrl} />} />
             <Route path="/lessons" element={<FrontPage />} />
             <Route path="/guest-game" element={<GuestGame />} />

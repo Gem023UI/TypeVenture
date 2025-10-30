@@ -11,4 +11,5 @@
   transform: scale(1);
   transform-origin: right;
   pointer-events: none;
+  filter: brightness(80%);
 }

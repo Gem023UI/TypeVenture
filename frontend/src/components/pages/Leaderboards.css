@@ -27,7 +27,7 @@
   background-clip: text;
   margin-bottom: 10px;
 
-    --border-gradient: linear-gradient(180deg, #ff1414, purple, #0029ff);
+  --border-gradient: linear-gradient(180deg, #ff1414, purple, #0029ff);
   background-image: var(--border-gradient);
   background-clip: text;
   -webkit-background-clip: text;

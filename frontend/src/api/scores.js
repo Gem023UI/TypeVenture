@@ -1,16 +1,17 @@
 const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
 const BASE_URL = `${API_URL}`;
 
-/**
- * Submit a new game score (existing - no achievement processing).
- * @param {Object} scoreData - { userId, gameType, lessonId, score }
- */
+const getAuthHeaders = () => ({
+  "Content-Type": "application/json",
+  "Authorization": `Bearer ${localStorage.getItem("token")}`
+});
+
 export const submitScore = async (scoreData) => {
   try {
     const userId = localStorage.getItem('userId');
     const response = await fetch(`${BASE_URL}/api/score`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: getAuthHeaders(),
       body: JSON.stringify({ ...scoreData, userId }),
     });
 
@@ -22,16 +23,12 @@ export const submitScore = async (scoreData) => {
   }
 };
 
-/**
- * NEW FUNCTION - Submit a new game score WITH achievement processing.
- * @param {Object} scoreData - { userId, gameType, lessonId, score }
- */
 export const submitScoreWithAchievement = async (scoreData) => {
   try {
     const userId = localStorage.getItem('userId');
     const response = await fetch(`${BASE_URL}/api/score/with-achievement`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: getAuthHeaders(),
       body: JSON.stringify({ ...scoreData, userId }),
     });
 
@@ -43,13 +40,11 @@ export const submitScoreWithAchievement = async (scoreData) => {
   }
 };
 
-/**
- * Get all scores by userId.
- * @param {string} userId
- */
 export const getScoresByUserId = async (userId) => {
   try {
-    const response = await fetch(`${BASE_URL}/api/score/user/${userId}`);
+    const response = await fetch(`${BASE_URL}/api/score/user/${userId}`, {
+      headers: getAuthHeaders()
+    });
     const data = await response.json();
     return data;
   } catch (error) {
@@ -58,14 +53,12 @@ export const getScoresByUserId = async (userId) => {
   }
 };
 
-/**
- * Get leaderboard (optionally by game type).
- * @param {string} [gameType]
- */
 export const getLeaderboard = async (gameType) => {
   try {
     const query = gameType ? `?gameType=${gameType}` : "";
-    const response = await fetch(`${BASE_URL}/api/score/leaderboard${query}`);
+    const response = await fetch(`${BASE_URL}/api/score/leaderboard${query}`, {
+      headers: getAuthHeaders()
+    });
     const data = await response.json();
     return data;
   } catch (error) {
@@ -74,14 +67,13 @@ export const getLeaderboard = async (gameType) => {
   }
 };
 
-/**
- * Get leaderboard with full user details (for display).
- * @param {string} [gameType]
- */
+
 export const getLeaderboardWithDetails = async (gameType) => {
   try {
     const query = gameType ? `?gameType=${gameType}` : "";
-    const response = await fetch(`${BASE_URL}/api/score/leaderboard-details${query}`);
+    const response = await fetch(`${BASE_URL}/api/score/leaderboard-details${query}`, {
+      headers: getAuthHeaders()
+    });
     const data = await response.json();
     return data;
   } catch (error) {

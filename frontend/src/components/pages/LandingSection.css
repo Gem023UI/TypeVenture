@@ -4,7 +4,10 @@
   --color1: #FFFFFF; /* Primary */
   --color2: #FF1414; /* Accent */
   --color3: #0029FF; /* Secondary */
+  --color4: #a200ff; /* Tertiary */
   --text-light: white;
+  --transparent: rgba(255, 255, 255, 0.5);
+  --muted: black; 
 }
 
 .landing-page-wrapper {
@@ -21,27 +24,31 @@
   width: 100%;
 }
 
-.landing-page-wrapper .landing-info-1 {
+.landing-page-wrapper 
+.landing-info-1 {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 0 10%;
-  margin-top: 25px;
-  height: 90vh;
+  padding: 50px 20px 100px 20px;
+  height: fit-content;
   width: 100%;
 }
 
 .landing-page-wrapper .landing-logo-container {
   border-radius: 20px;
-  padding: 10px;
-  margin-right: 50px;
+
+  margin-left: 20px;
 }
 
 .landing-page-wrapper .landing-logo {
-  width: 300px;
+  width: 400px;
   height: auto;
+}
+
+.landing-page-wrapper .name-buttons {
+  padding: 30px;
 }
 
 .landing-page-wrapper .name-container {
@@ -53,7 +60,7 @@
 }
 
 .landing-page-wrapper .type {
-  font-size: 100px;
+  font-size: 80px;
   font-weight: 900;
   color: #FFFFFF;
   margin: 0px;
@@ -61,7 +68,7 @@
 }
 
 .landing-page-wrapper .venture {
-  font-size: 100px;
+  font-size: 80px;
   font-weight: 900;
   color: transparent;
   -webkit-text-stroke: 3px #FFFFFF;
@@ -85,50 +92,95 @@
   align-items: flex-start;
 }
 
-.landing-page-wrapper .login-btn {
-  padding: 0.8rem 2rem;
-  border-radius: 999px;
-  border: 0px;
-  font-family: 'Poppins';
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: 2px;
-  cursor: pointer;
-  color: var(--text-light);
-  background-color: #0029FF;
-  transition: all 0.3s ease;
-  margin-top: 0px;
-  margin-right: 20px;
-}
-
-.landing-page-wrapper .login-btn:hover {
-  transform: scale(1.05);
-  border: 3px solid #0029FF;
-  color: var(--text-light);
-  background-color: transparent;
-}
-
+.landing-page-wrapper .login-btn,
 .landing-page-wrapper .guest-btn {
   padding: 0.8rem 2rem;
   border-radius: 999px;
   border: 0px;
   font-family: 'Poppins';
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: 2px;
   cursor: pointer;
   color: var(--text-light);
-  background-color: #FF1414;
   transition: all 0.3s ease;
   margin-top: 0px;
+  margin-right: 20px;
+
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff); 
+  
+  background: var(--border-gradient) border-box; 
+  border: 5px solid transparent;  
+  transition: all 0.3s ease;
 }
 
-.landing-page-wrapper .guest-btn:hover {
-  transform: scale(1.05);
-  border: 3px solid #FF1414;
-  color: var(--text-light);
-  background-color: transparent;
+.landing-page-wrapper .guest-btn:hover,
+.landing-page-wrapper .login-btn:hover {
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
 }
+
+.landing-page-wrapper
+.landing-features img {
+  width: 250px;
+  height: auto;
+}
+
+.landing-page-wrapper
+.landing-features p {
+  font-size: 16px;
+}
+
+.landing-features {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 50px 20px 100px 20px;
+  height: fit-content;
+  width: 100%;
+  border: 1px solid white;
+  gap: 20px;
+}
+
+.feature-items {
+  padding: 10px;
+  width: 100%;
+  max-width: 250px;
+  height: fit-content;
+  /* background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid white;
+  border-radius: 16px; */
+}
+
+.feature-items-highlight {
+  width: 100%;
+  max-width: fit-content;
+  height: fit-content;
+  /* background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid white;
+  border-radius: 16px; */
+}
+
+.feature-items:hover {
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.badge-image-highlight img {
+  width: 400px !important;
+}
+
+.feature-text-highlight {
+  padding: 10px;
+
+}
+
 
 .landing-page-wrapper .landing-info-2 {
   display: flex;

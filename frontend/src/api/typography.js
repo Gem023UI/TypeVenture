@@ -1,15 +1,18 @@
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
 const BASE_URL = `${API_URL}/api/`;
 
-/**
- * Get typography challenges by lesson ID
- * @param {string} lessonId
- */
+const getAuthHeaders = () => ({
+  "Content-Type": "application/json",
+  "Authorization": `Bearer ${localStorage.getItem("token")}`
+});
+
 export const getTypographyByLessonId = async (lessonId) => {
   try {
-    const response = await fetch(`${BASE_URL}typography/lesson/${lessonId}`);
+    const response = await fetch(`${BASE_URL}typography/lesson/${lessonId}`, {
+      headers: getAuthHeaders()
+    });
     const data = await response.json();
     return data;
   } catch (error) {

@@ -1,14 +1,16 @@
 const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
 const BASE_URL = `${API_URL}/api/`;
 
-/**
- * Get all achievements earned by a user
- * @param {string} userId - The user's ID
- * @returns {Promise<Object>} Response with user's achievements
- */
+const getAuthHeaders = () => ({
+  "Content-Type": "application/json",
+  "Authorization": `Bearer ${localStorage.getItem("token")}`
+});
+
 export const getUserAchievements = async (userId) => {
   try {
-    const response = await fetch(`${BASE_URL}achievements/user/${userId}`);
+    const response = await fetch(`${BASE_URL}achievements/user/${userId}`, {
+      headers: getAuthHeaders()
+    });
     const data = await response.json();
     
     if (!response.ok) {
@@ -23,14 +25,11 @@ export const getUserAchievements = async (userId) => {
   }
 };
 
-/**
- * Get achievement configuration for a specific lesson
- * @param {string} lessonId - The lesson's ID
- * @returns {Promise<Object>} Response with achievement configuration
- */
 export const getAchievementByLesson = async (lessonId) => {
   try {
-    const response = await fetch(`${BASE_URL}achievements/lesson/${lessonId}`);
+    const response = await fetch(`${BASE_URL}achievements/lesson/${lessonId}`, {
+      headers: getAuthHeaders()
+    });
     const data = await response.json();
     
     if (!response.ok) {

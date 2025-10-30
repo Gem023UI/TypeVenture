@@ -1,9 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Hegarty&family=Ovo&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-/* ============================= */
-/* UNIVERSAL COLOR VARIABLES */
-/* ============================= */
 :root {
   --color1: #FFFFFF; /* Primary */
   --color2: #FF1414; /* Accent */
@@ -12,24 +9,17 @@
 
 }
 
-/* Prevent Loader component from being affected by Login/Register styles */
 .login-register-wrapper .loader,
 .login-register-wrapper .loader * {
   all: unset;
   display: inline-block;
 }
 
-/* ============================= */
-/* GLOBAL STYLES */
-/* ============================= */
 .login-register-wrapper * {
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;
 }
 
-/* ============================= */
-/* MAIN WRAPPER */
-/* ============================= */
 .login-register-wrapper {
   position: relative;
   z-index: 0;
@@ -41,9 +31,6 @@
   padding: 20px;
 }
 
-/* ============================= */
-/* CONTAINER */
-/* ============================= */
 .login-register-wrapper .container {
   background-color: var(--text-light);
   border-radius: 30px;
@@ -56,6 +43,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: slideUp 0.5s ease-in-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .login-register-wrapper .container p {
@@ -77,9 +76,6 @@
   margin: 15px 0 10px;
 }
 
-/* ============================= */
-/* BUTTONS */
-/* ============================= */
 .login-register-wrapper .container button {
   background-color: #000000;
   color: var(--text-light);
@@ -113,9 +109,6 @@
   border: 2px solid #000000;
 }
 
-/* ============================= */
-/* FORMS */
-/* ============================= */
 .login-register-wrapper .container form {
   background-color: var(--text-light);
   display: flex;
@@ -128,9 +121,6 @@
   text-align: center;
 }
 
-/* ============================= */
-/* INPUT FIELDS */
-/* ============================= */
 .login-register-wrapper .input-box {
   width: 100%;
   max-width: 300px;
@@ -152,9 +142,6 @@
   text-align: center;
 }
 
-/* ============================= */
-/* FORM CONTAINERS */
-/* ============================= */
 .login-register-wrapper .form-container {
   position: absolute;
   top: 0;
@@ -203,9 +190,6 @@
   }
 }
 
-/* ============================= */
-/* SOCIAL ICONS */
-/* ============================= */
 .login-register-wrapper .social-icons {
   margin: 20px 0;
 }
@@ -221,9 +205,6 @@
   height: 40px;
 }
 
-/* ============================= */
-/* TOGGLE CONTAINER */
-/* ============================= */
 .login-register-wrapper .toggle-container {
   position: absolute;
   top: 0;
@@ -241,9 +222,6 @@
   border-radius: 0 150px 100px 0;
 }
 
-/* ============================= */
-/* LOGO */
-/* ============================= */
 .login-register-wrapper .trademark {
   width: 50px;
   margin-top: 5px;
@@ -251,9 +229,6 @@
   padding: 5px;
 }
 
-/* ============================= */
-/* TOGGLE BACKGROUND */
-/* ============================= */
 .login-register-wrapper .toggle {
   background: linear-gradient(135deg, #0029FF, #000000, #FF1414);
   color: var(--text-light);
@@ -272,9 +247,6 @@
   transform: translateX(50%);
 }
 
-/* ============================= */
-/* TOGGLE PANELS */
-/* ============================= */
 .login-register-wrapper .toggle-panel {
   position: absolute;
   width: 50%;
@@ -297,7 +269,6 @@
   color: var(--text-light);
 }
 
-/* LEFT PANEL */
 .login-register-wrapper .toggle-left {
   transform: translateX(-200%);
   background: linear-gradient(135deg, #0029FF, #000000, #FF1414);
@@ -307,7 +278,6 @@
   transform: translateX(-50%);
 }
 
-/* RIGHT PANEL */
 .login-register-wrapper .toggle-right {
   right: 0;
   transform: translateX(0);
@@ -319,9 +289,6 @@
   transform: translateX(200%);
 }
 
-/* ============================= */
-/* INPUT CONSISTENCY */
-/* ============================= */
 .login-register-wrapper .input-box,
 .login-register-wrapper .dropdown-btn {
   width: 100%;
@@ -345,3 +312,14 @@
   background-color: #fff;
 }
 
+.swal2-popup {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.swal2-title {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.swal2-content {
+  font-family: 'Poppins', sans-serif !important;
+}

@@ -1,8 +1,6 @@
 import axios from "axios";
 
-// Add logging to debug
 const API_URL = import.meta.env.VITE_LOCAL_URL;
-
 const BASE_URL = `${API_URL}`;
 
 export const registerUser = async (formData) => {
@@ -23,7 +21,10 @@ export const loginUser = async (credentials) => {
   try {
     console.log("Logging in to:", `${BASE_URL}/api/user/login`); // Debug
     const response = await axios.post(`${BASE_URL}/api/user/login`, credentials, {
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      },
       withCredentials: true,
     });
     console.log("Login success:", response.data); // Debug
@@ -45,7 +46,10 @@ export const editProfile = async (formData) => {
 
     console.log("Editing profile at:", `${BASE_URL}/api/user/edit-profile`);
     const response = await axios.put(`${BASE_URL}/api/user/edit-profile`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      },
       withCredentials: true,
     });
     console.log("Edit profile success:", response.data);
@@ -60,8 +64,9 @@ export const getUserById = async (userId) => {
   try {
     const response = await fetch(`${API_URL}/api/user/profile/${userId}`, {
       method: "GET",
-      headers: {
+      headers: { 
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
       },
     });
 
@@ -83,7 +88,10 @@ export const deleteAccount = async (credentials) => {
     console.log("Deleting account at:", `${BASE_URL}/api/user/delete-account`);
     const response = await axios.delete(`${BASE_URL}/api/user/delete-account`, {
       data: credentials,
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      },
       withCredentials: true,
     });
     console.log("Delete account success:", response.data);
