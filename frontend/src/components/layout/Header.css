@@ -8,9 +8,8 @@
   --text-light: white;
 }
 
-/* ========== HEADER CONTAINER ========== */
 .header {
-  background: rgba(255, 255, 255, 0.7); /* semi-transparent white */
+  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   position: relative;
@@ -26,13 +25,6 @@
   width: 100%;
 }
 
-/* ========== SCROLLED STATE ========== */
-.header.scrolled {
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* ========== LEFT SIDE (LOGO + ICON + TITLE) ========== */
 .header-left {
   display: flex;
   align-items: center;
@@ -77,7 +69,6 @@
   transform: scale(1.1);
 }
 
-/* ========== RIGHT SIDE LINKS ========== */
 .header-right {
   margin-right: 70px;
 }
@@ -97,9 +88,6 @@
   padding: 20px;
 }
 
-/* ---------------------------
-   Header right links & hovers
-   --------------------------- */
 .header-right .header-links {
   display: flex;
   gap: 1rem;
@@ -109,7 +97,6 @@
   align-items: center;
 }
 
-/* Make <a> the clickable box so background and color changes apply nicely */
 .header-right .header-links li a {
   display: inline-block;
   padding: 0.45rem 0.9rem;
@@ -133,17 +120,13 @@
   transform: scale(1.05);
 }
 
-/* pointer + accessibility */
 .header-right .header-links li { cursor: default; }
 .header-right .header-links li:hover { cursor: pointer; }
 
-/* small screens: hide or stack if needed */
 @media (max-width: 768px) {
   .header-right .header-links { display: none; }
 }
 
-
-/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
   .header-right ul {
     display: none;

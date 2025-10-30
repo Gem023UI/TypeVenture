@@ -68,8 +68,7 @@ export default function LandingSection({ logoUrl }) {
                   TYPE<span className="venture">VENTURE</span>
                 </h1>
                 <p className="description">
-                  From kerning to contrast, build your design skills step by step
-                  while earning points and badges.
+                  From kerning to contrast, build your design skills step by step while earning points and badges. Take on lessons, hurdle challengs, and show you intellect and graphical design prowess in the Leadboards, all within TypeVenture.
                 </p>
               </div>
               <div className="btn-container">
@@ -83,15 +82,30 @@ export default function LandingSection({ logoUrl }) {
             </div>
           </div>
 
+          <div className="landing-info-2">
+            <div className="landing-info-2-texts">
+              <h2 className="tagline-1">
+                Play with <span className="highlight-pink">TYPE</span>
+              </h2>
+              <h2 className="tagline-2 float-in">
+                Learn by <span className="highlight-yellow">DESIGN</span>
+              </h2>
+              <p className="description-2">
+                Discover typography rules through fun, interactive challenges that
+                turn learning into play.
+              </p>
+            </div>
+          </div>
+
           <div className="landing-features">
             <div className="feature-items">
               <div className="item-badge">
                 <div className="badge-image">
-                  <img src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761805532/badge_nnfigr.png" alt="badges" />
+                  <img src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761831581/quiz_vk4es7.png" alt="badges" />
                 </div>
                 <div className="feature-text">
-                  <h2>Earn Badges!</h2>
-                  <p>Learn typography lessons while earning trophies and achievements.</p>
+                  <h2>Sharpen your Intellect!</h2>
+                  <p>Accumulate learnings through referenced lessons and roadmap.</p>
                 </div>
               </div>
             </div>
@@ -109,11 +123,11 @@ export default function LandingSection({ logoUrl }) {
             <div className="feature-items">
               <div className="item-badge">
                 <div className="badge-image">
-                  <img src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761805532/badge_nnfigr.png" alt="badges" />
+                  <img src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761831585/letter_dv9lxq.png" alt="badges" />
                 </div>
                 <div className="feature-text">
-                  <h2>Earn Badges!</h2>
-                  <p>Learn typography lessons while earning trophies and achievements.</p>
+                  <h2>Take on Typography Challenges!</h2>
+                  <p>Finish each game and track your progress.</p>
                 </div>
               </div>
             </div>
@@ -132,21 +146,6 @@ export default function LandingSection({ logoUrl }) {
                   </button>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="landing-info-2">
-            <div className="landing-info-2-texts">
-              <h2 className="tagline-1">
-                Play with <span className="highlight-pink">TYPE</span>
-              </h2>
-              <h2 className="tagline-2 float-in">
-                Learn by <span className="highlight-yellow">DESIGN</span>
-              </h2>
-              <p className="description-2">
-                Discover typography rules through fun, interactive challenges that
-                turn learning into play.
-              </p>
             </div>
           </div>
 

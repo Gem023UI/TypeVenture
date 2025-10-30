@@ -48,11 +48,6 @@ const Drawer = ({ isOpen, onClose }) => {
     fetchUserData();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.clear();
-    window.location.href = "/";
-  };
-
   return (
     <>
       {isOpen && <div className="drawer-overlay" onClick={onClose}></div>}
@@ -86,11 +81,6 @@ const Drawer = ({ isOpen, onClose }) => {
               <a href="/leaderboards" onClick={onClose}>Leaderboards</a>
             </li>
           </ul>
-
-          {/* Logout Button */}
-          <button className="logout-btn" onClick={handleLogout}>
-            Log Out
-          </button>
         </div>
       </div>
     </>

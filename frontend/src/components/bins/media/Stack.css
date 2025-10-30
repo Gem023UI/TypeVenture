@@ -1,8 +1,11 @@
 :root {
-  --color1: #5522ff; /* Primary */
-  --color2: #ff8b2d; /* Accent */
-  --color3: #32ab1f; /* Secondary */
+  --color1: #FFFFFF; /* Primary */
+  --color2: #FF1414; /* Accent */
+  --color3: #0029FF; /* Secondary */
+  --color4: #a200ff; /* Tertiary */
   --text-light: white;
+  --transparent: rgba(255, 255, 255, 0.5);
+  --muted: black; 
 }
 
 .stack-container {
@@ -18,13 +21,13 @@
 .card {
   overflow: hidden;
   width: fit-content;
-    --border-gradient: linear-gradient(135deg, var(--color1), var(--color2), var(--color3));
+  --border-gradient: linear-gradient(135deg, #FF1414, #a200ff, #0029FF);
 
   border-radius: 20px;
   padding: 10px;
   margin-right: 50px;
   background:
-    linear-gradient(white, white) padding-box,
+    linear-gradient(#FFFFFF, #FFFFFF) padding-box,
     var(--border-gradient) border-box;
   border: 3px solid transparent;
 }

@@ -31,24 +31,27 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 50px 20px 100px 20px;
+  padding: 50px 50px 100px 50px;
   height: fit-content;
   width: 100%;
 }
 
 .landing-page-wrapper .landing-logo-container {
   border-radius: 20px;
-
+  margin-right: 40px;
   margin-left: 20px;
 }
 
 .landing-page-wrapper .landing-logo {
-  width: 400px;
+  width: 500px;
   height: auto;
 }
 
 .landing-page-wrapper .name-buttons {
   padding: 30px;
+  margin-left: 40px;
+  width: 100%;
+  max-width: 600px;
 }
 
 .landing-page-wrapper .name-container {
@@ -61,7 +64,7 @@
 
 .landing-page-wrapper .type {
   font-size: 80px;
-  font-weight: 900;
+  font-weight: 700;
   color: #FFFFFF;
   margin: 0px;
   letter-spacing: 2px;
@@ -69,7 +72,7 @@
 
 .landing-page-wrapper .venture {
   font-size: 80px;
-  font-weight: 900;
+  font-weight: 700;
   color: transparent;
   -webkit-text-stroke: 3px #FFFFFF;
   padding-left: 5px;
@@ -78,7 +81,7 @@
 }
 
 .landing-page-wrapper .description {
-  font-size: 18px;
+  font-size: 16px;
   color: var(--text-light);
   max-width: 700px;
   margin-top: 0px;
@@ -94,16 +97,15 @@
 
 .landing-page-wrapper .login-btn,
 .landing-page-wrapper .guest-btn {
-  padding: 0.8rem 2rem;
+  padding: 15px 25px;
   border-radius: 999px;
   border: 0px;
   font-family: 'Poppins';
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: 2px;
   cursor: pointer;
-  color: var(--text-light);
-  transition: all 0.3s ease;
+  color: var(--text-light); 
   margin-top: 0px;
   margin-right: 20px;
 
@@ -122,7 +124,7 @@
 
 .landing-page-wrapper
 .landing-features img {
-  width: 250px;
+  width: 150px;
   height: auto;
 }
 
@@ -137,17 +139,16 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 50px 20px 100px 20px;
+  padding: 50px 50px 100px 50px;
   height: fit-content;
   width: 100%;
-  border: 1px solid white;
   gap: 20px;
 }
 
 .feature-items {
   padding: 10px;
   width: 100%;
-  max-width: 250px;
+  max-width: 200px;
   height: fit-content;
   /* background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
@@ -178,7 +179,6 @@
 
 .feature-text-highlight {
   padding: 10px;
-
 }
 
 
@@ -216,14 +216,26 @@
 }
 
 .landing-page-wrapper .highlight-pink {
-  color: #0029FF;
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-image: var(--border-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
   font-size: 75px;
   font-weight: 900;
   letter-spacing: 3px;
 }
 
 .landing-page-wrapper .highlight-yellow {
-  color: #FF1414;
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-image: var(--border-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
   font-size: 100px;
   font-weight: 900;
   letter-spacing: 3px;
@@ -241,10 +253,17 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 10%;
-  margin-bottom: 100px;
-  height: 90vh;
+  padding: 50px 50px 100px 50px;
   width: 100%;
+  height: 90vh;
+}
+
+.landing-page-wrapper .pioneers {
+  margin-left: 50px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .landing-page-wrapper .landing-info-3-texts {
@@ -274,13 +293,25 @@
 }
 
 .landing-page-wrapper .highlight-pink-letters {
-  color: #0029FF;
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-image: var(--border-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
   font-size: 90px;
   font-weight: 900;
 }
 
 .landing-page-wrapper .highlight-yellow-lessons {
-  color: #FF1414;
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-image: var(--border-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  
   font-size: 90px;
   font-weight: 900;
 }
@@ -289,10 +320,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
-  text-align: left;
-  padding: 0 10%;
-  margin: 30px 0px 50px 0px;
+  align-items: flex-end;
+  text-align: right;
+  padding: 50px 50px 100px 50px;
   height: 90vh;
   width: 100%;
 }
@@ -300,20 +330,20 @@
 .landing-page-wrapper .tagline-5 {
   font-size: 50px;
   color: #FFFFFF;
-  margin: 0 0 5px 125px;
+  margin: 0 125px 5px 125px;
 }
 
 .landing-page-wrapper .tagline-6 {
   font-size: 75px;
   color: #FFFFFF;;
-  margin: 0 0 10px 125px;
+  margin: 0 125px 10px 125px;
 }
 
 .landing-page-wrapper .description-4 {
   font-size: 20px;
   max-width: 600px;
   color: #FFFFFF;
-  margin-left: 125px;
+  margin-right: 125px;
 }
 
 .landing-page-wrapper .texts {
@@ -326,12 +356,4 @@
   margin-bottom: 50px;
   height: 90vh;
   width: 100%;
-}
-
-.landing-page-wrapper .pioneer-image {
-  margin-left: 50px;
-  justify-content: center;
-  align-items: center;
-  padding-left: 75px;
-  margin-bottom: 50px;
 }
