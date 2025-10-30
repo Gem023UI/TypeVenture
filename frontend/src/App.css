@@ -17,4 +17,5 @@ canvas {
   height: 100%;
   z-index: -1;
   background-color: white;
+  filter: brightness(10%);
 }

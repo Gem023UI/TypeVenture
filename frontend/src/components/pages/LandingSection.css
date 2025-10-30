@@ -31,15 +31,14 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 50px 50px 100px 50px;
+  padding: 50px;
   height: fit-content;
   width: 100%;
 }
 
 .landing-page-wrapper .landing-logo-container {
-  border-radius: 20px;
   margin-right: 40px;
-  margin-left: 20px;
+  margin-left: 40px;
 }
 
 .landing-page-wrapper .landing-logo {
@@ -63,7 +62,7 @@
 }
 
 .landing-page-wrapper .type {
-  font-size: 80px;
+  font-size: 75px;
   font-weight: 700;
   color: #FFFFFF;
   margin: 0px;
@@ -71,7 +70,7 @@
 }
 
 .landing-page-wrapper .venture {
-  font-size: 80px;
+  font-size: 75px;
   font-weight: 700;
   color: transparent;
   -webkit-text-stroke: 3px #FFFFFF;
@@ -83,7 +82,7 @@
 .landing-page-wrapper .description {
   font-size: 16px;
   color: var(--text-light);
-  max-width: 700px;
+  max-width: 600px;
   margin-top: 0px;
   text-align: left;
   padding: 5px;
@@ -139,7 +138,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 50px 50px 100px 50px;
+  padding: 50px;
   height: fit-content;
   width: 100%;
   gap: 20px;
@@ -181,13 +180,11 @@
   padding: 10px;
 }
 
-
 .landing-page-wrapper .landing-info-2 {
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 0 10%;
-  margin-bottom: 70px;
   height: 90vh;
   width: 100%;
 }
@@ -253,7 +250,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 50px 50px 100px 50px;
+  padding: 50px;
   width: 100%;
   height: 90vh;
 }
@@ -320,9 +317,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
-  text-align: right;
-  padding: 50px 50px 100px 50px;
+  align-items: flex-start;
+  text-align: left;
+  padding: 50px;
   height: 90vh;
   width: 100%;
 }
@@ -330,20 +327,20 @@
 .landing-page-wrapper .tagline-5 {
   font-size: 50px;
   color: #FFFFFF;
-  margin: 0 125px 5px 125px;
+  margin: 0 0 5px 125px;
 }
 
 .landing-page-wrapper .tagline-6 {
   font-size: 75px;
   color: #FFFFFF;;
-  margin: 0 125px 10px 125px;
+  margin: 0 0 10px 125px;
 }
 
 .landing-page-wrapper .description-4 {
   font-size: 20px;
   max-width: 600px;
   color: #FFFFFF;
-  margin-right: 125px;
+  margin-left: 125px;
 }
 
 .landing-page-wrapper .texts {

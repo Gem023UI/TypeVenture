@@ -50,11 +50,11 @@ export default function LandingSection({ logoUrl }) {
   ];
 
   const images = [
-    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759176984/pioneer2_ouxgbt.png",
-    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759176984/pioneer1_vkmeuz.png",
-    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759176985/pioneer4_l0gqea.png",
-    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759176985/pioneer5_cqe1ba.png",
-    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759176984/pioneer3_sieg66.png"
+    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761847044/8c83f682-0fa9-4854-866e-f976ca7747b4.png",
+    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761847457/b3056ab4-07da-4997-bacc-432b67cdb00e.png",
+    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761847347/779a4dcc-fc37-4ca4-89ee-8f34cd4fa363.png",
+    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761847238/e340ac80-7897-454d-9b58-b40819eaf00c.png",
+    "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761847101/25bf2511-c285-422b-a3ae-7e6b02041bf4.png"
   ];
     
   return (
