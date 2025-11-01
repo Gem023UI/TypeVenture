@@ -24,6 +24,7 @@
   box-sizing: border-box;
   padding: 0 10px;
   min-height: 100vh;
+  z-index: 1;
 }
 
 /* LEFT column */
@@ -231,7 +232,11 @@
 
 /* Achievement Modal Styles */
 .achievement-modal-content {
-  background: white;
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff); 
+  
+  background: var(--border-gradient) border-box; 
+  border: 5px solid transparent;  
+  transition: all 0.3s ease;
   padding: 40px;
   border-radius: 12px;
   width: 90%;
@@ -267,7 +272,13 @@
   margin-top: 10px;
 }
 
+.lesson-items li:not([style*="opacity: 1"]) {
+  filter: grayscale(50%);
+}
 
+.lesson-items li:not([style*="opacity: 1"]):hover {
+  transform: none !important;
+}
 
 @keyframes bounceIn {
   0% {

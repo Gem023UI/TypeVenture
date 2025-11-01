@@ -12,6 +12,25 @@ const Drawer = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if the drawer is open and the click is outside the drawer panel
+      if (isOpen && !event.target.closest('.drawer-panel') && !event.target.closest('.drawer-overlay')) {
+        onClose();
+      }
+    };
+
+    // Add event listener when drawer is open
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, onClose]);
+
+  useEffect(() => {
     const fetchUserData = async () => {
       try {
         const userId = localStorage.getItem("userId");
