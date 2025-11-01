@@ -19,10 +19,6 @@ export default function LoginRegister({ logoUrl }) {
   const [hobbies, setHobbies] = useState([]);
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const defaultProfilePicture = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759649430/user_icon_ze74ys.jpg";
-  const defaultHobbies = ["None yet."];
-
-
   // REGISTER FUNCTION
   const handleRegister = async (e) => {
     e.preventDefault();
