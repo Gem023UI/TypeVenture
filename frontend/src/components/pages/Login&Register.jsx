@@ -17,7 +17,6 @@ export default function LoginRegister({ logoUrl }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hobbies, setHobbies] = useState([]);
-  const [selectedImageFile, setSelectedImageFile] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const defaultProfilePicture = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759649430/user_icon_ze74ys.jpg";
@@ -172,7 +171,7 @@ export default function LoginRegister({ logoUrl }) {
               <input
                 type="text"
                 name="username"
-                placeholder="User Name"
+                placeholder="UserName ( > 6 characters )"
                 required
                 disabled={loading}
                 value={username}
@@ -190,7 +189,7 @@ export default function LoginRegister({ logoUrl }) {
               <input
                 type="password"
                 name="password"
-                placeholder="Password"
+                placeholder="Password ( atleast 1 character )"
                 required
                 disabled={loading}
                 value={password}

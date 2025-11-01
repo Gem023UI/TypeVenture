@@ -47,7 +47,6 @@ export const editProfile = async (formData) => {
     console.log("Editing profile at:", `${BASE_URL}/api/user/edit-profile`);
     const response = await axios.put(`${BASE_URL}/api/user/edit-profile`, formData, {
       headers: { 
-        "Content-Type": "application/json",
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       },
       withCredentials: true,

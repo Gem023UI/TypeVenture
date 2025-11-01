@@ -17,7 +17,7 @@ export const getUserById = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    console.log("📦 USER FETCHED:", user); // just for debugging
+    console.log("📦 USER FETCHED:", user);
 
     res.json({
       user: {
@@ -26,7 +26,7 @@ export const getUserById = async (req, res) => {
         email: user.email,
         profilePicture: user.profilePicture,
         hobbies: user.hobbies,
-        createdAt: user.createdAt ? user.createdAt.toISOString() : null, // ✅ ensure it's sent
+        createdAt: user.createdAt ? user.createdAt.toISOString() : null,
       },
     });
   } catch (err) {
@@ -45,17 +45,14 @@ export const registerUser = async (req, res) => {
   try {
     let { username, email, password, profilePicture, hobbies } = req.body;
 
-    // ✅ Basic username validation
     if (!username || username.length < 5) {
       return res.status(400).json({ error: "Username must be at least 5 characters long" });
     }
 
-    // ✅ No spaces allowed
     if (/\s/.test(username)) {
       return res.status(400).json({ error: "Username cannot contain spaces" });
     }
 
-    // ✅ Check if username already exists (case-insensitive)
     const existingUserByUsername = await User.findOne({
       username: { $regex: new RegExp(`^${username}$`, "i") },
     });
@@ -63,19 +60,16 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ error: "Username already taken" });
     }
 
-    // ✅ Normalize & validate email
     email = validator.normalizeEmail(email);
     if (!validator.isEmail(email)) {
       return res.status(400).json({ error: "Invalid email address" });
     }
 
-    // ✅ Check if email already exists
     const existingUserByEmail = await User.findOne({ email });
     if (existingUserByEmail) {
       return res.status(400).json({ error: "Email already in use" });
     }
 
-    // ✅ Password validation
     const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
     if (!passwordRegex.test(password)) {
       return res.status(400).json({
@@ -116,7 +110,7 @@ export const registerUser = async (req, res) => {
     });
 
     await newUser.save();
-      console.log("✅ User registered successfully:", username);
+      console.log("User registered successfully:", username);
 
       res.status(201).json({
         message: "User registered successfully",
@@ -158,18 +152,15 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ error: "Incorrect Password" });
     }
 
-    // ✅ Generate JWT
     const token = jwt.sign(
       { id: user._id, username: user.username, email: user.email },
       process.env.JWT_SECRET || "defaultsecret",
       { expiresIn: "1d" }
     );
 
-    // ✅ Store JWT in user document
     user.token = token;
     await user.save();
 
-    // ✅ Send token and user info to front-end
     res.json({
       message: "Login successful",
       token,
@@ -207,9 +198,7 @@ export const editProfile = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Update username if provided and changed
     if (username && username !== user.username) {
-      // Check if new username is taken
       const existingUser = await User.findOne({ username });
       if (existingUser) {
         return res.status(400).json({ error: "Username already taken" });
@@ -219,7 +208,6 @@ export const editProfile = async (req, res) => {
     }
 
     if (req.body.email && req.body.email !== user.email) {
-      // Check if the new email is already in use
       const existingEmail = await User.findOne({ email: req.body.email });
       if (existingEmail) {
         return res.status(400).json({ error: "Email already in use" });
@@ -228,7 +216,6 @@ export const editProfile = async (req, res) => {
       console.log("✅ Email updated to:", email);
     }
 
-    // Change password if newPassword provided
     if (newPassword && newPassword.trim() !== "") {
       if (!currentPassword || currentPassword.trim() === "") {
         return res.status(400).json({ error: "Current password is required to set new password" });
@@ -250,7 +237,6 @@ export const editProfile = async (req, res) => {
       console.log("✅ Password updated");
     }
 
-    // Update hobbies if provided
     if (hobbies !== undefined) {
       try {
         const parsedHobbies = typeof hobbies === "string" ? JSON.parse(hobbies) : hobbies;
@@ -261,7 +247,6 @@ export const editProfile = async (req, res) => {
       }
     }
 
-    // Update profile picture if provided
     if (req.file && req.file.buffer) {
       try {
         user.profilePicture = await uploadToCloudinary(
@@ -314,18 +299,15 @@ export const deleteAccount = async (req, res) => {
       });
     }
 
-    // Find the user
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Verify username matches
     if (user.username !== username) {
       return res.status(400).json({ error: "Username does not match" });
     }
 
-    // Verify password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ error: "Password is incorrect" });

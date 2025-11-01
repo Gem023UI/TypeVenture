@@ -7,6 +7,7 @@ import "./Header.css";
 const Header = ({ onMenuClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [hasToken, setHasToken] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -19,9 +20,18 @@ const Header = ({ onMenuClick }) => {
   }, []);
 
   const handleLogout = () => {
+    setShowLogoutModal(true);
+  };
+
+  const confirmLogout = () => {
     localStorage.clear();
     window.location.href = "/";
   };
+
+  const cancelLogout = () => {
+    setShowLogoutModal(false);
+  };
+
 
   return (
     <header className={`header ${isScrolled ? "scrolled" : ""}`}>
@@ -42,7 +52,7 @@ const Header = ({ onMenuClick }) => {
 
           {hasToken ? (
             <li className="orange">
-              <Link to="/" onClick={handleLogout}>Log Out</Link>
+              <Link onClick={handleLogout}>Log Out</Link>
             </li>
           ) : (
             <li className="orange">
@@ -51,6 +61,19 @@ const Header = ({ onMenuClick }) => {
           )}
         </ul>
       </div>
+
+      {showLogoutModal && (
+        <div className="logout-modal-overlay">
+          <div className="logout-modal">
+            <h3>Are you sure you want to log out?</h3>
+            <div className="logout-modal-buttons">
+              <button onClick={confirmLogout} className="confirm-btn">Yes</button>
+              <button onClick={cancelLogout} className="cancel-btn">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </header>
   );
 };
