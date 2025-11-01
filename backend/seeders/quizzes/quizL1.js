@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Quiz from "../../models/quiz.js";
 
-dotenv.config();
+dotenv.config({ path: "./backend/.env" });
 
 const quizData = {
   lessonNumber: new mongoose.Types.ObjectId("68e3fa7ee6981fcb7ccf5ef1"),

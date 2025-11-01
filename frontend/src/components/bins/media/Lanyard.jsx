@@ -159,8 +159,8 @@ function Band({ maxSpeed = 50, minSpeed = 0 }) {
               // Try: (1, -1) to flip vertically, (-1, 1) to flip horizontally
               
               // WRAPPING MODE
-              loadedTexture.wrapS = THREE.ClampToEdgeWrapping; // horizontal wrap
-              loadedTexture.wrapT = THREE.ClampToEdgeWrapping; // vertical wrap
+              loadedTexture.wrapS = THREE.MirroredRepeatWrapping; // horizontal wrap
+              loadedTexture.wrapT = THREE.MirroredRepeatWrapping; // vertical wrap
               // Options: THREE.ClampToEdgeWrapping, THREE.RepeatWrapping, THREE.MirroredRepeatWrapping
               
               // FILTERS

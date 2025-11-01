@@ -6,20 +6,6 @@ dotenv.config({ path: "./.env" });
 
 const lessons = [
   {
-    title: "TypeVenture - Introduction",
-    sourceUrl: "Embark on a Journey Through Typography",
-    category: "trial",
-    content: {
-      description: "TypeVenture gamifies typography education, transforming learning into an interactive and engaging adventure for aspiring designers.",
-      introduction: "TypeVenture introduces a new, gamified way to learn typography—turning design theory into play-based discovery. It redefines how learners interact with fonts, letterforms, and layout principles by embedding them within interactive lessons and challenges. Rather than simply memorizing type rules, users engage with hands-on tasks that simulate real-world design decisions. Each module feels like a creative quest, where players earn rewards and progress through typographic mastery. The platform merges design fundamentals with the motivational aspects of gaming, such as leveling, scoring, and achievements. This encourages learners to consistently explore and improve while enjoying the process. Its interface is simple, clean, and user-centered, ensuring that learning remains visually pleasant and accessible. TypeVenture's color-coded navigation, responsive design, and animated drawer enhance usability and immersion. Beyond aesthetics, it emphasizes why typography matters—how type conveys mood, tone, and personality. It builds a bridge between creative intuition and design theory. Learners not only understand typography's visual rules but also its power as communication. The platform invites exploration, risk-taking, and self-paced learning. It positions typography as a living art form, one that evolves with the user's choices and imagination. Through gamification, TypeVenture transforms what could be a technical subject into an engaging, story-driven experience that nurtures design appreciation and skill growth simultaneously.",
-      discussionOne: "TypeVenture transforms typography into an adventure where users learn by playing. Each challenge feels like a mission to uncover design secrets. This gamified approach motivates consistent learning and curiosity. By earning achievements, users progress through lessons that mix theory and creativity, making typography exciting, interactive, and deeply rewarding.",
-      discussionTwo: "The platform's core concept revolves around interactive exploration. Users experiment with fonts, hierarchy, and spacing within playful environments. Gamification elements like levels and badges enhance motivation. This encourages learners to practice continuously, reinforcing knowledge through fun, visually driven activities that merge education with creative problem-solving.",
-      discussionThree: "TypeVenture applies game logic to learning structure. Progression systems guide users from basic principles to advanced design techniques. Each success unlocks new challenges, sustaining engagement. The approach reframes typography not as rules but as discovery, encouraging experimentation and emotional connection to type as creative expression.",
-      discussionFour: "Gamified lessons make typography feel like storytelling. Users 'play' with type to express ideas, not just design layouts. The reward system fuels motivation, while interactive modules turn feedback into progress. This playful learning model builds confidence, blending technical understanding with enjoyment and visual exploration.",
-      discussionFive: "Ultimately, TypeVenture gamifies education to inspire lasting learning. It proves typography can be both educational and entertaining. By merging creativity with achievement-based systems, it keeps users engaged while deepening understanding. TypeVenture stands as a model of how gamification transforms design education into meaningful, joyful exploration.",
-    },
-  },
-  {
     title: "I. Beginning Graphic Design: Typography",
     sourceUrl: "https://edu.gcfglobal.org/en/beginning-graphic-design/typography/1/",
     category: "quiz",
@@ -78,7 +64,7 @@ const lessons = [
   {
     title: "V. Typography Guidelines and References",
     sourceUrl: "https://www.smashingmagazine.com/2012/07/typography-guidelines-and-references/",
-    category: "trial",
+    category: "quiz",
     content: {
       description: "A curated compilation of typography principles, techniques, and reference resources.",
       introduction: "This Smashing Magazine article collects and summarizes key typography guidelines, best practices, and reference links for designers. It emphasizes typographic respect, avoiding superficial ornamentation in favor of meaningful design. It discusses paragraph formatting, font embedding, combining typefaces, web font services, CSS techniques, macro- and micro-typography, and international writing systems. The author also explores font rendering issues and typographic design patterns. The article is rich with examples and external resources. It aims to guide both novices and experienced designers toward better typographic decisions.",
@@ -92,7 +78,7 @@ const lessons = [
   {
     title: "VI. Graphic Design Basics: Typography Lesson Plan",
     sourceUrl: "https://www.icevonline.com/hubfs/CEV80528_Lesson_Plan_TX.pdf",
-    category: "trial",
+    category: "quiz",
     content: {
       description: "A detailed lesson plan for teaching typography essentials in the classroom.",
       introduction: "This PDF lesson plan outlines a multi-class module on typography fundamentals, tools, and expressive techniques. It begins by introducing typographic vocabulary and the anatomy of letters. It then explores typeface categories, spacing, alignment, and design software tools. Activities gradually move from simpler tasks (vocabulary, samples) to creative applications such as decorative typography, typographic logos, and magazine spreads. The plan integrates assessments, projects, and review sessions across 11 classes. It also includes career connection components to link typographic skills to real design professions.",
@@ -106,7 +92,7 @@ const lessons = [
   {
     title: "VII. Lessons in Typography: Must-Know Typographic Principles",
     sourceUrl: "https://www.peachpit.com/store/lessons-in-typography-must-know-typographic-principles-9780133993752",
-    category: "trial",
+    category: "quiz",
     content: {
       description: "A lesson-based book covering the fundamentals of using and designing with type.",
       introduction: "Lessons in Typography by Jim Krause offers a practical, example-driven approach to mastering typographic fundamentals. It begins with terminology and the anatomy of letterforms. Then it guides readers into font selection, pairing, spacing, and layout. The book encourages hands-on exercises—creating logos, modifying letters, designing text layouts. It emphasizes the balance of clarity, expression, and structure. With many visuals and exercises, it makes typography accessible and applicable. The book is suitable for beginners and intermediate designers alike. Its goal is to teach both the 'rules' and the creative flexibility of type. Krause blends theory with practice to foster design confidence.",
@@ -120,7 +106,7 @@ const lessons = [
   {
     title: "VIII. The Importance and Use of Typography in Print and Digital Design",
     sourceUrl: "https://www.researchgate.net/publication/387291068_THE_IMPORTANCE_AND_USE_OF_TYPOGRAPHY_IN_PRINT_AND_DIGITAL_DESIGN/",
-    category: "trial",
+    category: "typography",
     content: {
       description: "A comparative study exploring how typography functions differently in print versus digital media, especially regarding font choice and readability.",
       introduction: "This study examines typography's role and use in both printed and digital environments, emphasizing font selection, spacing, color, and size. It surveys various print media (newspapers, magazines, books, packaging) and digital media (websites, mobile apps, e-books, social media). Serif fonts like Times New Roman, Garamond, Cambria, and Georgia are preferred in print for readability. Sans-serif fonts such as Arial, Helvetica, Open Sans, and Montserrat are more common in digital media for clarity on screens. Typographic choices affect user experience, perception, and comprehension. Designers must adapt typography to each medium's strengths and limitations.",
@@ -134,7 +120,7 @@ const lessons = [
   {
     title: "IX. The Elements of Typographic Style",
     sourceUrl: "https://en.wikipedia.org/wiki/The_Elements_of_Typographic_Style",
-    category: "trial",
+    category: "typography",
     content: {
       description: "A comprehensive guide blending typographic theory, history, and practical application.",
       introduction: "*The Elements of Typographic Style* by Robert Bringhurst is a seminal work in typography. First published in 1992 and revised through 2012, it blends theory, history, and practical guidance. Bringhurst emphasizes harmony, clarity, and readability, detailing type anatomy, spacing, and combining typefaces. Its enduring relevance makes it essential for designers and typographers.",
@@ -148,7 +134,7 @@ const lessons = [
   {
     title: "X. An Essay on Typography",
     sourceUrl: "https://en.wikipedia.org/wiki/An_Essay_on_Typography",
-    category: "trial",
+    category: "typography",
     content: {
       description: "A 1931 work by Eric Gill discussing the history and philosophy of typography.",
       introduction: "*An Essay on Typography* by Eric Gill, published in 1931, explores the history and philosophy of typography. It emphasizes craftsmanship, advocating a return to traditional methods amid industrialization. Gill critiques mass production's effect on design quality, urging designers to prioritize artistry and human touch. The book remains influential in typography education and practice.",
