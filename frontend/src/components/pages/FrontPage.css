@@ -234,7 +234,7 @@
 .achievement-modal-content {
   --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff); 
   
-  background: var(--border-gradient) border-box; 
+  background: white; 
   border: 5px solid transparent;  
   transition: all 0.3s ease;
   padding: 40px;

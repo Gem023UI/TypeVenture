@@ -1111,7 +1111,7 @@ const FrontPage = () => {
                                   <div>Your choice: <strong>{prop.userValue}</strong></div>
                                   <div>Correct answer: <strong className="optimal-value">{prop.optimal}</strong></div>
                                   <div className={`property-score ${prop.isCorrect ? 'score-excellent' : 'score-poor'}`}>
-                                    {prop.isCorrect ? 'âœ“ Correct (100/100)' : 'âœ— Incorrect (0/100)'}
+                                    {prop.isCorrect ? 'Correct (100/100)' : 'Incorrect (0/100)'}
                                   </div>
                                 </>
                               ) : (
