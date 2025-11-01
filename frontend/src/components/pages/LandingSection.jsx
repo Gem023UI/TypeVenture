@@ -10,11 +10,11 @@ export default function LandingSection({ logoUrl }) {
   const navigate = useNavigate();
 
   const [showGuestModal, setShowGuestModal] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const elements = document.querySelectorAll(".float-in");
 
-    // Assign cascading delays per section
     let delay = 1;
     elements.forEach((el) => {
       el.setAttribute("data-delay", delay);
@@ -31,14 +31,19 @@ export default function LandingSection({ logoUrl }) {
         });
       },
       {
-        threshold: 0.2, // visible threshold
-        rootMargin: "0px 0px -100px 0px", // triggers slightly before entering
+        threshold: 0.2,
+        rootMargin: "0px 0px -100px 0px",
       }
     );
 
     elements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
   }, []);
 
   const transformStyles = [
@@ -71,11 +76,13 @@ export default function LandingSection({ logoUrl }) {
                   From kerning to contrast, build your design skills step by step while earning points and badges. Take on lessons, hurdle challengs, and show you intellect and graphical design prowess in the Leadboards, all within TypeVenture.
                 </p>
               </div>
-              <div className="btn-container">
-                <button 
-                  className="login-btn" 
-                  onClick={() => navigate("/login")}>LOGIN / REGISTER</button>
-              </div>
+              {!isLoggedIn && (
+                <div className="btn-container">
+                  <button 
+                    className="login-btn" 
+                    onClick={() => navigate("/login")}>LOGIN / REGISTER</button>
+                </div>
+              )}
             </div>
             <div className="landing-logo-container">
               <img src={logoUrl} alt="Typeventure Logo" className="landing-logo" />
@@ -138,12 +145,14 @@ export default function LandingSection({ logoUrl }) {
                 </div>
                 <div className="feature-text-highlight">
                   <h2>Try TypeVenture Now!</h2>
-                  <button 
-                    className="guest-btn"
-                    onClick={() => setShowGuestModal(true)}
-                  >
-                    PLAY AS GUEST
-                  </button>
+                  {!isLoggedIn && (
+                    <button 
+                      className="guest-btn"
+                      onClick={() => setShowGuestModal(true)}
+                    >
+                      PLAY AS GUEST
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
