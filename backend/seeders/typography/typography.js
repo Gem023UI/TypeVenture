@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import Typography from "../models/typography.js"; // Adjust path as needed
+import Typography from "../../models/typography.js";
 
 dotenv.config();
 

@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import Quiz from "../models/quiz.js";
+import Quiz from "../../models/quiz.js";
 
-dotenv.config({ path: "./.env" });
+dotenv.config();
 
-// Typography Quiz Data
 const quizData = {
   lessonNumber: new mongoose.Types.ObjectId("68e3fa7ee6981fcb7ccf5ef1"),
   questions: [

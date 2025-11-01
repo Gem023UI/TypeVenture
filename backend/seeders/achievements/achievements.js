@@ -1,14 +1,12 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import Achievement from "../models/achievements.js";
+import Achievement from "../../models/achievements.js";
 
-// Load environment variables
 dotenv.config();
 
-// Achievement data with the sample lesson ID and Cloudinary image URLs
 const achievementData = [
   {
-    lessonId: "68e3fa7ee6981fcb7ccf5ef1", // Sample lesson ID provided
+    lessonId: "68e3fa7ee6981fcb7ccf5ef1",
     levels: [
       {
         tier: "bronze",
@@ -37,23 +35,19 @@ const seedAchievements = async () => {
     console.log("🔗 Connecting to MongoDB...");
     console.log("📍 MongoDB URI:", process.env.DB_URI ? "Found" : "Not found in .env");
     
-    // Connect to MongoDB
     await mongoose.connect(process.env.DB_URI);
     console.log("✅ Connected to MongoDB successfully!");
-
     console.log("\n🗑️  Clearing existing achievements...");
-    // Clear existing achievements for the specific lesson (optional)
+
     const deleteResult = await Achievement.deleteMany({ 
       lessonId: "68e3fa7ee6981fcb7ccf5ef1" 
     });
     console.log(`   Deleted ${deleteResult.deletedCount} existing achievement(s)`);
-
     console.log("\n📦 Inserting achievement data...");
-    // Insert achievement data
+
     const inserted = await Achievement.insertMany(achievementData);
     console.log(`✅ Successfully seeded ${inserted.length} achievement configuration(s)!`);
     
-    // Display created achievements with details
     console.log("\n🏆 Achievement Details:");
     console.log("═══════════════════════════════════════════════════════════");
     inserted.forEach((achievement, index) => {
