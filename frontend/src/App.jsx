@@ -7,6 +7,8 @@ import FrontPage from "./components/pages/FrontPage";
 import GuestGame from './components/pages/GuestGame';
 import Profile from './components/pages/Profile';
 import Leaderboard from './components/pages/Leaderboards';
+import Citations from './components/pages/Citations';
+import AboutUs from './components/pages/AboutUs';
 
 // Inside your Routes:
 <Route path="/leaderboard" element={<Leaderboard />} />
@@ -37,6 +39,8 @@ function App() {
             <Route path="/guest-game" element={<GuestGame />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/leaderboards" element={<Leaderboard />} />
+            <Route path="/citations" element={<Citations />} />
+            <Route path="/aboutus" element={<AboutUs />} />
           </Routes>
         </div>
       </div>

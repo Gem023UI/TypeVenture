@@ -47,8 +47,8 @@ const Header = ({ onMenuClick }) => {
 
       <div className="header-right">
         <ul className="header-links">
-          <li className="green"><Link to="/games">Citations</Link></li>
-          <li className="orange"><Link to="/contact">About Us</Link></li>
+          <li className="green"><Link to="/citations">Citations</Link></li>
+          <li className="orange"><Link to="/aboutus">About Us</Link></li>
 
           {hasToken ? (
             <li className="orange">

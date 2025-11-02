@@ -199,7 +199,7 @@ const Profile = () => {
             label: 'Score',
             data: allScores.map(s => s.score),
             borderColor: '#8884d8',
-            backgroundColor: 'rgba(136, 132, 216, 0.1)',
+            backgroundColor: 'rgba(136, 132, 216, 0.6)',
             tension: 0.3,
             fill: true,
             pointRadius: 4,
@@ -257,7 +257,7 @@ const Profile = () => {
             label: 'Quiz Score',
             data: quizScores.map(s => s.score),
             borderColor: '#82ca9d',
-            backgroundColor: 'rgba(130, 202, 157, 0.1)',
+            backgroundColor: 'rgba(130, 202, 157, 0.6)',
             tension: 0.3,
             fill: true,
             pointRadius: 4,
@@ -315,7 +315,7 @@ const Profile = () => {
             label: 'Typography Score',
             data: typographyScores.map(s => s.score),
             borderColor: '#ffc658',
-            backgroundColor: 'rgba(255, 198, 88, 0.1)',
+            backgroundColor: 'rgba(255, 198, 88, 0.6)',
             tension: 0.3,
             fill: true,
             pointRadius: 4,
@@ -596,7 +596,7 @@ const Profile = () => {
             <>
               {/* Overall History Chart */}
               <div className="progress-charts" style={{ marginBottom: '60px' }}>
-                <h3 style={{ fontSize: '20px', marginBottom: '20px', textAlign: 'center' }}>
+                <h3 style={{ color: 'white', fontSize: '20px', marginBottom: '20px', textAlign: 'center' }}>
                   Overall Score History
                 </h3>
                 {allScores.length > 0 ? (
