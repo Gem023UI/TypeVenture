@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Typography from "../../models/typography.js";
 
-dotenv.config();
+dotenv.config({ path: "./backend/.env" });
 
 const lessonId = "68e3fa7fe6981fcb7ccf5ef7";
 
@@ -18,7 +18,7 @@ const exercises = [
       {
         _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bc2"),
         property: "fontFamily",
-        label: "Font Family",
+        label: "Typeface",
         optimal: null,
         acceptable: { min: null, max: null },
         sliderRange: {
@@ -113,7 +113,7 @@ const exercises = [
       {
         _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bca"),
         property: "fontFamily",
-        label: "Font Family",
+        label: "Typeface",
         optimal: null,
         acceptable: { min: null, max: null },
         sliderRange: {
@@ -208,7 +208,7 @@ const exercises = [
       {
         _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bd2"),
         property: "fontFamily",
-        label: "Font Family",
+        label: "Typeface",
         optimal: null,
         acceptable: { min: null, max: null },
         sliderRange: {

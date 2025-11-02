@@ -73,7 +73,7 @@ export default function LandingSection({ logoUrl }) {
                   TYPE<span className="venture">VENTURE</span>
                 </h1>
                 <p className="description">
-                  From kerning to contrast, build your design skills step by step while earning points and badges. Take on lessons, hurdle challengs, and show you intellect and graphical design prowess in the Leadboards, all within TypeVenture.
+                  From kerning to contrast, build your design skills step by step while earning points and badges. Take on lessons, hurdle challengs, and show your intellect and graphical design prowess in the leadboards, all within TypeVenture.
                 </p>
               </div>
               {!isLoggedIn && (

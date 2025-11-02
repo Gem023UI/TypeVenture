@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchAllLessons, fetchLessonById } from "../../api/lessons";
 import { getQuizByLessonId } from "../../api/quiz";
-import { submitScore, getScoresByUserId, getLeaderboard } from "../../api/scores";
+import { getScoresByUserId } from "../../api/scores";
 import { getTypographyByLessonId } from "../../api/typography";
 import { getUserAchievements } from "../../api/achievements";
 import { submitScoreWithAchievement } from "../../api/scores";
@@ -715,7 +715,7 @@ const FrontPage = () => {
               </button>
             </div>
 
-            {/* Info Modal - Shows game rules first */}
+            {/* Info Modal */}
             {showInfoModal && selectedLesson && (
               <div 
                 className="game-modal-overlay"
@@ -750,7 +750,7 @@ const FrontPage = () => {
               </div>
             )}
 
-            {/* Game Modal (for trial and typography categories) */}
+            {/* Game Modal */}
             {showGameModal && (
               <div 
                 className="game-modal-overlay"

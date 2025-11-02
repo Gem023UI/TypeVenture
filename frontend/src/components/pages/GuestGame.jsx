@@ -60,7 +60,7 @@ const GUEST_TYPOGRAPHY_DATA = [
     adjustableProperties: [
       {
         property: "fontFamily",
-        label: "Font Family",
+        label: "Typeface",
         optimal: null,
         acceptable: { min: null, max: null },
         sliderRange: {
