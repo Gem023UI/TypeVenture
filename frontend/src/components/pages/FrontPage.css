@@ -1,0 +1,295 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --color1: #FFFFFF; /* Primary */
+  --color2: #FF1414; /* Accent */
+  --color3: #0029FF; /* Secondary */
+  --color4: #a200ff; /* Tertiary */
+  --text-light: white;
+  --transparent: rgba(255, 255, 255, 0.5);
+  --muted: black;
+
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  --text-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+}
+
+/* Layout wrapper */
+.lesson-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 10px;
+  min-height: 100vh;
+  z-index: 1;
+}
+
+/* LEFT column */
+.container-one {
+  z-index: 1;
+  width: 30%;
+  height: 100%;
+  padding: 14px;
+  margin: 30px 10px 30px 30px;
+
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  border-radius: 8px;
+  background:
+    var(--border-gradient) border-box; 
+  border: 1px solid transparent;
+
+  font-family: 'Poppins', sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  position: sticky;
+  top: 14vh;
+  
+  transition: width 0.3s ease;
+}
+
+/* Collapsed state */
+.container-one.closed {
+  width: 80px;
+  padding: 14px 8px;
+}
+
+.container-one.closed .container-one-header {
+  padding-left: 5px;
+  margin-left: 0;
+}
+
+.container-one.closed h2 {
+  justify-content: center;
+}
+
+.container-one.closed p {
+  display: none;
+}
+
+.container-one-header {
+  width: 100%;
+  padding-left: 14px;
+  margin-left: 6px;
+}
+
+/* Scrollable list inside LEFT column */
+.lesson-list {
+  width: 100%;
+  margin-top: 8px;
+  overflow-y: auto; /* scroll inside the left container */
+  padding-right: 6px; /* room for scrollbar */
+  max-height: calc(100vh - 100px); /* limit height inside container */
+}
+
+/* heading */
+.container-one-header h2 {
+  color: var(--text-light);
+  margin-bottom: 5px;
+  margin-top: 5px;
+  padding-right: 6px;
+}
+
+/* RIGHT column */
+.container-two {
+  z-index: 1;
+  width: 70%;
+  padding: 10px;
+  margin: 30px 30px 30px 10px;
+
+  border-radius: 8px;
+  background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)) padding-box;
+
+  font-family: 'Poppins', sans-serif;
+
+  height: auto;
+  overflow: visible;
+  box-sizing: border-box;
+
+  position: sticky;
+  top: 14vh;
+}
+
+/* ✅ Apply the gradient color only to text elements inside the container */
+.container-two h1,
+.container-two h2,
+.container-two h3,
+.container-two h4,
+.container-two h5,
+.container-two h6 {
+  background: var(--text-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.container-two h2 {
+  color: var(--color4);
+  margin: 10px 0px 5px 5px;
+}
+
+.container-two h7 {
+  color: var(--muted);
+  margin: 10px 0px 5px 5px;
+  font-size: 12px;
+}
+
+.lesson-content p {
+  color: var(--muted);
+  padding: 5px;
+  text-align: justify;
+  font-size: 15px;
+}
+
+.lesson-content h3 {
+  color: var(--color4);
+  padding: 5px;
+}
+
+/* base list item */
+.lesson-items {
+  width: 100%;
+  text-align: left;
+  color: var(--text-light);
+  border-radius: 5px;
+  box-sizing: border-box;
+
+  padding: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background-color 0.18s ease, transform 0.12s ease, box-shadow 0.18s;
+  display: block;
+}
+
+/* ensure strong/p inherit color */
+.lesson-items strong,
+.lesson-items p {
+  color: inherit;
+  margin: 0;
+}
+
+/* selected state */
+.lesson-items.selected {
+  background: var(--color1);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(85, 34, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+/* hover for non-selected elements */
+.lesson-items:not(.selected):hover {
+  filter: brightness(0.94);
+  transform: translateY(-2px);
+}
+
+/* helper classes */
+.status-text {
+  margin: 8px 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+.status-text.error {
+  color: #d9534f;
+}
+
+/* unobtrusive scrollbar for LEFT column list */
+.lesson-list::-webkit-scrollbar {
+  width: 8px;
+}
+.lesson-list::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.12);
+  border-radius: 8px;
+}
+
+/* Sidebar toggle hint */
+.container-one-header h2:hover {
+  opacity: 0.8;
+}
+
+/* Show tooltip on collapsed icons */
+.container-one.closed .lesson-items li {
+  position: relative;
+}
+
+/* Smooth icon transition */
+.container-one svg {
+  transition: margin 0.3s ease;
+}
+
+.container-one.closed svg {
+  margin-right: 0;
+}
+
+/* Achievement Modal Styles */
+.achievement-modal-content {
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff); 
+  
+  background: white; 
+  border: 5px solid transparent;  
+  transition: all 0.3s ease;
+  padding: 40px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.achievement-display {
+  margin: 30px 0;
+}
+
+.achievement-image {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 20px;
+  animation: bounceIn 0.6s ease-out;
+}
+
+.achievement-tier {
+  font-size: 28px;
+  font-weight: bold;
+  color: #825cff;
+  margin: 10px 0;
+  text-transform: uppercase;
+}
+
+.achievement-score {
+  font-size: 18px;
+  color: #666;
+  margin-top: 10px;
+}
+
+.lesson-items li:not([style*="opacity: 1"]) {
+  filter: grayscale(50%);
+}
+
+.lesson-items li:not([style*="opacity: 1"]):hover {
+  transform: none !important;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

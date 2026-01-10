@@ -1,0 +1,254 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --color1: #FFFFFF; /* Primary */
+  --color2: #FF1414; /* Accent */
+  --color3: #0029FF; /* Secondary */
+  --color4: #a200ff; /* Tertiary */
+  --text-light: white;
+  --transparent: rgba(255, 255, 255, 0.5);
+  --muted: black;
+
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  --text-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+}
+
+.about-page-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding: 60px 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.about-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-main-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+/* Institution Section */
+.institution-section {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 80px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.institution-image {
+    width: 400px;
+    height: auto;
+    object-fit: cover;
+    padding: 10px;
+}
+
+.institution-image img {
+    width: 400px;
+    height: auto;
+    object-fit: cover;
+}
+
+/* .institution-text {
+  margin-bottom: 80px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+} */
+
+.section-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 25px;
+}
+
+.institution-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.institution-description {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: white;
+  line-height: 1.8;
+  opacity: 0.9;
+}
+
+/* Proprietors Section */
+.proprietors-section {
+  margin-bottom: 40px;
+}
+
+.proprietors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.proprietor-item {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.proprietor-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+}
+
+.proprietor-image-container {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.proprietor-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.proprietor-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.proprietor-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.proprietor-link {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+  display: inline-block;
+  padding: 8px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  width: fit-content;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.proprietor-link:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .about-page-wrapper {
+    padding: 40px 15px;
+  }
+
+  .about-main-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+
+  .institution-section {
+    padding: 25px;
+    margin-bottom: 50px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .institution-name {
+    font-size: 1.25rem;
+  }
+
+  .institution-description {
+    font-size: 1rem;
+  }
+
+  .proprietor-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .proprietor-item:hover {
+    transform: translateY(-5px);
+  }
+
+  .proprietor-image-container {
+    width: 100px;
+    height: 100px;
+  }
+
+  .proprietor-info {
+    align-items: center;
+  }
+
+  .proprietor-name {
+    font-size: 1.25rem;
+  }
+
+  .proprietor-link {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-main-title {
+    font-size: 1.75rem;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+  .institution-name {
+    font-size: 1.125rem;
+  }
+
+  .proprietor-image-container {
+    width: 90px;
+    height: 90px;
+  }
+
+  .proprietor-name {
+    font-size: 1.125rem;
+  }
+}

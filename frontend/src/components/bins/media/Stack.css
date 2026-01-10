@@ -1,0 +1,40 @@
+:root {
+  --color1: #FFFFFF; /* Primary */
+  --color2: #FF1414; /* Accent */
+  --color3: #0029FF; /* Secondary */
+  --color4: #a200ff; /* Tertiary */
+  --text-light: white;
+  --transparent: rgba(255, 255, 255, 0.5);
+  --muted: black; 
+}
+
+.stack-container {
+  position: relative;
+  perspective: 600px;
+}
+
+.card-rotate {
+  position: absolute;
+  cursor: grab;
+}
+
+.card {
+  overflow: hidden;
+  width: fit-content;
+  --border-gradient: linear-gradient(135deg, #FF1414, #a200ff, #0029FF);
+
+  border-radius: 20px;
+  padding: 10px;
+  margin-right: 50px;
+  background:
+    linear-gradient(#FFFFFF, #FFFFFF) padding-box,
+    var(--border-gradient) border-box;
+  border: 3px solid transparent;
+}
+
+.card-image {
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
