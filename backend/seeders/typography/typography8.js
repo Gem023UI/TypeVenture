@@ -1,19 +1,26 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Typography from "../../models/typography.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
-dotenv.config({ path: "./backend/.env" });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({
+  path: path.resolve(__dirname, "../../.env"),
+});
 
 const lessonId = "68e3fa7fe6981fcb7ccf5ef7";
 
 const exercises = [
   // ========== BEGINNER CHALLENGE ==========
   {
-    _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bc1"),
+    _id: new mongoose.Types.ObjectId("68e3fa7fe6981fcb7ccf5f06"),
     lessonId: lessonId,
-    prompt: "Create a mobile app toolbar title that is clear and readable",
-    scenario: "app-bar-title",
-    displayText: "My Messages",
+    prompt: "Create a distinguishable logo name",
+    scenario: "blog-title",
+    displayText: "Facebook",
     adjustableProperties: [
       {
         _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bc2"),
@@ -26,7 +33,7 @@ const exercises = [
           max: 0,
           step: 1,
           options: ["Roboto, sans-serif", "Arial, sans-serif", "Helvetica, sans-serif", "Open Sans, sans-serif"],
-          correctAnswer: "Roboto, sans-serif",
+          correctAnswer: "Open Sans, sans-serif",
           unit: ""
         }
       },
@@ -108,7 +115,7 @@ const exercises = [
     lessonId: lessonId,
     prompt: "Style a list item with supporting text maintaining visual hierarchy",
     scenario: "list-item-multi",
-    displayText: "Jane Cooper\nYou: Thanks for the update! See you tomorrow.",
+    displayText: "Things to Buy:\nVegetables\nCanned Goods\nMeat",
     adjustableProperties: [
       {
         _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bca"),
@@ -121,7 +128,7 @@ const exercises = [
           max: 0,
           step: 1,
           options: ["Roboto, sans-serif", "Arial, sans-serif", "Helvetica, sans-serif", "Open Sans, sans-serif"],
-          correctAnswer: "Roboto, sans-serif",
+          correctAnswer: "Arial, sans-serif",
           unit: ""
         }
       },
@@ -201,9 +208,9 @@ const exercises = [
   {
     _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bd1"),
     lessonId: lessonId,
-    prompt: "Design a complex card layout balancing multiple type roles cohesively",
-    scenario: "complex-card",
-    displayText: "Featured Article\nUnderstanding Material Design 3\nLearn the latest ventures in Material Design.",
+    prompt: "Arrange a simple tabloid headline",
+    scenario: "research-front-page",
+    displayText: "NAGBABAGA!\nImpeachment Complain\nKontra Marcos,\nInihain na!",
     adjustableProperties: [
       {
         _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bd2"),
@@ -216,7 +223,7 @@ const exercises = [
           max: 0,
           step: 1,
           options: ["Roboto, sans-serif", "Arial, sans-serif", "Helvetica, sans-serif", "Open Sans, sans-serif"],
-          correctAnswer: "Roboto, sans-serif",
+          correctAnswer: "Arial, sans-serif",
           unit: ""
         }
       },

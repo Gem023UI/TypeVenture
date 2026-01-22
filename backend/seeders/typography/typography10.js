@@ -1,19 +1,25 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Typography from "../../models/typography.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
-dotenv.config({ path: "./backend/.env" });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const lessonId = "68e3fa7fe6981fcb7ccf5ef7";
+dotenv.config({
+  path: path.resolve(__dirname, "../../.env"),
+});
+
+const lessonId = "68e3fa7fe6981fcb7ccf5f0c";
 
 const exercises = [
   // ========== BEGINNER CHALLENGE ==========
   {
-    _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bc1"),
     lessonId: lessonId,
-    prompt: "Create a mobile app toolbar title that is clear and readable",
-    scenario: "app-bar-title",
-    displayText: "My Messages",
+    prompt: "Align the following text message.",
+    scenario: "text-message",
+    displayText: "CONGRATULATIONS!\nYou just won 75,000 pesos\nfrom the PCSO. Claim\nit thru www.pcso.ph",
     adjustableProperties: [
       {
         _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bc2"),
@@ -34,8 +40,8 @@ const exercises = [
         _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bc3"),
         property: "fontSize",
         label: "Font Size",
-        optimal: 22,
-        acceptable: { min: 20, max: 24 },
+        optimal: 24,
+        acceptable: { min: 22, max: 26 },
         sliderRange: { min: 12, max: 32, step: 1, unit: "px" }
       },
       {
@@ -88,7 +94,7 @@ const exercises = [
           max: 0,
           step: 1,
           options: ["left", "center", "right"],
-          correctAnswer: "center",
+          correctAnswer: "left",
           unit: ""
         }
       }
@@ -104,11 +110,10 @@ const exercises = [
 
   // ========== INTERMEDIATE CHALLENGE ==========
   {
-    _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bc9"),
     lessonId: lessonId,
-    prompt: "Style a list item with supporting text maintaining visual hierarchy",
-    scenario: "list-item-multi",
-    displayText: "Jane Cooper\nYou: Thanks for the update! See you tomorrow.",
+    prompt: "Organize the given sample announcement",
+    scenario: "sample-announcement",
+    displayText: "ANNOUNCEMENT\nPublic Book Distribution\nJuly 14, 2016\nElementary Bldg.",
     adjustableProperties: [
       {
         _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bca"),
@@ -183,7 +188,7 @@ const exercises = [
           max: 0,
           step: 1,
           options: ["left", "center", "right"],
-          correctAnswer: "left",
+          correctAnswer: "center",
           unit: ""
         }
       }
@@ -199,11 +204,10 @@ const exercises = [
 
   // ========== ADVANCED CHALLENGE ==========
   {
-    _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bd1"),
     lessonId: lessonId,
-    prompt: "Design a complex card layout balancing multiple type roles cohesively",
-    scenario: "complex-card",
-    displayText: "Featured Article\nUnderstanding Material Design 3\nLearn the latest ventures in Material Design.",
+    prompt: "Arrange this Book Title",
+    scenario: "book-title",
+    displayText: "Animal Farm\nBy: George Orwell",
     adjustableProperties: [
       {
         _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bd2"),
@@ -216,7 +220,7 @@ const exercises = [
           max: 0,
           step: 1,
           options: ["Roboto, sans-serif", "Arial, sans-serif", "Helvetica, sans-serif", "Open Sans, sans-serif"],
-          correctAnswer: "Roboto, sans-serif",
+          correctAnswer: "Arial, sans-serif",
           unit: ""
         }
       },
