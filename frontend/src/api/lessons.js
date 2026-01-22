@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure.onrender.com";
 const BASE_URL = `${API_URL}/api/lessons`;
 
 console.log("🔗 API Base URL:", BASE_URL);
