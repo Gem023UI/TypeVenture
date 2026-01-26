@@ -1,8 +1,15 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Typography from "../../models/typography.js";
+import path from "path"
+import { fileURLToPath } from "url";
 
-dotenv.config({ path: "./backend/.env" });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({
+  path: path.resolve(__dirname, "../../.env"),
+});
 
 const lessonId = "68e3fa7fe6981fcb7ccf5ef7";
 

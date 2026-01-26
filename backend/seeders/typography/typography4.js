@@ -11,12 +11,11 @@ dotenv.config({
   path: path.resolve(__dirname, "../../.env"),
 });
 
-const lessonId = "68e3fa7fe6981fcb7ccf5ef7";
+const lessonId = "68e3fa7fe6981fcb7ccf5efa";
 
 const exercises = [
   // ========== BEGINNER CHALLENGE ==========
   {
-    _id: new mongoose.Types.ObjectId("68e3fa7fe6981fcb7ccf5efa"),
     lessonId: lessonId,
     prompt: "Create a blog title that is clear and readable",
     scenario: "blog-title",
@@ -111,7 +110,6 @@ const exercises = [
 
   // ========== INTERMEDIATE CHALLENGE ==========
   {
-    _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bc9"),
     lessonId: lessonId,
     prompt: "Style a list item with supporting text maintaining visual hierarchy",
     scenario: "list-item-multi",
@@ -206,7 +204,6 @@ const exercises = [
 
   // ========== ADVANCED CHALLENGE ==========
   {
-    _id: new mongoose.Types.ObjectId("68e6821f8930c5c2c6832bd1"),
     lessonId: lessonId,
     prompt: "Design a simple research front page layout",
     scenario: "research-front-page",
