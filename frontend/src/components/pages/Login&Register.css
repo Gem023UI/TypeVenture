@@ -312,6 +312,29 @@
   background-color: #fff;
 }
 
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.eye-btn {
+  position: absolute;
+  right: 20px;
+  top: 25%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--text-dark);
+}
+
+.eye-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+
 .swal2-popup {
   font-family: 'Poppins', sans-serif !important;
 }

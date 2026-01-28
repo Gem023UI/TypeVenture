@@ -4,10 +4,13 @@ import Loader from "../layout/Loader";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+
 
 // API base URL
-const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure.onrender.com";
-// const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
+// const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure.onrender.com";
+const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
 
 export default function LoginRegister({ logoUrl }) {
   const [isActive, setIsActive] = useState(false);
@@ -18,6 +21,8 @@ export default function LoginRegister({ logoUrl }) {
   const [password, setPassword] = useState("");
   const [hobbies, setHobbies] = useState([]);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // REGISTER FUNCTION
   const handleRegister = async (e) => {
@@ -145,13 +150,24 @@ export default function LoginRegister({ logoUrl }) {
                 required
                 disabled={loading}
               />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-                disabled={loading}
-              />
+              <div className="password-wrapper">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  required
+                  disabled={loading}
+                />
+
+                <a
+                  type="button"
+                  className="eye-btn"
+                  onClick={() => setShowPassword(prev => !prev)}
+                  disabled={loading}
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                </a>
+              </div>
             </div>
             <button type="submit" className="btn" disabled={loading}>
               LOGIN
@@ -182,24 +198,46 @@ export default function LoginRegister({ logoUrl }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password ( atleast 1 character )"
-                required
-                disabled={loading}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                required
-                disabled={loading}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
+              <div className="password-wrapper">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password ( atleast 1 character )"
+                  required
+                  disabled={loading}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <a
+                  type="button"
+                  className="eye-btn"
+                  onClick={() => setShowPassword(prev => !prev)}
+                  disabled={loading}
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                </a>
+              </div>
+              <div className="password-wrapper">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  required
+                  disabled={loading}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+
+                <a
+                  type="button"
+                  className="eye-btn"
+                  onClick={() => setShowConfirmPassword(prev => !prev)}
+                  disabled={loading}
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                </a>
+              </div>
             </div>
             <button type="submit" className="btn2" disabled={loading}>
               REGISTER
