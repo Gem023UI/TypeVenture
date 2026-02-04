@@ -31,6 +31,7 @@
 .container-one {
   z-index: 1;
   width: 30%;
+  flex-shrink: 0;
   height: 100%;
   padding: 14px;
   margin: 30px 10px 30px 30px;
@@ -102,7 +103,7 @@
 /* RIGHT column */
 .container-two {
   z-index: 1;
-  width: 70%;
+  flex: 1;
   padding: 10px;
   margin: 30px 30px 30px 10px;
 
@@ -117,6 +118,7 @@
 
   position: sticky;
   top: 14vh;
+  transition: all 0.3s ease;
 }
 
 /* ✅ Apply the gradient color only to text elements inside the container */
@@ -278,6 +280,92 @@
 
 .lesson-items li:not([style*="opacity: 1"]):hover {
   transform: none !important;
+}
+
+/* Video Container */
+.video-container {
+  margin: 20px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Slideshow Styles */
+.image-slideshow {
+  margin: 30px 0;
+  width: 100%;
+}
+
+.slideshow-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.slideshow-image {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+  display: block;
+  background-color: #f5f5f5;
+}
+
+.slideshow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  z-index: 10;
+}
+
+.slideshow-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.prev-btn {
+  left: 10px;
+  border-radius: 0 8px 8px 0;
+}
+
+.next-btn {
+  right: 10px;
+  border-radius: 8px 0 0 8px;
+}
+
+.slideshow-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator.active {
+  background: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  transform: scale(1.2);
+}
+
+.indicator:hover {
+  background: rgba(0, 0, 0, 0.5);
 }
 
 @keyframes bounceIn {

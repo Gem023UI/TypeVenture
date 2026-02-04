@@ -8,7 +8,6 @@ const lessons = [
   {
     title: "I. Beginning Graphic Design: Typography",
     sourceUrl: "https://edu.gcfglobal.org/en/beginning-graphic-design/typography/1/",
-    category: "quiz",
     content: {
       description: "An introductory guide to typography basics and principles.",
       introduction: "This tutorial defines typography as the style or appearance of text and the art of working with text in design. It presents common font categories—serif, sans serif, and display—and discusses their use and visual character. It then advises on how to choose fonts that fit the message. The material warns against overused fonts and encourages thoughtful font pairing. Key typographic terms like hierarchy, leading, tracking, and kerning are explained with their roles in readability and visual structure. Finally, the guide emphasizes that combining these basics well can elevate designs from ordinary to extraordinary.",
@@ -17,12 +16,19 @@ const lessons = [
       discussionThree: "The guide emphasizes the importance of font selection in matching message and tone. It introduces combining fonts wisely—limiting to one or two per design for clarity—and encourages experimentation with contrasts (like serif + sans serif) to maintain visual interest and harmony.",
       discussionFour: "Key typographic terms are explained: hierarchy guides reading order; leading is line spacing; tracking is general character spacing; kerning is spacing between particular letter pairs. These concepts help designers control readability, flow, and visual structure in text-heavy layouts.",
       discussionFive: "In closing, the tutorial argues that even basic typographic knowledge makes a meaningful difference in design. It encourages learners to pay attention to type, combine elements thoughtfully, and see typography as a subtle but potent creative force.",
-    }
+    },
+    youtubeUrl: "https://www.youtube.com/embed/aQ-Te9IAvyo",
+    imageUrls: [
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg1_i3rk51.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg3_azjmyz.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg2_wktjwq.jpg"
+    ],
+    usersDone: []
   },
   {
     title: "II. Uxcel – Typographic Principles",
     sourceUrl: "https://app.uxcel.com/courses/typography-basics/typographic-principles-438",
-    category: "quiz",
     content: {
       description: "A concise course teaching the essential principles for mastering digital typography.",
       introduction: "This Uxcel course introduces learners to the foundational concepts behind effective typography. It explains how typography is not just about choosing fonts but about organizing and presenting text for optimal communication. The lesson defines readability and legibility, differentiating how type is perceived versus how comfortably it's read. It emphasizes scannability, explaining that digital users skim content and thus need clear hierarchy and emphasis. The course explores typographic mood, revealing how font choices communicate emotion and identity. It teaches restraint in using multiple typefaces, promotes typographic scaling for visual order, and explains alignment, proximity, and white space as crucial layout tools for balance and focus.",
@@ -31,12 +37,19 @@ const lessons = [
       discussionThree: "Typographic mood determines how audiences emotionally perceive written content. Uxcel highlights that font choices express tone and character just as much as words do. A sleek sans serif might convey modernity and minimalism, while a serif typeface suggests tradition and reliability. Designers must align mood with message to maintain coherence. The course teaches that every design choice—from weight to curvature—affects emotional resonance. Consistent mood strengthens brand identity and user trust. By mastering typographic mood, designers move beyond legibility, crafting communication that speaks visually and emotionally, ensuring that form amplifies meaning and strengthens the message's overall impact.",
       discussionFour: "Limiting typefaces is a key discipline in professional typography. Uxcel advises designers to use no more than two to three complementary fonts per design. This maintains consistency, readability, and aesthetic harmony. Too many fonts can confuse users and weaken hierarchy. The course also introduces typographic scale, which establishes proportional relationships between text elements such as headings, subheadings, and body copy. A consistent scale ensures visual rhythm and unity across layouts. Combined with restrained font choices, typographic scaling helps guide the reader naturally through content while reinforcing clarity, coherence, and visual sophistication in digital and print interfaces alike.",
       discussionFive: "The final section of Uxcel's typographic principles explores alignment, proximity, and white space. Alignment creates structure and order, ensuring elements feel connected and intentional. Proximity groups related information, helping users interpret relationships among text blocks. White space, meanwhile, offers breathing room, reducing clutter and enhancing focus. Together, these elements transform a layout from crowded to elegant. Uxcel emphasizes that thoughtful spacing and organization improve both aesthetics and usability. These principles enable designers to achieve balance and rhythm in composition, ensuring text feels intuitive and engaging. Effective typography, therefore, blends precision with artistry, crafting design that communicates effortlessly."
-    }
+    },
+    youtubeUrl: "https://www.youtube.com/embed/aQ-Te9IAvyo",
+    imageUrls: [
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg1_i3rk51.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg3_azjmyz.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg2_wktjwq.jpg"
+    ],
+    usersDone: []
   },
   {
     title: "III. Material Design 3 – Applying Type",
     sourceUrl: "https://m3.material.io/styles/typography/applying-type",
-    category: "typography",
     content: {
       description: "Guidelines on how to apply typography effectively in Material Design systems.",
       introduction: "This resource describes how Material Design 3 applies typography as a structured system. It outlines typographic roles (e.g. display, headline, body) and their semantic functions. It offers guidance on font weight, size, line height, and letter spacing. It emphasizes consistency across platforms and responsive scaling. The material shows usage in UI components, cards, dialogs, and navigation. It addresses balancing expressiveness and readability. The page provides visual examples and code snippets illustrating typographic rules. Overall, it aims to help designers implement typography that is both aesthetic and functional within the Material Design framework.",
@@ -45,12 +58,19 @@ const lessons = [
       discussionThree: "Material emphasizes consistency across platforms. Text styles defined for mobile should translate meaningfully into web or tablet contexts. This uniformity ensures recognizable brand voice and user expectation alignment. Designers maintain harmony by reusing typographic roles and applying them across components.",
       discussionFour: "The guidance includes usage in UI components: app bars, cards, dialogs, navigation bars. For each component, there is a typographic role recommendation (e.g. headline in dialog, label in button). This helps designers choose correct text styles without guesswork.",
       discussionFive: "Material balances expressiveness and utility: typography should feel alive and characteristic, yet not impede readability. The system allows expressive typography (for example in display text) but restrains it elsewhere. The guideline supports creative freedom within a consistent typographic framework."
-    }
+    },
+    youtubeUrl: "https://www.youtube.com/embed/aQ-Te9IAvyo",
+    imageUrls: [
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg1_i3rk51.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg3_azjmyz.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg2_wktjwq.jpg"
+    ],
+    usersDone: []
   },
   {
     title: "IV. Typography Tips: A Lesson on Contrast",
     sourceUrl: "https://www.process-masterclass.com/typography-tips-a-lesson-on-contrast",
-    category: "typography",
     content: {
       description: "A guide on how contrast elevates typographic design.",
       introduction: "This article explores contrast as a foundational principle in typography. It argues that mastering contrast is essential to creating hierarchy, emphasis, and visual interest. Various contrast tools are explained: size, weight, transforms, color, and style. Real-world examples show how contrast clarifies information and evokes emotion. The author encourages experimentation across these dimensions. The guide balances theory with practice tips. It also underscores restraint—knowing when less contrast is more. Ultimately, it teaches that good typography is built on nuanced contrast decisions.",
@@ -60,11 +80,18 @@ const lessons = [
       discussionFour: "Color contrast is one of the most immediate and powerful tools. Dark text on a light background—or vice versa—ensures legibility and visual priority. Subtle tonal shifts can de-emphasize secondary information without sacrificing clarity. Designers should also consider contrast for accessibility, ensuring text meets contrast ratio guidelines. Color and tone contrast works especially well alongside size and weight change to create layered visual depth.",
       discussionFive: "Style contrast (roman vs. italics, serif vs. sans serif, display vs. text) further diversifies typographic expression. Mixing styles carefully allows designers to emphasize certain elements while maintaining coherence. The author urges experimentation—try combining styles, but always evaluate readability and balance. Good contrast isn't about variety for its own sake, but about clear, meaningful visual communication, anchored in intention.",
     },
+    youtubeUrl: "https://youtu.be/aQ-Te9IAvyo?si=WIuu_iRvvmQtK7qy",
+    imageUrls: [
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg1_i3rk51.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg3_azjmyz.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg2_wktjwq.jpg"
+    ],
+    usersDone: []
   },
   {
     title: "V. Typography Guidelines and References",
     sourceUrl: "https://www.smashingmagazine.com/2012/07/typography-guidelines-and-references/",
-    category: "quiz",
     content: {
       description: "A curated compilation of typography principles, techniques, and reference resources.",
       introduction: "This Smashing Magazine article collects and summarizes key typography guidelines, best practices, and reference links for designers. It emphasizes typographic respect, avoiding superficial ornamentation in favor of meaningful design. It discusses paragraph formatting, font embedding, combining typefaces, web font services, CSS techniques, macro- and micro-typography, and international writing systems. The author also explores font rendering issues and typographic design patterns. The article is rich with examples and external resources. It aims to guide both novices and experienced designers toward better typographic decisions.",
@@ -73,12 +100,19 @@ const lessons = [
       discussionThree: "The guide addresses best practices for combining typefaces. It presents the 'serif + sans serif' pairing as a safe, effective approach. It also warns against using too many contrasting styles, which dilutes cohesion. Practical pairings maintain harmony and help establish hierarchy. Designers are encouraged to balance contrast and consistency.",
       discussionFour: "A significant portion is dedicated to web typography techniques: embedding fonts via @font-face, CSS font stacks, and using webfont services. The author compares font services and suggests careful use of dynamic text replacement, such as only in headings. It also explores how browsers and operating systems render fonts differently, affecting the final display. Understanding these nuances ensures consistent typographic quality.",
       discussionFive: "Finally, the article delves into macro- and micro-typography. Macro refers to page-level layout decisions like grouping and flow, while micro refers to fine details such as kerning and spacing. It covers design patterns derived from analyzing many websites and introduces international writing systems to broaden typographic awareness. The article concludes with a wealth of references for further study."
-    }
+    },
+    youtubeUrl: "https://www.youtube.com/embed/aQ-Te9IAvyo",
+    imageUrls: [
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg1_i3rk51.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg3_azjmyz.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg2_wktjwq.jpg"
+    ],
+    usersDone: []
   },
   {
     title: "VI. Graphic Design Basics: Typography Lesson Plan",
     sourceUrl: "https://www.icevonline.com/hubfs/CEV80528_Lesson_Plan_TX.pdf",
-    category: "quiz",
     content: {
       description: "A detailed lesson plan for teaching typography essentials in the classroom.",
       introduction: "This PDF lesson plan outlines a multi-class module on typography fundamentals, tools, and expressive techniques. It begins by introducing typographic vocabulary and the anatomy of letters. It then explores typeface categories, spacing, alignment, and design software tools. Activities gradually move from simpler tasks (vocabulary, samples) to creative applications such as decorative typography, typographic logos, and magazine spreads. The plan integrates assessments, projects, and review sessions across 11 classes. It also includes career connection components to link typographic skills to real design professions.",
@@ -87,12 +121,19 @@ const lessons = [
       discussionThree: "The plan transitions into applied design with a 'Decorative Typography' project. Students receive a word and design a decorative typeface that conveys meaning. This encourages exploration of how shape, style, and ornamentation communicate ideas. Next, in the 'Typographic Logo' activity, learners combine type with brand thinking, selecting typefaces that reflect identity and values. These tasks move learners from theory to expressive design practice.",
       discussionFour: "A later module is 'Magazine Spread,' where students design layouts integrating multiple typographic rules. They must use two typefaces, contrasting alignment, and images within the spread. This challenges them to balance hierarchy, readability, and visual flow. Alongside projects, assessments and review sessions reinforce learning. Students also present their work and discuss their design choices through reflection.",
       discussionFive: "The lesson plan embeds career connections, asking students to explore typographic roles in design professions. It encourages reflection on how typographic skills translate to real-world work. Final assessments and project submissions serve as both evaluation and portfolio pieces. Throughout, the pacing increases in complexity, scaffolding from vocabulary to expressive design. This ensures learners build confidence before tackling ambitious creative tasks."
-    }
+    },
+    youtubeUrl: "https://youtu.be/aQ-Te9IAvyo?si=WIuu_iRvvmQtK7qy",
+    imageUrls: [
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg1_i3rk51.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg3_azjmyz.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg2_wktjwq.jpg"
+    ],
+    usersDone: []
   },
   {
     title: "VII. Lessons in Typography: Must-Know Typographic Principles",
     sourceUrl: "https://www.peachpit.com/store/lessons-in-typography-must-know-typographic-principles-9780133993752",
-    category: "quiz",
     content: {
       description: "A lesson-based book covering the fundamentals of using and designing with type.",
       introduction: "Lessons in Typography by Jim Krause offers a practical, example-driven approach to mastering typographic fundamentals. It begins with terminology and the anatomy of letterforms. Then it guides readers into font selection, pairing, spacing, and layout. The book encourages hands-on exercises—creating logos, modifying letters, designing text layouts. It emphasizes the balance of clarity, expression, and structure. With many visuals and exercises, it makes typography accessible and applicable. The book is suitable for beginners and intermediate designers alike. Its goal is to teach both the 'rules' and the creative flexibility of type. Krause blends theory with practice to foster design confidence.",
@@ -101,12 +142,19 @@ const lessons = [
       discussionThree: "Moving into working with words, Krause addresses how to assemble words and phrases typographically. He discusses spacing, case, ligatures, and choosing treatments that match meaning. The same word can feel different depending on font, weight, and layout. Exercises let readers experiment with word mark design, adjusting spacing and style to express identity, bridging letter-level understanding to full layouts.",
       discussionFour: "In the multi-word presentations and layouts section, multiple typographic elements are combined. Krause covers combining fonts harmoniously or contrastively, establishing hierarchy, line breaks, and rhythm. He shows positioning type over images, using enclosures, and aligning multiple text blocks. Exercises prompt learners to design headlines, word graphics, and page compositions, reinforcing balance, contrast, and consistent structure.",
       discussionFive: "The final section, text and layout, focuses on longer text blocks and document-scale design. Topics include paragraph formatting, readable line lengths, and spacing. Krause presents techniques for integrating body text with display elements, maintaining readability and harmony. The book concludes by threading typographic appreciation through all levels, encouraging continual study and creative refinement, positioning typography as expressive visual storytelling."
-    }
+    },
+    youtubeUrl: "https://www.youtube.com/embed/aQ-Te9IAvyo",
+    imageUrls: [
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg1_i3rk51.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg3_azjmyz.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg2_wktjwq.jpg"
+    ],
+    usersDone: []
   },
   {
     title: "VIII. The Importance and Use of Typography in Print and Digital Design",
     sourceUrl: "https://www.researchgate.net/publication/387291068_THE_IMPORTANCE_AND_USE_OF_TYPOGRAPHY_IN_PRINT_AND_DIGITAL_DESIGN/",
-    category: "typography",
     content: {
       description: "A comparative study exploring how typography functions differently in print versus digital media, especially regarding font choice and readability.",
       introduction: "This study examines typography's role and use in both printed and digital environments, emphasizing font selection, spacing, color, and size. It surveys various print media (newspapers, magazines, books, packaging) and digital media (websites, mobile apps, e-books, social media). Serif fonts like Times New Roman, Garamond, Cambria, and Georgia are preferred in print for readability. Sans-serif fonts such as Arial, Helvetica, Open Sans, and Montserrat are more common in digital media for clarity on screens. Typographic choices affect user experience, perception, and comprehension. Designers must adapt typography to each medium's strengths and limitations.",
@@ -115,7 +163,15 @@ const lessons = [
       discussionThree: "The research compares serif and sans-serif preferences across media. Print favors serif for body text, enhancing long-form readability. Digital platforms show faster reading speeds and preference for sans-serif fonts (e.g., Arial, Open Sans). Samples including newspapers, books, websites, and apps reinforce this trend. Exceptions exist depending on context, font size, device, user demographics, and purpose, but core patterns remain consistent.",
       discussionFour: "Other typographic elements—line spacing, color contrast, point size, and letter/word spacing—significantly affect readability. In print, generous leading and careful layout reduce strain. Digital typography requires tighter control due to glare and lighting. Usability principles like hierarchy, alignment, and proportion guide users visually and reduce cognitive load. Typography effectiveness depends on combined attention to typeface, spacing, and layout context.",
       discussionFive: "The study emphasizes conscious typography: adapting fonts and settings to medium, audience, and purpose. Use serif for printed long texts, sans-serif for screens, and consider user testing. Evolving digital environments reduce old trade-offs, but constraints like resolution and fatigue remain. Designers should consider font personality, user age, and reading context. Typography is functional, expressive, and central to clarity in any design."
-    }
+    },
+    youtubeUrl: "https://www.youtube.com/embed/aQ-Te9IAvyo",
+    imageUrls: [
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg1_i3rk51.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg3_azjmyz.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg2_wktjwq.jpg"
+    ],
+    usersDone: []
   },
   {
     title: "IX. The Elements of Typographic Style",
@@ -129,12 +185,19 @@ const lessons = [
       discussionThree: "A major focus is practical application. Bringhurst offers guidelines on type selection, spacing, alignment, and hierarchy. He stresses consistency and coherence across designs. Advice spans from setting body text to complex layouts, helping both novices and experienced designers refine their skills and implement effective typographic solutions.",
       discussionFour: "Bringhurst addresses the philosophy of typography, prioritizing the reader's experience. Typography should serve content, enhancing clarity and accessibility. Function takes precedence over ornamentation, ensuring the message communicates effectively. This approach results in work that is both beautiful and purposeful.",
       discussionFive: "The book concludes with the future of typography, considering digital technologies and evolving reading habits. Bringhurst reflects on technological changes and their impact on type creation and consumption. He encourages designers to remain adaptable, innovative, and mindful of new challenges and opportunities in the digital era."
-    }
+    },
+    youtubeUrl: "https://www.youtube.com/embed/aQ-Te9IAvyo",
+    imageUrls: [
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg1_i3rk51.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg3_azjmyz.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg2_wktjwq.jpg"
+    ],
+    usersDone: []
   },
   {
     title: "X. An Essay on Typography",
     sourceUrl: "https://en.wikipedia.org/wiki/An_Essay_on_Typography",
-    category: "typography",
     content: {
       description: "A 1931 work by Eric Gill discussing the history and philosophy of typography.",
       introduction: "*An Essay on Typography* by Eric Gill, published in 1931, explores the history and philosophy of typography. It emphasizes craftsmanship, advocating a return to traditional methods amid industrialization. Gill critiques mass production's effect on design quality, urging designers to prioritize artistry and human touch. The book remains influential in typography education and practice.",
@@ -143,7 +206,15 @@ const lessons = [
       discussionThree: "Gill discusses technical typography aspects, including typesetting, spacing, alignment, and white space. He offers practical advice for achieving harmonious compositions and shares insights into printing processes. These observations guide designers in enhancing visual impact and readability, reflecting his hands-on experience and deep understanding of typographic mechanics.",
       discussionFour: "The essay explores typography's moral and philosophical dimensions. Gill positions design as a reflection of cultural values and human expression, carrying ethical responsibilities. Designers are encouraged to produce work that promotes clarity, integrity, and beauty. Typography is presented as a meaningful discipline with both functional and cultural significance.",
       discussionFive: "In conclusion, *An Essay on Typography* blends technical instruction with philosophical reflection. Gill challenges designers to approach typography purposefully, respecting tradition while considering contemporary contexts. The book's enduring influence attests to its relevance, offering a framework for understanding, practicing, and appreciating typography as both craft and art."
-    }
+    },
+    youtubeUrl: "https://www.youtube.com/embed/aQ-Te9IAvyo",
+    imageUrls: [
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg1_i3rk51.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg3_azjmyz.jpg",
+      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg2_wktjwq.jpg"
+    ],
+    usersDone: []
   }
 ];
 

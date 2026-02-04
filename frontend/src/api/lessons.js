@@ -69,3 +69,22 @@ export const fetchLessonById = async (id) => {
     throw error;
   }
 };
+
+export const markLessonComplete = async (lessonId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${lessonId}/complete`, {
+      method: "POST",
+      headers: getAuthHeaders()
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Failed to mark lesson complete");
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error("Error marking lesson complete:", error);
+    throw error;
+  }
+};

@@ -52,7 +52,7 @@ export const sendVerificationEmail = async (email, username, verificationCode) =
             <p>If you didn't request this verification, please ignore this email.</p>
             <div class="footer">
               <p>© 2026 TypeVenture - Sharpen your design eye while having fun!</p>
-              <p>Contact us: typeventure@gmail.com</p>
+              <p>Contact us: typeventureweb@gmail.com</p>
             </div>
           </div>
         </body>
@@ -104,7 +104,7 @@ export const sendVerificationSuccessEmail = async (email, username) => {
             <p>Get ready to sharpen your design eye while having fun!</p>
             <div class="footer">
               <p>© 2026 TypeVenture</p>
-              <p>Contact us: typeventure@gmail.com</p>
+              <p>Contact us: typeventureweb@gmail.com</p>
             </div>
           </div>
         </body>

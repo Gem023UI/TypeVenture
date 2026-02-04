@@ -64,3 +64,47 @@ export const getLessonById = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch lesson" });
   }
 };
+
+// UPDATE lesson as completed
+export const markLessonComplete = async (req, res) => {
+  try {
+    const { lessonId } = req.params;
+    const userId = req.user.id;
+
+    console.log(`✅ Marking lesson ${lessonId} complete for user ${userId}`);
+
+    const lesson = await Lesson.findById(lessonId);
+    if (!lesson) {
+      return res.status(404).json({ error: "Lesson not found" });
+    }
+
+    // Check if user already completed this lesson
+    const alreadyCompleted = lesson.usersDone.some(
+      entry => entry.userId.toString() === userId
+    );
+
+    if (alreadyCompleted) {
+      return res.status(200).json({ 
+        message: "Lesson already completed",
+        lesson 
+      });
+    }
+
+    // Add user to usersDone array
+    lesson.usersDone.push({
+      userId: userId,
+      completedAt: new Date()
+    });
+
+    await lesson.save();
+
+    console.log(`✅ Lesson marked complete`);
+    res.status(200).json({ 
+      message: "Lesson marked as complete",
+      lesson 
+    });
+  } catch (error) {
+    console.error("❌ Error marking lesson complete:", error);
+    res.status(500).json({ error: "Failed to mark lesson complete" });
+  }
+};
