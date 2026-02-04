@@ -90,6 +90,7 @@ app.use((req, res) => {
       "POST /api/user/register",
       "POST /api/user/login",
       "POST /api/score",
+      "POST /api/user/send-verification-code",
       "GET /api/test",
       "GET /api/lessons",
       "GET /api/quiz/test",

@@ -7,6 +7,12 @@ const userSchema = new mongoose.Schema({
   profilePicture: { type: String },
   token: { type: String },
   hobbies: { type: [String], default: [] },
+  
+  // Email verification fields
+  isVerified: { type: Boolean, default: false },
+  verificationCode: { type: String },
+  verificationCodeExpires: { type: Date },
+  
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);

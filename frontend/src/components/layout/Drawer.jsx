@@ -93,6 +93,9 @@ const Drawer = ({ isOpen, onClose }) => {
             <li className="red">
               <a href="/lessons" onClick={onClose}>Lessons</a>
             </li>
+            <li className="blue">
+              <a href="/games" onClick={onClose}>Games</a>
+            </li>
             <li className="purple">
               <a href="/profile" onClick={onClose}>Profile</a>
             </li>

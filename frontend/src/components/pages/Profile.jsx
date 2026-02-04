@@ -5,6 +5,8 @@ import { getUserById, editProfile, deleteAccount } from "../../api/user";
 import { getUserAchievements } from "../../api/achievements";
 import MainLayout from "../layout/MainLayout";
 import Lanyard from '../bins/media/Lanyard';
+import { sendVerificationCode } from '../../api/emailVerify';
+import Swal from 'sweetalert2';
 import "./Profile.css";
 
 const Profile = () => {
@@ -49,6 +51,14 @@ const Profile = () => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState("");
 
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
+
+  const [verificationCode, setVerificationCode] = useState("");
+  const [codeLoading, setCodeLoading] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(900);
+  const [canResend, setCanResend] = useState(false);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -65,6 +75,8 @@ const Profile = () => {
           setUsername(response.user.username);
           setEmail(response.user.email);
           setHobbies(response.user.hobbies || []);
+          setIsVerified(response.user.isVerified || false);
+          localStorage.setItem('isVerified', response.user.isVerified || false);
 
           // ✅ Format "Date Joined" properly
           if (response.user.createdAt) {
@@ -366,6 +378,32 @@ const Profile = () => {
     };
   }, [allScores, quizScores, typographyScores]);
 
+  useEffect(() => {
+    const verified = localStorage.getItem('isVerified') === 'true';
+    setIsVerified(verified);
+  }, []);
+
+  useEffect(() => {
+    const verified = localStorage.getItem('isVerified') === 'true';
+    setIsVerified(verified);
+  }, []);
+
+  useEffect(() => {
+    if (!showVerificationModal) return;
+  
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          setCanResend(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  
+    return () => clearInterval(timer);
+  }, [showVerificationModal]);
+
   const handleOpenEditModal = () => {
     // Pre-fill modal with current data
     setEditUsername(username);
@@ -379,6 +417,102 @@ const Profile = () => {
     setMessage("");
     setError("");
     setShowEditModal(true);
+  };
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const handleSendVerificationCode = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      await sendVerificationCode(userId);
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Verification Code Sent!',
+        text: 'Please check your email for the verification code',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      
+      setShowVerificationModal(true);
+      setTimeLeft(900);
+      setCanResend(false);
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to Send Code',
+        text: error || 'Please try again',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    }
+  };
+
+  const handleVerifyEmail = async (e) => {
+    e.preventDefault();
+    setCodeLoading(true);
+  
+    try {
+      const { verifyEmailCode } = await import('../../api/emailVerify');
+      const userId = localStorage.getItem('userId');
+      await verifyEmailCode(userId, verificationCode);
+  
+      Swal.fire({
+        icon: 'success',
+        title: 'Email Verified!',
+        text: 'Your email has been verified successfully. You can now access all lessons and games!',
+        timer: 3000,
+        showConfirmButton: false,
+      });
+  
+      setIsVerified(true);
+      localStorage.setItem('isVerified', 'true');
+      setVerificationCode('');
+      setShowVerificationModal(false);
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Verification Failed',
+        text: error || 'Invalid or expired code',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } finally {
+      setCodeLoading(false);
+    }
+  };
+
+  const handleResendCode = async () => {
+    setCodeLoading(true);
+    try {
+      const userId = localStorage.getItem('userId');
+      await sendVerificationCode(userId);
+  
+      Swal.fire({
+        icon: 'success',
+        title: 'Code Resent!',
+        text: 'A new verification code has been sent to your email',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+  
+      setTimeLeft(900);
+      setCanResend(false);
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Resend Failed',
+        text: error || 'Failed to resend code',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } finally {
+      setCodeLoading(false);
+    }
   };
 
   const handleFileChange = (e) => {
@@ -504,6 +638,11 @@ const Profile = () => {
     }
   };
 
+  const handleVerificationSuccess = () => {
+    setIsVerified(true);
+    localStorage.setItem('isVerified', 'true');
+  };
+
   return (
     <MainLayout>
       <div className="profile-section">
@@ -551,6 +690,14 @@ const Profile = () => {
               >
                 Delete Account
               </button>
+              {!isVerified && (
+              <button 
+                onClick={handleSendVerificationCode}
+                className="verify-email-btn"
+              >
+                Verify Email
+              </button>
+              )}
             </div>
           </div>
 
@@ -869,6 +1016,134 @@ const Profile = () => {
                     {deleteLoading ? "Deleting..." : "Delete Account"}
                   </button>
                 </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Email Verification Modal */}
+        {showVerificationModal && (
+          <div 
+            className="edit-modal-overlay"
+            onClick={() => setShowVerificationModal(false)}
+          >
+            <div 
+              className="edit-modal-content verification-modal"
+              onClick={(e) => e.stopPropagation()}
+              style={{ maxWidth: "450px" }}
+            >
+              <button 
+                className="modal-close-btn"
+                onClick={() => setShowVerificationModal(false)}
+              >
+                ×
+              </button>
+
+              <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+                <h2 style={{ fontSize: '24px', marginBottom: '10px' }}>
+                  📧 Verify Your Email
+                </h2>
+                <p style={{ fontSize: '14px', color: '#666', margin: 0 }}>
+                  Enter the 6-digit code sent to your email
+                </p>
+              </div>
+
+              <form onSubmit={handleVerifyEmail}>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                  <input
+                    type="text"
+                    value={verificationCode}
+                    onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                    placeholder="000000"
+                    maxLength="6"
+                    required
+                    disabled={codeLoading}
+                    style={{
+                      width: '100%',
+                      maxWidth: '250px',
+                      padding: '20px',
+                      fontSize: '32px',
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      letterSpacing: '10px',
+                      border: '2px solid #ddd',
+                      borderRadius: '10px',
+                      outline: 'none',
+                      fontFamily: 'Courier New, monospace',
+                      transition: 'all 0.3s ease',
+                    }}
+                    onFocus={(e) => e.target.style.borderColor = '#0029FF'}
+                    onBlur={(e) => e.target.style.borderColor = '#ddd'}
+                  />
+                </div>
+
+                <div style={{ textAlign: 'center', fontSize: '14px', color: '#666', marginBottom: '20px' }}>
+                  {timeLeft > 0 ? (
+                    <span>
+                      Code expires in: <strong style={{ color: '#0029FF' }}>{formatTime(timeLeft)}</strong>
+                    </span>
+                  ) : (
+                    <span style={{ color: '#FF1414', fontWeight: 600 }}>Code expired</span>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={codeLoading || verificationCode.length !== 6 || timeLeft === 0}
+                  style={{
+                    width: '100%',
+                    padding: '12px 30px',
+                    background: 'linear-gradient(135deg, #0029FF, #000000, #FF1414)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: (codeLoading || verificationCode.length !== 6 || timeLeft === 0) ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.3s ease',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    marginBottom: '10px',
+                    fontFamily: 'Poppins',
+                    opacity: (codeLoading || verificationCode.length !== 6 || timeLeft === 0) ? 0.6 : 1,
+                  }}
+                >
+                  {codeLoading ? 'Verifying...' : 'Verify Email'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleResendCode}
+                  disabled={codeLoading || !canResend}
+                  style={{
+                    width: '100%',
+                    padding: '12px 30px',
+                    background: 'transparent',
+                    color: '#0029FF',
+                    border: '2px solid #0029FF',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: (codeLoading || !canResend) ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.3s ease',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    fontFamily: 'Poppins',
+                    opacity: (codeLoading || !canResend) ? 0.6 : 1,
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!codeLoading && canResend) {
+                      e.target.style.background = '#0029FF';
+                      e.target.style.color = 'white';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = 'transparent';
+                    e.target.style.color = '#0029FF';
+                  }}
+                >
+                  {canResend ? 'Resend Code' : `Resend available in ${formatTime(timeLeft)}`}
+                </button>
               </form>
             </div>
           </div>

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { fetchAllLessons, fetchLessonById } from "../../api/lessons";
 import { getQuizByLessonId } from "../../api/quiz";
 import { getScoresByUserId } from "../../api/scores";
@@ -69,6 +71,8 @@ const LockIcon = () => (
 )
 
 const FrontPage = () => {
+  const navigate = useNavigate();
+
   const [lessons, setLessons] = useState([]);
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -164,15 +168,30 @@ const FrontPage = () => {
 
   useEffect(() => {
     const loadLessons = async () => {
-      setLoading(true);
-      const data = await fetchAllLessons();
-      if (data.length === 0) setError("No lessons found or failed to load.");
-      setLessons(data);
-      setLoading(false);
+      try {
+        const response = await fetchAllLessons();
+        setLessons(response);
+      } catch (error) {
+        if (error.status === 403 && error.isVerified === false) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Email Verification Required',
+            text: 'Please verify your email to access lessons. Check your profile page.',
+            confirmButtonText: 'Go to Profile',
+            showCancelButton: true,
+            cancelButtonText: 'Later',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate('/profile');
+            }
+          });
+        } else {
+          console.error('Error fetching lessons:', error);
+        }
+      }
     };
+  
     loadLessons();
-    fetchUserScores();
-    fetchUserAchievements();
   }, []);
 
   const handleLessonClick = async (id) => {

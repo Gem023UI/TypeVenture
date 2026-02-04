@@ -5,7 +5,9 @@ import {
   loginUser, 
   editProfile,
   getUserById,
-  deleteAccount
+  deleteAccount,
+  sendVerificationCode,
+  verifyEmail
 } from "../controllers/user.js";
 import { handleMulterError } from "../middlewares/multer.js";
 import { verifyToken } from "../middlewares/auth.js";
@@ -27,5 +29,9 @@ router.put("/edit-profile",
 );
 
 router.delete("/delete-account", verifyToken, deleteAccount);
+
+router.post("/send-verification-code", verifyToken, sendVerificationCode);
+
+router.post("/verify-email", verifyToken, verifyEmail);
 
 export default router;

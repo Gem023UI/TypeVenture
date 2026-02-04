@@ -5,6 +5,11 @@ import { uploadToCloudinary } from "../utils/multer.js";
 import Score from "../models/scores.js";
 import User from "../models/user.js";
 import UserAchievement from "../models/userAchievements.js";
+import { 
+  generateVerificationCode, 
+  sendVerificationEmail, 
+  sendVerificationSuccessEmail 
+} from "../utils/emailVerify.js";
 
 // GET USER BY ID
 export const getUserById = async (req, res) => {
@@ -26,6 +31,7 @@ export const getUserById = async (req, res) => {
         email: user.email,
         profilePicture: user.profilePicture,
         hobbies: user.hobbies,
+        isVerified: user.isVerified,
         createdAt: user.createdAt ? user.createdAt.toISOString() : null,
       },
     });
@@ -170,6 +176,7 @@ export const loginUser = async (req, res) => {
         email: user.email,
         profilePicture: user.profilePicture,
         hobbies: user.hobbies,
+        isVerified: user.isVerified,
       },
     });
 
@@ -331,6 +338,89 @@ export const deleteAccount = async (req, res) => {
     console.error("❌ Delete account error:", err);
     res.status(500).json({
       error: "Account deletion failed",
+      details: err.message,
+    });
+  }
+};
+
+// SEND VERIFICATION CODE
+export const sendVerificationCode = async (req, res) => {
+  console.log("📧 Send verification code endpoint hit");
+  try {
+    const { userId } = req.body;
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    if (user.isVerified) {
+      return res.status(400).json({ error: "Email already verified" });
+    }
+    const verificationCode = generateVerificationCode();
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+    user.verificationCode = verificationCode;
+    user.verificationCodeExpires = expiresAt;
+    await user.save();
+    await sendVerificationEmail(user.email, user.username, verificationCode);
+    console.log("✅ Verification code sent to:", user.email);
+    res.json({
+      message: "Verification code sent to your email",
+      expiresIn: "15 minutes"
+    });
+  } catch (err) {
+    console.error("❌ Send verification code error:", err);
+    res.status(500).json({
+      error: "Failed to send verification code",
+      details: err.message,
+    });
+  }
+};
+
+// VERIFY EMAIL
+export const verifyEmail = async (req, res) => {
+  console.log("✅ Verify email endpoint hit");
+  try {
+    const { userId, code } = req.body;
+    if (!userId || !code) {
+      return res.status(400).json({ error: "User ID and verification code are required" });
+    }
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    if (user.isVerified) {
+      return res.status(400).json({ error: "Email already verified" });
+    }
+    if (!user.verificationCode) {
+      return res.status(400).json({ error: "No verification code found. Please request a new code." });
+    }
+    if (new Date() > user.verificationCodeExpires) {
+      return res.status(400).json({ error: "Verification code expired. Please request a new code." });
+    }
+    if (user.verificationCode !== code.trim()) {
+      return res.status(400).json({ error: "Invalid verification code" });
+    }
+    user.isVerified = true;
+    user.verificationCode = undefined;
+    user.verificationCodeExpires = undefined;
+    await user.save();
+    await sendVerificationSuccessEmail(user.email, user.username);
+    console.log("✅ Email verified for:", user.email);
+    res.json({
+      message: "Email verified successfully!",
+      user: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        isVerified: user.isVerified,
+      },
+    });
+  } catch (err) {
+    console.error("❌ Verify email error:", err);
+    res.status(500).json({
+      error: "Email verification failed",
       details: err.message,
     });
   }

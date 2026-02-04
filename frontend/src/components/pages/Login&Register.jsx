@@ -109,6 +109,7 @@ export default function LoginRegister({ logoUrl }) {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userId", response.data.user._id);
       localStorage.setItem("username", response.data.user.username);
+      localStorage.setItem("isVerified", response.data.user.isVerified);
 
       console.log("💾 Stored in localStorage:");
       console.log("  token:", localStorage.getItem("token"));
