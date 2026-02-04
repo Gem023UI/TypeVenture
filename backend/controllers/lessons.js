@@ -1,4 +1,5 @@
 import Lesson from "../models/lessons.js";
+import { sendLessonCompletionEmail } from "../utils/emailVerify.js";
 
 // GET all lessons
 export const getAllLessons = async (req, res) => {
@@ -98,10 +99,37 @@ export const markLessonComplete = async (req, res) => {
 
     await lesson.save();
 
-    console.log(`✅ Lesson marked complete`);
+    // Get user information for email
+    const User = (await import("../models/user.js")).default;
+    const user = await User.findById(userId);
+    
+    if (!user) {
+      console.error("❌ User not found for email notification");
+      return res.status(200).json({ 
+        message: "Lesson marked as complete (user not found for email)",
+        lesson 
+      });
+    }
+
+    // Find all lessons to determine the next one (sort by createdAt ascending)
+    const allLessons = await Lesson.find().sort({ createdAt: 1 });
+    const currentLessonIndex = allLessons.findIndex(l => l._id.toString() === lessonId);
+    const nextLesson = allLessons[currentLessonIndex + 1] || null;
+
+    // Send completion email (async, don't block the response)
+    sendLessonCompletionEmail(user.email, user.username, lesson, nextLesson)
+      .then(() => console.log("✅ Lesson completion email sent to:", user.email))
+      .catch(err => console.error("❌ Failed to send completion email:", err));
+
+    console.log(`✅ Lesson marked complete for user ${user.username}`);
     res.status(200).json({ 
       message: "Lesson marked as complete",
-      lesson 
+      lesson,
+      nextLesson: nextLesson ? {
+        _id: nextLesson._id,
+        title: nextLesson.title,
+        description: nextLesson.content.description
+      } : null
     });
   } catch (error) {
     console.error("❌ Error marking lesson complete:", error);

@@ -119,3 +119,120 @@ export const sendVerificationSuccessEmail = async (email, username) => {
     return false;
   }
 };
+
+export const sendLessonCompletionEmail = async (email, username, completedLesson, nextLesson = null) => {
+  try {
+    const transporter = createTransporter();
+    
+    // Determine email content based on whether there's a next lesson
+    const nextLessonContent = nextLesson 
+      ? `
+        <div class="next-lesson-box">
+          <h3 style="color: #0029FF; margin-bottom: 10px;">Up Next:</h3>
+          <h4 style="margin: 10px 0;">${nextLesson.title}</h4>
+          <p style="color: #666; line-height: 1.6;">${nextLesson.content.description}</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+          <a href="${process.env.FRONTEND_URL}/lessons" class="button">Continue Learning</a>
+        </div>
+      `
+      : `
+        <div class="completion-box">
+          <h3 style="color: #FF1414; margin-bottom: 10px;">🎊 All Lessons Completed!</h3>
+          <p style="color: #666; line-height: 1.6;">You've finished all available lessons. Great job on your learning journey!</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+          <a href="${process.env.FRONTEND_URL}/lessons" class="button">Review Lessons</a>
+        </div>
+      `;
+
+    const mailOptions = {
+      from: `"TypeVenture" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: `Lesson Completed: ${completedLesson.title} - TypeVenture`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: 'Poppins', Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
+            .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; padding: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { font-size: 28px; font-weight: bold; color: #0029FF; }
+            .success-icon { font-size: 48px; text-align: center; margin: 20px 0; }
+            .lesson-completed-box { 
+              background: linear-gradient(135deg, #0029FF, #a200ff); 
+              color: white; 
+              padding: 20px; 
+              border-radius: 8px; 
+              text-align: center; 
+              margin: 20px 0; 
+            }
+            .next-lesson-box {
+              background: #f8f9fa;
+              padding: 20px;
+              border-left: 4px solid #0029FF;
+              border-radius: 4px;
+              margin: 20px 0;
+            }
+            .completion-box {
+              background: linear-gradient(135deg, #FF1414, #a200ff);
+              color: white;
+              padding: 20px;
+              border-radius: 8px;
+              text-align: center;
+              margin: 20px 0;
+            }
+            .button { 
+              display: inline-block; 
+              background: linear-gradient(135deg, #FF1414, #a200ff, #0029FF); 
+              color: white; 
+              padding: 12px 30px; 
+              border-radius: 8px; 
+              text-decoration: none; 
+              margin: 20px 0;
+              font-weight: 600;
+            }
+            .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #666; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <div class="logo">🎮 TypeVenture</div>
+              <h2>Lesson Completed!</h2>
+            </div>
+            
+            <div class="success-icon">🎉</div>
+            
+            <p>Congratulations <strong>${username}</strong>!</p>
+            
+            <div class="lesson-completed-box">
+              <h3 style="margin: 0 0 10px 0;">✓ ${completedLesson.title}</h3>
+              <p style="margin: 0; opacity: 0.9;">${completedLesson.content.description}</p>
+            </div>
+            
+            <p style="color: #666; line-height: 1.6;">
+              You've successfully completed this lesson and gained valuable knowledge about typography and design principles. Keep up the great work!
+            </p>
+            
+            ${nextLessonContent}
+            
+            <div class="footer">
+              <p>© 2026 TypeVenture - Sharpen your design eye while having fun!</p>
+              <p>Contact us: typeventureweb@gmail.com</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+    };
+    
+    await transporter.sendMail(mailOptions);
+    console.log("✅ Lesson completion email sent to:", email);
+    return true;
+  } catch (error) {
+    console.error("❌ Error sending lesson completion email:", error);
+    return false; // Don't throw error - email failure shouldn't stop lesson completion
+  }
+};

@@ -116,35 +116,53 @@ const FrontPage = () => {
   
   const handleLessonComplete = async () => {
     try {
-      await markLessonComplete(selectedLesson._id);
+      const response = await markLessonComplete(selectedLesson._id);
       
       // Refresh lessons to update completion status
       await fetchLessons();
       
-      // Find next lesson
-      const reversedLessons = [...lessons].reverse();
-      const currentIndex = reversedLessons.findIndex(l => l._id === selectedLesson._id);
-      const nextLesson = reversedLessons[currentIndex + 1];
+      // Check if there's a next lesson from the response
+      const nextLesson = response.nextLesson;
       
       if (nextLesson) {
         Swal.fire({
           icon: 'success',
-          title: 'Lesson Complete!',
-          text: 'Would you like to proceed to the next lesson?',
+          title: 'Lesson Complete! 🎉',
+          html: `
+            <p>Congratulations! You've completed this lesson.</p>
+            <p style="margin-top: 15px; font-size: 14px; color: #666;">📧 We've sent you an email with details about your next lesson:</p>
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #0029FF;">
+              <p style="font-weight: 600; color: #0029FF; margin: 0;">${nextLesson.title}</p>
+              <p style="font-size: 14px; color: #666; margin: 10px 0 0 0;">${nextLesson.description}</p>
+            </div>
+          `,
           showCancelButton: true,
-          confirmButtonText: 'Yes, proceed!',
-          cancelButtonText: 'No, stay here'
+          confirmButtonText: 'Continue to Next Lesson',
+          cancelButtonText: 'Stay Here',
+          confirmButtonColor: '#0029FF',
+          cancelButtonColor: '#6c757d',
         }).then((result) => {
           if (result.isConfirmed) {
-            handleLessonClick(nextLesson);
+            // Find the next lesson in the current lessons array
+            const reversedLessons = [...lessons].reverse();
+            const currentIndex = reversedLessons.findIndex(l => l._id === selectedLesson._id);
+            const nextLessonObj = reversedLessons[currentIndex + 1];
+            if (nextLessonObj) {
+              handleLessonClick(nextLessonObj);
+            }
           }
         });
       } else {
         Swal.fire({
           icon: 'success',
-          title: 'Congratulations!',
-          text: 'You have completed all lessons!',
-          confirmButtonText: 'Awesome!'
+          title: 'All Lessons Complete! 🎊',
+          html: `
+            <p style="font-size: 18px; font-weight: 600; color: #0029FF; margin: 20px 0;">Congratulations!</p>
+            <p>You've completed all available lessons!</p>
+            <p style="margin-top: 15px; font-size: 14px; color: #666;">📧 Check your email for a summary of your achievement.</p>
+          `,
+          confirmButtonText: 'Awesome!',
+          confirmButtonColor: '#0029FF',
         });
       }
       
@@ -155,7 +173,8 @@ const FrontPage = () => {
         icon: 'error',
         title: 'Error',
         text: 'Failed to mark lesson as complete. Please try again.',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#d9534f',
       });
     }
   };
