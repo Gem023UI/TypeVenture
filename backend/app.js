@@ -2,10 +2,7 @@ import express from "express";
 import cors from "cors";
 import userRoutes from "./routes/user.js";
 import lessonsRoutes from "./routes/lessons.js";
-import quizRoutes from "./routes/quiz.js";
-import scoreRoutes from "./routes/scores.js";
-import typographyRoutes from "./routes/typography.js";
-import achievementRoutes from "./routes/achievements.js";
+import gameRoutes from "./routes/games.js";
 
 const app = express();
 
@@ -45,17 +42,8 @@ console.log("✅ User routes registered");
 app.use("/api/lessons", lessonsRoutes);
 console.log("✅ Lessons routes registered");
 
-app.use("/api/quiz", quizRoutes);
-console.log("✅ Quiz routes registered");
-
-app.use("/api/typography", typographyRoutes);
-console.log("✅ Typography routes registered");
-
-app.use("/api/score", scoreRoutes);
-console.log("✅ Score routes registered");
-
-app.use("/api/achievements", achievementRoutes);
-console.log("✅ Achievement routes registered");
+app.use("/api/games", gameRoutes);
+console.log("✅ Game routes registered");
 
 // Health check
 app.get("/", (req, res) => {
@@ -65,7 +53,7 @@ app.get("/", (req, res) => {
     endpoints: {
       user: "/api/user",
       lessons: "/api/lessons",
-      quiz: "/api/quiz"
+      games: "/api/games"
     }
   });
 });
@@ -89,19 +77,12 @@ app.use((req, res) => {
     availableRoutes: [
       "POST /api/user/register",
       "POST /api/user/login",
-      "POST /api/score",
       "POST /api/user/send-verification-code",
       "GET /api/test",
       "GET /api/lessons",
-      "GET /api/quiz/test",
-      "GET /api/quiz/all",
-      "GET /api/quiz/lesson/:lessonId",
-      "GET /api/score/user/:username",
-      "GET /api/score/leaderboard",
-      "GET /api/typography/all",
-      "GET /api/typography/lesson/:lessonId",
-      "GET /api/achievements/user/:userId",
-      "GET /api/achievements/lesson/:lessonId"
+      "GET /api/games",
+      "GET /api/games/:id",
+      "POST /api/games/score",
     ]
   });
 });

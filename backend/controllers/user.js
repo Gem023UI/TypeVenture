@@ -2,9 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import validator from "validator";
 import { uploadToCloudinary } from "../utils/multer.js";
-import Score from "../models/scores.js";
 import User from "../models/user.js";
-import UserAchievement from "../models/userAchievements.js";
 import { 
   generateVerificationCode, 
   sendVerificationEmail, 

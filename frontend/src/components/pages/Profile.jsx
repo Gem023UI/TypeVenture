@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import * as Chart from 'chart.js';
-import { getScoresByUserId } from "../../api/scores";
 import { getUserById, editProfile, deleteAccount } from "../../api/user";
-import { getUserAchievements } from "../../api/achievements";
 import MainLayout from "../layout/MainLayout";
 import Lanyard from '../bins/media/Lanyard';
 import { sendVerificationCode } from '../../api/emailVerify';

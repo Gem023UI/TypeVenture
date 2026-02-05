@@ -5,8 +5,10 @@ import LandingSection from "./components/pages/LandingSection";
 import LoginRegister from "./components/pages/Login&Register";
 import FrontPage from "./components/pages/FrontPage";
 import GuestGame from './components/pages/GuestGame';
+import Games from './components/pages/GamesGrid';
+import KerningGame from './components/pages/games/Kerning';
 import Profile from './components/pages/Profile';
-import Leaderboard from './components/pages/Leaderboards';
+import Leaderboard from './components/pages/Profile';
 import Citations from './components/pages/Citations';
 import AboutUs from './components/pages/AboutUs';
 
@@ -37,6 +39,8 @@ function App() {
             <Route path="/login" element={<LoginRegister logoUrl={logoUrl} />} />
             <Route path="/lessons" element={<FrontPage />} />
             <Route path="/guest-game" element={<GuestGame />} />
+            <Route path="/games" element={<Games />} />
+            <Route path="/games/kerning/:gameId" element={<KerningGame />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/leaderboards" element={<Leaderboard />} />
             <Route path="/citations" element={<Citations />} />
