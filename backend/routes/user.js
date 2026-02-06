@@ -7,7 +7,9 @@ import {
   getUserById,
   deleteAccount,
   sendVerificationCode,
-  verifyEmail
+  verifyEmail,
+  sendPasswordResetCode,
+  resetPassword
 } from "../controllers/user.js";
 import { handleMulterError } from "../middlewares/multer.js";
 import { verifyToken } from "../middlewares/auth.js";
@@ -33,5 +35,9 @@ router.delete("/delete-account", verifyToken, deleteAccount);
 router.post("/send-verification-code", verifyToken, sendVerificationCode);
 
 router.post("/verify-email", verifyToken, verifyEmail);
+
+router.post("/forgot-password", sendPasswordResetCode);
+
+router.post("/reset-password", resetPassword);
 
 export default router;

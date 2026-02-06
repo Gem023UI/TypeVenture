@@ -106,3 +106,27 @@ export const deleteAccount = async (credentials) => {
     throw error.response?.data?.error || "Account deletion failed.";
   }
 };
+
+export const sendPasswordResetCode = async (email) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/api/user/forgot-password`, { email });
+    return response.data;
+  } catch (error) {
+    console.error('Send password reset code error:', error);
+    throw error.response?.data?.error || 'Failed to send password reset code';
+  }
+};
+
+export const resetPassword = async (email, code, newPassword) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/api/user/reset-password`, { 
+      email, 
+      code, 
+      newPassword 
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Reset password error:', error);
+    throw error.response?.data?.error || 'Password reset failed';
+  }
+};

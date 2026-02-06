@@ -8,10 +8,12 @@ const userSchema = new mongoose.Schema({
   token: { type: String },
   hobbies: { type: [String], default: [] },
   
-  // Email verification fields
   isVerified: { type: Boolean, default: false },
   verificationCode: { type: String },
   verificationCodeExpires: { type: Date },
+
+  passwordResetCode: { type: String },
+  passwordResetExpires: { type: Date },
   
 }, { timestamps: true });
 

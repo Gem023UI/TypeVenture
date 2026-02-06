@@ -83,6 +83,8 @@ app.use((req, res) => {
       "GET /api/games",
       "GET /api/games/:id",
       "POST /api/games/score",
+      "POST /api/user/forgot-password",
+      "POST /api/user/reset-password,"
     ]
   });
 });

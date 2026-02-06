@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import "./Login&Register.css";
-import Loader from "../layout/Loader";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-
+import { sendPasswordResetCode, resetPassword } from "../../api/user";
+import Loader from "../layout/Loader";
+import "./Login&Register.css";
 
 // API base URL
 // const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure.onrender.com";
@@ -23,6 +23,159 @@ export default function LoginRegister({ logoUrl }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
+  const [forgotPasswordStep, setForgotPasswordStep] = useState(1); // 1: email, 2: code+password
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetCode, setResetCode] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [resetLoading, setResetLoading] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(900); // 15 minutes
+  const [canResend, setCanResend] = useState(false);
+
+  // Timer for password reset code
+  React.useEffect(() => {
+    if (!showForgotPasswordModal || forgotPasswordStep !== 2) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          setCanResend(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [showForgotPasswordModal, forgotPasswordStep]);
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Handle send reset code
+const handleSendResetCode = async (e) => {
+  e.preventDefault();
+  setResetLoading(true);
+
+  try {
+    await sendPasswordResetCode(resetEmail);
+    
+    Swal.fire({
+      icon: 'success',
+      title: 'Reset Code Sent!',
+      text: 'Please check your email for the password reset code',
+      timer: 2000,
+      showConfirmButton: false,
+    });
+    
+    setForgotPasswordStep(2);
+    setTimeLeft(900);
+    setCanResend(false);
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Failed to Send Code',
+      text: error || 'Please check your email and try again',
+      timer: 2000,
+      showConfirmButton: false,
+    });
+  } finally {
+    setResetLoading(false);
+  }
+};
+
+// Handle reset password
+const handleResetPassword = async (e) => {
+  e.preventDefault();
+  setResetLoading(true);
+
+  if (newPassword !== confirmNewPassword) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Passwords do not match',
+      timer: 2000,
+      showConfirmButton: false,
+    });
+    setResetLoading(false);
+    return;
+  }
+
+  try {
+    await resetPassword(resetEmail, resetCode, newPassword);
+    
+    Swal.fire({
+      icon: 'success',
+      title: 'Password Reset Successful!',
+      text: 'You can now login with your new password',
+      timer: 3000,
+      showConfirmButton: false,
+    });
+    
+    // Reset state and close modal
+      setShowForgotPasswordModal(false);
+      setForgotPasswordStep(1);
+      setResetEmail("");
+      setResetCode("");
+      setNewPassword("");
+      setConfirmNewPassword("");
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Reset Failed',
+        text: error || 'Invalid or expired code',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } finally {
+      setResetLoading(false);
+    }
+  };
+
+  // Handle resend code
+  const handleResendResetCode = async () => {
+    setResetLoading(true);
+    try {
+      await sendPasswordResetCode(resetEmail);
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Code Resent!',
+        text: 'A new reset code has been sent to your email',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      
+      setTimeLeft(900);
+      setCanResend(false);
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Resend Failed',
+        text: error || 'Failed to resend code',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } finally {
+      setResetLoading(false);
+    }
+  };
+
+  // Handle close forgot password modal
+  const handleCloseForgotPassword = () => {
+    setShowForgotPasswordModal(false);
+    setForgotPasswordStep(1);
+    setResetEmail("");
+    setResetCode("");
+    setNewPassword("");
+    setConfirmNewPassword("");
+    setTimeLeft(900);
+    setCanResend(false);
+  };
 
   // REGISTER FUNCTION
   const handleRegister = async (e) => {
@@ -169,6 +322,20 @@ export default function LoginRegister({ logoUrl }) {
                   <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
                 </a>
               </div>
+              
+              <a 
+                onClick={() => setShowForgotPasswordModal(true)}
+                style={{
+                  cursor: 'pointer',
+                  color: '#0029FF',
+                  fontSize: '12px',
+                  textDecoration: 'none',
+                  marginTop: '5px',
+                  display: 'block',
+                }}
+              >
+                Forgot Password?
+              </a>
             </div>
             <button type="submit" className="btn" disabled={loading}>
               LOGIN
@@ -385,6 +552,283 @@ export default function LoginRegister({ logoUrl }) {
       {loading && (
         <div className="loader-overlay">
           <Loader />
+        </div>
+      )}
+
+      {/* Forgot Password Modal */}
+      {showForgotPasswordModal && (
+        <div 
+          className="login-register-wrapper"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+          }}
+          onClick={handleCloseForgotPassword}
+        >
+          <div 
+            className="container"
+            style={{
+              maxWidth: '450px',
+              minHeight: 'auto',
+              padding: '40px',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button 
+              onClick={handleCloseForgotPassword}
+              style={{
+                position: 'absolute',
+                top: '15px',
+                right: '15px',
+                background: 'none',
+                border: 'none',
+                fontSize: '30px',
+                color: '#666',
+                cursor: 'pointer',
+                width: '35px',
+                height: '35px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '50%',
+                transition: 'all 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#f0f0f0';
+                e.target.style.color = '#000';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = 'transparent';
+                e.target.style.color = '#666';
+              }}
+            >
+              ×
+            </button>
+
+            {/* Step 1: Enter Email */}
+            {forgotPasswordStep === 1 && (
+              <form onSubmit={handleSendResetCode} style={{ width: '100%' }}>
+                <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+                  <h2 style={{ fontSize: '24px', marginBottom: '10px', color: '#000' }}>
+                    🔒 Forgot Password?
+                  </h2>
+                  <p style={{ fontSize: '14px', color: '#666', margin: 0 }}>
+                    Enter your email address to receive a reset code
+                  </p>
+                </div>
+
+                <div className="input-box">
+                  <input
+                    type="email"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    placeholder="Email Address"
+                    required
+                    disabled={resetLoading}
+                    style={{
+                      width: '100%',
+                      padding: '12px 15px',
+                      fontSize: '14px',
+                      border: '2px solid #ddd',
+                      borderRadius: '8px',
+                      outline: 'none',
+                      transition: 'all 0.3s ease',
+                      marginBottom: '20px',
+                    }}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={resetLoading}
+                  style={{
+                    width: '100%',
+                    padding: '12px 30px',
+                    background: 'linear-gradient(135deg, #0029FF, #000000, #FF1414)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: resetLoading ? 'not-allowed' : 'pointer',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    opacity: resetLoading ? 0.6 : 1,
+                  }}
+                >
+                  {resetLoading ? 'Sending...' : 'Send Reset Code'}
+                </button>
+              </form>
+            )}
+
+            {/* Step 2: Enter Code + New Password */}
+            {forgotPasswordStep === 2 && (
+              <form onSubmit={handleResetPassword} style={{ width: '100%' }}>
+                <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+                  <h2 style={{ fontSize: '24px', marginBottom: '10px', color: '#000' }}>
+                    🔓 Reset Password
+                  </h2>
+                  <p style={{ fontSize: '14px', color: '#666', margin: '0 0 5px 0' }}>
+                    Enter the code sent to:
+                  </p>
+                  <p style={{ fontSize: '12px', color: '#0029FF', margin: 0, fontWeight: 600 }}>
+                    {resetEmail}
+                  </p>
+                </div>
+
+                <div className="input-box">
+                  <input
+                    type="text"
+                    value={resetCode}
+                    onChange={(e) => setResetCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                    placeholder="000000"
+                    maxLength="6"
+                    required
+                    disabled={resetLoading}
+                    style={{
+                      width: '100%',
+                      padding: '20px',
+                      fontSize: '32px',
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      letterSpacing: '10px',
+                      border: '2px solid #ddd',
+                      borderRadius: '10px',
+                      outline: 'none',
+                      fontFamily: 'Courier New, monospace',
+                      marginBottom: '10px',
+                    }}
+                  />
+
+                  <div style={{ textAlign: 'center', fontSize: '14px', color: '#666', marginBottom: '20px' }}>
+                    {timeLeft > 0 ? (
+                      <span>
+                        Code expires in: <strong style={{ color: '#0029FF' }}>{formatTime(timeLeft)}</strong>
+                      </span>
+                    ) : (
+                      <span style={{ color: '#FF1414', fontWeight: 600 }}>Code expired</span>
+                    )}
+                  </div>
+
+                  <div className="password-wrapper" style={{ marginBottom: '10px' }}>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="New Password"
+                      required
+                      disabled={resetLoading}
+                      style={{
+                        width: '100%',
+                        padding: '12px 40px 12px 15px',
+                        fontSize: '14px',
+                        border: '2px solid #ddd',
+                        borderRadius: '8px',
+                        outline: 'none',
+                      }}
+                    />
+                    <a
+                      type="button"
+                      className="eye-btn"
+                      onClick={() => setShowPassword(prev => !prev)}
+                      disabled={resetLoading}
+                    >
+                      <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                    </a>
+                  </div>
+
+                  <div className="password-wrapper">
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      value={confirmNewPassword}
+                      onChange={(e) => setConfirmNewPassword(e.target.value)}
+                      placeholder="Confirm New Password"
+                      required
+                      disabled={resetLoading}
+                      style={{
+                        width: '100%',
+                        padding: '12px 40px 12px 15px',
+                        fontSize: '14px',
+                        border: '2px solid #ddd',
+                        borderRadius: '8px',
+                        outline: 'none',
+                      }}
+                    />
+                    <a
+                      type="button"
+                      className="eye-btn"
+                      onClick={() => setShowConfirmPassword(prev => !prev)}
+                      disabled={resetLoading}
+                    >
+                      <FontAwesomeIcon icon={showConfirmPassword ? faEye : faEyeSlash} />
+                    </a>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={resetLoading || resetCode.length !== 6 || timeLeft === 0}
+                  style={{
+                    width: '100%',
+                    padding: '12px 30px',
+                    background: 'linear-gradient(135deg, #0029FF, #000000, #FF1414)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: (resetLoading || resetCode.length !== 6 || timeLeft === 0) ? 'not-allowed' : 'pointer',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    marginBottom: '10px',
+                    opacity: (resetLoading || resetCode.length !== 6 || timeLeft === 0) ? 0.6 : 1,
+                  }}
+                >
+                  {resetLoading ? 'Resetting...' : 'Reset Password'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleResendResetCode}
+                  disabled={resetLoading || !canResend}
+                  style={{
+                    width: '100%',
+                    padding: '12px 30px',
+                    background: 'transparent',
+                    color: '#0029FF',
+                    border: '2px solid #0029FF',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: (resetLoading || !canResend) ? 'not-allowed' : 'pointer',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    opacity: (resetLoading || !canResend) ? 0.6 : 1,
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!resetLoading && canResend) {
+                      e.target.style.background = '#0029FF';
+                      e.target.style.color = 'white';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = 'transparent';
+                    e.target.style.color = '#0029FF';
+                  }}
+                >
+                  {canResend ? 'Resend Code' : `Resend in ${formatTime(timeLeft)}`}
+                </button>
+              </form>
+            )}
+          </div>
         </div>
       )}
 

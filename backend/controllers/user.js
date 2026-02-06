@@ -6,7 +6,9 @@ import User from "../models/user.js";
 import { 
   generateVerificationCode, 
   sendVerificationEmail, 
-  sendVerificationSuccessEmail 
+  sendVerificationSuccessEmail,
+  sendPasswordResetEmail,
+  sendPasswordResetSuccessEmail
 } from "../utils/emailVerify.js";
 
 // GET USER BY ID
@@ -419,6 +421,131 @@ export const verifyEmail = async (req, res) => {
     console.error("❌ Verify email error:", err);
     res.status(500).json({
       error: "Email verification failed",
+      details: err.message,
+    });
+  }
+};
+
+// SEND PASSWORD RESET CODE
+export const sendPasswordResetCode = async (req, res) => {
+  console.log("🔑 Send password reset code endpoint hit");
+  
+  try {
+    const { email } = req.body;
+    
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+    
+    // Check if user exists
+    const user = await User.findOne({ email: email.toLowerCase() });
+    if (!user) {
+      return res.status(404).json({ 
+        error: "No account found with this email address",
+        accountExists: false
+      });
+    }
+    
+    // Generate 6-digit code
+    const resetCode = generateVerificationCode();
+    
+    // Set expiration to 15 minutes from now
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+    
+    // Save code to database
+    user.passwordResetCode = resetCode;
+    user.passwordResetExpires = expiresAt;
+    await user.save();
+    
+    // Send email
+    await sendPasswordResetEmail(user.email, user.username, resetCode);
+    
+    console.log("✅ Password reset code sent to:", user.email);
+    
+    res.json({
+      message: "Password reset code sent to your email",
+      email: user.email,
+      expiresIn: "15 minutes"
+    });
+    
+  } catch (err) {
+    console.error("❌ Send password reset code error:", err);
+    res.status(500).json({
+      error: "Failed to send password reset code",
+      details: err.message,
+    });
+  }
+};
+
+// VERIFY PASSWORD RESET CODE AND RESET PASSWORD
+export const resetPassword = async (req, res) => {
+  console.log("🔓 Reset password endpoint hit");
+  
+  try {
+    const { email, code, newPassword } = req.body;
+    
+    if (!email || !code || !newPassword) {
+      return res.status(400).json({ 
+        error: "Email, code, and new password are required" 
+      });
+    }
+    
+    // Find user by email
+    const user = await User.findOne({ email: email.toLowerCase() });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    
+    // Check if reset code exists
+    if (!user.passwordResetCode) {
+      return res.status(400).json({ 
+        error: "No password reset code found. Please request a new code." 
+      });
+    }
+    
+    // Check if code expired
+    if (new Date() > user.passwordResetExpires) {
+      return res.status(400).json({ 
+        error: "Password reset code expired. Please request a new code." 
+      });
+    }
+    
+    // Check if code matches
+    if (user.passwordResetCode !== code.trim()) {
+      return res.status(400).json({ error: "Invalid reset code" });
+    }
+    
+    // Validate new password
+    const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
+    if (!passwordRegex.test(newPassword)) {
+      return res.status(400).json({
+        error: "Password must be at least 6 characters long and contain at least 1 symbol",
+      });
+    }
+    
+    // Hash new password
+    user.password = await bcrypt.hash(newPassword, 10);
+    
+    // Clear reset code and expiration
+    user.passwordResetCode = undefined;
+    user.passwordResetExpires = undefined;
+    
+    await user.save();
+    
+    // Send success email
+    await sendPasswordResetSuccessEmail(user.email, user.username);
+    
+    console.log("✅ Password reset successfully for:", user.email);
+    
+    res.json({
+      message: "Password reset successfully!",
+      success: true
+    });
+    
+  } catch (err) {
+    console.error("❌ Reset password error:", err);
+    res.status(500).json({
+      error: "Password reset failed",
       details: err.message,
     });
   }
