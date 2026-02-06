@@ -8,6 +8,7 @@ const kerningGames = [
   {
     title: "Kerning Master: Easy",
     description: "Learn the basics of kerning with simple words. Perfect for beginners!",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
     difficulty: "easy",
     gameType: "kerning",
     words: [
@@ -37,6 +38,7 @@ const kerningGames = [
   {
     title: "Kerning Master: Medium",
     description: "Challenge yourself with more complex letter combinations!",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
     difficulty: "medium",
     gameType: "kerning",
     words: [
@@ -66,6 +68,7 @@ const kerningGames = [
   {
     title: "Kerning Master: Hard",
     description: "Master-level kerning challenges. Only for typography experts!",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
     difficulty: "hard",
     gameType: "kerning",
     words: [

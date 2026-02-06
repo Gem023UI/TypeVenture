@@ -10,6 +10,10 @@ const gameSchema = new mongoose.Schema({
     type: String, 
     required: true 
   },
+  gameImage: { 
+    type: String, 
+    default: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png"
+  },
   difficulty: { 
     type: String, 
     enum: ["easy", "medium", "hard"],

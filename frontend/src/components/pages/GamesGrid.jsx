@@ -122,27 +122,32 @@ const Games = () => {
                 <div className="games-grid">
                 {games.map((game) => (
                     <div
-                    key={game._id}
-                    className="game-card"
-                    onClick={() => handleGameClick(game)}
-                    >
-                    <div className="game-card-header">
-                        <h2>{game.title}</h2>
-                        <span className={`difficulty-badge ${game.difficulty}`}>
-                        {game.difficulty}
-                        </span>
-                    </div>
+                      key={game._id}
+                      className="game-card"
+                      onClick={() => handleGameClick(game)}
+                      >
+                      <img 
+                        src={game.gameImage} 
+                        alt={game.title}
+                        className="game-card-image"
+                      />
+                      <div className="game-card-header">
+                          <h2>{game.title}</h2>
+                          <span className={`difficulty-badge ${game.difficulty}`}>
+                          {game.difficulty}
+                          </span>
+                      </div>
 
-                    <div className="game-card-body">
-                        <p>{game.description}</p>
-                    </div>
+                      <div className="game-card-body">
+                          <p>{game.description}</p>
+                      </div>
 
-                    <div className="game-card-footer">
-                        <span className="game-type">{game.gameType}</span>
-                        <div className="play-icon">▶</div>
-                    </div>
-                    </div>
-                ))}
+                      <div className="game-card-footer">
+                          <span className="game-type">{game.gameType}</span>
+                          <div className="play-icon">▶</div>
+                      </div>
+                      </div>
+                  ))}
                 </div>
             </div>
         </div>
