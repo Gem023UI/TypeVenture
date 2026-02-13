@@ -43,10 +43,11 @@ const Games = () => {
       alert("Please verify your email to play games");
       return;
     }
-
-    // Navigate to the game based on gameType
+  
     if (game.gameType === "kerning") {
       navigate(`/games/kerning/${game._id}`, { state: { game } });
+    } else if (game.gameType === "typeface") {
+      navigate(`/games/typeface/${game._id}`, { state: { game } });
     }
   };
 

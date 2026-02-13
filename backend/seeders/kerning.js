@@ -100,10 +100,9 @@ const kerningGames = [
 const seedGames = async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.DB_URI || "mongodb://localhost:27017/typeventure");
+    await mongoose.connect(process.env.DB_URI);
     console.log("✅ Connected to MongoDB");
 
-    // Clear existing games (optional - remove if you want to keep existing data)
     await Game.deleteMany({ gameType: "kerning" });
     console.log("🗑️  Cleared existing kerning games");
 

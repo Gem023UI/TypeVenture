@@ -25,7 +25,12 @@ const gameSchema = new mongoose.Schema({
   },
   words: [{
     word: { type: String, required: true },
-    idealKerning: [{ type: Number }] // Array of ideal spacing values between letters
+    idealKerning: [{ type: Number }]
+  }],
+  questions: [{
+    imageUrl: { type: String, required: true },
+    correctAnswer: { type: String, required: true },
+    options: [{ type: String }]
   }],
   isActive: {
     type: Boolean,

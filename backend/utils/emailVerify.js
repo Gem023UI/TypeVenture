@@ -1,5 +1,8 @@
 import nodemailer from "nodemailer";
 import crypto from "crypto";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const createTransporter = () => {
   const transporter = nodemailer.createTransport({
@@ -52,7 +55,7 @@ export const sendVerificationEmail = async (email, username, verificationCode) =
             <p>If you didn't request this verification, please ignore this email.</p>
             <div class="footer">
               <p>© 2026 TypeVenture - Sharpen your design eye while having fun!</p>
-              <p>Contact us: typeventureweb@gmail.com</p>
+              <p>Contact us: typeventureproject@gmail.com</p>
             </div>
           </div>
         </body>
@@ -104,7 +107,7 @@ export const sendVerificationSuccessEmail = async (email, username) => {
             <p>Get ready to sharpen your design eye while having fun!</p>
             <div class="footer">
               <p>© 2026 TypeVenture</p>
-              <p>Contact us: typeventureweb@gmail.com</p>
+              <p>Contact us: typeventureproject@gmail.com</p>
             </div>
           </div>
         </body>
@@ -220,7 +223,7 @@ export const sendLessonCompletionEmail = async (email, username, completedLesson
             
             <div class="footer">
               <p>© 2026 TypeVenture - Sharpen your design eye while having fun!</p>
-              <p>Contact us: typeventureweb@gmail.com</p>
+              <p>Contact us: typeventureproject@gmail.com</p>
             </div>
           </div>
         </body>
@@ -276,7 +279,7 @@ export const sendPasswordResetEmail = async (email, username, resetCode) => {
             </div>
             <div class="footer">
               <p>© 2026 TypeVenture - Sharpen your design eye while having fun!</p>
-              <p>Contact us: typeventureweb@gmail.com</p>
+              <p>Contact us: typeventureproject@gmail.com</p>
             </div>
           </div>
         </body>
@@ -331,7 +334,7 @@ export const sendPasswordResetSuccessEmail = async (email, username) => {
             </div>
             <div class="footer">
               <p>© 2026 TypeVenture</p>
-              <p>Contact us: typeventureweb@gmail.com</p>
+              <p>Contact us: typeventureproject@gmail.com</p>
             </div>
           </div>
         </body>
