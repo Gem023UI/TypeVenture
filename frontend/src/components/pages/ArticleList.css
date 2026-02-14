@@ -1,0 +1,236 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+  --color1: #FFFFFF;
+  --color2: #FF1414;
+  --color3: #0029FF;
+  --color4: #a200ff;
+  --text-light: white;
+  --muted: black;
+}
+
+.article-list-wrapper {
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px 0;
+}
+
+.article-list-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 50px;
+}
+
+.article-list-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.article-list-title {
+  font-size: 75px;
+  font-weight: 700;
+  margin: 0 0 20px 0;
+  letter-spacing: 2px;
+}
+
+.title-type {
+  color: #FFFFFF;
+}
+
+.title-articles {
+  color: transparent;
+  -webkit-text-stroke: 3px #FFFFFF;
+  padding-left: 10px;
+}
+
+.article-list-description {
+  font-size: 18px;
+  color: var(--text-light);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  width: 100%;
+}
+
+.article-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  min-height: 200px;
+}
+
+.article-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(162, 0, 255, 0.3);
+}
+
+.article-image-container {
+  width: 250px;
+  height: 200px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.article-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.article-card:hover .article-image {
+  transform: scale(1.05);
+}
+
+.article-content {
+  flex: 1;
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.article-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 15px 0;
+  letter-spacing: 1px;
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-image: var(--border-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.article-introduction {
+  font-size: 16px;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .article-list-title {
+    font-size: 60px;
+  }
+
+  .article-card {
+    min-height: 180px;
+  }
+
+  .article-image-container {
+    width: 220px;
+    height: 180px;
+  }
+
+  .article-content {
+    padding: 25px 30px;
+  }
+
+  .article-title {
+    font-size: 24px;
+  }
+
+  .article-introduction {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .article-list-container {
+    padding: 0 30px;
+  }
+
+  .article-list-title {
+    font-size: 45px;
+  }
+
+  .article-list-description {
+    font-size: 16px;
+  }
+
+  .article-card {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .article-image-container {
+    width: 100%;
+    height: 250px;
+  }
+
+  .article-content {
+    padding: 25px;
+  }
+
+  .article-title {
+    font-size: 22px;
+  }
+
+  .article-introduction {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .article-list-wrapper {
+    padding: 30px 0;
+  }
+
+  .article-list-container {
+    padding: 0 20px;
+  }
+
+  .article-list-header {
+    margin-bottom: 40px;
+  }
+
+  .article-list-title {
+    font-size: 35px;
+  }
+
+  .title-articles {
+    -webkit-text-stroke: 2px #FFFFFF;
+  }
+
+  .article-list-description {
+    font-size: 14px;
+  }
+
+  .articles-grid {
+    gap: 20px;
+  }
+
+  .article-image-container {
+    height: 200px;
+  }
+
+  .article-content {
+    padding: 20px;
+  }
+
+  .article-title {
+    font-size: 20px;
+  }
+}

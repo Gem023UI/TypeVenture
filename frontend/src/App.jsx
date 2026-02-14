@@ -12,6 +12,8 @@ import Profile from './components/pages/Profile';
 import Leaderboard from './components/pages/Profile';
 import Citations from './components/pages/Citations';
 import AboutUs from './components/pages/AboutUs';
+import ArticleList from './components/pages/ArticleList';
+import ArticleOne from './components/pages/articles/ArticleOne';
 
 // Inside your Routes:
 <Route path="/leaderboard" element={<Leaderboard />} />
@@ -39,6 +41,8 @@ function App() {
             <Route path="/" element={<LandingSection logoUrl={logoUrl} />} />
             <Route path="/login" element={<LoginRegister logoUrl={logoUrl} />} />
             <Route path="/lessons" element={<FrontPage />} />
+            <Route path="/articles" element={<ArticleList />} />
+            <Route path="/article/font-pairings-2026" element={<ArticleOne />} />
             <Route path="/guest-game" element={<GuestGame />} />
             <Route path="/games" element={<Games />} />
             <Route path="/games/kerning/:gameId" element={<KerningGame />} />

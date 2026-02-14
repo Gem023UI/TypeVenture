@@ -94,7 +94,7 @@ const Drawer = ({ isOpen, onClose }) => {
               <a href="/lessons" onClick={onClose}>Lessons</a>
             </li>
             <li className="blue">
-              <a href="/games" onClick={onClose}>Articles</a>
+              <a href="/articles" onClick={onClose}>Articles</a>
             </li>
             <li className="blue">
               <a href="/games" onClick={onClose}>Games</a>
