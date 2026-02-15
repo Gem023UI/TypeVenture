@@ -21,19 +21,29 @@ const TypefaceGame = () => {
   const [error, setError] = useState(null);
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [userAnswers, setUserAnswers] = useState([]);
+  const [usedLetters, setUsedLetters] = useState([]);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [score, setScore] = useState(0);
   const [showAchievement, setShowAchievement] = useState(false);
   const [finalAchievement, setFinalAchievement] = useState(null);
+  const [availableLetters, setAvailableLetters] = useState([]);
 
   // Load game data
   useEffect(() => {
     if (!game) {
       loadGame();
+    } else {
+      initializeQuestion();
     }
   }, [gameId, game]);
+
+  useEffect(() => {
+    if (game) {
+      initializeQuestion();
+    }
+  }, [currentQuestionIndex, game]);
 
   const loadGame = async () => {
     try {
@@ -55,16 +65,89 @@ const TypefaceGame = () => {
     }
   };
 
-  const handleOptionClick = (option) => {
-    if (isAnswered) return; // Prevent changing answer after submission
-    setSelectedAnswer(option);
+  const initializeQuestion = () => {
+    if (!game || !game.questions || !game.questions[currentQuestionIndex]) return;
+
+    const question = game.questions[currentQuestionIndex];
+    
+    // Initialize empty answers array
+    setUserAnswers(new Array(question.missingLetters.length).fill(''));
+    setUsedLetters([]);
+    setIsAnswered(false);
+    setIsCorrect(false);
+    
+    // Generate available letters (missing letters + some random distractors)
+    generateAvailableLetters(question.missingLetters);
+  };
+
+  const generateAvailableLetters = (missingLetters) => {
+    // All possible letters
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    
+    // Get unique missing letters
+    const uniqueMissing = [...new Set(missingLetters)];
+    
+    // Calculate how many distractors we need
+    const numDistractors = Math.max(4, Math.ceil(uniqueMissing.length * 1.5));
+    
+    // Get random distractors that aren't in missing letters
+    const availableDistractors = alphabet.filter(letter => !uniqueMissing.includes(letter));
+    const shuffledDistractors = availableDistractors.sort(() => 0.5 - Math.random());
+    const distractors = shuffledDistractors.slice(0, numDistractors);
+    
+    // Combine and shuffle all letters
+    const allLetters = [...missingLetters, ...distractors].sort(() => 0.5 - Math.random());
+    
+    setAvailableLetters(allLetters);
+  };
+
+  const handleLetterClick = (letter, letterIndex) => {
+    if (isAnswered || usedLetters.includes(letterIndex)) return;
+
+    // Find the first empty position in userAnswers
+    const emptyIndex = userAnswers.findIndex(ans => ans === '');
+    
+    if (emptyIndex !== -1) {
+      const newAnswers = [...userAnswers];
+      newAnswers[emptyIndex] = letter;
+      setUserAnswers(newAnswers);
+      
+      // Mark this letter as used
+      setUsedLetters([...usedLetters, letterIndex]);
+    }
+  };
+
+  const handleBlankClick = (blankIndex) => {
+    if (isAnswered) return;
+
+    const letterToRemove = userAnswers[blankIndex];
+    if (letterToRemove) {
+      // Remove the answer
+      const newAnswers = [...userAnswers];
+      newAnswers[blankIndex] = '';
+      setUserAnswers(newAnswers);
+      
+      // Find and remove the used letter index
+      const letterIndexInAvailable = availableLetters.findIndex(
+        (letter, idx) => letter === letterToRemove && usedLetters.includes(idx)
+      );
+      
+      if (letterIndexInAvailable !== -1) {
+        setUsedLetters(usedLetters.filter(idx => idx !== letterIndexInAvailable));
+      }
+    }
   };
 
   const handleSubmitAnswer = () => {
-    if (!selectedAnswer) return;
+    if (userAnswers.some(ans => ans === '')) {
+      alert("Please fill in all blanks before submitting!");
+      return;
+    }
 
     const currentQuestion = game.questions[currentQuestionIndex];
-    const correct = selectedAnswer === currentQuestion.correctAnswer;
+    const correct = userAnswers.every((ans, idx) => 
+      ans === currentQuestion.missingLetters[idx]
+    );
     
     setIsCorrect(correct);
     setIsAnswered(true);
@@ -76,15 +159,14 @@ const TypefaceGame = () => {
 
   const handleNext = () => {
     if (currentQuestionIndex < game.questions.length - 1) {
-      // Move to next question
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setSelectedAnswer(null);
-      setIsAnswered(false);
-      setIsCorrect(false);
     } else {
-      // Game finished
       handleFinish();
     }
+  };
+
+  const handleReset = () => {
+    initializeQuestion();
   };
 
   const handleFinish = async () => {
@@ -122,6 +204,56 @@ const TypefaceGame = () => {
 
   const handleCloseModal = () => {
     navigate("/games");
+  };
+
+  // Render the font name with blanks
+  const renderFontName = () => {
+    if (!game || !game.questions[currentQuestionIndex]) return null;
+
+    const question = game.questions[currentQuestionIndex];
+    const displayText = question.displayText;
+    const blankedPositions = question.blankedPositions;
+    
+    let blankIndex = 0;
+    
+    return displayText.split('').map((char, index) => {
+      if (char === '_') {
+        const currentBlankIndex = blankIndex;
+        blankIndex++;
+        
+        const userAnswer = userAnswers[currentBlankIndex] || '';
+        let blankClass = 'font-blank';
+        
+        if (userAnswer) {
+          blankClass += ' filled';
+        }
+        
+        if (isAnswered) {
+          if (userAnswer === question.missingLetters[currentBlankIndex]) {
+            blankClass += ' correct';
+          } else {
+            blankClass += ' incorrect';
+          }
+        }
+        
+        return (
+          <div
+            key={index}
+            className={blankClass}
+            onClick={() => handleBlankClick(currentBlankIndex)}
+            style={{ cursor: isAnswered ? 'default' : 'pointer' }}
+          >
+            {userAnswer}
+          </div>
+        );
+      } else {
+        return (
+          <span key={index} className="font-letter">
+            {char}
+          </span>
+        );
+      }
+    });
   };
 
   if (loading) {
@@ -181,54 +313,64 @@ const TypefaceGame = () => {
           </div>
         </div>
 
-        {/* Options Section */}
-        <div className="options-section">
+        {/* Answer Section */}
+        <div className="answer-section">
+          {!isAnswered && (
+            <div className="instructions">
+              <p><strong>How to play:</strong></p>
+              <p>• Click on letters below to fill in the blanks</p>
+              <p>• Click on a filled blank to remove the letter</p>
+              <p>• Complete the typeface name and submit your answer</p>
+            </div>
+          )}
+
           {isAnswered && (
             <div className={`feedback-message ${isCorrect ? 'correct' : 'incorrect'}`}>
               {isCorrect ? (
-                <>✅ Correct! The answer is {currentQuestion.correctAnswer}</>
+                <>✅ Correct! The typeface is {currentQuestion.correctAnswer}</>
               ) : (
                 <>❌ Incorrect. The correct answer is {currentQuestion.correctAnswer}</>
               )}
             </div>
           )}
 
-          <div className="options-grid">
-            {currentQuestion.options.map((option, index) => {
-              let buttonClass = 'option-button';
-              
-              if (isAnswered) {
-                if (option === currentQuestion.correctAnswer) {
-                  buttonClass += ' correct';
-                } else if (option === selectedAnswer && !isCorrect) {
-                  buttonClass += ' incorrect';
-                }
-              } else if (option === selectedAnswer) {
-                buttonClass += ' selected';
-              }
+          <h3 className="answer-title">Complete the typeface name:</h3>
+          
+          <div className="font-name-display">
+            {renderFontName()}
+          </div>
 
-              return (
+          {!isAnswered && (
+            <div className="letter-options">
+              {availableLetters.map((letter, index) => (
                 <button
                   key={index}
-                  className={buttonClass}
-                  onClick={() => handleOptionClick(option)}
-                  disabled={isAnswered}
+                  className={`letter-button ${usedLetters.includes(index) ? 'used' : ''}`}
+                  onClick={() => handleLetterClick(letter, index)}
+                  disabled={usedLetters.includes(index)}
                 >
-                  {option}
+                  {letter}
                 </button>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          )}
 
           <div className="action-buttons">
             {!isAnswered ? (
-              <button 
-                className="game-button submit-button"
-                onClick={handleSubmitAnswer}
-                disabled={!selectedAnswer}
-              >
-                Submit Answer
-              </button>
+              <>
+                <button 
+                  className="game-button submit-button"
+                  onClick={handleSubmitAnswer}
+                >
+                  Submit Answer
+                </button>
+                <button 
+                  className="game-button reset-button"
+                  onClick={handleReset}
+                >
+                  Reset
+                </button>
+              </>
             ) : (
               <button 
                 className="game-button next-button"

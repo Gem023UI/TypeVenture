@@ -7,63 +7,104 @@ dotenv.config();
 // Temporary Cloudinary image for all fonts
 const TEMP_IMAGE = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770956908/dcc646ee-58b0-4068-bdf4-7919f0e86a6d.png";
 
+// Helper function to create blanks in font names
+const createBlanks = (fontName, numberOfBlanks) => {
+  const letters = fontName.split('');
+  const letterIndices = [];
+  
+  // Get indices of all letters (not spaces or special characters)
+  letters.forEach((char, index) => {
+    if (/[a-zA-Z]/.test(char)) {
+      letterIndices.push(index);
+    }
+  });
+  
+  // Randomly select positions to blank out
+  const blankedPositions = [];
+  const shuffled = [...letterIndices].sort(() => 0.5 - Math.random());
+  const blanksToCreate = Math.min(numberOfBlanks, shuffled.length);
+  
+  for (let i = 0; i < blanksToCreate; i++) {
+    blankedPositions.push(shuffled[i]);
+  }
+  
+  // Create the display string with blanks
+  const displayArray = letters.map((char, index) => {
+    if (blankedPositions.includes(index)) {
+      return '_';
+    }
+    return char;
+  });
+  
+  // Get the missing letters in order
+  const missingLetters = blankedPositions
+    .sort((a, b) => a - b)
+    .map(pos => letters[pos].toUpperCase());
+  
+  return {
+    displayText: displayArray.join(''),
+    missingLetters: missingLetters,
+    blankedPositions: blankedPositions.sort((a, b) => a - b)
+  };
+};
+
 const typefaceGames = [
   {
     title: "Guess the Typeface: Easy",
     description: "Test your knowledge of popular and widely-used fonts!",
-    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770956908/dcc646ee-58b0-4068-bdf4-7919f0e86a6d.png",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
     difficulty: "easy",
     gameType: "typeface",
     questions: [
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Poppins",
-        options: ["Poppins", "Roboto", "Open Sans", "Lato"]
+        ...createBlanks("Poppins", 2)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Helvetica",
-        options: ["Helvetica", "Arial", "Verdana", "Calibri"]
+        ...createBlanks("Helvetica", 3)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Times New Roman",
-        options: ["Times New Roman", "Georgia", "Garamond", "Baskerville"]
+        ...createBlanks("Times New Roman", 4)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Arial",
-        options: ["Arial", "Helvetica", "Verdana", "Tahoma"]
+        ...createBlanks("Arial", 2)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Georgia",
-        options: ["Georgia", "Times New Roman", "Palatino", "Cambria"]
+        ...createBlanks("Georgia", 2)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Roboto",
-        options: ["Roboto", "Open Sans", "Lato", "Montserrat"]
+        ...createBlanks("Roboto", 2)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Comic Sans MS",
-        options: ["Comic Sans MS", "Marker Felt", "Chalkboard", "Bradley Hand"]
+        ...createBlanks("Comic Sans MS", 3)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Courier New",
-        options: ["Courier New", "Monaco", "Consolas", "Menlo"]
+        ...createBlanks("Courier New", 3)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Verdana",
-        options: ["Verdana", "Arial", "Tahoma", "Trebuchet MS"]
+        ...createBlanks("Verdana", 2)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Montserrat",
-        options: ["Montserrat", "Raleway", "Nunito", "Quicksand"]
+        ...createBlanks("Montserrat", 3)
       }
     ],
     isActive: true
@@ -71,59 +112,59 @@ const typefaceGames = [
   {
     title: "Guess the Typeface: Medium",
     description: "Challenge yourself with less common but recognizable fonts!",
-    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770956908/dcc646ee-58b0-4068-bdf4-7919f0e86a6d.png",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
     difficulty: "medium",
     gameType: "typeface",
     questions: [
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Futura",
-        options: ["Futura", "Avant Garde", "Century Gothic", "Gill Sans"]
+        ...createBlanks("Futura", 2)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Gotham",
-        options: ["Gotham", "Proxima Nova", "Brandon Grotesque", "Avenir"]
+        ...createBlanks("Gotham", 2)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Bodoni",
-        options: ["Bodoni", "Didot", "Walbaum", "Moderno"]
+        ...createBlanks("Bodoni", 2)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Caslon",
-        options: ["Caslon", "Baskerville", "Bembo", "Plantin"]
+        ...createBlanks("Caslon", 2)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Frutiger",
-        options: ["Frutiger", "Myriad", "Segoe", "Univers"]
+        ...createBlanks("Frutiger", 3)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Rockwell",
-        options: ["Rockwell", "Clarendon", "Courier", "Memphis"]
+        ...createBlanks("Rockwell", 3)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Gill Sans",
-        options: ["Gill Sans", "Optima", "Syntax", "Frutiger"]
+        ...createBlanks("Gill Sans", 3)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Proxima Nova",
-        options: ["Proxima Nova", "Gotham", "Avenir", "Brandon Grotesque"]
+        ...createBlanks("Proxima Nova", 4)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Mrs Eaves",
-        options: ["Mrs Eaves", "Baskerville", "Caslon", "Bembo"]
+        ...createBlanks("Mrs Eaves", 3)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "DIN",
-        options: ["DIN", "Akzidenz-Grotesk", "Franklin Gothic", "Trade Gothic"]
+        ...createBlanks("DIN", 1)
       }
     ],
     isActive: true
@@ -131,59 +172,59 @@ const typefaceGames = [
   {
     title: "Guess the Typeface: Hard",
     description: "Master-level font identification for typography experts!",
-    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770956908/dcc646ee-58b0-4068-bdf4-7919f0e86a6d.png",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
     difficulty: "hard",
     gameType: "typeface",
     questions: [
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Sabon",
-        options: ["Sabon", "Garamond", "Caslon", "Janson"]
+        ...createBlanks("Sabon", 2)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Interstate",
-        options: ["Interstate", "Highway Gothic", "DIN", "Clearview"]
+        ...createBlanks("Interstate", 4)
       },
       {
         imageUrl: TEMP_IMAGE,
-        correctAnswer: "Akzidenz-Grotesk",
-        options: ["Akzidenz-Grotesk", "Helvetica", "Univers", "Franklin Gothic"]
+        correctAnswer: "Akzidenz Grotesk",
+        ...createBlanks("Akzidenz Grotesk", 5)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Hoefler Text",
-        options: ["Hoefler Text", "Mrs Eaves", "Sabon", "Minion"]
+        ...createBlanks("Hoefler Text", 4)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "FF Meta",
-        options: ["FF Meta", "FF Din", "Thesis", "Scala Sans"]
+        ...createBlanks("FF Meta", 2)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Optima",
-        options: ["Optima", "Syntax", "Pascal", "Meridien"]
+        ...createBlanks("Optima", 2)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Thesis",
-        options: ["Thesis", "FF Meta", "Scala", "Quadraat"]
+        ...createBlanks("Thesis", 2)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Neutraface",
-        options: ["Neutraface", "Avenir", "Futura", "Avant Garde"]
+        ...createBlanks("Neutraface", 4)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Archer",
-        options: ["Archer", "Rockwell", "Clarendon", "Egyptienne"]
+        ...createBlanks("Archer", 2)
       },
       {
         imageUrl: TEMP_IMAGE,
         correctAnswer: "Filosofia",
-        options: ["Filosofia", "Didot", "Bodoni", "Walbaum"]
+        ...createBlanks("Filosofia", 3)
       }
     ],
     isActive: true

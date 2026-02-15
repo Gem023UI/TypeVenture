@@ -29,9 +29,9 @@ const gameSchema = new mongoose.Schema({
   }],
   questions: [{
     // For typeface guessing game
-    imageUrl: { type: String },
-    correctAnswer: { type: String },
-    options: { type: mongoose.Schema.Types.Mixed },
+    displayText: { type: String },
+    missingLetters: [{ type: String }],
+    blankedPositions: [{ type: Number }],
     
     // For font pairing game
     givenFontImage: { type: String },
