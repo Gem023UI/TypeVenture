@@ -3,10 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { fetchAllLessons, fetchLessonById, markLessonComplete } from "../../api/lessons";
 import MainLayout from "../layout/MainLayout";
-import "./TypographyModal.css";
 import "./FrontPage.css";
-import "./QuizModal.css";
-import "./GameModal.css";
 
 const CheckIcon = () => (
   <svg 
@@ -320,7 +317,6 @@ const FrontPage = () => {
                       height="450"
                       src={selectedLesson.youtubeUrl}
                       title="Lesson Video"
-                      frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                     ></iframe>
@@ -369,20 +365,22 @@ const FrontPage = () => {
                   </div>
                 )}
   
-                <h3>Discussion 1</h3>
-                <p>{selectedLesson.content.discussionOne}</p>
-  
-                <h3>Discussion 2</h3>
-                <p>{selectedLesson.content.discussionTwo}</p>
-  
-                <h3>Discussion 3</h3>
-                <p>{selectedLesson.content.discussionThree}</p>
-  
-                <h3>Discussion 4</h3>
-                <p>{selectedLesson.content.discussionFour}</p>
-  
-                <h3>Discussion 5</h3>
-                <p>{selectedLesson.content.discussionFive}</p>
+                {/* Dynamic Discussion Sections */}
+                {['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven'].map((num, index) => {
+                  const headerKey = `header${num}`;
+                  const discussionKey = `discussion${num}`;
+                  
+                  // Only render if both header and discussion exist
+                  if (selectedLesson.content[headerKey] && selectedLesson.content[discussionKey]) {
+                    return (
+                      <div key={index}>
+                        <h3>{selectedLesson.content[headerKey]}</h3>
+                        <p>{selectedLesson.content[discussionKey]}</p>
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
   
                 {/* Lesson Complete Button */}
                 <div style={{ marginTop: '30px', textAlign: 'center' }}>
