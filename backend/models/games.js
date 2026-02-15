@@ -28,9 +28,16 @@ const gameSchema = new mongoose.Schema({
     idealKerning: [{ type: Number }]
   }],
   questions: [{
-    imageUrl: { type: String, required: true },
-    correctAnswer: { type: String, required: true },
-    options: [{ type: String }]
+    // For typeface guessing game
+    imageUrl: { type: String },
+    correctAnswer: { type: String },
+    options: { type: mongoose.Schema.Types.Mixed },
+    
+    // For font pairing game
+    givenFontImage: { type: String },
+    givenFontName: { type: String },
+    correctPairImage: { type: String },
+    correctPairName: { type: String }
   }],
   isActive: {
     type: Boolean,

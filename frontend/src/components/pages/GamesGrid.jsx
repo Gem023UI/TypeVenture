@@ -44,10 +44,13 @@ const Games = () => {
       return;
     }
   
+    // Navigate based on game type
     if (game.gameType === "kerning") {
       navigate(`/games/kerning/${game._id}`, { state: { game } });
     } else if (game.gameType === "typeface") {
       navigate(`/games/typeface/${game._id}`, { state: { game } });
+    } else if (game.gameType === "fontpairing") {
+      navigate(`/games/fontpairing/${game._id}`, { state: { game } });
     }
   };
 

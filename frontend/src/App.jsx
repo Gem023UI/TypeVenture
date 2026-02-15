@@ -8,6 +8,7 @@ import GuestGame from './components/pages/GuestGame';
 import Games from './components/pages/GamesGrid';
 import KerningGame from './components/pages/games/Kerning';
 import TypefaceGame from './components/pages/games/Typeface';
+import FontPairingGame from './components/pages/games/FontPairing';
 import Profile from './components/pages/Profile';
 import Leaderboard from './components/pages/Profile';
 import Citations from './components/pages/Citations';
@@ -59,6 +60,7 @@ function App() {
             <Route path="/games" element={<Games />} />
             <Route path="/games/kerning/:gameId" element={<KerningGame />} />
             <Route path="/games/typeface/:gameId" element={<TypefaceGame />} />
+            <Route path="/games/fontpairing/:gameId" element={<FontPairingGame />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/leaderboards" element={<Leaderboard />} />
             <Route path="/citations" element={<Citations />} />
