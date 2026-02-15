@@ -51,6 +51,8 @@ const Games = () => {
       navigate(`/games/typeface/${game._id}`, { state: { game } });
     } else if (game.gameType === "fontpairing") {
       navigate(`/games/fontpairing/${game._id}`, { state: { game } });
+    } else if (game.gameType === "leading") {
+      navigate(`/games/leading/${game._id}`, { state: { game } });
     }
   };
 

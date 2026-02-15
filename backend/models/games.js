@@ -39,6 +39,13 @@ const gameSchema = new mongoose.Schema({
     correctPairImage: { type: String },
     correctPairName: { type: String }
   }],
+  paragraphs: [{
+    text: { type: String },
+    idealLeading: { type: Number },
+    fontSize: { type: Number },
+    minLeading: { type: Number },
+    maxLeading: { type: Number }
+  }],
   isActive: {
     type: Boolean,
     default: true
