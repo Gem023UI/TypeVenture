@@ -16,24 +16,45 @@ export default function ArticleList() {
     },
     {
       id: 2,
-      title: "Typography in Modern Web Design",
-      introduction: "Explore how typography shapes user experience and brand identity in contemporary web design. Learn the principles that make typography work effectively across all digital platforms.",
+      title: "Typographic Hierarchies",
+      introduction: "Master the art of visual organization in typography. Learn six essential variables to establish effective hierarchies that guide readers and enhance communication through deliberate design choices.",
       image: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
-      route: "/article/typography-web-design"
+      route: "/article/typographic-hierarchies"
     },
     {
       id: 3,
-      title: "The Art of Kerning and Tracking",
-      introduction: "Master the subtle art of spacing in typography. Understanding kerning and tracking can transform your designs from amateur to professional with these essential techniques.",
+      title: "A Beginner's Guide to Kerning",
+      introduction: "Master the art of adjusting letter spacing to create visually balanced and professional typography. Learn why kerning matters, common problem letter pairs, and expert tips to kern like a designer.",
       image: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
-      route: "/article/kerning-tracking"
+      route: "/article/kerning-guide"
     },
     {
       id: 4,
-      title: "Serif vs Sans-Serif: A Complete Guide",
-      introduction: "Dive deep into the world of typeface classifications. Learn when to use serif and sans-serif fonts to create maximum impact in your design projects.",
+      title: "5 Common Font Management Issues and How to Fix Them",
+      introduction: "Discover the most common font management challenges that plague creative teams and organizations—from budget waste to security risks—and learn practical solutions to streamline your workflow.",
       image: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
-      route: "/article/serif-sans-serif"
+      route: "/article/font-management-issues"
+    },
+    {
+      id: 5,
+      title: "2026 Guide to Font Psychology",
+      introduction: "Discover how typography influences credibility, emotion, and conversion behavior across branding, marketing, and design. Learn to leverage font psychology strategically to build trust and drive results.",
+      image: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
+      route: "/article/font-psychology"
+    },
+    {
+      id: 6,
+      title: "The UX Designer's Guide to Typography",
+      introduction: "Typography can make or break the success of a site or app. Discover essential typography principles, terminology, and best practices that will help you create user-friendly designs with optimal readability.",
+      image: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
+      route: "/article/ux-typography-guide"
+    },
+    {
+      id: 7,
+      title: "Design Trends for 2026",
+      introduction: "Stay on top of the 10 major graphic design trends defining 2026. From tactile experiences to maximalist layouts, discover how design is celebrating humanity in an increasingly digital world.",
+      image: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg",
+      route: "/article/design-trends-2026"
     }
   ];
 

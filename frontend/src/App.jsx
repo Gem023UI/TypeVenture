@@ -14,6 +14,12 @@ import Citations from './components/pages/Citations';
 import AboutUs from './components/pages/AboutUs';
 import ArticleList from './components/pages/ArticleList';
 import ArticleOne from './components/pages/articles/ArticleOne';
+import ArticleTwo from './components/pages/articles/ArticleTwo';
+import ArticleThree from './components/pages/articles/ArticleThree';
+import ArticleFour from './components/pages/articles/ArticleFour';
+import ArticleFive from './components/pages/articles/ArticleFive';
+import ArticleSix from './components/pages/articles/ArticleSix';
+import ArticleSeven from './components/pages/articles/ArticleSeven';
 
 // Inside your Routes:
 <Route path="/leaderboard" element={<Leaderboard />} />
@@ -43,6 +49,12 @@ function App() {
             <Route path="/lessons" element={<FrontPage />} />
             <Route path="/articles" element={<ArticleList />} />
             <Route path="/article/font-pairings-2026" element={<ArticleOne />} />
+            <Route path="/article/typographic-hierarchies" element={<ArticleTwo />} />
+            <Route path="/article/kerning-guide" element={<ArticleThree />} />
+            <Route path="/article/font-management-issues" element={<ArticleFour />} />
+            <Route path="/article/font-psychology" element={<ArticleFive />} />
+            <Route path="/article/ux-typography-guide" element={<ArticleSix />} />
+            <Route path="/article/design-trends-2026" element={<ArticleSeven />} />
             <Route path="/guest-game" element={<GuestGame />} />
             <Route path="/games" element={<Games />} />
             <Route path="/games/kerning/:gameId" element={<KerningGame />} />
