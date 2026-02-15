@@ -46,6 +46,16 @@ const gameSchema = new mongoose.Schema({
     minLeading: { type: Number },
     maxLeading: { type: Number }
   }],
+  quizQuestions: [{
+    questionText: { type: String },
+    questionType: { type: String, enum: ['multiple', 'truefalse', 'fillblank'] },
+    options: [{ type: String }],
+    correctAnswer: { type: String },
+    displayText: { type: String },
+    missingLetters: [{ type: String }],
+    blankedPositions: [{ type: Number }]
+  }],
+  lessonId: { type: mongoose.Schema.Types.ObjectId, ref: "Lesson" },
   isActive: {
     type: Boolean,
     default: true

@@ -43,9 +43,7 @@ const Games = () => {
       alert("Please verify your email to play games");
       return;
     }
-  
-    // Navigate based on game type
-    if (game.gameType === "kerning") {
+      if (game.gameType === "kerning") {
       navigate(`/games/kerning/${game._id}`, { state: { game } });
     } else if (game.gameType === "typeface") {
       navigate(`/games/typeface/${game._id}`, { state: { game } });
@@ -53,6 +51,9 @@ const Games = () => {
       navigate(`/games/fontpairing/${game._id}`, { state: { game } });
     } else if (game.gameType === "leading") {
       navigate(`/games/leading/${game._id}`, { state: { game } });
+    } 
+    else if (game.gameType.includes("lesson") && game.gameType.includes("quiz")) {
+      navigate(`/games/${game.gameType}/${game._id}`, { state: { game } });
     }
   };
 
