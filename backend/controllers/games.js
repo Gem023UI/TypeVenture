@@ -134,6 +134,8 @@ export const submitGameScore = async (req, res) => {
     // Check if user already has a score for this game
     let gameScore = await GameScore.findOne({ userId, gameId });
 
+    let isNewHighScore = false;
+
     if (gameScore) {
       // Update existing score if new score is higher
       if (score > gameScore.score) {
@@ -146,24 +148,13 @@ export const submitGameScore = async (req, res) => {
         gameScore.completedAt = new Date();
         
         await gameScore.save();
-
-        return res.status(200).json({
-          message: "Score updated successfully! New high score!",
-          gameScore,
-          isNewHighScore: true
-        });
+        isNewHighScore = true;
       } else {
         // Score is not higher, just increment attempts
         console.log(`📊 Score ${score} not higher than existing ${gameScore.score}`);
         
         gameScore.attempts += 1;
         await gameScore.save();
-
-        return res.status(200).json({
-          message: "Score recorded, but not a new high score",
-          gameScore,
-          isNewHighScore: false
-        });
       }
     } else {
       // Create new score entry
@@ -181,13 +172,19 @@ export const submitGameScore = async (req, res) => {
       });
 
       await gameScore.save();
-
-      return res.status(201).json({
-        message: "Score submitted successfully!",
-        gameScore,
-        isNewHighScore: true
-      });
+      isNewHighScore = true;
     }
+
+    // Check if user is in top 3 (only if new high score)
+    if (isNewHighScore) {
+      await checkAndNotifyTopPlayers(gameId, userId, score, user);
+    }
+
+    return res.status(gameScore.attempts === 1 ? 201 : 200).json({
+      message: isNewHighScore ? "Score updated successfully! New high score!" : "Score recorded, but not a new high score",
+      gameScore,
+      isNewHighScore
+    });
   } catch (error) {
     console.error("❌ Error submitting game score:", error);
     res.status(500).json({ error: "Failed to submit game score" });
@@ -222,10 +219,23 @@ export const getGameLeaderboard = async (req, res) => {
     
     console.log(`🏆 Fetching leaderboard for game ${gameId}`);
     
-    const leaderboard = await GameScore.find({ gameId })
-      .sort({ score: -1, completedAt: 1 })
-      .limit(limit)
-      .select('username score achievement completedAt');
+    // Get all scores for this game
+    const allScores = await GameScore.find({ gameId })
+      .select('userId username score achievement completedAt')
+      .lean();
+    
+    // Sort by score descending, then by completedAt ascending (older first for ties)
+    // This ensures that for same scores, the most recent one appears lower
+    const sortedScores = allScores.sort((a, b) => {
+      if (b.score !== a.score) {
+        return b.score - a.score; // Higher score first
+      }
+      // For same score, most recent should be lower in ranking
+      return new Date(b.completedAt) - new Date(a.completedAt);
+    });
+    
+    // Limit results
+    const leaderboard = sortedScores.slice(0, limit);
     
     console.log(`✅ Found ${leaderboard.length} leaderboard entries`);
     
@@ -233,5 +243,43 @@ export const getGameLeaderboard = async (req, res) => {
   } catch (error) {
     console.error("❌ Error fetching leaderboard:", error);
     res.status(500).json({ error: "Failed to fetch leaderboard" });
+  }
+};
+
+// Helper function to check and notify top players
+const checkAndNotifyTopPlayers = async (gameId, userId, newScore, user) => {
+  try {
+    // Get all scores for this game sorted by score (descending) and date (ascending for ties)
+    const allScores = await GameScore.find({ gameId })
+      .sort({ score: -1, completedAt: 1 })
+      .populate('userId', 'email username');
+
+    // Get unique top 3 scores
+    const uniqueScores = [...new Set(allScores.map(s => s.score))]
+      .sort((a, b) => b - a)
+      .slice(0, 3);
+
+    // Check if the new score is in top 3
+    if (uniqueScores.includes(newScore)) {
+      const rank = uniqueScores.indexOf(newScore) + 1;
+      
+      // Import and send notification email
+      const { sendTopPlayerNotification } = await import("../utils/emailVerify.js");
+      const Game = (await import("../models/games.js")).default;
+      const game = await Game.findById(gameId);
+      
+      await sendTopPlayerNotification(
+        user.email,
+        user.username,
+        game.title,
+        rank,
+        newScore
+      );
+      
+      console.log(`🏆 Top ${rank} notification sent to ${user.username}`);
+    }
+  } catch (error) {
+    console.error("❌ Error checking top players:", error);
+    // Don't throw error - notification failure shouldn't break score submission
   }
 };

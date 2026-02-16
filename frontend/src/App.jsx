@@ -10,6 +10,7 @@ import KerningGame from './components/pages/games/Kerning';
 import TypefaceGame from './components/pages/games/Typeface';
 import FontPairingGame from './components/pages/games/FontPairing';
 import LeadingGame from './components/pages/games/Leading';
+import FontSelectionGame from './components/pages/games/FontSelect';
 import Lesson1QuizGame from './components/pages/games/Quizzes/Lesson1';
 import Lesson2QuizGame from './components/pages/games/Quizzes/Lesson2';
 import Lesson3QuizGame from './components/pages/games/Quizzes/Lesson3';
@@ -22,7 +23,7 @@ import Lesson9QuizGame from './components/pages/games/Quizzes/Lesson9';
 import Lesson10QuizGame from './components/pages/games/Quizzes/Lesson10';
 import Lesson11QuizGame from './components/pages/games/Quizzes/Lesson11';
 import Profile from './components/pages/Profile';
-import Leaderboard from './components/pages/Profile';
+import Leaderboard from './components/pages/Leaderboard';
 import Citations from './components/pages/Citations';
 import AboutUs from './components/pages/AboutUs';
 import ArticleList from './components/pages/ArticleList';
@@ -74,6 +75,7 @@ function App() {
             <Route path="/games/typeface/:gameId" element={<TypefaceGame />} />
             <Route path="/games/fontpairing/:gameId" element={<FontPairingGame />} />
             <Route path="/games/leading/:gameId" element={<LeadingGame />} />
+            <Route path="/games/fontselection/:gameId" element={<FontSelectionGame />} />
             <Route path="/games/lesson1quiz/:gameId" element={<Lesson1QuizGame />} />
             <Route path="/games/lesson2quiz/:gameId" element={<Lesson2QuizGame />} />
             <Route path="/games/lesson3quiz/:gameId" element={<Lesson3QuizGame />} />

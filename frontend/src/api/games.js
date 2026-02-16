@@ -141,3 +141,22 @@ export const fetchGameLeaderboard = async (gameId, limit = 10) => {
     throw error;
   }
 };
+
+// Fetch user profile by ID (for leaderboard top player)
+export const fetchUserProfile = async (userId) => {
+  try {
+    const response = await fetch(`${API_URL}/api/user/profile/${userId}`, {
+      headers: getAuthHeaders()
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Failed to fetch user profile");
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error("Error in fetchUserProfile:", error);
+    throw error;
+  }
+};

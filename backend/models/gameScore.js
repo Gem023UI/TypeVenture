@@ -52,6 +52,9 @@ const gameScoreSchema = new mongoose.Schema({
 gameScoreSchema.index({ userId: 1, gameId: 1 });
 gameScoreSchema.index({ userId: 1, score: -1 });
 
+// Ensure one score per user per game
+gameScoreSchema.index({ userId: 1, gameId: 1 }, { unique: true });
+
 // Update the updatedAt timestamp before saving
 gameScoreSchema.pre('save', function(next) {
   this.updatedAt = new Date();

@@ -46,6 +46,15 @@ const gameSchema = new mongoose.Schema({
     minLeading: { type: Number },
     maxLeading: { type: Number }
   }],
+  purpose: { type: String },
+  theme: { type: String },
+  atmosphere: { type: String },
+  context: { type: String },
+  explanation: { type: String },
+  options: [{
+    fontName: { type: String },
+    fontImage: { type: String }
+  }],
   quizQuestions: [{
     questionText: { type: String },
     questionType: { type: String, enum: ['multiple', 'truefalse', 'fillblank'] },

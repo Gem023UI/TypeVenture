@@ -349,3 +349,133 @@ export const sendPasswordResetSuccessEmail = async (email, username) => {
     return false;
   }
 };
+
+export const sendTopPlayerNotification = async (email, username, gameTitle, rank, score) => {
+  try {
+    const transporter = createTransporter();
+    
+    const rankEmoji = rank === 1 ? '🥇' : rank === 2 ? '🥈' : '🥉';
+    const rankName = rank === 1 ? 'FIRST' : rank === 2 ? 'SECOND' : 'THIRD';
+    const rankColor = rank === 1 ? '#FFD700' : rank === 2 ? '#C0C0C0' : '#CD7F32';
+    
+    const mailOptions = {
+      from: `"TypeVenture" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: `${rankEmoji} You're in the Top ${rank}! - ${gameTitle}`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: 'Poppins', Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
+            .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; padding: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { font-size: 28px; font-weight: bold; color: #0029FF; }
+            .trophy-icon { font-size: 72px; text-align: center; margin: 20px 0; }
+            .rank-box { 
+              background: linear-gradient(135deg, ${rankColor}, ${rankColor}dd); 
+              color: white; 
+              padding: 25px; 
+              border-radius: 12px; 
+              text-align: center; 
+              margin: 25px 0; 
+              box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            }
+            .rank-box h2 { margin: 0 0 10px 0; font-size: 32px; }
+            .rank-box p { margin: 5px 0; font-size: 18px; opacity: 0.95; }
+            .game-info { 
+              background: #f8f9fa; 
+              padding: 20px; 
+              border-left: 4px solid #0029FF; 
+              border-radius: 4px; 
+              margin: 20px 0; 
+            }
+            .game-info h3 { color: #0029FF; margin: 0 0 10px 0; }
+            .score-display { 
+              font-size: 48px; 
+              font-weight: bold; 
+              background: linear-gradient(135deg, #FF1414, #a200ff, #0029FF);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+              margin: 15px 0;
+            }
+            .button { 
+              display: inline-block; 
+              background: linear-gradient(135deg, #FF1414, #a200ff, #0029FF); 
+              color: white; 
+              padding: 15px 35px; 
+              border-radius: 8px; 
+              text-decoration: none; 
+              margin: 20px 0;
+              font-weight: 600;
+              font-size: 16px;
+            }
+            .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #666; }
+            .motivation { 
+              text-align: center; 
+              font-style: italic; 
+              color: #666; 
+              margin: 20px 0; 
+              font-size: 16px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <div class="logo">🎮 TypeVenture</div>
+              <h2>🎉 CONGRATULATIONS! 🎉</h2>
+            </div>
+            
+            <div class="trophy-icon">${rankEmoji}</div>
+            
+            <div class="rank-box">
+              <h2>${rankName} PLACE!</h2>
+              <p>You've achieved a top ${rank} position!</p>
+            </div>
+            
+            <p style="font-size: 18px; text-align: center;">
+              Amazing work, <strong>${username}</strong>! You're now ranked among the best players!
+            </p>
+            
+            <div class="game-info">
+              <h3>🎯 ${gameTitle}</h3>
+              <p style="margin: 0; color: #666;">Your Score:</p>
+              <div class="score-display">${score}</div>
+            </div>
+            
+            <div class="motivation">
+              ${rank === 1 
+                ? "You're at the top! Can you maintain your position?" 
+                : rank === 2
+                ? "So close to #1! Keep playing to reach the top spot!"
+                : "Great job! Can you climb even higher?"}
+            </div>
+            
+            <div style="text-align: center;">
+              <a href="${process.env.FRONTEND_URL}/leaderboard" class="button">View Leaderboard</a>
+            </div>
+            
+            <p style="text-align: center; color: #666; margin-top: 30px;">
+              Keep sharpening your design eye and climbing the ranks!
+            </p>
+            
+            <div class="footer">
+              <p>© 2026 TypeVenture - Sharpen your design eye while having fun!</p>
+              <p>Contact us: typeventureproject@gmail.com</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+    };
+    
+    await transporter.sendMail(mailOptions);
+    console.log(`✅ Top ${rank} notification email sent to:`, email);
+    return true;
+  } catch (error) {
+    console.error("❌ Error sending top player notification:", error);
+    return false; // Don't throw - email failure shouldn't break the flow
+  }
+};

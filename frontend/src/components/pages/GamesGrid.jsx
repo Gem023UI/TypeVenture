@@ -55,6 +55,9 @@ const Games = () => {
     else if (game.gameType.includes("lesson") && game.gameType.includes("quiz")) {
       navigate(`/games/${game.gameType}/${game._id}`, { state: { game } });
     }
+    else if (game.gameType === "fontselection") {
+      navigate(`/games/fontselection/${game._id}`, { state: { game } });
+    }
   };
 
   const handleVerifyEmail = () => {
