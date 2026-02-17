@@ -11,6 +11,7 @@ export default function LandingSection({ logoUrl }) {
 
   const [showGuestModal, setShowGuestModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showTutorialModal, setShowTutorialModal] = useState(false);
 
   useEffect(() => {
     const elements = document.querySelectorAll(".float-in");
@@ -179,6 +180,13 @@ export default function LandingSection({ logoUrl }) {
               <p className="description-3">
                 Meet the pioneers of turning typography into an engaging and interactive experience.
               </p>
+              <button
+                className="guest-btn"
+                onClick={() => setShowTutorialModal(true)}
+                style={{ marginTop: '20px' }}
+              >
+                HOW TO PLAY
+              </button>
             </div>
           </div>
 
@@ -306,6 +314,123 @@ export default function LandingSection({ logoUrl }) {
                   Cancel
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Tutorial Modal */}
+        {showTutorialModal && (
+          <div
+            className="game-modal-overlay"
+            onClick={() => setShowTutorialModal(false)}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 1000
+            }}
+          >
+            <div
+              className="game-modal-content"
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                backgroundColor: 'white',
+                padding: '40px',
+                borderRadius: '12px',
+                maxWidth: '600px',
+                width: '90%',
+                textAlign: 'left',
+                maxHeight: '80vh',
+                overflowY: 'auto'
+              }}
+            >
+              <h2 style={{ color: '#a200ff', marginBottom: '10px', fontSize: '28px', textAlign: 'center' }}>
+                How to Use TypeVenture
+              </h2>
+              <p style={{ color: '#666', marginBottom: '30px', fontSize: '14px', textAlign: 'center' }}>
+                Your guide to getting started
+              </p>
+
+              {[
+                {
+                  step: '01',
+                  color: '#0029FF',
+                  title: 'Create an Account',
+                  desc: 'Register to unlock the full TypeVenture experience — track your progress, earn badges, and compete on leaderboards.'
+                },
+                {
+                  step: '02',
+                  color: '#FF1414',
+                  title: 'Take on Lessons',
+                  desc: 'Browse the lesson roadmap and work through typography topics at your own pace. Each lesson builds on the last.'
+                },
+                {
+                  step: '03',
+                  color: '#a200ff',
+                  title: 'Play the Games',
+                  desc: 'Test your knowledge with the Quiz Game and Typography Game. Score high to climb the leaderboard.'
+                },
+                {
+                  step: '04',
+                  color: '#0029FF',
+                  title: 'Earn Badges & Achievements',
+                  desc: 'Complete challenges and lessons to unlock trophies and achievements shown on your profile.'
+                },
+                {
+                  step: '05',
+                  color: '#FF1414',
+                  title: 'Track Your Progress',
+                  desc: 'Visit your Profile to see completed lessons, your score history chart, and all earned achievements.'
+                }
+              ].map(({ step, color, title, desc }) => (
+                <div key={step} style={{ display: 'flex', gap: '15px', marginBottom: '20px', alignItems: 'flex-start' }}>
+                  <div style={{
+                    minWidth: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    backgroundColor: color,
+                    color: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: '700',
+                    fontSize: '13px',
+                    fontFamily: 'Poppins'
+                  }}>
+                    {step}
+                  </div>
+                  <div>
+                    <h3 style={{ margin: '0 0 4px 0', fontSize: '16px', color: '#000', fontFamily: 'Poppins' }}>{title}</h3>
+                    <p style={{ margin: 0, fontSize: '14px', color: '#555', fontFamily: 'Poppins' }}>{desc}</p>
+                  </div>
+                </div>
+              ))}
+
+              <button
+                onClick={() => setShowTutorialModal(false)}
+                style={{
+                  width: '100%',
+                  padding: '12px 30px',
+                  marginTop: '10px',
+                  fontFamily: 'Poppins',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  letterSpacing: '2px',
+                  background: 'linear-gradient(135deg, #ff1414, purple, #0029ff)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer'
+                }}
+              >
+                GOT IT
+              </button>
             </div>
           </div>
         )}

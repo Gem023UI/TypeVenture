@@ -55,6 +55,7 @@ const gameSchema = new mongoose.Schema({
     fontName: { type: String },
     fontImage: { type: String }
   }],
+  correctAnswer: { type: String },
   quizQuestions: [{
     questionText: { type: String },
     questionType: { type: String, enum: ['multiple', 'truefalse', 'fillblank'] },

@@ -64,9 +64,12 @@ const Leaderboard = () => {
         
         // Set top player - userId is now populated with full user details
         if (sortedData.length > 0 && sortedData[0].userId) {
-          setTopPlayer(sortedData[0].userId);
+            console.log('Top player data:', sortedData[0].userId);
+            console.log('Top player score:', sortedData[0].score);
+            setTopPlayer(sortedData[0].userId);
         } else {
-          setTopPlayer(null);
+            console.log('No top player found or userId not populated');
+            setTopPlayer(null);
         }
       } catch (err) {
         console.error('Error fetching leaderboard:', err);
@@ -172,33 +175,35 @@ const Leaderboard = () => {
                     <h2 className="top-player-header">Top Player</h2>
                     
                     {topPlayer ? (
-                        <div className="top-player-card">
+                    <div className="top-player-card">
                         <div className="top-player-avatar">
-                            {topPlayer.profilePicture ? (
+                        {topPlayer.profilePicture ? (
                             <img 
-                                src={topPlayer.profilePicture} 
-                                alt={topPlayer.username}
+                            src={topPlayer.profilePicture} 
+                            alt={topPlayer.username || 'Top Player'}
                             />
-                            ) : (
+                        ) : (
                             <div className="avatar-placeholder">
-                                {topPlayer.username?.charAt(0).toUpperCase()}
+                            {topPlayer.username?.charAt(0)?.toUpperCase() || '?'}
                             </div>
-                            )}
+                        )}
                         </div>
                         <div className="top-player-info">
-                            <h3 className="top-player-name">{topPlayer.username}</h3>
-                            <p className="top-player-email">{topPlayer.email}</p>
-                            <div className="top-player-stats">
+                        <h3 className="top-player-name">{topPlayer.username || 'Unknown Player'}</h3>
+                        <p className="top-player-email">{topPlayer.email || 'No email'}</p>
+                        <div className="top-player-stats">
                             <div className="stat-item">
-                                <span className="stat-label">Score</span>
-                                <span className="stat-value">{leaderboardData[0].score}</span>
+                            <span className="stat-label">Score</span>
+                            <span className="stat-value">{leaderboardData[0]?.score || 0}</span>
                             </div>
-                            {getAchievementBadge(leaderboardData[0].achievement)}
-                            </div>
+                            {getAchievementBadge(leaderboardData[0]?.achievement)}
                         </div>
                         </div>
+                    </div>
                     ) : (
-                        <div className="loading-top-player">Loading player info...</div>
+                    <div className="loading-top-player">
+                        {loading ? 'Loading player info...' : 'No player data available'}
+                    </div>
                     )}
                     </div>
 

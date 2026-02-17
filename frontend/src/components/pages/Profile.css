@@ -1,14 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --color1: #FFFFFF; /* Primary */
-  --color2: #FF1414; /* Accent */
-  --color3: #0029FF; /* Secondary */
-  --color4: #a200ff; /* Tertiary */
+  --color1: #FFFFFF;
+  --color2: #FF1414;
+  --color3: #0029FF;
+  --color4: #a200ff;
   --text-light: white;
   --transparent: rgba(255, 255, 255, 0.5);
   --muted: black;
-
   --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
   --text-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
 }
@@ -32,7 +31,6 @@
 }
 
 .lanyard-section {
-  flex: 1 1 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,35 +58,30 @@
 }
 
 .detail-username p {
-  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
   background-image: var(--border-gradient);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-
   font-size: 120px;
   font-weight: 700;
   padding: 0%;
   margin: 0%;
 }
 
-.detail-email {
-  padding: 0%;
-  margin: 0%;
-}
-
-.detail-date {
+.detail-email,
+.deetail-date {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .detail-info {
   display: flex;
-  flex-direction: row;
-  gap: 20px;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .detail-group p {
@@ -145,15 +138,11 @@
   font-weight: 400;
   cursor: pointer;
   transition: background-color 0.2s;
-
-  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff); 
-  
   background: var(--border-gradient) border-box; 
   border: 5px solid transparent;  
   transition: all 0.3s ease;
 }
 
-/* Edit Modal Styles */
 .edit-modal-overlay {
   position: fixed;
   top: 0;
@@ -172,15 +161,14 @@
   width: 100%;
   max-width: 1000px;
   max-height: 70vh;
-  background:
-    linear-gradient(rgb(255, 255, 255), rgba(255, 255, 255, 0.384)) padding-box,
-    var(--border-gradient) border-box;
+  background: linear-gradient(rgb(255, 255, 255), rgba(255, 255, 255, 0.384)) padding-box,
+              var(--border-gradient) border-box;
   border: 4px solid transparent;
   border-radius: 16px;
   overflow-y: auto;
   padding: 30px;
   display: flex;
-  flex-direction: column; /* stack content by default for mobile */
+  flex-direction: column;
   gap: 20px;
   font-family: 'Poppins';
 }
@@ -423,9 +411,6 @@
   cursor: pointer;
   transition: background-color 0.2s;
   margin-top: 25px;
-
-    --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff); 
-  
   background: var(--border-gradient) border-box; 
   border: 5px solid transparent;  
   transition: all 0.3s ease;
@@ -462,11 +447,9 @@
 .achievements-section {
   background: transparent;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   padding: 30px;
   margin-bottom: 50px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -484,24 +467,39 @@
 }
 
 .achievements-section h2 {
-  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
   background-image: var(--border-gradient);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-
   font-family: 'Poppins';
   font-size: 50px;
+  margin-bottom: 30px;
 }
 
 .achievements-grid {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   gap: 20px;
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 10px;
+  width: 100%;
+}
+
+.achievements-grid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.achievements-grid::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.achievements-grid::-webkit-scrollbar-thumb {
+  background: var(--border-gradient);
+  border-radius: 10px;
 }
 
 .achievements-grid > * {
@@ -511,7 +509,7 @@
 
 .achievement-card {
   border-radius: 12px;
-  padding: 5px;
+  padding: 15px;
   text-align: center;
   transition: all 0.3s ease;
   display: flex;
@@ -520,23 +518,24 @@
   width: 100%;
   max-width: 250px;
   gap: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .achievement-card:hover {
   transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .achievement-card img {
-  width: 150px;
-  height: auto;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
-  background: none !important;
-  background-color: transparent !important;
-  mix-blend-mode: normal !important;
 }
 
 .achievement-lesson-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   color: #FFFFFF;
   margin: 5px 0;
@@ -549,7 +548,7 @@
 .achievement-tier-label {
   font-size: 12px;
   font-weight: bold;
-  padding: 4px 12px;
+  padding: 6px 14px;
   border-radius: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -561,24 +560,25 @@
 }
 
 .achievement-tier-label.silver {
-  background: #7a7a7a;
-  color: white;
+  background: #C0C0C0;
+  color: #000;
 }
 
 .achievement-tier-label.gold {
-  background: #ceaf00;
-  color: #fff;
+  background: #FFD700;
+  color: #000;
 }
 
 .no-achievements {
   text-align: center;
-  color: #999;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 16px;
   padding: 40px 20px;
   font-style: italic;
 }
 
-.progress-section {
+/* Score History Section */
+.progress-scrore-section {
   font-family: 'Poppins';
   width: 100%;
   max-width: 90vw;
@@ -586,40 +586,184 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 30px;
+  margin-bottom: 50px;
+  background: rgb(0, 0, 0);
 }
 
-.progress-section h2 {
-    --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+.progress-score-section h2 {
   background-image: var(--border-gradient);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-
   font-family: 'Poppins';
   font-size: 50px;
   letter-spacing: 5px;
+  margin-bottom: 30px;
+  align-self: center;
 }
 
 .progress-charts {
   width: 100%;
+  max-width: 1200px;
+}
+
+.chart-container {
+  width: 100%;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.chart-loading,
+.no-scores {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 16px;
+  padding: 40px 20px;
+  font-style: italic;
+}
+
+/* Completed Lessons Section */
+.lessons-section {
+  font-family: 'Poppins';
+  width: 100%;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  margin-bottom: 50px;
+}
+
+.lessons-section h2 {
+  background-image: var(--border-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Poppins';
+  font-size: 50px;
+  letter-spacing: 5px;
+  margin-bottom: 30px;
+}
+
+.lessons-list {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.lesson-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.lesson-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateX(5px);
+}
+
+.lesson-icon {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  background: linear-gradient(135deg, #00FF00, #00AA00);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+.lesson-info {
+  flex: 1;
+}
+
+.lesson-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0 0 5px 0;
+}
+
+.lesson-date {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.no-lessons {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 16px;
+  padding: 40px 20px;
+  font-style: italic;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .detail-username p {
+    font-size: 60px;
+  }
+
   .achievements-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 15px;
   }
 
-  .achievement-badge {
-    width: 60px;
-    height: 60px;
+  .achievement-card img {
+    width: 80px;
+    height: 80px;
   }
 
   .achievement-lesson-title {
     font-size: 12px;
     min-height: 35px;
+  }
+
+  .progress-section h2,
+  .lessons-section h2,
+  .achievements-section h2 {
+    font-size: 32px;
+  }
+
+  .chart-container {
+    height: 300px;
+  }
+
+  .lesson-item {
+    padding: 15px 20px;
+  }
+
+  .lesson-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: 20px;
+  }
+
+  .lesson-title {
+    font-size: 16px;
+  }
+
+  .lesson-date {
+    font-size: 12px;
   }
 }
 

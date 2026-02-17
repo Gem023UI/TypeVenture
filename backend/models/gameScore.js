@@ -49,7 +49,6 @@ const gameScoreSchema = new mongoose.Schema({
 });
 
 // Compound index for efficient user-game queries
-gameScoreSchema.index({ userId: 1, gameId: 1 });
 gameScoreSchema.index({ userId: 1, score: -1 });
 
 // Ensure one score per user per game

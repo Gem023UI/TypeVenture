@@ -1,13 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
-  --color1: #FFFFFF; /* Primary */
-  --color2: #FF1414; /* Accent */
-  --color3: #0029FF; /* Secondary */
-  --color4: #a200ff; /* Tertiary */
+  --color1: #FFFFFF;
+  --color2: #FF1414;
+  --color3: #0029FF;
+  --color4: #a200ff;
   --text-light: white;
   --transparent: rgba(255, 255, 255, 0.5);
-  --muted: black; 
+  --muted: black;
 }
 
 .landing-page-wrapper {
@@ -24,8 +24,7 @@
   width: 100%;
 }
 
-.landing-page-wrapper 
-.landing-info-1 {
+.landing-page-wrapper .landing-info-1 {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -104,14 +103,12 @@
   font-weight: 500;
   letter-spacing: 2px;
   cursor: pointer;
-  color: var(--text-light); 
+  color: var(--text-light);
   margin-top: 0px;
   margin-right: 20px;
-
-  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff); 
-  
-  background: var(--border-gradient) border-box; 
-  border: 5px solid transparent;  
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background: var(--border-gradient) border-box;
+  border: 5px solid transparent;
   transition: all 0.3s ease;
 }
 
@@ -121,14 +118,12 @@
   transition: all 0.3s ease;
 }
 
-.landing-page-wrapper
-.landing-features img {
+.landing-page-wrapper .landing-features img {
   width: 150px;
   height: auto;
 }
 
-.landing-page-wrapper
-.landing-features p {
+.landing-page-wrapper .landing-features p {
   font-size: 16px;
 }
 
@@ -149,22 +144,12 @@
   width: 100%;
   max-width: 200px;
   height: fit-content;
-  /* background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid white;
-  border-radius: 16px; */
 }
 
 .feature-items-highlight {
   width: 100%;
   max-width: fit-content;
   height: fit-content;
-  /* background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid white;
-  border-radius: 16px; */
 }
 
 .feature-items:hover {
@@ -217,7 +202,6 @@
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-
   font-size: 75px;
   font-weight: 900;
   letter-spacing: 3px;
@@ -230,7 +214,6 @@
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-
   font-size: 100px;
   font-weight: 900;
   letter-spacing: 3px;
@@ -294,7 +277,6 @@
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-
   font-size: 90px;
   font-weight: 900;
 }
@@ -306,7 +288,6 @@
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-  
   font-size: 90px;
   font-weight: 900;
 }
@@ -330,7 +311,7 @@
 
 .landing-page-wrapper .tagline-6 {
   font-size: 75px;
-  color: #FFFFFF;;
+  color: #FFFFFF;
   margin: 0 0 10px 125px;
 }
 
@@ -351,4 +332,294 @@
   margin-bottom: 50px;
   height: 90vh;
   width: 100%;
+}
+
+/* =====================
+   TABLET (max-width: 1024px)
+   ===================== */
+@media (max-width: 1024px) {
+  .landing-page-wrapper .landing-info-1 {
+    flex-direction: column-reverse;
+    padding: 30px 20px;
+    gap: 20px;
+  }
+
+  .landing-page-wrapper .landing-logo {
+    width: 320px;
+  }
+
+  .landing-page-wrapper .landing-logo-container {
+    margin: 0;
+  }
+
+  .landing-page-wrapper .name-buttons {
+    margin-left: 0;
+    padding: 20px;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .landing-page-wrapper .name-container {
+    align-items: center;
+  }
+
+  .landing-page-wrapper .type,
+  .landing-page-wrapper .venture {
+    font-size: 56px;
+  }
+
+  .landing-page-wrapper .description {
+    text-align: center;
+  }
+
+  .landing-page-wrapper .btn-container {
+    justify-content: center;
+  }
+
+  .landing-features {
+    flex-wrap: wrap;
+    padding: 30px 20px;
+    gap: 16px;
+  }
+
+  .feature-items {
+    max-width: 160px;
+  }
+
+  .badge-image-highlight img {
+    width: 220px !important;
+  }
+
+  .landing-page-wrapper .landing-info-2 {
+    padding: 30px 20px;
+  }
+
+  .landing-page-wrapper .tagline-1 {
+    font-size: 36px;
+    margin: 0 0 5px 40px;
+  }
+
+  .landing-page-wrapper .tagline-2 {
+    font-size: 52px;
+    margin: 0 0 10px 40px;
+  }
+
+  .landing-page-wrapper .highlight-pink {
+    font-size: 52px;
+  }
+
+  .landing-page-wrapper .highlight-yellow {
+    font-size: 68px;
+  }
+
+  .landing-page-wrapper .description-2 {
+    font-size: 16px;
+    margin-left: 40px;
+  }
+
+  .landing-page-wrapper .landing-info-3 {
+    height: auto;
+    padding: 40px 20px;
+  }
+
+  .landing-page-wrapper .pioneers {
+    margin-left: 0;
+  }
+
+  .landing-page-wrapper .tagline-3 {
+    font-size: 60px;
+    text-align: center;
+  }
+
+  .landing-page-wrapper .highlight-pink-letters,
+  .landing-page-wrapper .highlight-yellow-lessons {
+    font-size: 60px;
+  }
+
+  .landing-page-wrapper .description-3 {
+    font-size: 16px;
+  }
+
+  .landing-page-wrapper .landing-info-4 {
+    height: auto;
+    padding: 40px 20px;
+  }
+
+  .landing-page-wrapper .tagline-5 {
+    font-size: 36px;
+    margin: 0 0 5px 40px;
+  }
+
+  .landing-page-wrapper .tagline-6 {
+    font-size: 52px;
+    margin: 0 0 10px 40px;
+  }
+
+  .landing-page-wrapper .description-4 {
+    font-size: 16px;
+    margin-left: 40px;
+  }
+}
+
+/* =====================
+   MOBILE (max-width: 600px)
+   ===================== */
+@media (max-width: 600px) {
+  .landing-page-wrapper .landing-info-1 {
+    flex-direction: column-reverse;
+    padding: 20px 16px;
+    gap: 16px;
+  }
+
+  .landing-page-wrapper .landing-logo {
+    width: 220px;
+  }
+
+  .landing-page-wrapper .name-buttons {
+    padding: 10px 0;
+    margin-left: 0;
+  }
+
+  .landing-page-wrapper .type,
+  .landing-page-wrapper .venture {
+    font-size: 38px;
+    letter-spacing: 1px;
+  }
+
+  .landing-page-wrapper .venture {
+    -webkit-text-stroke: 2px #FFFFFF;
+  }
+
+  .landing-page-wrapper .description {
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .landing-page-wrapper .login-btn,
+  .landing-page-wrapper .guest-btn {
+    font-size: 12px;
+    padding: 12px 18px;
+    letter-spacing: 1px;
+  }
+
+  .landing-page-wrapper .btn-container {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .landing-features {
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+    gap: 24px;
+  }
+
+  .feature-items {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .feature-items-highlight {
+    max-width: 100%;
+    width: 100%;
+    text-align: center;
+  }
+
+  .badge-image-highlight img {
+    width: 180px !important;
+  }
+
+  .landing-page-wrapper .landing-info-2 {
+    padding: 24px 16px;
+  }
+
+  .landing-page-wrapper .landing-info-2-texts {
+    align-items: center;
+    text-align: center;
+  }
+
+  .landing-page-wrapper .tagline-1 {
+    font-size: 24px;
+    margin: 0 0 4px 0;
+  }
+
+  .landing-page-wrapper .tagline-2 {
+    font-size: 34px;
+    margin: 0 0 8px 0;
+  }
+
+  .landing-page-wrapper .highlight-pink {
+    font-size: 34px;
+  }
+
+  .landing-page-wrapper .highlight-yellow {
+    font-size: 44px;
+  }
+
+  .landing-page-wrapper .description-2 {
+    font-size: 13px;
+    margin-left: 0;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .landing-page-wrapper .landing-info-3 {
+    height: auto;
+    padding: 24px 16px;
+  }
+
+  .landing-page-wrapper .pioneers {
+    margin: 16px 0;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .landing-page-wrapper .tagline-3 {
+    font-size: 34px;
+    letter-spacing: 1px;
+    margin: 20px 0 8px 0;
+    text-align: center;
+  }
+
+  .landing-page-wrapper .highlight-pink-letters,
+  .landing-page-wrapper .highlight-yellow-lessons {
+    font-size: 34px;
+  }
+
+  .landing-page-wrapper .description-3 {
+    font-size: 13px;
+    max-width: 100%;
+  }
+
+  .landing-page-wrapper .landing-info-4 {
+    height: auto;
+    padding: 24px 16px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .landing-page-wrapper .tagline-5 {
+    font-size: 22px;
+    margin: 0 0 4px 0;
+  }
+
+  .landing-page-wrapper .tagline-6 {
+    font-size: 32px;
+    margin: 0 0 8px 0;
+  }
+
+  .landing-page-wrapper .description-4 {
+    font-size: 13px;
+    margin-left: 0;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .landing-page-wrapper .texts {
+    height: auto;
+    align-items: center;
+    text-align: center;
+    padding: 16px;
+  }
 }

@@ -130,3 +130,29 @@ export const resetPassword = async (email, code, newPassword) => {
     throw error.response?.data?.error || 'Password reset failed';
   }
 };
+
+export const verifyEmail = async (code) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/api/user/verify-email`, { code }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Verify email error:", error.response || error);
+    throw error.response?.data?.error || "Email verification failed.";
+  }
+};
+
+export const getCompletedLessons = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/lessons`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Get lessons error:", error.response || error);
+    throw error.response?.data?.error || "Failed to fetch lessons.";
+  }
+};

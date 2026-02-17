@@ -5,9 +5,9 @@ import "./Kerning.css";
 
 // Achievement image URLs (placeholder - update with Cloudinary links)
 const ACHIEVEMENT_IMAGES = {
-  gold: "https://res.cloudinary.com/placeholder/gold-trophy.png",
-  silver: "https://res.cloudinary.com/placeholder/silver-trophy.png",
-  bronze: "https://res.cloudinary.com/placeholder/bronze-trophy.png",
+  gold: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771305621/gold_medal_w7xagi.png",
+  silver: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771305631/silver_medal_nfb50c.png",
+  bronze: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771305618/bronze_medal_olw8ds.png",
   none: ""
 };
 

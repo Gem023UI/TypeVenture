@@ -11,9 +11,9 @@ const ACHIEVEMENT_THRESHOLDS = {
 
 // Achievement image URLs (placeholder - to be updated with Cloudinary links)
 const ACHIEVEMENT_URLS = {
-  gold: "https://res.cloudinary.com/placeholder/gold-trophy.png",
-  silver: "https://res.cloudinary.com/placeholder/silver-trophy.png",
-  bronze: "https://res.cloudinary.com/placeholder/bronze-trophy.png",
+  gold: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771305621/gold_medal_w7xagi.png",
+  silver: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771305631/silver_medal_nfb50c.png",
+  bronze: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771305618/bronze_medal_olw8ds.png",
   none: ""
 };
 
@@ -219,14 +219,17 @@ export const getGameLeaderboard = async (req, res) => {
     
     console.log(`🏆 Fetching leaderboard for game ${gameId}`);
     
-    // Get all scores for this game
+    // Get all scores for this game and populate userId with user details
     const allScores = await GameScore.find({ gameId })
+      .populate('userId', '_id username email profilePicture')
       .select('userId username score achievement completedAt')
       .lean();
     
+    // Filter out any scores where user was deleted
+    const validScores = allScores.filter(score => score.userId);
+    
     // Sort by score descending, then by completedAt ascending (older first for ties)
-    // This ensures that for same scores, the most recent one appears lower
-    const sortedScores = allScores.sort((a, b) => {
+    const sortedScores = validScores.sort((a, b) => {
       if (b.score !== a.score) {
         return b.score - a.score; // Higher score first
       }

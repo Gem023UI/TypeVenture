@@ -4,9 +4,9 @@ import { fetchGameById, submitScore } from "../../../api/games.js";
 import "./FontSelect.css";
 
 const ACHIEVEMENT_IMAGES = {
-  gold: "https://res.cloudinary.com/placeholder/gold-trophy.png",
-  silver: "https://res.cloudinary.com/placeholder/silver-trophy.png",
-  bronze: "https://res.cloudinary.com/placeholder/bronze-trophy.png",
+  gold: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771305621/gold_medal_w7xagi.png",
+  silver: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771305631/silver_medal_nfb50c.png",
+  bronze: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771305618/bronze_medal_olw8ds.png",
   none: ""
 };
 
@@ -74,8 +74,8 @@ const FontSelectionGame = () => {
       return;
     }
 
-    const currentQuestion = game.questions[currentQuestionIndex];
-    const correct = selectedFont === currentQuestion.correctAnswer;
+    // Font selection games store correctAnswer at game level
+    const correct = selectedFont === game.correctAnswer;
     
     if (correct) {
       setScore(score + 1);
@@ -85,7 +85,8 @@ const FontSelectionGame = () => {
   };
 
   const handleNext = () => {
-    if (currentQuestionIndex < game.questions.length - 1) {
+    // Font selection games use options array length
+    if (currentQuestionIndex < (game.options?.length || 1) - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       handleFinish();
@@ -93,7 +94,7 @@ const FontSelectionGame = () => {
   };
 
   const handleFinish = async () => {
-    const totalQuestions = game.questions.length;
+    const totalQuestions = game.options?.length || 1;
     const percentageScore = Math.round((score / totalQuestions) * 100);
     
     let achievement = "none";
@@ -147,8 +148,23 @@ const FontSelectionGame = () => {
     );
   }
 
-  const currentQuestion = game.questions[currentQuestionIndex];
-  const progress = ((currentQuestionIndex + 1) / game.questions.length) * 100;
+  // For font selection games, check if options exist
+  if (!game.options || game.options.length === 0) {
+    return (
+      <div className="font-selection-game-page">
+        <div className="loading-message">
+          <p>⚠️ This game has no font options configured</p>
+          <button className="game-button submit-button" onClick={() => navigate("/games")}>
+            Back to Games
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Font selection uses game-level fields, not questions array
+  const totalOptions = game.options.length;
+  const progress = ((currentQuestionIndex + 1) / totalOptions) * 100;
 
   return (
     <div className="font-selection-game-page">
@@ -157,10 +173,10 @@ const FontSelectionGame = () => {
         <div className="progress-section">
           <div className="progress-header">
             <span className="question-counter">
-              Question {currentQuestionIndex + 1} of {game.questions.length}
+              Question {currentQuestionIndex + 1} of {totalOptions}
             </span>
             <span className="score-display">
-              Score: {score}/{game.questions.length}
+              Score: {score}/{totalOptions}
             </span>
           </div>
           <div className="progress-bar-container">
@@ -173,23 +189,23 @@ const FontSelectionGame = () => {
 
         {/* Scenario Display */}
         <div className="scenario-display">
-          <h2 className="scenario-title">{currentQuestion.questionText}</h2>
+          <h2 className="scenario-title">{game.title || "Choose the Best Font"}</h2>
           
           <div className="scenario-content">
-            <p className="scenario-purpose">{currentQuestion.purpose}</p>
+            <p className="scenario-purpose">{game.purpose || 'Select the most appropriate font for this scenario'}</p>
             
             <div className="scenario-details">
               <div className="scenario-detail-item">
                 <div className="detail-label">Theme</div>
-                <div className="detail-value">{currentQuestion.theme}</div>
+                <div className="detail-value">{game.theme || 'N/A'}</div>
               </div>
               <div className="scenario-detail-item">
                 <div className="detail-label">Atmosphere</div>
-                <div className="detail-value">{currentQuestion.atmosphere}</div>
+                <div className="detail-value">{game.atmosphere || 'N/A'}</div>
               </div>
               <div className="scenario-detail-item">
                 <div className="detail-label">Context</div>
-                <div className="detail-value">{currentQuestion.context}</div>
+                <div className="detail-value">{game.context || 'N/A'}</div>
               </div>
             </div>
             
@@ -204,11 +220,11 @@ const FontSelectionGame = () => {
           <h3 className="section-title">Select Your Font Choice</h3>
           
           <div className="font-options-grid">
-            {currentQuestion.options.map((option, index) => {
+            {game.options.map((option, index) => {
               let cardClass = 'font-option-card';
               
               if (isAnswered) {
-                if (option.fontName === currentQuestion.correctAnswer) {
+                if (option.fontName === game.correctAnswer) {
                   cardClass += ' correct';
                 } else if (option.fontName === selectedFont) {
                   cardClass += ' incorrect';
@@ -241,16 +257,18 @@ const FontSelectionGame = () => {
           {isAnswered && (
             <div className="feedback-section">
               <div className={`feedback-message ${
-                selectedFont === currentQuestion.correctAnswer ? 'correct' : 'incorrect'
+                selectedFont === game.correctAnswer ? 'correct' : 'incorrect'
               }`}>
-                {selectedFont === currentQuestion.correctAnswer 
+                {selectedFont === game.correctAnswer 
                   ? '✅ Excellent choice!' 
-                  : `❌ Not quite. The best choice is: ${currentQuestion.correctAnswer}`}
+                  : `❌ Not quite. The best choice is: ${game.correctAnswer}`}
               </div>
               
-              <div className="feedback-explanation">
-                <strong>Why this works:</strong> {currentQuestion.explanation}
-              </div>
+              {game.explanation && (
+                <div className="feedback-explanation">
+                  <strong>Why this works:</strong> {game.explanation}
+                </div>
+              )}
             </div>
           )}
 
@@ -269,7 +287,7 @@ const FontSelectionGame = () => {
                 className="game-button next-button"
                 onClick={handleNext}
               >
-                {currentQuestionIndex < game.questions.length - 1 ? 'Next Question' : 'Finish Game'}
+                {currentQuestionIndex < totalOptions - 1 ? 'Next Question' : 'Finish Game'}
               </button>
             )}
           </div>

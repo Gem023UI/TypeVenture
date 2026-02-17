@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import * as Chart from 'chart.js';
-import { getUserById, editProfile, deleteAccount } from "../../api/user";
+import { getUserById, editProfile, deleteAccount, verifyEmail, getCompletedLessons } from "../../api/user"
+import { fetchUserScores } from "../../api/games";
 import MainLayout from "../layout/MainLayout";
 import Lanyard from '../bins/media/Lanyard';
 import { sendVerificationCode } from '../../api/emailVerify';
@@ -30,18 +31,12 @@ const Profile = () => {
   const [error, setError] = useState("");
 
   const [achievements, setAchievements] = useState([]);
-
+  const [completedLessons, setCompletedLessons] = useState([]);
   const [allScores, setAllScores] = useState([]);
-  const [quizScores, setQuizScores] = useState([]);
-  const [typographyScores, setTypographyScores] = useState([]);
   const [scoresLoading, setScoresLoading] = useState(true);
 
-  const allChartRef = useRef(null);
-  const quizChartRef = useRef(null);
-  const typographyChartRef = useRef(null);
-  const allChartInstance = useRef(null);
-  const quizChartInstance = useRef(null);
-  const typographyChartInstance = useRef(null);
+  const chartRef = useRef(null);
+  const chartInstance = useRef(null);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteUsername, setDeleteUsername] = useState("");
@@ -76,7 +71,6 @@ const Profile = () => {
           setIsVerified(response.user.isVerified || false);
           localStorage.setItem('isVerified', response.user.isVerified || false);
 
-          // ✅ Format "Date Joined" properly
           if (response.user.createdAt) {
             const date = new Date(response.user.createdAt);
             const formattedDate = date.toLocaleDateString("en-US", {
@@ -100,85 +94,75 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    const fetchAchievements = async () => {
+    const fetchAchievementsAndScores = async () => {
       try {
-        const userId = localStorage.getItem("userId");
-
-        if (!userId) {
-          console.error("❌ No userId found in localStorage");
-          return;
-        }
-
-        const response = await getUserAchievements(userId);
-
-        if (response.success) {
-          setAchievements(response.data);
-          console.log("Achievements loaded:", response.data);
-        }
-      } catch (err) {
-        console.error("Error fetching achievements:", err);
-      }
-    };
-
-    fetchAchievements();
-  }, []);
-
-  useEffect(() => {
-    const fetchScores = async () => {
-      try {
-        const userId = localStorage.getItem("userId");
-        if (!userId) return;
-
-        const response = await getScoresByUserId(userId);
-
-        if (response.success && response.data) {
-          const sortedScores = response.data.sort(
-            (a, b) => new Date(a.completedAt) - new Date(b.completedAt)
-          );
-
-          const formattedAll = sortedScores.map((score, index) => ({
-            index: index + 1,
+        const scores = await fetchUserScores();
+        
+        const achievementsData = scores
+          .filter(score => score.achievement && score.achievement !== 'none')
+          .map(score => ({
+            gameTitle: score.gameTitle,
+            achievement: score.achievement,
             score: score.score,
-            date: new Date(score.completedAt).toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric'
-            })
+            achievementUrl: score.achievementUrl,
+            completedAt: score.completedAt
           }));
+        
+        setAchievements(achievementsData);
 
-          const quizData = sortedScores
-            .filter(score => score.gameType === 'quiz')
-            .map((score, index) => ({
-              index: index + 1,
-              score: score.score,
-              date: new Date(score.completedAt).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric'
-              })
-            }));
+        const sortedScores = scores.sort(
+          (a, b) => new Date(a.completedAt) - new Date(b.completedAt)
+        );
 
-          const typographyData = sortedScores
-            .filter(score => score.gameType === 'typography')
-            .map((score, index) => ({
-              index: index + 1,
-              score: score.score,
-              date: new Date(score.completedAt).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric'
-              })
-            }));
+        const formattedScores = sortedScores.map((score, index) => ({
+          index: index + 1,
+          gameTitle: score.gameTitle,
+          score: score.score,
+          date: new Date(score.completedAt).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric'
+          }),
+          fullDate: new Date(score.completedAt)
+        }));
 
-          setAllScores(formattedAll);
-          setQuizScores(quizData);
-          setTypographyScores(typographyData);
-        }
+        setAllScores(formattedScores);
       } catch (err) {
-        console.error("Error fetching scores:", err);
+        console.error("Error fetching achievements and scores:", err);
       } finally {
         setScoresLoading(false);
       }
     };
 
-    fetchScores();
+    fetchAchievementsAndScores();
+  }, []);
+
+  useEffect(() => {
+    const fetchCompletedLessons = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        const data = await getCompletedLessons();
+  
+        const completed = data
+          .filter(lesson =>
+            lesson.usersDone.some(entry => entry.userId === userId)
+          )
+          .map(lesson => {
+            const userEntry = lesson.usersDone.find(entry => entry.userId === userId);
+            return {
+              _id: lesson._id,
+              title: lesson.title,
+              completedAt: userEntry.completedAt
+            };
+          })
+          .sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt));
+  
+        setCompletedLessons(completed);
+      } catch (err) {
+        console.error("Error fetching completed lessons:", err);
+      }
+    };
+  
+    fetchCompletedLessons();
   }, []);
 
   useEffect(() => {
@@ -194,26 +178,28 @@ const Profile = () => {
       Chart.Filler
     );
 
-    // Create All Scores Chart
-    if (allScores.length > 0 && allChartRef.current) {
-      if (allChartInstance.current) {
-        allChartInstance.current.destroy();
+    if (allScores.length > 0 && chartRef.current) {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
       }
 
-      const ctx = allChartRef.current.getContext('2d');
-      allChartInstance.current = new Chart.Chart(ctx, {
+      const ctx = chartRef.current.getContext('2d');
+      chartInstance.current = new Chart.Chart(ctx, {
         type: 'line',
         data: {
           labels: allScores.map(s => s.date),
           datasets: [{
             label: 'Score',
             data: allScores.map(s => s.score),
-            borderColor: '#8884d8',
-            backgroundColor: 'rgba(136, 132, 216, 0.6)',
-            tension: 0.3,
+            borderColor: '#FF1414',
+            backgroundColor: 'rgba(255, 20, 20, 0.1)',
+            tension: 0.4,
             fill: true,
-            pointRadius: 4,
-            pointHoverRadius: 6
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            pointBackgroundColor: '#FF1414',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2
           }]
         },
         options: {
@@ -222,13 +208,23 @@ const Profile = () => {
           plugins: {
             legend: {
               display: true,
-              position: 'top'
+              position: 'top',
+              labels: {
+                color: '#FFFFFF',
+                font: { family: 'Poppins', size: 14 }
+              }
             },
             tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              titleColor: '#FFFFFF',
+              bodyColor: '#FFFFFF',
+              borderColor: '#FF1414',
+              borderWidth: 1,
+              padding: 12,
+              displayColors: false,
               callbacks: {
-                label: function(context) {
-                  return 'Score: ' + context.parsed.y;
-                }
+                title: (context) => allScores[context[0].dataIndex].gameTitle,
+                label: (context) => `Score: ${context.parsed.y}%`
               }
             }
           },
@@ -236,15 +232,22 @@ const Profile = () => {
             y: {
               beginAtZero: true,
               max: 100,
-              title: {
-                display: true,
-                text: 'Score'
+              ticks: {
+                color: '#FFFFFF',
+                font: { family: 'Poppins' },
+                callback: (value) => value + '%'
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
               }
             },
             x: {
-              title: {
-                display: true,
-                text: 'Date'
+              ticks: {
+                color: '#FFFFFF',
+                font: { family: 'Poppins' }
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
               }
             }
           }
@@ -252,265 +255,38 @@ const Profile = () => {
       });
     }
 
-    // Create Quiz Chart
-    if (quizScores.length > 0 && quizChartRef.current) {
-      if (quizChartInstance.current) {
-        quizChartInstance.current.destroy();
-      }
-
-      const ctx = quizChartRef.current.getContext('2d');
-      quizChartInstance.current = new Chart.Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: quizScores.map(s => s.date),
-          datasets: [{
-            label: 'Quiz Score',
-            data: quizScores.map(s => s.score),
-            borderColor: '#82ca9d',
-            backgroundColor: 'rgba(130, 202, 157, 0.6)',
-            tension: 0.3,
-            fill: true,
-            pointRadius: 4,
-            pointHoverRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: true,
-              position: 'top'
-            },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return 'Score: ' + context.parsed.y;
-                }
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              max: 100,
-              title: {
-                display: true,
-                text: 'Score'
-              }
-            },
-            x: {
-              title: {
-                display: true,
-                text: 'Date'
-              }
-            }
-          }
-        }
-      });
-    }
-
-    // Create Typography Chart
-    if (typographyScores.length > 0 && typographyChartRef.current) {
-      if (typographyChartInstance.current) {
-        typographyChartInstance.current.destroy();
-      }
-
-      const ctx = typographyChartRef.current.getContext('2d');
-      typographyChartInstance.current = new Chart.Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: typographyScores.map(s => s.date),
-          datasets: [{
-            label: 'Typography Score',
-            data: typographyScores.map(s => s.score),
-            borderColor: '#ffc658',
-            backgroundColor: 'rgba(255, 198, 88, 0.6)',
-            tension: 0.3,
-            fill: true,
-            pointRadius: 4,
-            pointHoverRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: true,
-              position: 'top'
-            },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return 'Score: ' + context.parsed.y;
-                }
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              max: 100,
-              title: {
-                display: true,
-                text: 'Score'
-              }
-            },
-            x: {
-              title: {
-                display: true,
-                text: 'Date'
-              }
-            }
-          }
-        }
-      });
-    }
-
-    // Cleanup function
     return () => {
-      if (allChartInstance.current) allChartInstance.current.destroy();
-      if (quizChartInstance.current) quizChartInstance.current.destroy();
-      if (typographyChartInstance.current) typographyChartInstance.current.destroy();
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
     };
-  }, [allScores, quizScores, typographyScores]);
+  }, [allScores]);
 
   useEffect(() => {
-    const verified = localStorage.getItem('isVerified') === 'true';
-    setIsVerified(verified);
-  }, []);
-
-  useEffect(() => {
-    const verified = localStorage.getItem('isVerified') === 'true';
-    setIsVerified(verified);
-  }, []);
-
-  useEffect(() => {
-    if (!showVerificationModal) return;
-  
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          setCanResend(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  
-    return () => clearInterval(timer);
-  }, [showVerificationModal]);
-
-  const handleOpenEditModal = () => {
-    // Pre-fill modal with current data
-    setEditUsername(username);
-    setEditEmail(email);
-    setEditHobbies([...hobbies]);
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-    setSelectedFile(null);
-    setPreviewUrl(localStorage.getItem("profilePicture") || "");
-    setMessage("");
-    setError("");
-    setShowEditModal(true);
-  };
+    if (timeLeft > 0 && showVerificationModal) {
+      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timer);
+    } else if (timeLeft === 0) {
+      setCanResend(true);
+    }
+  }, [timeLeft, showVerificationModal]);
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
-  const handleSendVerificationCode = async () => {
-    try {
-      const userId = localStorage.getItem('userId');
-      await sendVerificationCode(userId);
-      
-      Swal.fire({
-        icon: 'success',
-        title: 'Verification Code Sent!',
-        text: 'Please check your email for the verification code',
-        timer: 2000,
-        showConfirmButton: false,
-      });
-      
-      setShowVerificationModal(true);
-      setTimeLeft(900);
-      setCanResend(false);
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Failed to Send Code',
-        text: error || 'Please try again',
-        timer: 2000,
-        showConfirmButton: false,
-      });
-    }
-  };
-
-  const handleVerifyEmail = async (e) => {
-    e.preventDefault();
-    setCodeLoading(true);
-  
-    try {
-      const { verifyEmailCode } = await import('../../api/emailVerify');
-      const userId = localStorage.getItem('userId');
-      await verifyEmailCode(userId, verificationCode);
-  
-      Swal.fire({
-        icon: 'success',
-        title: 'Email Verified!',
-        text: 'Your email has been verified successfully. You can now access all lessons and games!',
-        timer: 3000,
-        showConfirmButton: false,
-      });
-  
-      setIsVerified(true);
-      localStorage.setItem('isVerified', 'true');
-      setVerificationCode('');
-      setShowVerificationModal(false);
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Verification Failed',
-        text: error || 'Invalid or expired code',
-        timer: 2000,
-        showConfirmButton: false,
-      });
-    } finally {
-      setCodeLoading(false);
-    }
-  };
-
-  const handleResendCode = async () => {
-    setCodeLoading(true);
-    try {
-      const userId = localStorage.getItem('userId');
-      await sendVerificationCode(userId);
-  
-      Swal.fire({
-        icon: 'success',
-        title: 'Code Resent!',
-        text: 'A new verification code has been sent to your email',
-        timer: 2000,
-        showConfirmButton: false,
-      });
-  
-      setTimeLeft(900);
-      setCanResend(false);
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Resend Failed',
-        text: error || 'Failed to resend code',
-        timer: 2000,
-        showConfirmButton: false,
-      });
-    } finally {
-      setCodeLoading(false);
-    }
+  const handleEditProfile = () => {
+    setEditUsername(username);
+    setEditEmail(email);
+    setEditHobbies([...hobbies]);
+    setPreviewUrl("");
+    setSelectedFile(null);
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setShowEditModal(true);
   };
 
   const handleFileChange = (e) => {
@@ -525,78 +301,56 @@ const Profile = () => {
     }
   };
 
-  const handleAddHobby = () => {
+  const addHobby = () => {
     if (hobbyInput.trim() && !editHobbies.includes(hobbyInput.trim())) {
       setEditHobbies([...editHobbies, hobbyInput.trim()]);
       setHobbyInput("");
     }
   };
 
-  const handleRemoveHobby = (hobbyToRemove) => {
-    setEditHobbies(editHobbies.filter(hobby => hobby !== hobbyToRemove));
+  const removeHobby = (hobbyToRemove) => {
+    setEditHobbies(editHobbies.filter((hobby) => hobby !== hobbyToRemove));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmitEdit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage("");
     setError("");
+    setMessage("");
+
+    if (newPassword && newPassword !== confirmPassword) {
+      setError("New passwords do not match");
+      setLoading(false);
+      return;
+    }
 
     try {
-      // Validate password if attempting to change
-      if (newPassword || confirmPassword) {
-        if (!currentPassword) {
-          setError("Current password is required to change password");
-          setLoading(false);
-          return;
-        }
-        if (newPassword !== confirmPassword) {
-          setError("New passwords do not match");
-          setLoading(false);
-          return;
-        }
-      }
-
       const formData = new FormData();
       formData.append("username", editUsername);
       formData.append("email", editEmail);
-      
+      formData.append("hobbies", JSON.stringify(editHobbies));
+
       if (selectedFile) {
         formData.append("avatar", selectedFile);
       }
-      
+
       if (currentPassword && newPassword) {
         formData.append("currentPassword", currentPassword);
         formData.append("newPassword", newPassword);
       }
-      
-      formData.append("hobbies", JSON.stringify(editHobbies));
 
       const response = await editProfile(formData);
-      
-      // Update sessionStorage
-      if (response.user.profilePicture) {
-        localStorage.setItem("profilePicture", response.user.profilePicture);
-        window.dispatchEvent(new Event('profilePictureUpdated'));
-      }
-      if (response.user.hobbies) {
-        localStorage.setItem("hobbies", JSON.stringify(response.user.hobbies));
-        setHobbies(response.user.hobbies);
-      }
-      
-      // Update displayed username and email
+      setMessage("Profile updated successfully!");
       setUsername(editUsername);
       setEmail(editEmail);
-
-      setMessage("Profile updated successfully!");
+      setHobbies(editHobbies);
       
-      // Wait 1.5 seconds to show success message, then close modal
       setTimeout(() => {
         setShowEditModal(false);
-      }, 1500);
-      
+        setMessage("");
+      }, 2000);
     } catch (err) {
-      setError(err.toString());
+      setError(err || "Failed to update profile");
     } finally {
       setLoading(false);
     }
@@ -607,344 +361,350 @@ const Profile = () => {
     setDeleteLoading(true);
     setDeleteError("");
 
+    if (deleteUsername !== username) {
+      setDeleteError("Username doesn't match");
+      setDeleteLoading(false);
+      return;
+    }
+
     try {
-      const userId = localStorage.getItem("userId");
+      await deleteAccount({ username: deleteUsername, password: deletePassword });
       
-      if (!userId) {
-        setDeleteError("User session not found");
-        setDeleteLoading(false);
-        return;
-      }
-
-      const response = await deleteAccount({
-        userId,
-        username: deleteUsername,
-        password: deletePassword
-      });
-
-      if (response.success) {
-        // Clear all localStorage data
+      Swal.fire({
+        title: 'Account Deleted',
+        text: 'Your account has been permanently deleted.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
         localStorage.clear();
-        
-        // Redirect to login or home page
-        window.location.href = "/login"; // Change this to your login route
-      }
+        window.location.href = '/login';
+      });
     } catch (err) {
-      setDeleteError(err.toString());
-    } finally {
+      setDeleteError(err || "Failed to delete account");
       setDeleteLoading(false);
     }
   };
 
-  const handleVerificationSuccess = () => {
-    setIsVerified(true);
-    localStorage.setItem('isVerified', 'true');
+  const handleSendVerificationCode = async () => {
+    try {
+      setCodeLoading(true);
+      await sendVerificationCode();
+      setShowVerificationModal(true);
+      setTimeLeft(900);
+      setCanResend(false);
+      setVerificationCode("");
+      
+      Swal.fire({
+        title: 'Code Sent!',
+        text: 'A verification code has been sent to your email.',
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false
+      });
+    } catch (err) {
+      Swal.fire({
+        title: 'Error',
+        text: err.message || 'Failed to send verification code',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    } finally {
+      setCodeLoading(false);
+    }
+  };
+
+  const handleVerifyEmail = async (e) => {
+    e.preventDefault();
+    setCodeLoading(true);
+  
+    try {
+      const response = await verifyEmail(verificationCode);
+  
+      if (response.success) {
+        setIsVerified(true);
+        localStorage.setItem('isVerified', 'true');
+        setShowVerificationModal(false);
+        
+        Swal.fire({
+          title: 'Email Verified!',
+          text: 'Your email has been successfully verified.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        title: 'Verification Failed',
+        text: err || 'Invalid or expired code',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    } finally {
+      setCodeLoading(false);
+    }
+  };
+
+  const handleResendCode = async () => {
+    await handleSendVerificationCode();
   };
 
   return (
     <MainLayout>
       <div className="profile-section">
         <div className="profile-container">
-          {/* Profile Details Section */}
           <div className="profile-details-section">
-            <h2>Profile Details</h2>
-            
+            <h2>Hello!</h2>
             <div className="detail-username">
               <p>{username}</p>
             </div>
 
-            <div className="detail-email">
-              <p>{email}</p>
-            </div>
+            <div className="detail-info">
+              <div className="detail-group detail-email">
+                <h2>Email</h2>
+                <p>{email}</p>
+              </div>
 
-            <div className="detail-date">
-              <label>Date Joined: </label>
-              <p>{dateJoined}</p>
+              <div className="detail-group detail-date">
+                <h2>Date Joined</h2>
+                <p>{dateJoined}</p>
+              </div>
             </div>
 
             <div className="detail-group">
-              <div className="hobbies-display">
-                {hobbies.length > 0 ? (
-                  hobbies.map((hobby, index) => (
+              <h2>Hobbies</h2>
+              {hobbies && hobbies.length > 0 ? (
+                <div className="hobbies-display">
+                  {hobbies.map((hobby, index) => (
                     <span key={index} className="hobby-tag-display">
                       {hobby}
                     </span>
-                  ))
-                ) : (
-                  <p className="no-hobbies">No hobbies added yet</p>
-                )}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="no-hobbies">No hobbies added yet</p>
+              )}
             </div>
+
             <div className="profile-buttons">
-              <button 
-                className="edit-profile-btn"
-                onClick={handleOpenEditModal}
-              >
+              <button className="edit-profile-btn" onClick={handleEditProfile}>
                 Edit Profile
               </button>
-              <button 
-                className="delete-profile-btn"
-                onClick={() => setShowDeleteModal(true)}
-              >
+              <button className="delete-profile-btn" onClick={() => setShowDeleteModal(true)}>
                 Delete Account
               </button>
               {!isVerified && (
-              <button 
-                onClick={handleSendVerificationCode}
-                className="verify-email-btn"
-              >
-                Verify Email
-              </button>
+                <button className="verify-email-btn" onClick={handleSendVerificationCode}>
+                  Verify Email
+                </button>
               )}
             </div>
           </div>
 
-          {/* Lanyard Section */}
           <div className="lanyard-section">
-            <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
+            <Lanyard username={username} email={email} />
           </div>
         </div>
 
-        {/* Achievements Section */}
         <div className="achievements-section">
-          <h2>A C H I E V E M E N T S</h2>
           <div className="achievements-container">
+            <h2>ACHIEVEMENTS</h2>
             {achievements.length > 0 ? (
               <div className="achievements-grid">
-                {achievements.map((achievement) => (
-                  <div key={achievement._id} className="achievement-card">
-                    <img 
-                      src={achievement.imageUrl} 
-                      alt={`${achievement.tier} medal`}
-                      className="achievement-badge"
-                    />
-                    <p className="achievement-lesson-title">{achievement.lessonTitle}</p>
-                    <span className={`achievement-tier-label ${achievement.tier}`}>
-                      {achievement.tier.toUpperCase()} - {achievement.score} PTS!
+                {achievements.map((achievement, index) => (
+                  <div key={index} className="achievement-card">
+                    {achievement.achievementUrl && (
+                      <img src={achievement.achievementUrl} alt={`${achievement.achievement} trophy`} />
+                    )}
+                    <div className="achievement-lesson-title">{achievement.gameTitle}</div>
+                    <span className={`achievement-tier-label ${achievement.achievement}`}>
+                      {achievement.achievement}
                     </span>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="no-achievements">No achievements yet. Complete lessons to earn badges!</p>
+              <p className="no-achievements">No achievements yet. Play games to earn achievements!</p>
             )}
           </div>
         </div>
 
-        {/* Score Progress Section */}
-        <div className="progress-section">
-          <h2>S C O R E   P R O G R E S S</h2>
-          
-          {scoresLoading ? (
-            <p className="no-achievements">Loading score history...</p>
+        <div className="progress-score-section">
+          <h2>SCORE HISTORY</h2>
+          <div className="progress-charts">
+            {scoresLoading ? (
+              <div className="chart-loading">Loading score history...</div>
+            ) : allScores.length > 0 ? (
+              <div className="chart-container">
+                <canvas ref={chartRef}></canvas>
+              </div>
+            ) : (
+              <p className="no-scores">No game scores yet. Start playing to track your progress!</p>
+            )}
+          </div>
+        </div>
+
+        <div className="lessons-section">
+          <h2>COMPLETED LESSONS</h2>
+          {completedLessons.length > 0 ? (
+            <div className="lessons-list">
+              {completedLessons.map((lesson) => (
+                <div key={lesson._id} className="lesson-item">
+                  <div className="lesson-icon">✓</div>
+                  <div className="lesson-info">
+                    <h3 className="lesson-title">{lesson.title}</h3>
+                    <p className="lesson-date">
+                      Completed {new Date(lesson.completedAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : (
-            <>
-              {/* Overall History Chart */}
-              <div className="progress-charts" style={{ marginBottom: '60px' }}>
-                <h3 style={{ color: 'white', fontSize: '20px', marginBottom: '20px', textAlign: 'center' }}>
-                  Overall Score History
-                </h3>
-                {allScores.length > 0 ? (
-                  <div style={{ width: '100%', height: '300px' }}>
-                    <canvas ref={allChartRef}></canvas>
-                  </div>
-                ) : (
-                  <p className="no-achievements">No scores recorded yet.</p>
-                )}
-              </div>
-
-              {/* Quiz History Chart */}
-              <div className="progress-charts" style={{ marginBottom: '60px' }}>
-                <h3 style={{ fontSize: '20px', marginBottom: '20px', textAlign: 'center' }}>
-                  Quiz Score History
-                </h3>
-                {quizScores.length > 0 ? (
-                  <div style={{ width: '100%', height: '300px' }}>
-                    <canvas ref={quizChartRef}></canvas>
-                  </div>
-                ) : (
-                  <p className="no-achievements">No quiz scores recorded yet.</p>
-                )}
-              </div>
-
-              {/* Typography History Chart */}
-              <div className="progress-charts" style={{ marginBottom: '40px' }}>
-                <h3 style={{ fontSize: '20px', marginBottom: '20px', textAlign: 'center' }}>
-                  Typography Score History
-                </h3>
-                {typographyScores.length > 0 ? (
-                  <div style={{ width: '100%', height: '300px' }}>
-                    <canvas ref={typographyChartRef}></canvas>
-                  </div>
-                ) : (
-                  <p className="no-achievements">No typography scores recorded yet.</p>
-                )}
-              </div>
-            </>
+            <p className="no-lessons">No completed lessons yet. Start learning!</p>
           )}
         </div>
 
-        {/* Edit Modal */}
         {showEditModal && (
-          <div 
-            className="edit-modal-overlay"
-            onClick={() => setShowEditModal(false)}
-          >
-            <div 
-              className="edit-modal-content"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button 
-                className="modal-close-btn"
-                onClick={() => setShowEditModal(false)}
-              >
+          <div className="edit-modal-overlay" onClick={() => setShowEditModal(false)}>
+            <div className="edit-modal-content" onClick={(e) => e.stopPropagation()}>
+              <button className="modal-close-btn" onClick={() => setShowEditModal(false)}>
                 ×
               </button>
 
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmitEdit}>
+                <h2>Edit Profile</h2>
+
+                {message && <div className="success-message">{message}</div>}
+                {error && <div className="error-message">{error}</div>}
+
                 <div className="form-content">
                   <div className="form-picture">
-                    {message && <div className="success-message">{message}</div>}
-                    {error && <div className="error-message">{error}</div>}
-                    <label>Profile Picture</label>
-                    
-                    {previewUrl && (
-                      <img 
-                        src={previewUrl} 
-                        alt="Profile Preview" 
-                        className="profile-preview"
-                      />
-                    )}
-
-                    {/* Hidden file input */}
-                    <input 
-                      id="profileInput"
-                      type="file" 
+                    <img
+                      src={previewUrl || "/default-avatar.png"}
+                      alt="Profile Preview"
+                      className="profile-preview"
+                    />
+                    <label htmlFor="avatar-upload" className="custom-insert-button">
+                      Upload Picture
+                    </label>
+                    <input
+                      id="avatar-upload"
+                      type="file"
                       accept="image/*"
                       onChange={handleFileChange}
-                      style={{ display: 'none' }} // hide the default input
+                      style={{ display: "none" }}
                     />
-
-                    {/* Styled label acting as the button */}
-                    <label htmlFor="profileInput" className="custom-insert-button">
-                      Insert Profile Picture
-                    </label>
                   </div>
 
                   <div className="form-details">
-                    <h2>Edit Profile</h2>
-                      <div className="form-username-email">
-                        {/* Username */}
-                        <div className="form-username">
-                          <label>Username</label>
-                          <input 
-                            type="text" 
-                            value={editUsername} 
-                            onChange={(e) => setEditUsername(e.target.value)}
-                            required
-                          />
-                        </div>
+                    <div className="form-username-email">
+                      <div className="form-username">
+                        <label>Username:</label>
+                        <input
+                          type="text"
+                          value={editUsername}
+                          onChange={(e) => setEditUsername(e.target.value)}
+                          required
+                        />
+                      </div>
 
-                        {/* Email */}
-                        <div className="form-email">
-                          <label>Email</label>
-                          <input 
-                            type="email" 
-                            value={editEmail} 
-                            onChange={(e) => setEditEmail(e.target.value)}
-                            required
+                      <div className="form-email">
+                        <label>Email:</label>
+                        <input
+                          type="email"
+                          value={editEmail}
+                          onChange={(e) => setEditEmail(e.target.value)}
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="password-section">
+                      <h3>Change Password (Optional)</h3>
+                      <div className="password-field">
+                        <div className="form-password">
+                          <label>Current Password:</label>
+                          <input
+                            type="password"
+                            value={currentPassword}
+                            onChange={(e) => setCurrentPassword(e.target.value)}
+                            placeholder="Enter current password"
                           />
                         </div>
                       </div>
-                      {/* Hobbies */}
-                      <div className="form-hobbies">
-                        <label>Hobbies</label>
-                        <div className="hobby-input-group">
-                          <input 
-                            type="text" 
-                            value={hobbyInput}
-                            onChange={(e) => setHobbyInput(e.target.value)}
-                            placeholder="Add a hobby"
-                            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddHobby())}
+
+                      <div className="password-field">
+                        <div className="form-password">
+                          <label>New Password:</label>
+                          <input
+                            type="password"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            placeholder="Enter new password"
                           />
-                          <button type="button" onClick={handleAddHobby}>Add</button>
                         </div>
+                      </div>
+
+                      <div className="password-field">
+                        <div className="form-password">
+                          <label>Confirm New Password:</label>
+                          <input
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            placeholder="Confirm new password"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="form-hobbies">
+                      <label>Hobbies:</label>
+                      <div className="hobby-input-group">
+                        <input
+                          type="text"
+                          value={hobbyInput}
+                          onChange={(e) => setHobbyInput(e.target.value)}
+                          placeholder="Add a hobby"
+                          onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addHobby())}
+                        />
+                        <button type="button" onClick={addHobby}>
+                          Add
+                        </button>
+                      </div>
+
+                      {editHobbies.length > 0 && (
                         <div className="hobbies-list">
                           {editHobbies.map((hobby, index) => (
-                            <span key={index} className="hobby-tag">
+                            <div key={index} className="hobby-tag">
                               {hobby}
-                              <button type="button" onClick={() => handleRemoveHobby(hobby)}>×</button>
-                            </span>
+                              <button type="button" onClick={() => removeHobby(hobby)}>
+                                ×
+                              </button>
+                            </div>
                           ))}
                         </div>
-                      </div>
-                      {/* Password Section */}
-                      <div className="password-section">
-                        <h3>Change Password (Optional)</h3>
-                        <div className="password-field">
-                          <div className="form-password">
-                            <label>Current</label>
-                            <input 
-                              type="password" 
-                              value={currentPassword}
-                              onChange={(e) => setCurrentPassword(e.target.value)}
-                              placeholder="Enter current password"
-                            />
-                          </div>
+                      )}
+                    </div>
 
-                          <div className="form-password">
-                            <label>New</label>
-                            <input 
-                              type="password" 
-                              value={newPassword}
-                              onChange={(e) => setNewPassword(e.target.value)}
-                              placeholder="Enter new password"
-                            />
-                          </div>
-
-                          <div className="form-password">
-                            <label>Confirm New</label>
-                            <input 
-                              type="password" 
-                              value={confirmPassword}
-                              onChange={(e) => setConfirmPassword(e.target.value)}
-                              placeholder="Confirm new password"
-                            />
-                          </div>
-                        </div>
-                      </div>
+                    <button type="submit" className="done-btn" disabled={loading}>
+                      {loading ? "Updating..." : "Update Profile"}
+                    </button>
                   </div>
                 </div>
-                {/* Profile Picture */}
-
-                {/* Done Button */}
-                <button 
-                  type="submit" 
-                  className="done-btn"
-                  disabled={loading}
-                >
-                  {loading ? "Saving..." : "Done"}
-                </button>
               </form>
             </div>
           </div>
         )}
 
-        {/* Delete Account Modal */}
         {showDeleteModal && (
-          <div 
-            className="edit-modal-overlay"
-            onClick={() => setShowDeleteModal(false)}
-          >
-            <div 
-              className="edit-modal-content"
-              onClick={(e) => e.stopPropagation()}
-              style={{ maxWidth: "400px" }}
-            >
-              <button 
-                className="modal-close-btn"
-                onClick={() => setShowDeleteModal(false)}
-              >
+          <div className="edit-modal-overlay" onClick={() => setShowDeleteModal(false)}>
+            <div className="edit-modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "400px" }}>
+              <button className="modal-close-btn" onClick={() => setShowDeleteModal(false)}>
                 ×
               </button>
 
@@ -1019,21 +779,10 @@ const Profile = () => {
           </div>
         )}
 
-        {/* Email Verification Modal */}
         {showVerificationModal && (
-          <div 
-            className="edit-modal-overlay"
-            onClick={() => setShowVerificationModal(false)}
-          >
-            <div 
-              className="edit-modal-content verification-modal"
-              onClick={(e) => e.stopPropagation()}
-              style={{ maxWidth: "450px" }}
-            >
-              <button 
-                className="modal-close-btn"
-                onClick={() => setShowVerificationModal(false)}
-              >
+          <div className="edit-modal-overlay" onClick={() => setShowVerificationModal(false)}>
+            <div className="edit-modal-content verification-modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "450px" }}>
+              <button className="modal-close-btn" onClick={() => setShowVerificationModal(false)}>
                 ×
               </button>
 
