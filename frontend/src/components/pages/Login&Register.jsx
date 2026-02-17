@@ -341,6 +341,17 @@ const handleResetPassword = async (e) => {
               LOGIN
             </button>
           </form>
+
+          {/* Mobile-only toggle button */}
+          <div className="mobile-toggle-row">
+            <button
+              type="button"
+              className="mobile-toggle-btn"
+              onClick={() => setIsActive(!isActive)}
+            >
+              {isActive ? "Don't have an account? Register" : "Already have an account? Log In"}
+              </button>
+          </div>
         </div>
 
         {/* REGISTER */}
@@ -411,6 +422,17 @@ const handleResetPassword = async (e) => {
               REGISTER
             </button>
           </form>
+
+          {/* Mobile-only toggle button */}
+          <div className="mobile-toggle-row">
+            <button
+              type="button"
+              className="mobile-toggle-btn"
+              onClick={() => setIsActive(!isActive)}
+            >
+              {isActive ? "Don't have an account? Register" : "Already have an account? Log In"}
+            </button>
+          </div>
         </div>
 
         {/* TOGGLE CONTAINER */}

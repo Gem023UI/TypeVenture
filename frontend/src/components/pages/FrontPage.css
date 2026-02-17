@@ -1,14 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --color1: #FFFFFF; /* Primary */
-  --color2: #FF1414; /* Accent */
-  --color3: #0029FF; /* Secondary */
-  --color4: #a200ff; /* Tertiary */
+  --color1: #FFFFFF;
+  --color2: #FF1414;
+  --color3: #0029FF;
+  --color4: #a200ff;
   --text-light: white;
   --transparent: rgba(255, 255, 255, 0.5);
   --muted: black;
-
   --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
   --text-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
 }
@@ -35,15 +34,11 @@
   height: 100%;
   padding: 14px;
   margin: 30px 10px 30px 30px;
-
   --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
   border-radius: 8px;
-  background:
-    var(--border-gradient) border-box; 
+  background: var(--border-gradient) border-box;
   border: 1px solid transparent;
-
   font-family: 'Poppins', sans-serif;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,10 +46,8 @@
   text-align: center;
   box-sizing: border-box;
   overflow: hidden;
-
   position: sticky;
   top: 14vh;
-  
   transition: width 0.3s ease;
 }
 
@@ -87,12 +80,11 @@
 .lesson-list {
   width: 100%;
   margin-top: 8px;
-  overflow-y: auto; /* scroll inside the left container */
-  padding-right: 6px; /* room for scrollbar */
-  max-height: calc(100vh - 100px); /* limit height inside container */
+  overflow-y: auto;
+  padding-right: 6px;
+  max-height: calc(100vh - 100px);
 }
 
-/* heading */
 .container-one-header h2 {
   color: var(--text-light);
   margin-bottom: 5px;
@@ -106,22 +98,17 @@
   flex: 1;
   padding: 10px;
   margin: 30px 30px 30px 10px;
-
   border-radius: 8px;
   background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)) padding-box;
-
   font-family: 'Poppins', sans-serif;
-
   height: auto;
   overflow: visible;
   box-sizing: border-box;
-
   position: sticky;
   top: 14vh;
   transition: all 0.3s ease;
 }
 
-/* ✅ Apply the gradient color only to text elements inside the container */
 .container-two h1,
 .container-two h2,
 .container-two h3,
@@ -165,7 +152,6 @@
   color: var(--text-light);
   border-radius: 5px;
   box-sizing: border-box;
-
   padding: 10px;
   margin-bottom: 8px;
   cursor: pointer;
@@ -173,14 +159,12 @@
   display: block;
 }
 
-/* ensure strong/p inherit color */
 .lesson-items strong,
 .lesson-items p {
   color: inherit;
   margin: 0;
 }
 
-/* selected state */
 .lesson-items.selected {
   background: var(--color1);
   color: #ffffff;
@@ -188,42 +172,38 @@
   transform: translateY(-2px);
 }
 
-/* hover for non-selected elements */
 .lesson-items:not(.selected):hover {
   filter: brightness(0.94);
   transform: translateY(-2px);
 }
 
-/* helper classes */
 .status-text {
   margin: 8px 0;
   font-size: 0.95rem;
   color: var(--muted);
 }
+
 .status-text.error {
   color: #d9534f;
 }
 
-/* unobtrusive scrollbar for LEFT column list */
 .lesson-list::-webkit-scrollbar {
   width: 8px;
 }
+
 .lesson-list::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.12);
+  background: rgba(0, 0, 0, 0.12);
   border-radius: 8px;
 }
 
-/* Sidebar toggle hint */
 .container-one-header h2:hover {
   opacity: 0.8;
 }
 
-/* Show tooltip on collapsed icons */
 .container-one.closed .lesson-items li {
   position: relative;
 }
 
-/* Smooth icon transition */
 .container-one svg {
   transition: margin 0.3s ease;
 }
@@ -232,12 +212,11 @@
   margin-right: 0;
 }
 
-/* Achievement Modal Styles */
+/* Achievement Modal */
 .achievement-modal-content {
-  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff); 
-  
-  background: white; 
-  border: 5px solid transparent;  
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background: white;
+  border: 5px solid transparent;
   transition: all 0.3s ease;
   padding: 40px;
   border-radius: 12px;
@@ -288,9 +267,11 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  width: 100%;
 }
 
-/* Image Slideshow Styles */
+/* Image Slideshow */
 .image-slideshow {
   margin: 30px 0;
   width: 100%;
@@ -369,15 +350,154 @@
 }
 
 @keyframes bounceIn {
-  0% {
-    transform: scale(0);
-    opacity: 0;
+  0%   { transform: scale(0); opacity: 0; }
+  50%  { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* =====================
+   TABLET (max-width: 1024px)
+   ===================== */
+@media (max-width: 1024px) {
+  .container-one {
+    width: 260px;
+    margin: 20px 8px 20px 16px;
   }
-  50% {
-    transform: scale(1.1);
+
+  .container-two {
+    margin: 20px 16px 20px 8px;
   }
-  100% {
-    transform: scale(1);
-    opacity: 1;
+}
+
+/* =====================
+   MOBILE (max-width: 768px)
+   ===================== */
+@media (max-width: 768px) {
+  /* Stack layout vertically */
+  .lesson-container {
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+    min-height: unset;
+  }
+
+  /* Sidebar becomes a top drawer */
+  .container-one {
+    width: 100% !important;
+    position: relative;
+    top: unset;
+    margin: 0;
+    border-radius: 0 0 12px 12px;
+    padding: 12px 16px;
+    max-height: 280px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  /* When sidebar is open on mobile, show full list */
+  .container-one:not(.closed) {
+    max-height: 320px;
+  }
+
+  /* When closed on mobile, collapse to just the header */
+  .container-one.closed {
+    width: 100% !important;
+    max-height: 56px;
+    padding: 12px 16px;
+    overflow: hidden;
+  }
+
+  .container-one.closed p {
+    display: none;
+  }
+
+  .container-one-header {
+    padding-left: 0;
+    margin-left: 0;
+  }
+
+  .container-one-header h2 {
+    justify-content: flex-start !important;
+  }
+
+  /* Always show the span label on mobile */
+  .container-one.closed .lesson-items-label {
+    display: inline;
+  }
+
+  .lesson-list {
+    max-height: 240px;
+    padding-right: 4px;
+  }
+
+  /* Main content takes full width */
+  .container-two {
+    position: relative;
+    top: unset;
+    flex: none;
+    width: 100%;
+    margin: 12px 0 24px;
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  /* Responsive iframe */
+  .video-container iframe {
+    height: 220px;
+  }
+
+  .slideshow-image {
+    max-height: 260px;
+  }
+
+  .slideshow-btn {
+    font-size: 1.5rem;
+    padding: 8px 14px;
+  }
+
+  .achievement-modal-content {
+    padding: 24px 16px;
+    width: 95%;
+  }
+
+  .achievement-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .achievement-tier {
+    font-size: 22px;
+  }
+}
+
+/* =====================
+   SMALL MOBILE (max-width: 480px)
+   ===================== */
+@media (max-width: 480px) {
+  .container-two {
+    padding: 12px;
+    margin: 8px 0 16px;
+  }
+
+  .lesson-content p {
+    font-size: 13px;
+  }
+
+  .video-container iframe {
+    height: 190px;
+  }
+
+  .slideshow-image {
+    max-height: 200px;
+  }
+
+  .slideshow-btn {
+    font-size: 1.2rem;
+    padding: 6px 10px;
+  }
+
+  .indicator {
+    width: 9px;
+    height: 9px;
   }
 }

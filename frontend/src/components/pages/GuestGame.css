@@ -1,21 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --color1: #FFFFFF; /* Primary */
-  --color2: #FF1414; /* Accent */
-  --color3: #0029FF; /* Secondary */
-  --color4: #a200ff; /* Tertiary */
+  --color1: #FFFFFF;
+  --color2: #FF1414;
+  --color3: #0029FF;
+  --color4: #a200ff;
   --text-light: white;
   --transparent: rgba(255, 255, 255, 0.5);
   --muted: black;
-
   --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
   --text-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
 }
 
 .guest-container {
-    font-family: 'Poppins' !important;
-    animation: slideUp 0.5s ease;
+  font-family: 'Poppins' !important;
+  animation: slideUp 0.5s ease;
+  padding: 12px;
+  box-sizing: border-box;
 }
 
 .guest-game-header {
@@ -28,6 +29,8 @@
   background: linear-gradient(135deg, #825cff 0%, #6b4acc 100%);
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .guest-game-header h1 {
@@ -39,4 +42,52 @@
 .guest-game-header button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(130, 92, 255, 0.3);
+}
+
+/* =====================
+   TABLET (max-width: 1024px)
+   ===================== */
+@media (max-width: 1024px) {
+  .guest-game-header {
+    padding: 16px;
+  }
+
+  .guest-game-header h1 {
+    font-size: 22px;
+  }
+}
+
+/* =====================
+   MOBILE (max-width: 768px)
+   ===================== */
+@media (max-width: 768px) {
+  .guest-container {
+    padding: 8px;
+  }
+
+  .guest-game-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px;
+    border-radius: 10px;
+    gap: 10px;
+  }
+
+  .guest-game-header h1 {
+    font-size: 18px;
+  }
+
+  .guest-game-header button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* =====================
+   SMALL MOBILE (max-width: 480px)
+   ===================== */
+@media (max-width: 480px) {
+  .guest-game-header h1 {
+    font-size: 15px;
+  }
 }

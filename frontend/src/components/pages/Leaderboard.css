@@ -39,15 +39,10 @@
 }
 
 @keyframes titleGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 20px rgba(255, 20, 20, 0.3));
-  }
-  50% {
-    filter: drop-shadow(0 0 40px rgba(0, 41, 255, 0.5));
-  }
+  0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 20, 20, 0.3)); }
+  50%       { filter: drop-shadow(0 0 40px rgba(0, 41, 255, 0.5)); }
 }
 
-/* Game Selector */
 .game-selector-section {
   max-width: 600px;
   margin: 0 auto 60px;
@@ -95,7 +90,6 @@
   box-shadow: 0 0 0 4px rgba(0, 41, 255, 0.3);
 }
 
-/* Loading and Error States */
 .loading-spinner {
   display: flex;
   flex-direction: column;
@@ -118,7 +112,7 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
+  0%   { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
@@ -152,7 +146,6 @@
   opacity: 0.7;
 }
 
-/* Main Leaderboard Content */
 .leaderboard-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -160,7 +153,6 @@
   margin-top: 40px;
 }
 
-/* Top Player Section */
 .top-player-section {
   background: linear-gradient(135deg, rgba(255, 20, 20, 0.1), rgba(162, 0, 255, 0.1));
   border: 3px solid transparent;
@@ -174,10 +166,7 @@
 .top-player-section::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: var(--border-gradient);
   opacity: 0.1;
   z-index: 0;
@@ -186,7 +175,7 @@
 
 @keyframes pulse {
   0%, 100% { opacity: 0.1; }
-  50% { opacity: 0.2; }
+  50%       { opacity: 0.2; }
 }
 
 .crown-icon {
@@ -200,7 +189,7 @@
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  50%       { transform: translateY(-10px); }
 }
 
 .top-player-header {
@@ -236,12 +225,8 @@
 }
 
 @keyframes glow {
-  0%, 100% {
-    box-shadow: 0 0 30px rgba(255, 20, 20, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 50px rgba(0, 41, 255, 0.6);
-  }
+  0%, 100% { box-shadow: 0 0 30px rgba(255, 20, 20, 0.4); }
+  50%       { box-shadow: 0 0 50px rgba(0, 41, 255, 0.6); }
 }
 
 .top-player-avatar img {
@@ -272,7 +257,6 @@
 .top-player-name {
   font-size: 32px;
   font-weight: 700;
-  color: var(--text-light);
   margin: 0 0 8px 0;
   background-image: var(--text-gradient);
   background-clip: text;
@@ -286,6 +270,7 @@
   color: rgba(255, 255, 255, 0.7);
   margin: 0 0 25px 0;
   font-weight: 400;
+  word-break: break-word;
 }
 
 .top-player-stats {
@@ -294,6 +279,7 @@
   justify-content: center;
   gap: 30px;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 .stat-item {
@@ -333,22 +319,10 @@
   gap: 6px;
 }
 
-.achievement-badge.gold {
-  background: linear-gradient(135deg, #FFD700, #FFA500);
-  color: #000;
-}
+.achievement-badge.gold   { background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; }
+.achievement-badge.silver { background: linear-gradient(135deg, #C0C0C0, #808080); color: #000; }
+.achievement-badge.bronze { background: linear-gradient(135deg, #CD7F32, #8B4513); color: #fff; }
 
-.achievement-badge.silver {
-  background: linear-gradient(135deg, #C0C0C0, #808080);
-  color: #000;
-}
-
-.achievement-badge.bronze {
-  background: linear-gradient(135deg, #CD7F32, #8B4513);
-  color: #fff;
-}
-
-/* Rankings Section */
 .rankings-section {
   background: rgba(255, 255, 255, 0.03);
   border: 2px solid rgba(255, 255, 255, 0.1);
@@ -376,19 +350,9 @@
   padding-right: 10px;
 }
 
-.rankings-list::-webkit-scrollbar {
-  width: 8px;
-}
-
-.rankings-list::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-}
-
-.rankings-list::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #FF1414, #a200ff, #0029FF);
-  border-radius: 10px;
-}
+.rankings-list::-webkit-scrollbar        { width: 8px; }
+.rankings-list::-webkit-scrollbar-track  { background: rgba(255,255,255,0.05); border-radius: 10px; }
+.rankings-list::-webkit-scrollbar-thumb  { background: linear-gradient(135deg, #FF1414, #a200ff, #0029FF); border-radius: 10px; }
 
 .ranking-item {
   display: grid;
@@ -408,20 +372,9 @@
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-.ranking-item.rank-gold {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.15));
-  border: 2px solid rgba(255, 215, 0, 0.4);
-}
-
-.ranking-item.rank-silver {
-  background: linear-gradient(135deg, rgba(192, 192, 192, 0.15), rgba(128, 128, 128, 0.15));
-  border: 2px solid rgba(192, 192, 192, 0.4);
-}
-
-.ranking-item.rank-bronze {
-  background: linear-gradient(135deg, rgba(205, 127, 50, 0.15), rgba(139, 69, 19, 0.15));
-  border: 2px solid rgba(205, 127, 50, 0.4);
-}
+.ranking-item.rank-gold   { background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,165,0,0.15)); border: 2px solid rgba(255,215,0,0.4); }
+.ranking-item.rank-silver { background: linear-gradient(135deg, rgba(192,192,192,0.15), rgba(128,128,128,0.15)); border: 2px solid rgba(192,192,192,0.4); }
+.ranking-item.rank-bronze { background: linear-gradient(135deg, rgba(205,127,50,0.15), rgba(139,69,19,0.15)); border: 2px solid rgba(205,127,50,0.4); }
 
 .rank-number {
   font-size: 24px;
@@ -441,6 +394,7 @@
   font-size: 18px;
   font-weight: 600;
   color: var(--text-light);
+  word-break: break-word;
 }
 
 .player-score {
@@ -472,7 +426,9 @@
   font-style: italic;
 }
 
-/* Responsive Design */
+/* =====================
+   TABLET (max-width: 1200px)
+   ===================== */
 @media (max-width: 1200px) {
   .leaderboard-content {
     grid-template-columns: 1fr;
@@ -483,66 +439,46 @@
   }
 }
 
+/* =====================
+   MOBILE (max-width: 768px)
+   ===================== */
 @media (max-width: 768px) {
+  .leaderboard-page {
+    padding: 20px 12px;
+  }
+
   .leaderboard-container {
-    padding: 20px;
+    padding: 20px 12px;
   }
 
   .leaderboard-title {
-    font-size: 48px;
+    font-size: clamp(32px, 10vw, 64px);
     letter-spacing: 4px;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
   }
 
   .game-selector-section {
-    margin-bottom: 40px;
+    margin-bottom: 32px;
   }
 
-  .top-player-avatar {
-    width: 140px;
-    height: 140px;
+  .category-label {
+    font-size: 14px;
+    letter-spacing: 1px;
   }
 
-  .top-player-name {
-    font-size: 24px;
+  .game-dropdown {
+    padding: 14px 16px;
+    font-size: 15px;
   }
 
-  .stat-value {
-    font-size: 32px;
+  .top-player-section {
+    padding: 24px 16px;
+    border-radius: 16px;
   }
 
-  .ranking-item {
-    grid-template-columns: 50px 1fr auto;
-    gap: 15px;
-    padding: 12px 16px;
-  }
-
-  .rank-number {
+  .top-player-header {
     font-size: 20px;
-  }
-
-  .player-name {
-    font-size: 16px;
-  }
-
-  .score-value {
-    font-size: 24px;
-  }
-
-  .rankings-list {
-    max-height: 500px;
-  }
-}
-
-@media (max-width: 480px) {
-  .leaderboard-title {
-    font-size: 36px;
     letter-spacing: 2px;
-  }
-
-  .top-player-section,
-  .rankings-section {
-    padding: 20px;
   }
 
   .top-player-avatar {
@@ -550,18 +486,109 @@
     height: 120px;
   }
 
-  .ranking-item {
-    grid-template-columns: 40px 1fr;
-    gap: 12px;
+  .avatar-placeholder {
+    font-size: 48px;
   }
 
-  .player-score {
-    grid-column: 2;
-    justify-self: end;
+  .top-player-name {
+    font-size: 22px;
+  }
+
+  .top-player-email {
+    font-size: 13px;
+  }
+
+  .stat-value {
+    font-size: 32px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  .rankings-section {
+    padding: 20px 12px;
+    border-radius: 16px;
+  }
+
+  .rankings-header {
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
+
+  .ranking-item {
+    grid-template-columns: 44px 1fr auto;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+  }
+
+  .rank-number {
+    font-size: 18px;
+  }
+
+  .player-name {
+    font-size: 14px;
+  }
+
+  .score-value {
+    font-size: 20px;
+  }
+
+  .score-label {
+    font-size: 12px;
+  }
+
+  .rankings-list {
+    max-height: 450px;
+    padding-right: 4px;
   }
 
   .achievement-badge {
     font-size: 11px;
-    padding: 6px 12px;
+    padding: 4px 10px;
+  }
+
+  .no-data p {
+    font-size: 16px;
+  }
+}
+
+/* =====================
+   SMALL MOBILE (max-width: 480px)
+   ===================== */
+@media (max-width: 480px) {
+  .leaderboard-title {
+    font-size: clamp(26px, 8vw, 48px);
+    letter-spacing: 2px;
+  }
+
+  .top-player-section,
+  .rankings-section {
+    padding: 16px 10px;
+  }
+
+  .top-player-avatar {
+    width: 96px;
+    height: 96px;
+  }
+
+  .avatar-placeholder {
+    font-size: 36px;
+  }
+
+  .ranking-item {
+    grid-template-columns: 36px 1fr;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .player-score {
+    grid-column: 2;
+  }
+
+  .player-name {
+    font-size: 13px;
   }
 }

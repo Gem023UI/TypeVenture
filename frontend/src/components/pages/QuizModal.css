@@ -1,13 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-/* ============================================
-   CSS VARIABLES
-   ============================================ */
 :root {
-  --color1: #FFFFFF; /* Primary */
-  --color2: #FF1414; /* Accent */
-  --color3: #0029FF; /* Secondary */
-  --color4: #a200ff; /* Tertiary */
+  --color1: #FFFFFF;
+  --color2: #FF1414;
+  --color3: #0029FF;
+  --color4: #a200ff;
   --text-light: white;
   --text-dark: #333;
   --text-muted: #666;
@@ -23,9 +20,6 @@
   --overlay-bg: rgba(0, 0, 0, 0.8);
 }
 
-/* ============================================
-   MODAL OVERLAY & CONTAINER
-   ============================================ */
 .quiz-modal-overlay {
   position: fixed;
   top: 0;
@@ -38,6 +32,7 @@
   align-items: center;
   z-index: 1000;
   animation: fadeIn 0.3s ease;
+  padding: 12px;
 }
 
 .quiz-modal-content {
@@ -53,8 +48,6 @@
   flex-direction: row;
   font-family: 'Poppins';
   animation: slideUp 0.5s ease;
-
-  /* Gradient border trick */
   border: 4px solid transparent;
   border-radius: 16px;
   background:
@@ -64,18 +57,12 @@
   background-origin: border-box;
 }
 
-/* ============================================
-   MODAL SECTIONS
-   ============================================ */
 .quiz-info,
 .quiz-options {
   padding: 30px;
   width: 50%;
 }
 
-/* ============================================
-   HEADER SECTION
-   ============================================ */
 .quiz-header {
   margin-bottom: 30px;
   text-align: center;
@@ -95,9 +82,6 @@
   margin-top: 5px;
 }
 
-/* ============================================
-   QUESTION SECTION
-   ============================================ */
 .quiz-question {
   background-color: transparent;
   padding: 20px;
@@ -114,9 +98,6 @@
   line-height: 1.5;
 }
 
-/* ============================================
-   QUIZ OPTIONS
-   ============================================ */
 .quiz-options {
   display: flex;
   flex-direction: column;
@@ -129,14 +110,13 @@
   height: 100%;
 }
 
-/* Base Option Button Styles */
 .quiz-option {
   padding: 15px 20px;
   border: 2px solid transparent;
   border-radius: 10px;
   font-size: 16px;
   font-weight: 500;
-  text-align: left;
+  text-align: center;
   cursor: pointer;
   color: var(--text-light);
   transition: all 0.3s ease;
@@ -145,7 +125,6 @@
   align-items: center;
   justify-content: center;
   font-family: 'Poppins';
-  text-align: center;
 }
 
 .quiz-option:hover:not(:disabled) {
@@ -157,37 +136,14 @@
   opacity: 0.8;
 }
 
-/* Color Variants - Purple, Green, Orange */
-.quiz-option-purple {
-  background-color:#0029FF;
-}
+.quiz-option-purple { background-color: #0029FF; }
+.quiz-option-green  { background-color: #a200ff; }
+.quiz-option-orange { background-color: #dc2626; }
 
-.quiz-option-green {
-  background-color: #a200ff;
-}
+.quiz-option.selected   { transform: scale(1.10); }
+.quiz-option.correct    { background-color: #22c55e !important; border-color: #16a34a; animation: correctPulse 0.5s ease; }
+.quiz-option.incorrect  { animation: incorrectShake 0.5s ease; }
 
-.quiz-option-orange {
-  background-color: #dc2626;
-}
-
-/* Option States */
-.quiz-option.selected {
-  transform: scale(1.10);
-}
-
-.quiz-option.correct {
-  background-color: #22c55e !important;
-  border-color: #16a34a;
-  animation: correctPulse 0.5s ease;
-}
-
-.quiz-option.incorrect {
-  animation: incorrectShake 0.5s ease;
-}
-
-/* ============================================
-   CHECK ANSWER BUTTON
-   ============================================ */
 .quiz-check-btn {
   width: 100%;
   padding: 15px;
@@ -212,9 +168,6 @@
   cursor: not-allowed;
 }
 
-/* ============================================
-   FEEDBACK MESSAGE
-   ============================================ */
 .quiz-feedback {
   padding: 15px;
   border-radius: 10px;
@@ -226,21 +179,9 @@
   animation: slideDown 0.4s ease;
 }
 
-.quiz-feedback.correct {
-  background-color: var(--success-bg);
-  color: var(--success-text);
-  border-color: var(--success-border);
-}
+.quiz-feedback.correct   { background-color: var(--success-bg); color: var(--success-text); border-color: var(--success-border); }
+.quiz-feedback.incorrect { background-color: var(--error-bg);   color: var(--error-text);   border-color: var(--error-border); }
 
-.quiz-feedback.incorrect {
-  background-color: var(--error-bg);
-  color: var(--error-text);
-  border-color: var(--error-border);
-}
-
-/* ============================================
-   QUIZ COMPLETED SECTION
-   ============================================ */
 .quiz-completed {
   display: flex;
   flex-direction: column;
@@ -248,7 +189,6 @@
   justify-content: center;
   text-align: center;
   padding: 20px 0;
-
   width: 100%;
 }
 
@@ -273,83 +213,76 @@
   font-family: 'Poppins';
   font-size: 15px;
   font-weight: 500;
-
-  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff); 
-  
-  background: var(--border-gradient) border-box; 
-  border: 5px solid transparent;  
+  --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background: var(--border-gradient) border-box;
+  border: 5px solid transparent;
   transition: all 0.3s ease;
 }
 
-/* ============================================
-   ANIMATIONS
-   ============================================ */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes correctPulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.05); }
 }
 
 @keyframes incorrectShake {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-10px);
-  }
-  75% {
-    transform: translateX(10px);
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-10px); }
+  75%       { transform: translateX(10px); }
+}
+
+/* =====================
+   TABLET (max-width: 900px)
+   ===================== */
+@media (max-width: 900px) {
+  .quiz-modal-content {
+    width: 88vw;
+    max-height: 75vh;
+    padding: 24px;
   }
 }
 
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
-@media (max-width: 600px) {
+/* =====================
+   MOBILE (max-width: 768px)
+   ===================== */
+@media (max-width: 768px) {
+  .quiz-modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
   .quiz-modal-content {
-    padding: 25px 20px;
-    max-width: 95%;
+    width: 100%;
+    max-width: 100%;
+    max-height: 85vh;
+    margin-top: 0;
+    border-radius: 16px 16px 0 0;
+    padding: 20px 16px;
     flex-direction: column;
   }
 
   .quiz-info,
   .quiz-options {
     width: 100%;
-    padding: 15px;
+    padding: 0;
+  }
+
+  .quiz-info {
+    margin-bottom: 12px;
   }
 
   .quiz-question p {
@@ -357,15 +290,57 @@
   }
 
   .quiz-option {
-    padding: 12px 15px;
+    padding: 12px 14px;
     font-size: 14px;
   }
 
+  .quiz-check-btn {
+    padding: 14px;
+    font-size: 14px;
+  }
+
+  .quiz-feedback {
+    font-size: 15px;
+    padding: 12px;
+  }
+
   .quiz-final-score {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .quiz-percentage {
-    font-size: 36px;
+    font-size: 40px;
+  }
+}
+
+/* =====================
+   SMALL MOBILE (max-width: 480px)
+   ===================== */
+@media (max-width: 480px) {
+  .quiz-modal-content {
+    padding: 16px 12px;
+    max-height: 90vh;
+  }
+
+  .quiz-question p {
+    font-size: 14px;
+  }
+
+  .quiz-option {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .quiz-progress,
+  .quiz-score {
+    font-size: 12px;
+  }
+
+  .quiz-percentage {
+    font-size: 32px;
+  }
+
+  .quiz-final-score {
+    font-size: 15px;
   }
 }

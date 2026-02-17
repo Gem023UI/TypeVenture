@@ -295,6 +295,26 @@ const KerningGame = () => {
                     onMouseDown={(e) => !isFirst && handleMouseDown(index - 1, e)}
                   >
                     {letter}
+
+                    onTouchStart={(e) => {
+                      if (!isFirst) {
+                        setDraggingIndex(index - 1);
+                        setDragStartX(e.touches[0].clientX);
+                        setDragStartSpacing(letterSpacing[index - 1]);
+                        e.preventDefault();
+                      }
+                    }}
+                    onTouchMove={(e) => {
+                      if (draggingIndex === null) return;
+                      const deltaX = e.touches[0].clientX - dragStartX;
+                      const spacingChange = Math.round(deltaX / 3);
+                      const newSpacing = Math.max(-50, Math.min(50, dragStartSpacing + spacingChange));
+                      const newLetterSpacing = [...letterSpacing];
+                      newLetterSpacing[draggingIndex] = newSpacing;
+                      setLetterSpacing(newLetterSpacing);
+                      e.preventDefault();
+                    }}
+                    onTouchEnd={() => setDraggingIndex(null)}
                   </span>
                 );
               })}

@@ -137,9 +137,8 @@
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
-  transition: background-color 0.2s;
-  background: var(--border-gradient) border-box; 
-  border: 5px solid transparent;  
+  background: var(--border-gradient) border-box;
+  border: 5px solid transparent;
   transition: all 0.3s ease;
 }
 
@@ -409,10 +408,9 @@
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
   margin-top: 25px;
-  background: var(--border-gradient) border-box; 
-  border: 5px solid transparent;  
+  background: var(--border-gradient) border-box;
+  border: 5px solid transparent;
   transition: all 0.3s ease;
 }
 
@@ -488,19 +486,9 @@
   width: 100%;
 }
 
-.achievements-grid::-webkit-scrollbar {
-  height: 8px;
-}
-
-.achievements-grid::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-}
-
-.achievements-grid::-webkit-scrollbar-thumb {
-  background: var(--border-gradient);
-  border-radius: 10px;
-}
+.achievements-grid::-webkit-scrollbar        { height: 8px; }
+.achievements-grid::-webkit-scrollbar-track  { background: rgba(255,255,255,0.1); border-radius: 10px; }
+.achievements-grid::-webkit-scrollbar-thumb  { background: var(--border-gradient); border-radius: 10px; }
 
 .achievements-grid > * {
   flex: 0 0 180px;
@@ -554,20 +542,9 @@
   letter-spacing: 0.5px;
 }
 
-.achievement-tier-label.bronze {
-  background: #CD7F32;
-  color: white;
-}
-
-.achievement-tier-label.silver {
-  background: #C0C0C0;
-  color: #000;
-}
-
-.achievement-tier-label.gold {
-  background: #FFD700;
-  color: #000;
-}
+.achievement-tier-label.bronze { background: #CD7F32; color: white; }
+.achievement-tier-label.silver { background: #C0C0C0; color: #000; }
+.achievement-tier-label.gold   { background: #FFD700; color: #000; }
 
 .no-achievements {
   text-align: center;
@@ -716,15 +693,148 @@
   font-style: italic;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .detail-username p {
-    font-size: 60px;
+/* =====================
+   TABLET (max-width: 1024px)
+   ===================== */
+@media (max-width: 1024px) {
+  .profile-container {
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 
-  .achievements-grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 15px;
+  .profile-details-section,
+  .lanyard-section {
+    flex: 1 1 50%;
+  }
+
+  .profile-details-section {
+    padding: 40px 30px 40px 60px;
+  }
+
+  .detail-username p {
+    font-size: 80px;
+  }
+}
+
+/* =====================
+   MOBILE (max-width: 768px)
+   ===================== */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+  }
+
+  .lanyard-section {
+    width: 100%;
+    padding: 20px 0 0;
+  }
+
+  .profile-details-section {
+    width: 100%;
+    padding: 20px 16px 30px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .detail-username p {
+    font-size: 52px;
+    text-align: center;
+  }
+
+  .detail-email,
+  .deetail-date {
+    align-items: center;
+  }
+
+  .detail-group p {
+    font-size: 14px;
+  }
+
+  .profile-buttons {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .edit-profile-btn,
+  .delete-profile-btn,
+  .verify-email-btn {
+    width: 100%;
+    margin-top: 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    padding: 12px;
+  }
+
+  /* Edit Modal */
+  .edit-modal-overlay {
+    padding: 10px;
+    align-items: flex-end;
+  }
+
+  .edit-modal-content {
+    max-height: 90vh;
+    padding: 20px 14px;
+    border-radius: 12px;
+  }
+
+  .form-content {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-picture {
+    width: 100%;
+  }
+
+  .profile-preview {
+    width: 50%;
+  }
+
+  .form-details {
+    width: 100%;
+  }
+
+  .form-username-email {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .form-username,
+  .form-email {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .password-field {
+    flex-direction: column;
+    padding: 10px 0;
+    width: 100%;
+  }
+
+  .form-password input[type="password"] {
+    width: 100%;
+  }
+
+  .hobby-input-group {
+    padding: 10px 0;
+    flex-wrap: wrap;
+  }
+
+  /* Achievements */
+  .achievements-section {
+    padding: 16px;
+  }
+
+  .achievements-section h2 {
+    font-size: 32px;
+    text-align: center;
+  }
+
+  .achievements-grid > * {
+    flex: 0 0 140px;
+    min-width: 140px;
   }
 
   .achievement-card img {
@@ -734,32 +844,51 @@
 
   .achievement-lesson-title {
     font-size: 12px;
-    min-height: 35px;
+    min-height: 32px;
   }
 
-  .progress-section h2,
-  .lessons-section h2,
-  .achievements-section h2 {
+  /* Chart */
+  .progress-scrore-section {
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  .progress-score-section h2 {
     font-size: 32px;
+    letter-spacing: 2px;
   }
 
   .chart-container {
-    height: 300px;
+    height: 260px;
+    padding: 12px;
+  }
+
+  /* Lessons */
+  .lessons-section {
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  .lessons-section h2 {
+    font-size: 32px;
+    letter-spacing: 2px;
+    text-align: center;
   }
 
   .lesson-item {
-    padding: 15px 20px;
+    padding: 14px 16px;
+    gap: 14px;
   }
 
   .lesson-icon {
     width: 40px;
     height: 40px;
     min-width: 40px;
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .lesson-title {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .lesson-date {
@@ -767,20 +896,26 @@
   }
 }
 
-@media (max-width: 1024px) {
-  .profile-container {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (min-width: 1024px) {
-  .profile-container {
-    flex-direction: row;
-    flex-wrap: nowrap;
+/* =====================
+   SMALL MOBILE (max-width: 480px)
+   ===================== */
+@media (max-width: 480px) {
+  .detail-username p {
+    font-size: 36px;
   }
 
-  .profile-details-section,
-  .lanyard-section {
-    flex: 1 1 50%;
+  .edit-modal-content h2 {
+    font-size: 18px;
+  }
+
+  .done-btn {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .lessons-section h2,
+  .achievements-section h2,
+  .progress-score-section h2 {
+    font-size: 26px;
   }
 }

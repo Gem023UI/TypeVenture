@@ -236,7 +236,7 @@ const FrontPage = () => {
           <div className="container-one-header">
             <h2 onClick={toggleSidebar} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: isSidebarOpen ? 'flex-start' : 'center' }}>
               <ListIcon />
-              {isSidebarOpen && <span style={{ marginLeft: '8px' }}>Lessons</span>}
+              <span style={{ marginLeft: '8px', display: isSidebarOpen ? 'inline' : 'none' }}>Lessons</span>
             </h2>
           </div>
   

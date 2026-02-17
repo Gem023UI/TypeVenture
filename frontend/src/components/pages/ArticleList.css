@@ -110,7 +110,6 @@
 .article-title {
   font-size: 28px;
   font-weight: 700;
-  color: #FFFFFF;
   margin: 0 0 15px 0;
   letter-spacing: 1px;
   --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
@@ -129,8 +128,14 @@
   opacity: 0.9;
 }
 
-/* Responsive Design */
+/* =====================
+   TABLET (max-width: 1024px)
+   ===================== */
 @media (max-width: 1024px) {
+  .article-list-container {
+    padding: 0 30px;
+  }
+
   .article-list-title {
     font-size: 60px;
   }
@@ -157,57 +162,25 @@
   }
 }
 
+/* =====================
+   MOBILE (max-width: 768px)
+   ===================== */
 @media (max-width: 768px) {
-  .article-list-container {
-    padding: 0 30px;
-  }
-
-  .article-list-title {
-    font-size: 45px;
-  }
-
-  .article-list-description {
-    font-size: 16px;
-  }
-
-  .article-card {
-    flex-direction: column;
-    min-height: auto;
-  }
-
-  .article-image-container {
-    width: 100%;
-    height: 250px;
-  }
-
-  .article-content {
-    padding: 25px;
-  }
-
-  .article-title {
-    font-size: 22px;
-  }
-
-  .article-introduction {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
   .article-list-wrapper {
-    padding: 30px 0;
+    padding: 32px 0;
   }
 
   .article-list-container {
-    padding: 0 20px;
+    padding: 0 16px;
   }
 
   .article-list-header {
-    margin-bottom: 40px;
+    margin-bottom: 36px;
   }
 
   .article-list-title {
-    font-size: 35px;
+    font-size: 44px;
+    letter-spacing: 1px;
   }
 
   .title-articles {
@@ -222,15 +195,83 @@
     gap: 20px;
   }
 
+  /* Cards stack vertically */
+  .article-card {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .article-card:hover {
+    transform: translateY(-6px);
+  }
+
   .article-image-container {
-    height: 200px;
+    width: 100%;
+    height: 220px;
   }
 
   .article-content {
-    padding: 20px;
+    padding: 20px 20px;
   }
 
   .article-title {
     font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .article-introduction {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
+
+/* =====================
+   SMALL MOBILE (max-width: 480px)
+   ===================== */
+@media (max-width: 480px) {
+  .article-list-wrapper {
+    padding: 24px 0;
+  }
+
+  .article-list-container {
+    padding: 0 12px;
+  }
+
+  .article-list-header {
+    margin-bottom: 28px;
+  }
+
+  .article-list-title {
+    font-size: 32px;
+  }
+
+  .title-articles {
+    -webkit-text-stroke: 2px #FFFFFF;
+    padding-left: 6px;
+  }
+
+  .article-list-description {
+    font-size: 13px;
+  }
+
+  .articles-grid {
+    gap: 16px;
+  }
+
+  .article-image-container {
+    height: 180px;
+  }
+
+  .article-content {
+    padding: 16px;
+  }
+
+  .article-title {
+    font-size: 18px;
+    letter-spacing: 0.5px;
+  }
+
+  .article-introduction {
+    font-size: 12px;
   }
 }

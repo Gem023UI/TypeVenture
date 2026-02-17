@@ -1,14 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --color1: #FFFFFF; /* Primary */
-  --color2: #FF1414; /* Accent */
-  --color3: #0029FF; /* Secondary */
-  --color4: #a200ff; /* Tertiary */
+  --color1: #FFFFFF;
+  --color2: #FF1414;
+  --color3: #0029FF;
+  --color4: #a200ff;
   --text-light: white;
   --transparent: rgba(255, 255, 255, 0.5);
   --muted: black;
-
   --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
   --text-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
 }
@@ -92,40 +91,80 @@
   color: white;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .citation-page-wrapper {
-    padding: 40px 15px;
-  }
-
+/* =====================
+   TABLET (max-width: 1024px)
+   ===================== */
+@media (max-width: 1024px) {
   .citations-main-title {
-    font-size: 2rem;
+    font-size: 2.4rem;
   }
 
-  .citations-intro {
-    font-size: 1rem;
-    margin-bottom: 30px;
-  }
-
-  .citation-item {
-    padding: 20px;
-  }
-
-  .citation-title {
-    font-size: 1.25rem;
-  }
-
-  .citation-link {
-    font-size: 0.875rem;
+  .citations-list {
+    gap: 28px;
   }
 }
 
-@media (max-width: 480px) {
+/* =====================
+   MOBILE (max-width: 768px)
+   ===================== */
+@media (max-width: 768px) {
+  .citation-page-wrapper {
+    padding: 32px 16px;
+  }
+
   .citations-main-title {
-    font-size: 1.75rem;
+    font-size: 1.8rem;
+  }
+
+  .citations-intro {
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+  }
+
+  .citations-list {
+    gap: 20px;
+  }
+
+  .citation-item {
+    padding: 20px 16px;
   }
 
   .citation-title {
     font-size: 1.125rem;
+    margin-bottom: 10px;
+  }
+
+  .citation-link {
+    font-size: 0.85rem;
+  }
+}
+
+/* =====================
+   SMALL MOBILE (max-width: 480px)
+   ===================== */
+@media (max-width: 480px) {
+  .citation-page-wrapper {
+    padding: 24px 12px;
+  }
+
+  .citations-main-title {
+    font-size: 1.5rem;
+  }
+
+  .citations-intro {
+    font-size: 0.875rem;
+  }
+
+  .citation-item {
+    padding: 16px 12px;
+    border-radius: 10px;
+  }
+
+  .citation-title {
+    font-size: 1rem;
+  }
+
+  .citation-link {
+    font-size: 0.8rem;
   }
 }
