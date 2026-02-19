@@ -58,7 +58,6 @@ const KerningGame = () => {
       setLoading(true);
       const data = await fetchGameById(gameId);
       setGame(data);
-      initializeWord();
     } catch (err) {
       console.error("Error loading game:", err);
       
@@ -293,9 +292,6 @@ const KerningGame = () => {
                       cursor: isDraggable ? 'grab' : 'default'
                     }}
                     onMouseDown={(e) => !isFirst && handleMouseDown(index - 1, e)}
-                  >
-                    {letter}
-
                     onTouchStart={(e) => {
                       if (!isFirst) {
                         setDraggingIndex(index - 1);
@@ -315,6 +311,8 @@ const KerningGame = () => {
                       e.preventDefault();
                     }}
                     onTouchEnd={() => setDraggingIndex(null)}
+                  >
+                    {letter}
                   </span>
                 );
               })}
