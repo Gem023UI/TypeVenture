@@ -33,7 +33,7 @@ export default function ArticleOne() {
           {/* Featured Image */}
           <div className="article-featured-image">
             <img 
-              src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+              src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771513513/edea16aa-1770-41bd-9624-df807ce93a8b.png" 
               alt="Trending Font Pairings 2026"
             />
           </div>
@@ -60,7 +60,7 @@ export default function ArticleOne() {
               <h2>1. Montserrat + Merriweather</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771513549/87fd884f-0a70-47d6-aa88-d93324e48d15.png" 
                   alt="Montserrat and Merriweather pairing"
                 />
               </div>
@@ -76,7 +76,7 @@ export default function ArticleOne() {
               <h2>2. Playfair Display + Source Sans Pro</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771513583/15008017-ed3d-478e-b9d0-c33238c3765e.png" 
                   alt="Playfair Display and Source Sans Pro pairing"
                 />
               </div>
@@ -92,7 +92,7 @@ export default function ArticleOne() {
               <h2>3. Raleway + Lora</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771513607/3b21c3d8-22b8-46a7-a0e2-5fdee2bf1d9c.png" 
                   alt="Raleway and Lora pairing"
                 />
               </div>
@@ -108,7 +108,7 @@ export default function ArticleOne() {
               <h2>4. Oswald + Libre Baskerville</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771513626/fcca31be-dcb5-4c34-9ba4-65385b3c65b5.png" 
                   alt="Oswald and Libre Baskerville pairing"
                 />
               </div>
@@ -124,7 +124,7 @@ export default function ArticleOne() {
               <h2>5. Roboto + Roboto Slab</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771513638/898df526-8aa9-4d87-8c77-baf60d59e406.png" 
                   alt="Roboto and Roboto Slab pairing"
                 />
               </div>
@@ -140,7 +140,7 @@ export default function ArticleOne() {
               <h2>6. Poppins + Crimson Text</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771513645/24b8dc1d-512b-488e-aef1-df0d20c38fd2.png" 
                   alt="Poppins and Crimson Text pairing"
                 />
               </div>
@@ -156,7 +156,7 @@ export default function ArticleOne() {
               <h2>7. Work Sans + Spectral</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771513653/67b84157-a1ac-4ce9-8b21-ecd3312afbec.png" 
                   alt="Work Sans and Spectral pairing"
                 />
               </div>
@@ -172,7 +172,7 @@ export default function ArticleOne() {
               <h2>8. Nunito + Cormorant</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771513660/f346635b-827f-43a9-8454-d0c2d569ced4.png" 
                   alt="Nunito and Cormorant pairing"
                 />
               </div>
@@ -188,7 +188,7 @@ export default function ArticleOne() {
               <h2>9. Inter + Lora</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771513667/402fd787-2877-44be-93ea-108beb25d12b.png" 
                   alt="Inter and Lora pairing"
                 />
               </div>
@@ -204,7 +204,7 @@ export default function ArticleOne() {
               <h2>10. Quicksand + Libre Caslon Text</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771513674/d8d63f8b-9e5d-4274-b1cd-dc910267f373.png" 
                   alt="Quicksand and Libre Caslon Text pairing"
                 />
               </div>
@@ -220,7 +220,7 @@ export default function ArticleOne() {
               <h2>11. Space Grotesk + Bitter</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771513682/b1a1476a-c313-4a1f-ab8b-9ac2dc259632.png" 
                   alt="Space Grotesk and Bitter pairing"
                 />
               </div>
