@@ -14,11 +14,59 @@ const connectDB = async () => {
   }
 };
 
+const Poppins = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771408928/7a798de1-0570-4954-8cb2-7a8db9058bd5.png";
+const Helvetica = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771408964/84d33db6-2947-4b5f-9125-655f0458b5ff.png";
+const TimesNewRoman = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771462841/cea18fd3-8191-4be2-95bc-525afc4fc6bb.png";
+const Arial = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771462978/9352dd9f-419b-4c33-8824-2d1fac6ee0ed.png";
+const Georgia = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771463279/425a4993-c768-40f3-969d-c8c9dfb63288.png";
+const Roboto = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771463387/3c1837b3-0914-49cc-83aa-e08e6c529a33.png";
+const ComicSansMS = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771464449/2a9be064-6139-4a75-802d-2fb54b31df61.png";
+const CourierNew = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771464708/5f37b33e-e55a-4dbc-821a-7121e6b62a85.png";
+const Verdana = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771464778/d9d588db-d621-4016-8842-8595b6ae3809.png";
+const Montserrat = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771464862/d07de65f-3889-4c28-bd4b-602a86c581cd.png";
+const Futura = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771464887/178f3b3a-f1c2-43a1-a85c-00b1f53e76ab.png";
+const Gotham = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771464991/7e744be3-3aab-4945-ae0a-4db9c89d4571.png";
+const Bodoni = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771465011/c4bd755a-1411-44b9-afda-d08955984081.png";
+const Caslon = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771465392/1cf18297-e143-46df-9725-df66ab297ebc.png";
+const Frutiger = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771465436/d390ff29-0fc3-4b7a-a169-b9c596c824c1.png";
+const Rockwell = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771496572/c068a21f-c9e1-4d0d-ab43-52e3b172f491.png";
+const GillSans = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771496617/70fa2b53-68d6-41fe-a6eb-cdb51d6c5916.png";
+const ProximaNova = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771496697/0dc5cf53-29cc-4f44-87c8-8797f90acbc3.png";
+const MrsEaves = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771496806/f9c420b3-6cd4-4c5b-8a6a-b9d607b76cfe.png";
+const DIN = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771496851/0ba89d29-6f2b-45f9-b2a0-c22de138ae95.png";
+const Sabon = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771496877/acf146b1-8f6c-4059-9e43-f12170bb99cf.png";
+const Interstate = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771496945/46e6b886-18d0-4deb-9a59-c8cb9dc5071d.png";
+const AkzidenzGrotesk = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771496975/b9ee42ec-ecd3-46d0-8e72-916d47930e7c.png";
+const HoeflerText = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771497072/1119dda8-ae80-4ea2-87dc-7b3cb4927821.png";
+const FFMeta = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771497118/57673fc4-6f1b-4db0-89cd-30b0a43e0932.png";
+const Optima = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771497146/96c76285-c3d2-4d8a-9341-f2c379d4fcbb.png";
+const Thesis = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771497246/37200cb7-64c9-402d-a334-517c40147ed7.png";
+const Neutraface = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771497265/8f624093-165f-4926-a7b2-9a700d5b2552.png";
+const Archer = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771497314/0f718815-fec3-44f4-bc82-267d69f77dcb.png";
+const Filosofia = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771497344/2f94c930-da69-44f4-8ef0-4b190d75287a.png";
+const BrushScript = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771501175/040f7d28-efb5-4e76-a20d-be7c5806d362.png";
+const Garamond = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771501443/b55ec5ca-4e67-49b4-be79-d23614fc7d03.png";
+const Impact = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771501447/63a3abbf-accc-4ad9-b6b1-08879937e210.png";
+const Papyrus = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771501528/a81a66cf-84ed-4246-b358-4679aabe69fb.png";
+const Chalkboard = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771501533/4589a6bd-a554-42a7-8929-5dd0d796a4c5.png";
+const Palatino = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771501585/dcf5560b-41ee-4da6-b1b5-b485e2edd2e3.png";
+const Stencil = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771501623/de75bc10-453a-47f2-b505-4a1a47ca4aa5.png";
+const GTSectra = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771502234/9e049e5c-dcd4-4bb3-a8a0-a14150f63b63.png";
+const Minion = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771502241/b7520016-1cac-443b-a4d3-18007aa8890d.png";
+const MarkerFelt = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771502449/a03a22da-e642-416e-9648-a486b0ae298f.png";
+const Curlz = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771502462/369442f5-e4b2-4432-836e-25a575c08bc7.png";
+const GTAmerica = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771502714/32652cd8-b18c-4e55-a230-ba03cdf1b207.png";
+const OldEnglish = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771502767/415caf8c-faf4-4c27-b49b-146e2e1b85db.png";
+const CopperplateGothic = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771502800/47d0a100-257f-485f-8045-ca79d4123232.png";
+
+
+
 const fontSelectionGames = [
   // ============= EASY DIFFICULTY - 5 QUESTIONS =============
   {
     title: "Font Selection: Tech Startup Logo",
     description: "Choose the best font for a modern tech startup logo",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "easy",
     gameType: "fontselection",
     purpose: "Create a logo for a modern tech startup",
@@ -30,19 +78,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "Helvetica Neue",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/helvetica-sample.png"
+        fontImage: Helvetica
       },
       {
         fontName: "Comic Sans",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/comic-sample.png"
+        fontImage: ComicSansMS
       },
       {
         fontName: "Times New Roman",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/times-sample.png"
+        fontImage: TimesNewRoman
       },
       {
         fontName: "Brush Script",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/brush-sample.png"
+        fontImage: BrushScript
       }
     ],
     isActive: true
@@ -50,6 +98,7 @@ const fontSelectionGames = [
   {
     title: "Font Selection: Children's Book Title",
     description: "Pick the perfect font for a children's picture book",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "easy",
     gameType: "fontselection",
     purpose: "Design the title for a children's picture book",
@@ -61,19 +110,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "Comic Sans",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/comic-sample.png"
+        fontImage: ComicSansMS
       },
       {
         fontName: "Garamond",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/garamond-sample.png"
+        fontImage: Garamond
       },
       {
         fontName: "Futura",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/futura-sample.png"
+        fontImage: Futura
       },
       {
         fontName: "Impact",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/impact-sample.png"
+        fontImage: Impact
       }
     ],
     isActive: true
@@ -81,6 +130,7 @@ const fontSelectionGames = [
   {
     title: "Font Selection: Law Firm Business Card",
     description: "Select a trustworthy font for a law firm's business card",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "easy",
     gameType: "fontselection",
     purpose: "Design a business card for a law firm",
@@ -92,19 +142,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "Times New Roman",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/times-sample.png"
+        fontImage: TimesNewRoman
       },
       {
         fontName: "Papyrus",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/papyrus-sample.png"
+        fontImage: Papyrus
       },
       {
         fontName: "Chalkboard",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/chalkboard-sample.png"
+        fontImage: Chalkboard
       },
       {
         fontName: "Comic Sans",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/comic-sample.png"
+        fontImage: ComicSansMS
       }
     ],
     isActive: true
@@ -112,6 +162,7 @@ const fontSelectionGames = [
   {
     title: "Font Selection: Organic Bakery Sign",
     description: "Choose a warm font for an artisan bakery storefront",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "easy",
     gameType: "fontselection",
     purpose: "Create signage for an organic artisan bakery",
@@ -123,19 +174,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "Brush Script",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/brush-sample.png"
+        fontImage: BrushScript
       },
       {
         fontName: "Courier",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/courier-sample.png"
+        fontImage: CourierNew
       },
       {
         fontName: "Arial",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/arial-sample.png"
+        fontImage: Arial
       },
       {
         fontName: "Impact",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/impact-sample.png"
+        fontImage: Impact
       }
     ],
     isActive: true
@@ -143,6 +194,7 @@ const fontSelectionGames = [
   {
     title: "Font Selection: Sports Event Poster",
     description: "Pick a bold font for a boxing match poster",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "easy",
     gameType: "fontselection",
     purpose: "Design a poster for a boxing championship",
@@ -154,19 +206,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "Impact",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/impact-sample.png"
+        fontImage: Impact
       },
       {
         fontName: "Georgia",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/georgia-sample.png"
+        fontImage: Georgia
       },
       {
         fontName: "Palatino",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/palatino-sample.png"
+        fontImage: Palatino
       },
       {
         fontName: "Brush Script",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/brush-sample.png"
+        fontImage: BrushScript
       }
     ],
     isActive: true
@@ -176,6 +228,7 @@ const fontSelectionGames = [
   {
     title: "Font Selection: Luxury Fashion Magazine",
     description: "Select an elegant font for a high-end fashion editorial",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "medium",
     gameType: "fontselection",
     purpose: "Design headlines for a luxury fashion magazine",
@@ -187,19 +240,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "Bodoni",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/bodoni-sample.png"
+        fontImage: Bodoni
       },
       {
         fontName: "Arial Black",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/arial-black-sample.png"
+        fontImage: Arial
       },
       {
         fontName: "Courier New",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/courier-sample.png"
+        fontImage: CourierNew
       },
       {
         fontName: "Verdana",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/verdana-sample.png"
+        fontImage: Verdana
       }
     ],
     isActive: true
@@ -207,6 +260,7 @@ const fontSelectionGames = [
   {
     title: "Font Selection: Literary Novel Cover",
     description: "Choose a classic font for a literary fiction book",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "medium",
     gameType: "fontselection",
     purpose: "Design the cover for a Pulitzer Prize-winning novel",
@@ -218,19 +272,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "Garamond",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/garamond-sample.png"
+        fontImage: Garamond
       },
       {
         fontName: "Impact",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/impact-sample.png"
+        fontImage: Impact
       },
       {
         fontName: "Comic Sans",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/comic-sample.png"
+        fontImage: ComicSansMS
       },
       {
         fontName: "Stencil",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/stencil-sample.png"
+        fontImage: Stencil
       }
     ],
     isActive: true
@@ -238,6 +292,7 @@ const fontSelectionGames = [
   {
     title: "Font Selection: Minimalist Architecture Firm",
     description: "Pick a clean font for a contemporary architecture studio",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "medium",
     gameType: "fontselection",
     purpose: "Create branding for a minimalist architecture firm",
@@ -249,19 +304,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "Futura",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/futura-sample.png"
+        fontImage: Futura
       },
       {
         fontName: "Old English",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/old-english-sample.png"
+        fontImage: OldEnglish
       },
       {
         fontName: "Brush Script",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/brush-sample.png"
+        fontImage: BrushScript
       },
       {
         fontName: "Papyrus",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/papyrus-sample.png"
+        fontImage: Papyrus
       }
     ],
     isActive: true
@@ -269,6 +324,7 @@ const fontSelectionGames = [
   {
     title: "Font Selection: Vintage Jazz Club Poster",
     description: "Select a period-appropriate font for a 1920s jazz club",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "medium",
     gameType: "fontselection",
     purpose: "Design promotional materials for a vintage jazz venue",
@@ -280,19 +336,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "Copperplate Gothic",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/copperplate-sample.png"
+        fontImage: CopperplateGothic
       },
       {
         fontName: "Helvetica",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/helvetica-sample.png"
+        fontImage: Helvetica
       },
       {
         fontName: "Comic Sans",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/comic-sample.png"
+        fontImage: ComicSansMS
       },
       {
         fontName: "Arial",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/arial-sample.png"
+        fontImage: Arial
       }
     ],
     isActive: true
@@ -300,6 +356,7 @@ const fontSelectionGames = [
   {
     title: "Font Selection: Eco-Friendly Product Packaging",
     description: "Choose a natural-feeling font for sustainable products",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "medium",
     gameType: "fontselection",
     purpose: "Design packaging for an eco-friendly skincare line",
@@ -311,19 +368,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "Gill Sans",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/gill-sans-sample.png"
+        fontImage: GillSans
       },
       {
         fontName: "Impact",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/impact-sample.png"
+        fontImage: Impact
       },
       {
         fontName: "Stencil",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/stencil-sample.png"
+        fontImage: Stencil
       },
       {
         fontName: "Old English",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/old-english-sample.png"
+        fontImage: OldEnglish
       }
     ],
     isActive: true
@@ -333,6 +390,7 @@ const fontSelectionGames = [
   {
     title: "Font Selection: Cryptocurrency Platform UI",
     description: "Pick a trustworthy yet modern font for fintech",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "hard",
     gameType: "fontselection",
     purpose: "Design the interface for a cryptocurrency trading platform",
@@ -344,19 +402,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "GT America",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/gt-america-sample.png"
+        fontImage: GTAmerica
       },
       {
         fontName: "Papyrus",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/papyrus-sample.png"
+        fontImage: Papyrus
       },
       {
         fontName: "Brush Script",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/brush-sample.png"
+        fontImage: BrushScript
       },
       {
         fontName: "Times New Roman",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/times-sample.png"
+        fontImage: TimesNewRoman
       }
     ],
     isActive: true
@@ -364,6 +422,7 @@ const fontSelectionGames = [
   {
     title: "Font Selection: Museum Exhibition Signage",
     description: "Select a font for a contemporary art museum",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "hard",
     gameType: "fontselection",
     purpose: "Design wayfinding and exhibition labels for MoMA-style museum",
@@ -375,19 +434,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "Akzidenz-Grotesk",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/akzidenz-sample.png"
+        fontImage: AkzidenzGrotesk
       },
       {
         fontName: "Curlz",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/curlz-sample.png"
+        fontImage: Curlz
       },
       {
         fontName: "Comic Sans",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/comic-sample.png"
+        fontImage: ComicSansMS
       },
       {
         fontName: "Impact",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/impact-sample.png"
+        fontImage: Impact
       }
     ],
     isActive: true
@@ -395,6 +454,7 @@ const fontSelectionGames = [
   {
     title: "Font Selection: Academic Journal Typography",
     description: "Choose a scholarly font for peer-reviewed research",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "hard",
     gameType: "fontselection",
     purpose: "Set body text for a prestigious scientific journal",
@@ -406,19 +466,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "Minion",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/minion-sample.png"
+        fontImage: Minion
       },
       {
         fontName: "Impact",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/impact-sample.png"
+        fontImage: Impact
       },
       {
         fontName: "Chalkboard",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/chalkboard-sample.png"
+        fontImage: Chalkboard
       },
       {
         fontName: "Marker Felt",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/marker-felt-sample.png"
+        fontImage: MarkerFelt
       }
     ],
     isActive: true
@@ -426,6 +486,7 @@ const fontSelectionGames = [
   {
     title: "Font Selection: Luxury Watch Advertisement",
     description: "Pick an exclusive font for haute horlogerie marketing",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "hard",
     gameType: "fontselection",
     purpose: "Create print ads for Swiss luxury watches ($50K+ price point)",
@@ -437,19 +498,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "Sabon",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/sabon-sample.png"
+        fontImage: Sabon
       },
       {
         fontName: "Arial",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/arial-sample.png"
+        fontImage: Arial
       },
       {
         fontName: "Comic Sans",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/comic-sample.png"
+        fontImage: ComicSansMS
       },
       {
         fontName: "Papyrus",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/papyrus-sample.png"
+        fontImage: Papyrus
       }
     ],
     isActive: true
@@ -457,6 +518,7 @@ const fontSelectionGames = [
   {
     title: "Font Selection: Meditation App Interface",
     description: "Select a calming font for mindfulness technology",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771499918/6af327a6-f14f-465d-8b8a-087d87162cef.png",
     difficulty: "hard",
     gameType: "fontselection",
     purpose: "Design UI for a meditation and mindfulness mobile app",
@@ -468,19 +530,19 @@ const fontSelectionGames = [
     options: [
       {
         fontName: "GT Sectra",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/gt-sectra-sample.png"
+        fontImage: GTSectra
       },
       {
         fontName: "Impact",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/impact-sample.png"
+        fontImage: Impact
       },
       {
         fontName: "Stencil",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/stencil-sample.png"
+        fontImage: Stencil
       },
       {
         fontName: "Arial Black",
-        fontImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1737619200/arial-black-sample.png"
+        fontImage: Arial
       }
     ],
     isActive: true

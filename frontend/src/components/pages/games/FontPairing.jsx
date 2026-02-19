@@ -203,7 +203,7 @@ const FontPairingGame = () => {
             )}
 
             <div className="options-grid">
-              {currentQuestion.options.map((option, index) => {
+              {(currentQuestion.options || []).map((option, index) => {
                 let cardClass = 'option-card';
                 
                 if (isAnswered) {

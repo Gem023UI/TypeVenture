@@ -37,7 +37,11 @@ const gameSchema = new mongoose.Schema({
     givenFontImage: { type: String },
     givenFontName: { type: String },
     correctPairImage: { type: String },
-    correctPairName: { type: String }
+    correctPairName: { type: String },
+    options: [{
+      pairImage: { type: String },
+      pairName: { type: String }
+    }]
   }],
   paragraphs: [{
     text: { type: String },

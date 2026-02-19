@@ -62,7 +62,7 @@ const seedLesson4Quiz = async () => {
     const lesson4Quiz = {
       title: "Quiz: Typography Tips – A Lesson on Contrast",
       description: "Test your knowledge of typographic contrast principles and how to use them effectively in design!",
-      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
+      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771503684/066d4a8f-a87c-4abe-90b8-427edf266754.png",
       difficulty: "easy",
       gameType: "lesson4quiz",
       lessonId: lesson4._id,

@@ -62,7 +62,7 @@ const seedLesson8Quiz = async () => {
     const lesson8Quiz = {
       title: "Quiz: The Importance and Use of Typography in Print and Digital Design",
       description: "Test your knowledge of typography's evolution, print vs. digital applications, and readability principles!",
-      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
+      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771503684/066d4a8f-a87c-4abe-90b8-427edf266754.png",
       difficulty: "easy",
       gameType: "lesson8quiz",
       lessonId: lesson8._id,

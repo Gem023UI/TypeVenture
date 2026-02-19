@@ -62,7 +62,7 @@ const seedLesson2Quiz = async () => {
     const lesson2Quiz = {
       title: "Quiz: Uxcel – Typographic Principles",
       description: "Test your knowledge of essential typographic principles in UX and visual design!",
-      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
+      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771503684/066d4a8f-a87c-4abe-90b8-427edf266754.png",
       difficulty: "easy",
       gameType: "lesson2quiz",
       lessonId: lesson2._id,

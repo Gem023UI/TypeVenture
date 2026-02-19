@@ -62,7 +62,7 @@ const seedLesson11Quiz = async () => {
     const lesson11Quiz = {
       title: "Quiz: Understanding Typography | Theory",
       description: "Test your knowledge of typography fundamentals, typefaces vs fonts, and visual hierarchy!",
-      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
+      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771503684/066d4a8f-a87c-4abe-90b8-427edf266754.png",
       difficulty: "easy",
       gameType: "lesson11quiz",
       lessonId: lesson11._id,

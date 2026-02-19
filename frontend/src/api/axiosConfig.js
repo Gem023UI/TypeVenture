@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure.onrender.com";
-// const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
+// const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure.onrender.com";
+const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
 
 // Create axios instance
 const api = axios.create({

@@ -62,7 +62,7 @@ const seedLesson10Quiz = async () => {
     const lesson10Quiz = {
       title: "Quiz: An Essay on Typography",
       description: "Test your knowledge of Eric Gill's influential 1931 book on typography, craft, and philosophical outlook!",
-      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
+      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771503684/066d4a8f-a87c-4abe-90b8-427edf266754.png",
       difficulty: "easy",
       gameType: "lesson10quiz",
       lessonId: lesson10._id,

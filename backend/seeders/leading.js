@@ -8,7 +8,7 @@ const leadingGames = [
   {
     title: "Leading Master: Easy",
     description: "Learn proper line spacing with simple paragraphs!",
-    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771500493/d55ef3d6-653f-4a1f-863b-cf0ce4f25961.png",
     difficulty: "easy",
     gameType: "leading",
     paragraphs: [
@@ -88,7 +88,7 @@ const leadingGames = [
   {
     title: "Leading Master: Medium",
     description: "Master line spacing with more complex text blocks!",
-    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771500493/d55ef3d6-653f-4a1f-863b-cf0ce4f25961.png",
     difficulty: "medium",
     gameType: "leading",
     paragraphs: [
@@ -168,7 +168,7 @@ const leadingGames = [
   {
     title: "Leading Master: Hard",
     description: "Perfect your line spacing with professional-level typography!",
-    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
+    gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771500493/d55ef3d6-653f-4a1f-863b-cf0ce4f25961.png",
     difficulty: "hard",
     gameType: "leading",
     paragraphs: [
@@ -250,7 +250,7 @@ const leadingGames = [
 const seedLeadingGames = async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.DB_URI || "mongodb://localhost:27017/typeventure");
+    await mongoose.connect(process.env.DB_URI);
     console.log("✅ Connected to MongoDB");
 
     // Clear existing leading games (optional)

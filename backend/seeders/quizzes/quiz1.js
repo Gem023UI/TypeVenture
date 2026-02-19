@@ -62,7 +62,7 @@ const seedLesson1Quiz = async () => {
     const lesson1Quiz = {
       title: "Quiz: Beginning Graphic Design - Typography",
       description: "Test your knowledge of typography basics and principles!",
-      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
+      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771503684/066d4a8f-a87c-4abe-90b8-427edf266754.png",
       difficulty: "easy",
       gameType: "lesson1quiz",
       lessonId: lesson1._id,

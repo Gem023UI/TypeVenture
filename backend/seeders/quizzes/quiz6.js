@@ -62,7 +62,7 @@ const seedLesson6Quiz = async () => {
     const lesson6Quiz = {
       title: "Quiz: Graphic Design Basics – Typography Lesson Plan",
       description: "Test your knowledge of typography fundamentals, lesson structure, and practical applications in design projects!",
-      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
+      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771503684/066d4a8f-a87c-4abe-90b8-427edf266754.png",
       difficulty: "easy",
       gameType: "lesson6quiz",
       lessonId: lesson6._id,

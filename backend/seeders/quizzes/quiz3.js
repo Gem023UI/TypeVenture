@@ -62,7 +62,7 @@ const seedLesson3Quiz = async () => {
     const lesson3Quiz = {
       title: "Quiz: Material Design 3 – Applying Type",
       description: "Test your knowledge of Material Design 3 typography system and how to apply type roles effectively!",
-      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
+      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771503684/066d4a8f-a87c-4abe-90b8-427edf266754.png",
       difficulty: "easy",
       gameType: "lesson3quiz",
       lessonId: lesson3._id,

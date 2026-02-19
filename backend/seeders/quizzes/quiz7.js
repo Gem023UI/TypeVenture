@@ -62,7 +62,7 @@ const seedLesson7Quiz = async () => {
     const lesson7Quiz = {
       title: "Quiz: Lessons in Typography – Must-Know Typographic Principles",
       description: "Test your knowledge of typographic terminology, lettering art, and practical layout design principles!",
-      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1761813542/t_xkqsgo.png",
+      gameImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771503684/066d4a8f-a87c-4abe-90b8-427edf266754.png",
       difficulty: "easy",
       gameType: "lesson7quiz",
       lessonId: lesson7._id,
