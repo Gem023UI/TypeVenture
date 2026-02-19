@@ -34,7 +34,7 @@ export default function ArticleSeven() {
           {/* Featured Image */}
           <div className="article-featured-image">
             <img 
-              src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+              src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531397/98790909-b179-470d-8a01-e56ad36ea3b5.png" 
               alt="Design Trends 2026"
             />
           </div>
@@ -57,7 +57,7 @@ export default function ArticleSeven() {
               <h2>1. All Our Senses, to the Max</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531499/a2fba7e7-5019-4c6d-ab18-6657801a7702.png" 
                   alt="Sensory Design"
                 />
               </div>
@@ -76,7 +76,7 @@ export default function ArticleSeven() {
               <h2>2. Exaggerated, Playful Letters and Text</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531539/aa31e862-83b2-4b1c-8b22-fc43cb35122b.png" 
                   alt="Playful Typography"
                 />
               </div>
@@ -95,7 +95,7 @@ export default function ArticleSeven() {
               <h2>3. Immersive, High-Energy Style</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531565/48383643-4484-4c89-b839-33fbd68b1513.png" 
                   alt="High-Energy Design"
                 />
               </div>
@@ -114,7 +114,7 @@ export default function ArticleSeven() {
               <h2>4. Surreal and Absurdist Imagery</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531585/c00565c1-65c1-479f-a856-8f030ee79a52.png" 
                   alt="Surreal Imagery"
                 />
               </div>
@@ -133,7 +133,7 @@ export default function ArticleSeven() {
               <h2>5. Organic and Imperfect Design</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531628/45463a28-95d0-4807-8d75-4fe119b02c4b.png" 
                   alt="Organic Design"
                 />
               </div>
@@ -152,7 +152,7 @@ export default function ArticleSeven() {
               <h2>6. Freeform and Storytelling Layouts</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531638/5c086789-2994-4fd5-9939-0666cf3f7a21.png" 
                   alt="Freeform Layouts"
                 />
               </div>
@@ -171,7 +171,7 @@ export default function ArticleSeven() {
               <h2>7. Warm, Personal Visual Style</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531653/d6751adb-a91f-45d0-b300-eeaf4d5d4d06.png" 
                   alt="Personal Style"
                 />
               </div>
@@ -190,7 +190,7 @@ export default function ArticleSeven() {
               <h2>8. Local and Cultural Flavor</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531670/7571c9c4-28bd-4bdc-bf3e-0dee7fbe297d.png" 
                   alt="Cultural Design"
                 />
               </div>
@@ -209,7 +209,7 @@ export default function ArticleSeven() {
               <h2>9. Collage and Layered Visual Elements</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531684/31673f7e-b871-4029-aac2-fa3c107a23f5.png" 
                   alt="Collage Design"
                 />
               </div>
@@ -228,7 +228,7 @@ export default function ArticleSeven() {
               <h2>10. Maximalist, Chaotic Layouts</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531698/da2065de-1281-47ac-8492-d604e06acf97.png" 
                   alt="Maximalist Design"
                 />
               </div>
@@ -274,7 +274,7 @@ export default function ArticleSeven() {
               <h2>Looking Beyond 2026</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771532133/0568c320-7ef0-4878-8e8c-dfc3176c6069.png" 
                   alt="Future of Design"
                 />
               </div>

@@ -34,7 +34,7 @@ export default function ArticleFive() {
           {/* Featured Image */}
           <div className="article-featured-image">
             <img 
-              src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+              src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771529791/5d0480a0-b7ac-45be-b334-0ee265b683e3.png" 
               alt="Font Psychology Guide"
             />
           </div>
@@ -54,7 +54,7 @@ export default function ArticleFive() {
               <h2>What is Font Psychology?</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771530045/0a571f9d-7275-4064-8b80-d247cf586930.png" 
                   alt="Font Psychology"
                 />
               </div>
@@ -104,7 +104,7 @@ export default function ArticleFive() {
               <h2>Core Psychological Signals Fonts Communicate</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771530097/f9c0a8d9-0a1c-4bf4-84de-dca464bf18fe.png" 
                   alt="Font Signals"
                 />
               </div>
@@ -137,7 +137,7 @@ export default function ArticleFive() {
               <h2>Serif Fonts and Psychological Perception</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771530100/be52a6cd-270c-4f24-8dec-df97ba8600b3.png" 
                   alt="Serif Fonts"
                 />
               </div>
@@ -162,7 +162,7 @@ export default function ArticleFive() {
               <h2>Sans-Serif Fonts and Modern Psychology</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771530512/ec68e673-3019-425b-9a3f-dd71ae1070e0.png" 
                   alt="Sans-Serif Fonts"
                 />
               </div>
@@ -184,7 +184,7 @@ export default function ArticleFive() {
               <h2>Script Fonts and Emotional Impact</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771530522/7eeff922-8124-42cf-8525-c43abeb415cf.png" 
                   alt="Script Fonts"
                 />
               </div>
@@ -203,7 +203,7 @@ export default function ArticleFive() {
               <h2>Display Fonts and Attention Psychology</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771530537/828e4738-f18f-43e3-a2b6-999fb906210f.png" 
                   alt="Display Fonts"
                 />
               </div>
@@ -235,7 +235,7 @@ export default function ArticleFive() {
               <h2>Font Psychology and Trust Signals</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771530545/5be29694-ee67-41f7-92a6-bce70d0d37a0.png" 
                   alt="Trust Signals"
                 />
               </div>
@@ -270,7 +270,7 @@ export default function ArticleFive() {
               <h2>The Future of Font Psychology</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771530558/ce63b85b-8617-4e2a-852c-80aae5dd0e9c.png" 
                   alt="Future of Font Psychology"
                 />
               </div>

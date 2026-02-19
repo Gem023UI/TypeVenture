@@ -34,7 +34,7 @@ export default function ArticleSix() {
           {/* Featured Image */}
           <div className="article-featured-image">
             <img 
-              src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+              src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771530882/3b1f040e-1fe4-4fdc-b5c7-5b820f1c7ff9.png" 
               alt="UX Designer's Guide to Typography"
             />
           </div>
@@ -54,7 +54,7 @@ export default function ArticleSix() {
               <h2>What Exactly is Typography?</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531065/07e5c1bd-ea20-4b7e-a642-a28e305fbbc8.png" 
                   alt="Typography Definition"
                 />
               </div>
@@ -117,7 +117,7 @@ export default function ArticleSix() {
               <h2>Core Typography Principles for UX Design</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531180/1d3611a5-9b11-4a87-a381-c14fb694b0b4.png" 
                   alt="Typography Principles"
                 />
               </div>
@@ -192,7 +192,7 @@ export default function ArticleSix() {
               <h2>Common Typography Mistakes to Avoid</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531192/44e026fa-ff67-4db6-a291-f6a7eba7ed60.png" 
                   alt="Typography Mistakes"
                 />
               </div>
@@ -245,7 +245,7 @@ export default function ArticleSix() {
               <h2>The Future of Typography in UX</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771531200/bab7e1ad-380a-4a69-a704-1d7ab16698fa.png" 
                   alt="Future of Typography"
                 />
               </div>

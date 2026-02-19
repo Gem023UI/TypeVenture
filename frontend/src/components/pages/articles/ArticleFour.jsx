@@ -33,7 +33,7 @@ export default function ArticleFour() {
           {/* Featured Image */}
           <div className="article-featured-image">
             <img 
-              src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+              src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771520490/7e2f427d-9590-4040-bfee-82d3c0519a3c.png" 
               alt="Font Management Issues"
             />
           </div>
@@ -53,7 +53,7 @@ export default function ArticleFour() {
               <h2>Issue #1: Spending Too Much Money</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771528857/22378459-4032-4fd8-992a-be3d5d850c69.png" 
                   alt="Budget Issues"
                 />
               </div>
@@ -94,7 +94,7 @@ export default function ArticleFour() {
               <h2>Issue #2: Creative Standstills</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771528885/33e21ceb-d8ba-4d86-aee4-88676c90dbce.png" 
                   alt="Creative Standstills"
                 />
               </div>
@@ -129,7 +129,7 @@ export default function ArticleFour() {
               <h2>Issue #3: Disrupted Workflows</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771528924/9d182f1a-b065-4707-874d-4ea06d8da4ca.png" 
                   alt="Disrupted Workflows"
                 />
               </div>
@@ -169,7 +169,7 @@ export default function ArticleFour() {
               <h2>Issue #4: Brand Inconsistency</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771529029/b9000e50-faa0-45cc-ae33-ec4cc25e580f.png" 
                   alt="Brand Inconsistency"
                 />
               </div>
@@ -201,7 +201,7 @@ export default function ArticleFour() {
               <h2>Issue #5: Compliance Problems</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771529431/063d6d2d-27b7-4061-b323-674912cb8d13.png" 
                   alt="Compliance Problems"
                 />
               </div>

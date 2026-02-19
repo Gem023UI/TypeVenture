@@ -33,7 +33,7 @@ export default function ArticleThree() {
           {/* Featured Image */}
           <div className="article-featured-image">
             <img 
-              src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+              src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771519335/981d4dcd-596b-4c44-89cb-c2ce61b7d355.png" 
               alt="A Beginner's Guide to Kerning"
             />
           </div>
@@ -63,7 +63,7 @@ export default function ArticleThree() {
               <h2>Why Kerning Matters in Design</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771519361/c0d4faad-a2ea-431f-a735-6828dadf838a.png" 
                   alt="Why Kerning Matters"
                 />
               </div>
@@ -91,7 +91,7 @@ export default function ArticleThree() {
               <h2>Kerning vs. Tracking vs. Leading</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771519369/cb206039-2774-4d2c-8097-8f04b051214d.png" 
                   alt="Kerning vs Tracking vs Leading"
                 />
               </div>
@@ -122,7 +122,7 @@ export default function ArticleThree() {
               <h2>Common Problem Letter Pairs</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771519476/4c3bd58b-845e-405f-9678-5ee0aaf0fb95.png" 
                   alt="Problem Letter Pairs"
                 />
               </div>
@@ -187,7 +187,7 @@ export default function ArticleThree() {
               <h2>How to Kern Like a Designer</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771519484/1fed8830-b1c4-4d37-bd7b-2e59282897ad.png" 
                   alt="How to Kern"
                 />
               </div>
@@ -270,7 +270,7 @@ export default function ArticleThree() {
               <h2>Common Kerning Mistakes to Avoid</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771519519/bec31c20-76f0-493d-b586-ce5d4901f939.png" 
                   alt="Common Kerning Mistakes"
                 />
               </div>

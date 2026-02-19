@@ -34,7 +34,7 @@ export default function ArticleTwo() {
           {/* Featured Image */}
           <div className="article-featured-image">
             <img 
-              src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+              src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771516835/3b030f2e-30cb-4c30-9624-e2a04621b509.png" 
               alt="Typographic Hierarchies"
             />
           </div>
@@ -98,7 +98,7 @@ export default function ArticleTwo() {
               <h2>1. Proximity or Space</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771516952/80a08226-f383-4775-a752-cc4368b94df5.png" 
                   alt="Proximity and Space Example"
                 />
               </div>
@@ -125,7 +125,7 @@ export default function ArticleTwo() {
               <h2>2. Weight</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771516970/45adb910-78c8-46cd-b0ea-642da8c3b532.png" 
                   alt="Weight Example"
                 />
               </div>
@@ -144,7 +144,7 @@ export default function ArticleTwo() {
               <h2>3. Size</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771517053/29763b04-d606-4cdc-8436-9fef2d9d8edd.png" 
                   alt="Size Example"
                 />
               </div>
@@ -165,7 +165,7 @@ export default function ArticleTwo() {
               <h2>4. Size and Weight Combined</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771517061/0e882a80-497d-4ce1-9a7a-0bad45daab5c.png" 
                   alt="Size and Weight Example"
                 />
               </div>
@@ -184,7 +184,7 @@ export default function ArticleTwo() {
               <h2>5. Color</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771517070/755eb06f-ca35-4a0b-beb3-82c752324472.png" 
                   alt="Color Example"
                 />
               </div>
@@ -213,7 +213,7 @@ export default function ArticleTwo() {
               <h2>6. Visual Punctuation</h2>
               <div className="pairing-showcase">
                 <img 
-                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1770224239/tg4_oxsdlq.jpg" 
+                  src="https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771517140/3d08e6a2-0f21-49f4-9775-5b045b0c598b.png" 
                   alt="Visual Punctuation Example"
                 />
               </div>
