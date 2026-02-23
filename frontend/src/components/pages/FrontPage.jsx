@@ -186,10 +186,10 @@ const FrontPage = () => {
         Swal.fire({
           icon: 'warning',
           title: 'Email Verification Required',
-          text: err.message || 'Please verify your email to access lessons. Proceed to the Profile Page to verify your email.',
+          text: err.message || 'Proceed to the Profile Page to verify your email.',
           confirmButtonText: 'OK'
         });
-        setError("Please verify your email to access lessons.");
+        setError("Proceed to the Profile Page to verify your email.");
       } else {
         console.error("Error fetching lessons:", err);
         setError("Failed to load lessons. Please try again.");
@@ -211,10 +211,10 @@ const FrontPage = () => {
         Swal.fire({
           icon: 'warning',
           title: 'Email Verification Required',
-          text: err.message || 'Please verify your email to access this lesson',
+          text: err.message || 'Proceed to the Profile Page to verify your email.',
           confirmButtonText: 'OK'
         });
-        setError("Please verify your email to access this lesson.");
+        setError("Proceed to the Profile Page to verify your email.");
       } else {
         console.error("Error fetching lesson:", err);
         setError("Failed to load lesson. Please try again.");
