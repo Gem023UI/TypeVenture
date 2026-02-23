@@ -418,7 +418,8 @@ const Profile = () => {
     setCodeLoading(true);
   
     try {
-      const response = await verifyEmail(verificationCode);
+      const userId = localStorage.getItem("userId");
+      const response = await verifyEmail(verificationCode, userId);
   
       if (response.success) {
         setIsVerified(true);

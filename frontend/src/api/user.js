@@ -131,9 +131,9 @@ export const resetPassword = async (email, code, newPassword) => {
   }
 };
 
-export const verifyEmail = async (code) => {
+export const verifyEmail = async (code, userId) => {
   try {
-    const response = await axios.post(`${BASE_URL}/api/user/verify-email`, { code }, {
+    const response = await axios.post(`${BASE_URL}/api/user/verify-email`, { code, userId }, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       withCredentials: true,
     });
