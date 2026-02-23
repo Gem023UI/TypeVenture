@@ -13,10 +13,11 @@ const getAuthHeaders = () => ({
   "Authorization": `Bearer ${localStorage.getItem("token")}`
 });
 
-export const sendVerificationCode = async (userId) => {
+export const sendVerificationCode = async () => {
+  const userId = localStorage.getItem("userId");
   try {
     const response = await axios.post(`${BASE_URL}/send-verification-code`, 
-      { }, 
+      { userId },
       {
         headers: getAuthHeaders()
       }
