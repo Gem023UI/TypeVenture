@@ -186,7 +186,7 @@ const FrontPage = () => {
         Swal.fire({
           icon: 'warning',
           title: 'Email Verification Required',
-          text: err.message || 'Please verify your email to access lessons',
+          text: err.message || 'Please verify your email to access lessons. Proceed to the Profile Page to verify your email.',
           confirmButtonText: 'OK'
         });
         setError("Please verify your email to access lessons.");

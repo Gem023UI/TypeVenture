@@ -16,7 +16,7 @@ const getAuthHeaders = () => ({
 export const sendVerificationCode = async (userId) => {
   try {
     const response = await axios.post(`${BASE_URL}/send-verification-code`, 
-      { userId }, 
+      { }, 
       {
         headers: getAuthHeaders()
       }
