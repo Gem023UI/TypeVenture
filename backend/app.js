@@ -9,8 +9,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://type-venture.vercel.app",
-  /\.ngrok-free\.app$/,    // allows any ngrok free subdomain
-  /\.ngrok\.app$/          // allows any ngrok paid subdomain
+  /\.trycloudflare\.com$/
 ];
 
 app.use(cors({
