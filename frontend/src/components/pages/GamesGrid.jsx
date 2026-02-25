@@ -67,11 +67,9 @@ const Games = () => {
 
   if (loading) {
     return (
-      <div className="games-page">
-        <div className="loading-container">
-          <p>Loading games...</p>
-        </div>
-      </div>
+      <MainLayout>
+        <Loader />
+      </MainLayout>
     );
   }
 
@@ -124,7 +122,6 @@ const Games = () => {
   return (
     <MainLayout>
         <div className="games-page">
-        {resetLoading && <Loader />}
             <div className="games-container">
                 <div className="games-header">
                 <h1>TypeVenture Games</h1>
