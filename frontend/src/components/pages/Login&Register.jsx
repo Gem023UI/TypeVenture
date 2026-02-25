@@ -58,36 +58,36 @@ export default function LoginRegister({ logoUrl }) {
   };
 
   // Handle send reset code
-const handleSendResetCode = async (e) => {
-  e.preventDefault();
-  setResetLoading(true);
+  const handleSendResetCode = async (e) => {
+    e.preventDefault();
+    setResetLoading(true);
 
-  try {
-    await sendPasswordResetCode(resetEmail);
-    
-    Swal.fire({
-      icon: 'success',
-      title: 'Reset Code Sent!',
-      text: 'Please check your email for the password reset code',
-      timer: 2000,
-      showConfirmButton: false,
-    });
-    
-    setForgotPasswordStep(2);
-    setTimeLeft(900);
-    setCanResend(false);
-  } catch (error) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Failed to Send Code',
-      text: error || 'Please check your email and try again',
-      timer: 2000,
-      showConfirmButton: false,
-    });
-  } finally {
-    setResetLoading(false);
-  }
-};
+    try {
+      await sendPasswordResetCode(resetEmail);
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Reset Code Sent!',
+        text: 'Please check your email for the password reset code',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      
+      setForgotPasswordStep(2);
+      setTimeLeft(900);
+      setCanResend(false);
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to Send Code',
+        text: error || 'Please check your email and try again',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } finally {
+      setResetLoading(false);
+    }
+  };
 
 // Handle reset password
 const handleResetPassword = async (e) => {

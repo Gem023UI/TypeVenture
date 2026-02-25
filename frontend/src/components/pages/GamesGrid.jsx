@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
 import { fetchAllGames } from "../../api/games.js";
+import Loader from "../layout/Loader";
 import "./GamesGrid.css";
 
 const Games = () => {
@@ -123,6 +124,7 @@ const Games = () => {
   return (
     <MainLayout>
         <div className="games-page">
+        {resetLoading && <Loader />}
             <div className="games-container">
                 <div className="games-header">
                 <h1>TypeVenture Games</h1>
