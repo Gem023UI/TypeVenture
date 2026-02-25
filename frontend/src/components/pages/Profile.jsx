@@ -2,10 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import * as Chart from 'chart.js';
 import { getUserById, editProfile, deleteAccount, verifyEmail, getCompletedLessons } from "../../api/user"
 import { fetchUserScores } from "../../api/games";
-import MainLayout from "../layout/MainLayout";
-import Lanyard from '../bins/media/Lanyard';
 import { sendVerificationCode } from '../../api/emailVerify';
 import Swal from 'sweetalert2';
+import MainLayout from "../layout/MainLayout";
+import Lanyard from '../bins/media/Lanyard';
+import Loader from "../layout/Loader";
 import "./Profile.css";
 
 const Profile = () => {
@@ -421,18 +422,16 @@ const Profile = () => {
       const userId = localStorage.getItem("userId");
       const response = await verifyEmail(verificationCode, userId);
   
-      if (response.success) {
-        setIsVerified(true);
-        localStorage.setItem('isVerified', 'true');
-        setShowVerificationModal(false);
-        
-        Swal.fire({
-          title: 'Email Verified!',
-          text: 'Your email has been successfully verified.',
-          icon: 'success',
-          confirmButtonText: 'OK'
-        });
-      }
+      setIsVerified(true);
+      localStorage.setItem('isVerified', 'true');
+      setShowVerificationModal(false);
+
+      Swal.fire({
+        title: 'Email Verified!',
+        text: 'Your email has been successfully verified.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
     } catch (err) {
       Swal.fire({
         title: 'Verification Failed',
@@ -451,6 +450,7 @@ const Profile = () => {
 
   return (
     <MainLayout>
+      {codeLoading && <Loader />}
       <div className="profile-section">
         <div className="profile-container">
           <div className="profile-details-section">

@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure.onrender.com";
-// const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
+// const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure.onrender.com";
+const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
 
 const BASE_URL = `${API_URL}`;
 
@@ -133,7 +133,7 @@ export const resetPassword = async (email, code, newPassword) => {
 
 export const verifyEmail = async (code, userId) => {
   try {
-    const response = await axios.post(`${BASE_URL}/api/user/verify-email`, { code, userId }, {
+    const response = await axios.post(`${BASE_URL}/api/user/verify-email`, { userId, code }, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       withCredentials: true,
     });

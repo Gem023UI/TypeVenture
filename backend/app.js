@@ -8,16 +8,32 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://type-venture.vercel.app"
+  "https://type-venture.vercel.app",
+  /\.ngrok-free\.app$/,    // allows any ngrok free subdomain
+  /\.ngrok\.app$/          // allows any ngrok paid subdomain
 ];
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, Postman, curl)
+    if (!origin) return callback(null, true);
+    
+    const isAllowed = allowedOrigins.some(allowed =>
+      typeof allowed === "string" ? allowed === origin : allowed.test(origin)
+    );
+
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS blocked: ${origin}`));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "ngx-skip-browser-warning"],
   credentials: true
 }));
 
-// app.options('*', cors()); 
+// app.options('*', cors());
 
 // Middleware
 app.use(express.json());

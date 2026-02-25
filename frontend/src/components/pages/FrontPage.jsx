@@ -287,7 +287,7 @@ const FrontPage = () => {
                       </>
                     ) : (
                       <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                        {isCompleted ? <CheckIcon /> : !isUnlocked ? <LockIcon /> : <ListIcon />}
+                        {isCompleted ? <CheckIcon /> : !isUnlocked ? <LockIcon /> : <CrossIcon />}
                       </div>
                     )}
                   </li>

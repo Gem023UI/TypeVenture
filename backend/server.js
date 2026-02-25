@@ -2,7 +2,6 @@ import app from './app.js';
 import connectDatabase from "./config/database.js";
 import cloudinary from "cloudinary";
 import dotenv from "dotenv";
-import GameScore from "./models/gameScore.js";
 
 // Load environment variables
 dotenv.config();
