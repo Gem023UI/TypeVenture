@@ -9,7 +9,7 @@ import Loader from "../layout/Loader";
 import "./Login&Register.css";
 
 // API base URL
-const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure.onrender.com";
+const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure-backend-production.up.railway.app";
 // const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
 
 export default function LoginRegister({ logoUrl }) {

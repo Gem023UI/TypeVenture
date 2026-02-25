@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Drawer.css";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure.onrender.com";
+const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure-backend-production.up.railway.app";
 // const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
 
 const Drawer = ({ isOpen, onClose }) => {

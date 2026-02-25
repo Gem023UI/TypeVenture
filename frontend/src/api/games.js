@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure.onrender.com";
+const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure-backend-production.up.railway.app";
 // const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
 
 const BASE_URL = `${API_URL}/api/games`;
