@@ -2,306 +2,722 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Lesson from "../models/lessons.js";
 
-dotenv.config({ path: "./.env" });
+dotenv.config();
+
+const LESSON_IMAGE = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1773572640/936659a2-a9dd-4656-b65a-63d66d18a6a3.png";
+const CONTENT_IMAGE = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771160466/e8da1e5c-c8c3-4127-8b0a-73d3c2c174b5.png";
 
 const lessons = [
+  /* ══════════════════════════════════════════════════════
+     LESSON 1 – The Calligraphic Foundation
+  ══════════════════════════════════════════════════════ */
   {
-    title: "I. Beginning Graphic Design: Typography",
-    sourceUrl: "https://edu.gcfglobal.org/en/beginning-graphic-design/typography/1/",
+    title: "Lesson I: The Calligraphic Foundation",
+    difficulty: "Beginner",
+    completionTime: "~20 min",
+    lessonImage: LESSON_IMAGE,
+    sourceUrl: "https://lithub.com/how-medieval-monks-and-scribes-helped-preserve-classical-culture/",
+    youtubeUrl: "https://www.youtube.com/embed/xGbaXZs9-xA",
+    imageUrls: [CONTENT_IMAGE, CONTENT_IMAGE, CONTENT_IMAGE],
     content: {
-      description: "An introductory guide to typography basics and principles.",
-      introduction: "This tutorial defines typography as the style or appearance of text and the art of working with text in design. It presents common font categories—serif, sans serif, and display—and discusses their use and visual character. It then advises on how to choose fonts that fit the message. The material warns against overused fonts and encourages thoughtful font pairing. Key typographic terms like hierarchy, leading, tracking, and kerning are explained with their roles in readability and visual structure. Finally, the guide emphasizes that combining these basics well can elevate designs from ordinary to extraordinary.",
-      headerOne: "What Typography Is and Why It Matters",
-      discussionOne: "The lesson begins by defining typography as a fundamental component of visual communication and design. Typography is described not just as the appearance of text, but as the art and technique of working with text in a way that enhances clarity, visual appeal, and emotional tone. According to the tutorial, the presence of typography extends far beyond graphic design programs — it’s present everywhere we read words: on books, signage, websites, packaging, and even everyday objects. This pervasive quality means that typography shapes how we interpret information in everyday life. Rather than being an intimidating or overly complex topic, the lesson frames typography as an approachable skill — something that anyone who creates documents, presentations, or designs can learn and apply. It emphasizes that typography has its own “language,” and the choice of type style or font can contribute subtly to how messages are read or perceived. For example, serif fonts often evoke tradition and classic formality, whereas sans serif fonts offer a clean, modern feel that often works well on screens. Display or decorative fonts, however, are intended for smaller amounts of text, such as titles or headers, because their visual character can overpower longer passages. By beginning with this broad yet clear definition and context, the lesson helps readers understand why typography is one of the core pillars of graphic design and effective communication.",
-      headerTwo: "Common Font Types and Their Roles",
-      discussionTwo: "A major section of the lesson focuses on the common types of fonts and how they are used in design. The tutorial divides fonts into three broad categories: serif, sans serif, and display. Serif fonts are identified by the small decorative strokes — called serifs — at the ends of the main letter strokes. These fonts are often viewed as more traditional and are commonly seen in printed books, newspapers, and magazines due to their perceived readability and timeless aesthetic. In contrast, sans serif fonts lack these extra strokes, giving them a clean and modern appearance that tends to work especially well in digital formats like websites, apps, and screens of all sizes. Display fonts encompass a wide range of decorative or stylistic font choices, such as script, blackletter, or highly stylized letterforms. Lessons emphasize that while display fonts can add personality and visual interest to a design, they are best used sparingly — particularly for headers or titles — because their elaborate forms can reduce readability in longer text blocks. Understanding these categories helps learners make informed decisions about which fonts align with the message they want to communicate. By presenting both functional roles and aesthetic qualities of each category, the tutorial equips beginners with a practical framework for choosing fonts that fit their project goals rather than simply defaulting to familiar or overused choices.",
-      headerThree: "How to Choose and Combine Fonts Tastefully",
-      discussionThree: "A significant emphasis in the lesson is placed on font selection and combination, which is crucial for effective typography. The tutorial suggests that fonts communicate beyond literal meaning — they convey tone, personality, and emotional context. Because of this, choosing the right font requires designers to think about the intended message and audience. Certain fonts, such as Comic Sans, Curlz, and Papyrus, are labeled as “fonts to avoid” not because they’re technically incorrect, but because they often carry cultural or stylistic baggage that can distract from a project’s message or appear outdated. Instead of relying on commonly criticized options, the lesson encourages exploration of newer or less overused fonts that better support the intended design goals. When it comes to combining fonts, the guideline is to limit usage to one or two fonts per design to prevent visual clutter. However, designers can still create contrast and hierarchy by varying the size, weight, or style of those fonts. Contrasting font pairs — such as combining a serif with a sans serif — can create visual interest while maintaining readability. Additionally, using the same font family in different weights helps maintain cohesion. This section encourages experimentation, stating that even though combining fonts might seem challenging at first, inspiration from existing designs and consistent practice will improve one’s intuition and aesthetic judgment over time.",
-      headerFour: "Important Typographic Terms Beginners Should Know",
-      discussionFour: "The final major section of the lesson introduces essential typographic terms that help learners talk about typography more confidently and improve the technical quality of their designs. These concepts — hierarchy, leading, tracking, and kerning — are foundational. Hierarchy refers to visually arranging text so that the reader’s eye naturally follows an intended path, often achieved by emphasizing key elements through size, boldness, or style differences. Strong hierarchy helps guide readers through information efficiently, ensuring that the most important content stands out. Leading (pronounced like “wedding”) refers to vertical spacing between lines of text, also known as line spacing. Appropriate leading makes paragraphs easier and more comfortable to read; too little or too much spacing can reduce readability. Tracking involves adjusting the spacing uniformly across all characters in a text block, which can alter the overall texture and feel of the typography. Lastly, kerning is the adjustment of space between specific character pairs — something especially important in logos or professional typography where poorly spaced letters can disrupt visual balance. By defining these terms and explaining how they affect readability and aesthetics, the lesson lays the groundwork for learners to move beyond simple font selection toward more nuanced and professional typographic decisions."  
+      description: "Explore the origins of typography — from medieval scribes to the digital era. Discover how tools, culture, and technology shaped the visual form of language across centuries.",
+      introduction: "The history of typography is not simply a chronological account of technological inventions. Rather, it is a complex narrative of how human societies have continuously refined the process of transforming language into visual form. Typography represents the intersection of communication, technology, art, and culture. Every shift in typographic practice — from handwritten manuscripts to programmable digital fonts — has reshaped how information is organized, interpreted, and disseminated.",
+      headerOne: "I. The Calligraphic Foundation: The Architecture of the Page (Prior to 1440)",
+      discussionOne: "Before the invention of mechanical printing, all written texts were produced manually by scribes who worked primarily in monasteries, scriptoria, and scholarly institutions across medieval Europe. These scribes were not merely copyists; they were early visual designers who developed sophisticated systems for organizing written information on a page. In the medieval manuscript tradition, the design of a page was carefully planned according to strict geometric and proportional rules. Scribes employed mathematical frameworks such as the Villard de Honnecourt diagram to determine the placement of text blocks, margins, and decorative elements. This era introduced the earliest concepts of visual hierarchy through enlarged initials, decorative drop caps, rubrication, and variations in letter size and spacing. Typography scholar Robert Bringhurst describes typography as 'the visual form of language,' noting that many modern typographic features — especially the serif — originate from the physical gestures of calligraphy.",
+      headerTwo: "II. The Asian Invention: Modularity and the Concept of the Glyph (1041–1377)",
+      discussionTwo: "The earliest known movable type system was developed in China by Bi Sheng around 1041 during the Song Dynasty. Later, Korean inventors significantly improved the technology with metal movable type, culminating in the Jikji (1377) — the oldest surviving book printed with movable metal type. This invention introduced the fundamental concept of modularity: each character became an independent unit (a glyph) that could be rearranged and reused. It also led to early spacing concepts like kerning (adjusting space between specific letter pairs) and tracking (overall letter spacing), as well as the typecase — a precursor to modern digital font structures.",
+      headerThree: "III. The Gutenberg Press: The First 'User Interface' (1450s)",
+      discussionThree: "Johannes Gutenberg's genius was the integration of three existing technologies: a hand-mold system for casting metal type, oil-based ink, and a modified screw press. Together, these created the first scalable mass-production system for books. His 42-Line Bible demonstrated typographic precision through justified text achieved via over 200 ligatures and abbreviations. Historian Elizabeth Eisenstein describes how printing introduced 'typographic fixity' — multiple copies of a text could now be identical — enabling scientific collaboration and the rapid spread of knowledge throughout Europe.",
+      headerFour: "IV. Modernism and the Bauhaus: The 'Crystal Goblet' Theory (1919–1933)",
+      discussionFour: "The Bauhaus movement, founded in Germany in 1919, sought to redefine typography through simplicity, clarity, and functional design. Designers like Jan Tschichold advocated for the grid system, while the movement popularized sans-serif typefaces as symbols of clarity and universality. Typographer Beatrice Warde articulated the 'Crystal Goblet' theory: typography should function like a transparent glass goblet — the design should not distract from the content, but allow the reader to experience the 'wine' of the words fully.",
+      headerFive: "V. The Digital Era: Responsive Logic and Variable Fonts (1984–Present)",
+      discussionFive: "The digital era transformed typography into a programmable system. Fonts became mathematical instructions rather than physical shapes. Variable fonts, introduced through OpenType Font Variations, allow a single font file to contain all style variations — weight, width, slant, and optical size — adjustable through CSS or design software sliders. Typography educator Ellen Lupton describes modern typography as 'Typography for the Screen,' emphasizing accessibility, responsive design, and legibility across devices. Today, typography functions not only as visual design but as an essential component of user interface and user experience design.",
     },
-    youtubeUrl: "https://www.youtube.com/embed/sByzHoiYFX0?si=-IfiyuPfv7pyk361",
-    imageUrls: [
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771160466/e8da1e5c-c8c3-4127-8b0a-73d3c2c174b5.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771160392/TypeVenture/lessons/lesson1/d58ee3bc-321e-4d9a-b718-c7427af7a020.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771160342/TypeVenture/lessons/lesson1/5fd5556c-abde-4941-a6b0-5122f21210ca.png"
+    quiz: [
+      {
+        type: "multiple-choice",
+        question: "Based on Robert Bringhurst's definition of serifs as 'biological fossils,' how does the transition to Sans-Serif in the Bauhaus era represent a biological 'extinction' in typographic design?",
+        choices: [
+          "It marks the shift from organic, tool-based origins to purely geometric, mathematical constructs.",
+          "It suggests that modern readers have evolved past the need for legibility aids.",
+          "It proves that the 'natural flick' of the quill was an evolutionary mistake in character design.",
+          "It indicates that the 'Architecture of the Page' no longer requires a Golden Ratio.",
+        ],
+        correctAnswer: "It marks the shift from organic, tool-based origins to purely geometric, mathematical constructs.",
+        explanation: "Modernists saw serifs as 'relics' (fossils) of a manual past to be discarded for geometric purity.",
+      },
+      {
+        type: "multiple-choice",
+        question: "How does the Villard de Honnecourt diagram's use of 'Golden Ratio' proportions fundamentally differ from the Modernist 'Grid System' in its approach to white space?",
+        choices: [
+          "The Golden Ratio is arbitrary, while the Grid System is based on the specific width of the metal type.",
+          "The former seeks a 'natural' harmony rooted in geometry, while the latter seeks a 'functional' logic rooted in information hierarchy.",
+          "There is no difference; both systems prioritize the 'Crystal Goblet' theory of invisibility.",
+          "The Golden Ratio prioritizes the scribe's ego, whereas the Grid System prioritizes the reader's accessibility.",
+        ],
+        correctAnswer: "The former seeks a 'natural' harmony rooted in geometry, while the latter seeks a 'functional' logic rooted in information hierarchy.",
+        explanation: "Medieval geometry was about aesthetic 'harmony'; Modernist grids are about 'functional' organization of information.",
+      },
+      {
+        type: "multiple-choice",
+        question: "If Elizabeth Eisenstein's concept of 'Typographic Fixity' was the primary achievement of the Gutenberg Press, which modern technology most directly threatens or 'unfixes' that stability?",
+        choices: [
+          "Kerning and Tracking",
+          "Metal Movable Type",
+          "Variable Fonts and Responsive Logic",
+          "High-resolution smartphones",
+        ],
+        correctAnswer: "Variable Fonts and Responsive Logic",
+        explanation: "Variable fonts make type fluid and adaptive, the opposite of 'fixity' (fixed, unchangeable versions).",
+      },
+      {
+        type: "multiple-choice",
+        question: "Compare the 'Side-bearings' of the Asian Movable Type era with the 'Ligatures' used in Gutenberg's 42-Line Bible. What shared problem were these two distinct mechanical solutions trying to solve?",
+        choices: [
+          "The limitation of oil-based inks on parchment.",
+          "The need to create a uniform, cohesive visual texture within the constraints of physical blocks.",
+          "The transition from theological manuscripts to secular advertising.",
+          "The organization of a 'Typecase' physical database.",
+        ],
+        correctAnswer: "The need to create a uniform, cohesive visual texture within the constraints of physical blocks.",
+        explanation: "Both dealt with the physical spacing needed to make individual blocks look like a continuous flow of text.",
+      },
+      {
+        type: "multiple-choice",
+        question: "Beatrice Warde's 'Crystal Goblet' theory argues for 'invisible' typography. Which era described in the text would Warde likely find most 'opaque' or problematic?",
+        choices: [
+          "The Digital Era, because of its focus on Accessibility.",
+          "The Calligraphic Foundation, because the 'intimate physical performance' adds 'flavor' to the message.",
+          "The Bauhaus Era, because of its return to purity and functionalism.",
+          "The Gutenberg Era, because it introduced the world's first global Information Network.",
+        ],
+        correctAnswer: "The Calligraphic Foundation, because the 'intimate physical performance' adds 'flavor' to the message.",
+        explanation: "Warde wanted 'invisible' type; the 'physical performance' of a scribe is highly visible and 'flavored.'",
+      },
+      {
+        type: "multiple-choice",
+        question: "The transition from 'Artistic Rendering' to 'Logical Management' (as noted by Dr. Tsien Tsuen-hsuin) is best exemplified by which modern digital component?",
+        choices: ["The Serif", "The X-height", "Font Tables", "The Aperture"],
+        correctAnswer: "Font Tables",
+        explanation: "The text explicitly links the 'Typecase' (logical management) to modern 'Font Tables.'",
+      },
+      {
+        type: "multiple-choice",
+        question: "How does the use of '200 ligatures' in the Gutenberg Bible demonstrate a precursor to what we now call 'User Experience' (UX) design?",
+        choices: [
+          "It allowed for faster mass production of religious texts.",
+          "It simulated the familiar look of high-quality manuscripts to ease the transition for the reader.",
+          "It reduced the cost of lead type by combining characters.",
+          "It allowed for the first use of 'International' sans-serif styles.",
+        ],
+        correctAnswer: "It simulated the familiar look of high-quality manuscripts to ease the transition for the reader.",
+        explanation: "By mimicking handwriting with ligatures, Gutenberg made his 'UI' familiar to those used to manuscripts.",
+      },
+      {
+        type: "multiple-choice",
+        question: "In the context of 'Responsive Logic,' how does an 'Aperture' function differently on a digital screen than it did on a carved woodblock?",
+        choices: [
+          "On a screen, the aperture must remain open to prevent 'filling in' at low resolutions; on woodblocks, it was a matter of carving depth.",
+          "There is no difference; the aperture is purely decorative in both eras.",
+          "On a screen, the aperture is controlled by the Golden Ratio; on woodblocks, it was controlled by the grain of the wood.",
+          "Woodblocks required larger apertures to accommodate oil-based inks.",
+        ],
+        correctAnswer: "On a screen, the aperture must remain open to prevent 'filling in' at low resolutions; on woodblocks, it was a matter of carving depth.",
+        explanation: "Digital legibility focuses on pixels and 'filling in,' while physical blocks dealt with ink and material.",
+      },
+      {
+        type: "multiple-choice",
+        question: "Why is the 'Jikji' (1377) considered a 'revolutionary leap toward modularity' compared to the earlier woodblock printing?",
+        choices: [
+          "It was the first time the Golden Ratio was used in Asia.",
+          "It decoupled the content from the carrier, allowing individual 'glyphs' to be rearranged and reused.",
+          "It introduced the concept of the 'Crystal Goblet' to Korean scholars.",
+          "It was the first book to utilize the Villard de Honnecourt diagram.",
+        ],
+        correctAnswer: "It decoupled the content from the carrier, allowing individual 'glyphs' to be rearranged and reused.",
+        explanation: "Modularity is defined by the ability to reuse and rearrange individual components (glyphs).",
+      },
+      {
+        type: "multiple-choice",
+        question: "Evaluate the statement: 'The Variable Font is the ultimate realization of the Bauhaus International dream.' Which evidence from the text supports this?",
+        choices: [
+          "Variable fonts allow for 'ego-driven' ornamentation.",
+          "Variable fonts use 'Design Space' to adapt to any user's device, fulfilling the goal of a universal, functional communication tool.",
+          "Variable fonts rely on the 'flick of a flat-head brush' for their curves.",
+          "Variable fonts eliminate the need for a 'Grid System.'",
+        ],
+        correctAnswer: "Variable fonts use 'Design Space' to adapt to any user's device, fulfilling the goal of a universal, functional communication tool.",
+        explanation: "The Bauhaus wanted a 'modern future' and 'international' reach; adaptive code achieves this globally.",
+      },
+      {
+        type: "multiple-choice",
+        question: "Which concept links the 'Typecase' of the 14th century to the 'CSS code' of the 21st century?",
+        choices: [
+          "The preservation of 'Scribal Culture.'",
+          "The systematic organization and retrieval of character data for efficient output.",
+          "The rejection of 'Typographic Fixity.'",
+          "The use of 'Golden Ratio' proportions in coding.",
+        ],
+        correctAnswer: "The systematic organization and retrieval of character data for efficient output.",
+        explanation: "Both are systems of data management — one physical (cases), one digital (code).",
+      },
+      {
+        type: "multiple-choice",
+        question: "If a designer today uses a font that mimics the 'natural flick' of a quill, they are technically prioritizing which element over Beatrice Warde's 'Crystal Goblet'?",
+        choices: ["Legibility", "Functionalism", "Historical Ego/Ornamentation", "Responsive Logic"],
+        correctAnswer: "Historical Ego/Ornamentation",
+        explanation: "If the font draws attention to its 'manual' origins, it is no longer a 'transparent' goblet.",
+      },
+      {
+        type: "multiple-choice",
+        question: "The shift from 'Scribes as visual engineers' to 'Typography as a programmable system' suggests that the most important skill for a modern typographer is:",
+        choices: [
+          "The ability to carve lead type.",
+          "Mastery of the flat-head brush.",
+          "Understanding the interaction between data constraints and visual adaptability.",
+          "Memorizing the 42-Line Bible's ligatures.",
+        ],
+        correctAnswer: "Understanding the interaction between data constraints and visual adaptability.",
+        explanation: "Modern typography is defined as a 'fluid, responsive interface' and 'programmable system.'",
+      },
+      {
+        type: "multiple-choice",
+        question: "Jan Tschichold's 'The New Typography' argued for mathematical logic over 'decorative whim.' How does this philosophy conflict with the origins of the Serif?",
+        choices: [
+          "Both are based on the Golden Ratio.",
+          "The Serif is a byproduct of a physical tool's movement, which Modernists view as an unnecessary 'relic.'",
+          "The New Typography actually encouraged more decorative serifs for better tracking.",
+          "It doesn't conflict; Tschichold believed the serif was the peak of mathematical logic.",
+        ],
+        correctAnswer: "The Serif is a byproduct of a physical tool's movement, which Modernists view as an unnecessary 'relic.'",
+        explanation: "Serifs were 'natural flicks' (physical accidents); Modernism wanted 'unadorned' shapes.",
+      },
+      {
+        type: "multiple-choice",
+        question: "Considering the entire timeline, which era most successfully balanced 'Visual Hierarchy' with 'Mass Dissemination'?",
+        choices: [
+          "The Calligraphic Foundation (Prior to 1440)",
+          "The Asian Invention (1041–1377)",
+          "The Gutenberg Press (1450s)",
+          "The Digital Era (1984–Present)",
+        ],
+        correctAnswer: "The Digital Era (1984–Present)",
+        explanation: "The Digital Era combines the hierarchy of the past with the 'global network' of the present on a massive scale.",
+      },
     ],
-    usersDone: []
   },
+
+  /* ══════════════════════════════════════════════════════
+     LESSON 2 – Typography Theory and Philosophy
+  ══════════════════════════════════════════════════════ */
   {
-    title: "II. Uxcel – Typographic Principles",
-    sourceUrl: "https://app.uxcel.com/courses/typography-basics/typographic-principles-438",
+    title: "Lesson II: Typography Theory and Philosophy",
+    difficulty: "Intermediate",
+    completionTime: "~18 min",
+    lessonImage: LESSON_IMAGE,
+    sourceUrl: "https://readings.design/PDF/the_crystal_goblet.pdf",
+    youtubeUrl: "https://www.youtube.com/embed/0-LHO1Uzoos",
+    imageUrls: [CONTENT_IMAGE, CONTENT_IMAGE],
     content: {
-      description: "A detailed breakdown of essential typographic principles that guide effective use of type in UX and visual design.",
-      introduction: "This lesson on Typographic Principles explains the core guidelines for working with typography — from ensuring readability and scannability, setting mood through type, scaling and aligning type effectively, and using design principles like proximity and white space to create meaningful, navigable text.",
-      headerOne: "Readability: Making Text Easy to Understand",
-      discussionOne: "Readability stands at the foundation of effective typography because it determines how easily users can process and make sense of text. The lesson explains that readability is distinct from legibility. Legibility focuses on the design of the letterforms themselves — how distinguishable each character shape is — while readability concerns how comfortable it is for readers to decode and understand a passage of text. Several typographic factors influence readability. First, type size matters: very small fonts make reading difficult and are especially problematic for users with visual impairments, which is why a minimum recommended body text size (often 16px) is suggested for accessibility. Type case also affects perception — sentence case (capitalizing only the first letter of the sentence) feels most natural because it mimics most of the writing we learn early in life. All caps and title case are better suited for headings or short text rather than long paragraphs. Line spacing (leading) is equally critical. Too little space squeezes lines together and causes blurring, while too much can break the flow of reading. Good leading should align with type size to ensure smooth reading rhythm. Likewise, line length must be balanced: lines that are too long tire the eyes as they scan back and forth, while lines that are too short interrupt eye movement and break reading flow; the recommended sweet spot is usually around 45–70 characters per line. Lastly, contrast between text and background is essential. Low contrast strains the eyes and diminishes usability by making characters harder to distinguish. By carefully balancing these factors — size, case, spacing, line length, and contrast — designers can significantly improve how readers engage with and internalize content.",
-      headerTwo: "Scannability: Guiding the Reader’s Eye Quickly",
-      discussionTwo: "In modern design contexts — especially on the web — scannability is a key principle because most users rarely read text from start to finish. Research cited in the lesson shows that a large percentage of users scan text first to decide if content is worth deeper reading. This means that how text is structured has a direct impact on whether readers find what they’re looking for quickly. Scannable typography intentionally breaks content into digestible components that make information easier to locate. Headings and subheadings act as anchor points that help users navigate longer blocks of text. Lists — whether bulleted or numbered — let readers extract key points at a glance without being overwhelmed by dense prose. Short paragraphs also support scanning because they reduce visual friction and avoid creating large, intimidating text walls. Other elements play important roles too: captions, bold or italic text, and even block quotes help signal hierarchical shifts in content, making it possible for users to recognize what’s important without deep reading. Stylistic formatting — when used sparingly and purposefully — adds visual rhythm instead of distraction, enabling readers to capture meaning faster. Ultimately, effective scannability acknowledges human reading behavior: most people want to assess relevance quickly and then engage more deeply with content that resonates. Designers must therefore structure and stylize text to support this preference, striking a balance between visual interest and clarity that respects how users naturally consume information.",
-      headerThree: "Typographic Mood: Conveying Emotion and Brand Identity",
-      discussionThree: "Typography does more than deliver words — it infuses tone and personality into a design and directly influences how users feel about a message or brand. This lesson highlights that typefaces carry inherent emotional qualities. For example, a grunge-style font can evoke a raw, edgy identity, while a clean sans serif suggests simplicity and reliability. This concept is rooted in long-standing design theory that sees typography as a mediator between text and perception. The lesson references insights from designers like Neville Brody, who emphasize that different typefaces communicate distinct emotional responses even before a word is fully read. A headline in a serif typeface might elicit a sense of tradition and credibility, while modern serif variants — like the Didone family — project luxury and high fashion because of their dramatic stroke contrasts and refined shapes. Designers must therefore consider typographic mood as part of the branding process. Questions such as “What emotions do we want to evoke?” or “What characteristics should the brand convey?” help determine typeface selection. Choosing the right type does more than support readability — it reinforces identity, sets user expectations, and can even compensate for simpler visual designs lacking complex imagery or animation. Type decisions, in this sense, function like color, tone of voice, or imagery: they must align with the project’s communication goals. When designers understand mood, they can use typography as a subtle yet powerful emotional signal rather than a purely functional tool.",
-      headerFour: "Limiting Typefaces and Scaling Typography",
-      discussionFour: "One frequent design pitfall is overusing too many typefaces, which can fragment visual cohesion and confuse readers. The Uxcel lesson emphasizes that most digital products succeed with no more than three typefaces — and often just one with multiple styles is enough. Using too many distinct fonts increases cognitive load, disrupts hierarchy, and makes it harder to maintain consistency across different sections of a product. Instead, typefaces should be chosen with contrast and compatibility in mind: pairing a simple, legible sans serif for body copy with a more expressive typeface for headlines can create contrast while maintaining system cohesion. Testing these typefaces at different sizes — and especially at smaller sizes — ensures legibility remains strong across contexts. Typographic scale refers to the systematic use of different font sizes and styles to establish hierarchy. Drawing on frameworks like Material Design’s type scale, the lesson groups text into categories — headlines, subtitles, body text, captions, and labels — each serving different communicative functions. Headlines should be eye-catching and expressive; subtitles act as guides between sections; and body text, captions, and labels should prioritize readability and clarity. While there’s no fixed number of sizes that must be used, establishing a consistent rhythm helps users intuitively recognize content structure. Designers often start with a baseline size (like 16px) and use ratios (such as the golden ratio) to determine subsequent sizes, which creates visually pleasing relationships between typographic elements. This scaling supports both visual hierarchy and scannability, enabling users to navigate content based on typographic cues alone.",
-      headerFive: "Alignment, Emphasis, Proximity, and White Space: Structuring Information",
-      discussionFive: "After selecting and sizing type effectively, designers must consider how text is positioned and grouped within a layout. Alignment, emphasis, proximity, and white space are key structural principles that help organize information into a coherent visual hierarchy. Alignment ensures that text elements relate to one another visually. In left-to-right languages, left alignment increases scannability and reader comfort. By contrast, right alignment adds balance in specific design contexts, and centered text is best reserved for decorative or headline use. More dynamic designs can employ complex alignment, mixing alignment types to guide attention to focal points, such as pull quotes or callouts. Emphasis is about drawing attention to important information. This can be done through bold weights, italics or obliques, all caps, size changes, or color shifts. Designers must use emphasis carefully; too much emphasis dulls impact, while well-applied emphasis clarifies hierarchy and points readers toward key messages. Proximity groups related elements together and separates unrelated ones, helping readers visually associate text with corresponding headings. This reinforces structural logic: closer items are understood as connected; distant items are perceived as separate. Finally, white space — the area around and between text — allows elements room to breathe. Micro white space (between characters, lines) enhances readability, and macro white space (between large blocks of content) improves clarity and visual balance. Together, these principles ensure that typography doesn’t just exist visually, but functions effectively, guiding readers through content while maintaining aesthetic harmony." 
+      description: "Move beyond the 'how' of making letters and into the 'why' of perceiving them. Explore typography as a psychological and philosophical discipline where every curve and space acts as a silent messenger to the human brain.",
+      introduction: "To truly master design, one must move beyond the 'how' of making letters and into the 'why' of perceiving them. This lesson explores typography as a psychological and philosophical discipline, where every curve and space acts as a silent messenger to the human brain.",
+      headerOne: "I. Form Follows Function: The 'Crystal Goblet' Philosophy",
+      discussionOne: "In the world of typographic philosophy, the primary objective is the seamless transmission of thought from the page to the mind. This principle dictates that typography should be a transparent vessel for its message, prioritizing utility and function over mere aesthetic decoration. The 'Invisibility' of type theory suggests that if a reader becomes consciously aware of the font choice rather than the meaning of the words, the design has essentially failed. Beatrice Warde justified this in her seminal essay, The Crystal Goblet: typography should be like a clear glass that reveals the 'wine' of the content without adding its own 'flavor.' Legibility — the ease of character recognition — and Readability — the ease of processing whole blocks of text — are the core measures of typographic success.",
+      headerTwo: "II. Gestalt Principles: The Psychology of Grouping",
+      discussionTwo: "Typography heavily leverages Gestalt psychology, which posits that the human brain naturally seeks to perceive a 'whole' rather than just a collection of disconnected parts. Principles such as Proximity (placing related elements close together), Similarity (using the same font for all subheaders), and Continuity (aligning text along a consistent vertical axis) help the reader's brain categorize and prioritize information without conscious effort. Design theorist Alex White famously noted that 'Space is the most important element on the page,' arguing that it is the strategic use of empty space — not just the ink — that creates the patterns our brains recognize as meaningful structures.",
+      headerThree: "III. Semiotics and Emotional Communication",
+      discussionThree: "Beyond the literal meaning of words lies Semiotics — the study of signs and symbols. A typeface acts as a 'sign' that carries profound secondary meanings. Serif fonts carry 'historical weight,' signaling stability, tradition, and institutional authority. Sans-Serif fonts signal modernity, clarity, and neutral efficiency. Theo van Leeuwen, in Typography and Meaning, argues that letterforms possess a physical 'materiality' that functions as a visual 'voice' — the weight, expansion, and curvature of a font tell the reader how to feel before they even process the first sentence.",
+      headerFour: "IV. Cognitive Load and the Science of Readability",
+      discussionFour: "Cognitive Load Theory suggests that our brains have a finite amount of processing power at any given moment. Factors like Line Length (Measure) and Leading (Line Spacing) are critical technical levers. If a line is too long (over 75 characters), the eye struggles to find the start of the next line; if too short, reading rhythm breaks. John Sweller explains that 'split-attention effects' occur when a design is cluttered or poorly structured, forcing the brain to work harder than necessary. Erik Spiekermann argues that if a brand's voice 'mumbles' through poor readability, it will inevitably lose the reader's trust.",
+      headerFive: "V. Emotional Response and Decision-Making",
+      discussionFive: "Typography is a powerful tool for influencing a user's 'gut reaction,' directly impacting trust and decision-making. Geometric fonts, built from perfect circles and squares, evoke feelings of 'objectivity' and 'professionalism.' Humanist fonts, with variable stroke widths reminiscent of calligraphy, feel 'warm,' 'approachable,' and 'organic.' Sarah Hyndman, author of Why Fonts Matter, has demonstrated that typography is a multi-sensory experience — people can essentially 'taste' or 'smell' differences in fonts because certain shapes trigger specific memories and sensory associations.",
     },
-    youtubeUrl: "https://www.youtube.com/embed/bD7whayQgYg?si=DvmI_ypY_FzjZYfy",
-    imageUrls: [
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771161812/50222979-d5fe-4e33-ac71-ab57de3b66ff.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771161883/550ffe5a-f5fa-4fac-90b2-1d5d1bcfde9c.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771161899/a73e1022-272c-4714-9611-f2f1963d93fd.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771161946/48361bc0-e697-4e67-8aac-08ef6512d723.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771161972/e40163e6-6657-42c3-963a-a9028722bf83.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771162004/4fe16146-1ea0-4fa6-8de3-32a6f71a1a5f.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771162036/6bd6fdf7-f595-4f13-8eeb-bc4ed10726c9.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771162059/8d8496e7-0a85-4ef9-9f9e-0412fe976817.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771162092/7f247dfa-44a9-430b-88fc-301c56893ed8.png"
+    quiz: [
+      {
+        type: "scenario",
+        question: "Which change would best follow John Sweller's Cognitive Load Theory to ensure the nurse doesn't make a mistake?",
+        scenario: "A nurse needs to read critical dosage instructions on a tablet under harsh, flickering lights. The current design uses a light-weight, condensed font to fit more text on the screen, but it's hard to read.",
+        choices: [
+          "Keep the condensed font but change the color to bright red to grab attention.",
+          "Increase the Leading and use a typeface with larger Apertures and a higher X-height.",
+          "Decrease the Tracking so the nurse can see the entire sentence in one eye-blink.",
+          "Switch to a 'Humanist' font because it feels more 'caring' in a hospital.",
+        ],
+        correctAnswer: "Increase the Leading and use a typeface with larger Apertures and a higher X-height.",
+        explanation: "High cognitive load is caused by 'visual clutter.' Increasing Leading prevents lines from blurring. Large Apertures and high X-heights are proven more legible in high-stress environments.",
+      },
+      {
+        type: "scenario",
+        question: "Based on Theo van Leeuwen's Semiotics, what is the 'Semiotic Mismatch' occurring here?",
+        scenario: "A brand selling 'Raw, Earth-Friendly Honey' uses a cold, sharp, perfectly symmetrical Geometric Sans-Serif. Sales are low because customers feel the product looks 'synthetic' or 'factory-made.'",
+        choices: [
+          "The font is too small, violating the 'Crystal Goblet' theory.",
+          "The font's 'Industrial Weight' signals cold, machine efficiency, which contradicts the 'Organic' promise.",
+          "The font lacks enough Ligatures, making the brand name look unorganized.",
+          "The font uses too much White Space, making the product look expensive.",
+        ],
+        correctAnswer: "The font's 'Industrial Weight' signals cold, machine efficiency, which contradicts the 'Organic' promise.",
+        explanation: "A Geometric font signals modern industry. To align with the product, a Humanist font — with stroke widths that mimic the human hand — triggers a 'warm' and 'organic' response.",
+      },
+      {
+        type: "scenario",
+        question: "Using Gestalt Psychology, what is the most effective way to 'organize' this chaos?",
+        scenario: "A tax form is a 'wall of text.' Users can't tell which instructions belong to which input box. The form is a single block of uniform text with no clear visual breaks.",
+        choices: [
+          "Use a different bright color for every single line of text.",
+          "Bold every second word to keep the reader's eye moving quickly.",
+          "Use Proximity to group instructions with their boxes and increase Active White Space to separate sections.",
+          "Use a Serif font for everything to carry more 'Institutional Authority.'",
+        ],
+        correctAnswer: "Use Proximity to group instructions with their boxes and increase Active White Space to separate sections.",
+        explanation: "Proximity states the brain perceives things close together as a single unit. White Space (which Alex White calls the 'most important element') creates 'gutters' that reduce mental effort.",
+      },
+      {
+        type: "scenario",
+        question: "How would Beatrice Warde most likely critique this design?",
+        scenario: "A magazine uses a font so distorted and artistic that you can barely read the words. The designer claims it's 'Art'; the editor says it's 'Unreadable.'",
+        choices: [
+          "She would praise it for being a 'beautifully stained glass goblet.'",
+          "She would argue the design is a failure because the 'vessel' (font) has become 'opaque,' hiding the 'wine' (content).",
+          "She would suggest adding more Serifs to make it look more historical.",
+          "She would agree that art and utility are the same thing.",
+        ],
+        correctAnswer: "She would argue the design is a failure because the 'vessel' (font) has become 'opaque,' hiding the 'wine' (content).",
+        explanation: "Warde's theory dictates that typography should be 'transparent.' If the reader is looking at the beauty of the letters instead of through them to the meaning, the design has failed.",
+      },
+      {
+        type: "scenario",
+        question: "Which strategy best utilizes Sarah Hyndman's 'Sensory Association' to meet both goals?",
+        scenario: "A 100-year-old watchmaker is launching a 'Smartwatch.' They need to look 'High-Tech' but also 'Expensive and Traditional.'",
+        choices: [
+          "Use an ultra-thin Geometric Sans-Serif to look as modern as possible.",
+          "Use a High-Contrast Serif (thin horizontals, thick verticals) set in a Modern Grid System.",
+          "Use a 'Handwritten' font to make the watch feel 'approachable.'",
+          "Use a Variable Font that randomly changes its weight.",
+        ],
+        correctAnswer: "Use a High-Contrast Serif (thin horizontals, thick verticals) set in a Modern Grid System.",
+        explanation: "High-Contrast Serifs trigger associations with luxury and history. By placing them in a Modern Grid (Bauhaus philosophy), the designer balances 'Historical Weight' with 'Neutral Efficiency.'",
+      },
+      {
+        type: "scenario",
+        question: "Based on Cognitive Load Theory, how should you adjust the 'Measure'?",
+        scenario: "You are designing a long-read digital article. Readers are complaining of 'eye fatigue' after the first three paragraphs. The text spans the entire width of a wide-screen monitor (approx. 140 characters per line).",
+        choices: [
+          "Change the font to all caps to make the letters larger.",
+          "Reduce the line length to 45–75 characters and increase the Leading.",
+          "Keep the length but make the font a bright neon green for better contrast.",
+          "Remove all margins to use 100% of the screen space.",
+        ],
+        correctAnswer: "Reduce the line length to 45–75 characters and increase the Leading.",
+        explanation: "If a 'Measure' (line length) is too long, the eye struggles to find the start of the next line, 'stealing' processing power. 45–75 characters is the scientific 'sweet spot' for readability.",
+      },
+      {
+        type: "scenario",
+        question: "Using the Semiotics of Typography, which change would fix this?",
+        scenario: "A law firm wants to issue a formal 'Letter of Intent.' They used a friendly, rounded Sans-Serif, but clients aren't taking the documents seriously.",
+        choices: [
+          "Use a Geometric font like Futura to look 'Space-Age.'",
+          "Switch to a traditional Serif font with a 'Historical Weight.'",
+          "Increase the font size to 24pt so it looks 'louder.'",
+          "Add decorative emojis to make the law firm seem 'approachable.'",
+        ],
+        correctAnswer: "Switch to a traditional Serif font with a 'Historical Weight.'",
+        explanation: "Serifs carry connotations of stability and institutional authority. The 'Materiality' of a serif font tells the reader to feel the 'weight' of the law before they read the first word.",
+      },
+      {
+        type: "scenario",
+        question: "Which Gestalt Principle should be used to fix this 'UI' failure?",
+        scenario: "A mobile banking app shows your 'Balance,' 'Recent Transactions,' and 'Logout' all in the same font size, weight, and color. Users keep accidentally clicking 'Logout' when they mean to check their balance.",
+        choices: [
+          "Similarity (to make the Balance look distinct) and Proximity (to move Logout away from navigation).",
+          "Continuity (to align every button in a single vertical line).",
+          "Closure (to make the user 'fill in the gaps' of the missing buttons).",
+          "Use a Variable Font that changes every time the user logs in.",
+        ],
+        correctAnswer: "Similarity (to make the Balance look distinct) and Proximity (to move Logout away from navigation).",
+        explanation: "By using Similarity, you make related items (transactions) look alike. By using Proximity, you move unrelated/dangerous items (Logout) away from the data the user is trying to access.",
+      },
     ],
-    usersDone: []
   },
+
+  /* ══════════════════════════════════════════════════════
+     LESSON 3 – Advanced Typography Fundamentals & Systems
+  ══════════════════════════════════════════════════════ */
   {
-    title: "III. Material Design 3 – Applying Type",
-    sourceUrl: "https://m3.material.io/styles/typography/applying-type",
+    title: "Lesson III: Advanced Typography Fundamentals & Systems",
+    difficulty: "Intermediate",
+    completionTime: "~22 min",
+    lessonImage: LESSON_IMAGE,
+    sourceUrl: "https://ellenlupton.com/Thinking-with-Type",
+    youtubeUrl: "https://www.youtube.com/embed/Xg-KhUVhtLQ",
+    imageUrls: [CONTENT_IMAGE, CONTENT_IMAGE],
     content: {
-      description: "A detailed guide on how to apply the Material Design 3 typography system — explaining typescale roles and how designers use them to structure text meaningfully.",
-      introduction: "This page explains how to apply typography in Material Design 3 by organizing text styles into purposeful roles — such as display, headline, title, body, and label — to create visual hierarchy, readability, and consistency in UI design.",
-      headerOne: "Typography Roles in Material Design 3",
-      discussionOne: "The Material Design 3 typography system organizes text styles into five key roles — display, headline, title, body, and label — each serving specific purposes within user interfaces. This structure helps designers apply typography in a way that communicates meaning and priority visually, not just through content.",
-      headerTwo: "Display Text",
-      discussionTwo: "Display text is designed for the most prominent and large-scale content, often used in hero sections, feature headers, or moments that require immediate attention. These styles are large in size and visually expressive, making them suitable for high-impact statements but not for long passages.",
-      headerThree: "Headlines",
-      discussionThree: "Headline styles are slightly smaller than display but still larger than most text used for body content. Headline text introduces major sections or important pieces of information. Its purpose is to guide users’ attention hierarchically — helping them scan and understand the structure of content quickly.",
-      headerFour: "Title Style",
-      discussionFour: "Title styles serve as the main type for section heads, module headers, or short descriptive labels within layouts. These styles create distinct but moderate emphasis, guiding users through sections without overwhelming the interface.",
-      headerFive: "Body Text",
-      discussionFive: "Body text is essential for readable paragraphs, long passages, and substantive content. Here, the emphasis is on legibility and comfort — ensuring that reading extended portions of text feels natural and easy on the eyes. Using consistent line height, size, and weight across body text results in a cohesive reading experience.",
-      headerSix: "Label Styles",
-      discussionSix: "Finally, Label styles are the smallest in the scale and are meant for small interface elements such as button text, captions, annotations, or UI indicators. Because labels often interact with interface controls, their style must balance clarity with subtlety.",
-      headerSeven: "Conclusion",
-      discussionSeven: "By defining text in these roles and encouraging designers to choose appropriate type roles based on content function rather than simply size, Material Design 3 ensures that typography supports meaningful hierarchy, consistent style, accessible readability, and adaptable text usage throughout different parts of a design system."
+      description: "View typography not as a decorative choice but as the visual architecture of language. Explore the structural mechanics of type and how the physical form of a letter influences human cognition and technical performance.",
+      introduction: "To truly master typography, one must view it not as a decorative choice, but as the visual architecture of language. This lesson expands on the structural mechanics of type, exploring how the physical form of a letter influences human cognition and technical performance.",
+      headerOne: "I. Typography as Architecture: The Interface of Language",
+      discussionOne: "Typography serves as the essential management system for written communication, acting as the 'how' to the writer's 'what.' It dictates the tone of voice, the pacing of the reading experience, and the overall hierarchy of importance on a page. This management operates on two distinct scales: Micro-typography, which focuses on the intricate spacing and shapes of individual characters, and Macro-typography, which governs the broader relationship between columns, margins, and the physical or digital canvas. Ellen Lupton defines typography as an interface — the designer's primary role is to 'bridge the gap between the eye and the brain.'",
+      headerTwo: "II. The Logic of the System: Typeface vs. Font",
+      discussionTwo: "A Typeface represents the 'system' — the consistent design characteristics shared by a family of characters. When you select Roboto, you are choosing a specific brand identity or visual DNA. A Font is the 'tool' or the specific delivery mechanism. Roboto Bold 14pt is a font because it is the specific instance or file used to execute the design. Stephen Coles justifies this by noting that a designer defines the font-family (the typeface) but manipulates the font-weight and font-size (the font attributes). Understanding this hierarchy allows designers to build scalable design systems.",
+      headerThree: "III. Functional Anatomy: The Biology of the Letterform",
+      discussionThree: "The 'body parts' of a letter are functional traits that determine how the human eye tracks text. The x-height — the height of lowercase letters like 'x' — is a primary driver of legibility. A large x-height makes a font more readable at small sizes because the internal spaces of the letters remain open. Ascenders (strokes in 'd' or 'h') and Descenders (strokes in 'p' or 'g') provide the unique silhouette of a word. Humans do not read letter-by-letter but recognize word shapes. The Counter — the white space inside letters like 'o' or 'e' — is vital for clarity. If a counter is too small, the letter 'fills in' at low resolutions, becoming an illegible black blob.",
+      headerFour: "IV. Taxonomic Classification: The Logic of Alignment and Grid",
+      discussionFour: "Typefaces are classified into taxonomies based on historical and technical intent. Serifs create an invisible horizontal line that leads the eye across a page, making serif fonts like Garamond ideal for long-form print. Sans-Serif fonts align more naturally with the square-pixel grid of digital screens. Monospaced fonts ensure every character occupies the exact same horizontal space — a functional requirement for source code, as proportional fonts would cause brackets and indentations to misalign, making it impossible for a programmer to debug complex logic at a glance.",
+      headerFive: "V. The Final Distinction: Legibility vs. Readability",
+      discussionFive: "Legibility is a design metric concerning the typeface itself: 'Can the eye distinguish between an I, an l, and a 1?' If characters are too similar, the font has poor legibility. Readability is a styling metric concerning the arrangement. You can use a highly legible font like Helvetica, but if the size is too small or the contrast is too low, the text becomes unreadable. Erik Spiekermann states that 'Typography is a brand's voice.' A font might be perfectly designed (legible), but if the layout is poor (unreadable), the brand is essentially 'shouting in a language no one understands.'",
     },
-    youtubeUrl: "https://www.youtube.com/embed/AUXKtt6bizw?si=C-lLMeMfpsUEwbDI",
-    imageUrls: [
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771162873/7f77c906-a580-4928-a885-294518a9f8ca.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771162884/55715f30-280f-4d5a-a23c-e3b6c5132da2.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771162899/54aabdf3-0e53-4b31-9247-da762448d937.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771162914/8e5e34cf-74ca-4fd3-991c-f2fb867f403a.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771162963/34ed13e0-e925-40c4-ae04-36ce4bd9ec60.png"
+    quiz: [
+      {
+        type: "multiple-choice",
+        question: "Which anatomical feature should you prioritize to keep text clear on a low-res banking app screen?",
+        choices: ["Long Ascenders", "Large x-height and Open Counters", "High-Contrast strokes", "Tight Tracking"],
+        correctAnswer: "Large x-height and Open Counters",
+        explanation: "A large x-height keeps the letter body big, and Open Counters prevent the pixels from 'bleeding' together.",
+      },
+      {
+        type: "multiple-choice",
+        question: "A developer can't align brackets because an 'i' is thinner than a 'w'. Which font classification solves this vertical alignment issue?",
+        choices: ["Geometric Sans-Serif", "Old Style Serif", "Monospaced Font", "Slab Serif"],
+        correctAnswer: "Monospaced Font",
+        explanation: "Monospaced fonts create a predictable grid, which is essential for code logic and symbols.",
+      },
+      {
+        type: "multiple-choice",
+        question: "You are changing the company's 'Visual DNA' (the overall design). What is the technical term for the overall design system (like 'Roboto')?",
+        choices: ["The Font-Weight", "The Font-Size", "The Typeface", "The Glyph"],
+        correctAnswer: "The Typeface",
+        explanation: "The Typeface is the design/identity. The Font is the specific version or file you use.",
+      },
+      {
+        type: "multiple-choice",
+        question: "Highway signs need to be read at 70mph in a split second. Why is a font with very short Ascenders/Descenders dangerous?",
+        choices: [
+          "It looks too modern",
+          "It neutralizes the 'Word Shape' or silhouette",
+          "It makes the font Monospaced",
+          "It increases Cognitive Load",
+        ],
+        correctAnswer: "It neutralizes the 'Word Shape' or silhouette",
+        explanation: "Ascenders and Descenders create the unique silhouette that our brains instantly recognize, without reading every letter.",
+      },
+      {
+        type: "multiple-choice",
+        question: "The page layout (columns/margins) is great, but the space between 'A' and 'V' is too wide. Which scale of typography needs fixing?",
+        choices: ["Macro-typography", "Micro-typography", "Taxonomic Hierarchy", "The Interface of Language"],
+        correctAnswer: "Micro-typography",
+        explanation: "Micro-typography is the 'fine-tuning' of individual characters and their spacing (kerning).",
+      },
+      {
+        type: "multiple-choice",
+        question: "Users can't tell if a password is 'Illinois' or '1llinois.' This is a failure of which metric?",
+        choices: ["Readability", "Legibility", "Taxonomy", "Leading"],
+        correctAnswer: "Legibility",
+        explanation: "Legibility is the ease of distinguishing one character shape from another.",
+      },
+      {
+        type: "multiple-choice",
+        question: "You are choosing a font for a digital dashboard. Why is Sans-Serif better for square-pixel screens?",
+        choices: [
+          "It has no x-height",
+          "Its straight lines align with the square pixel grid",
+          "It is always Monospaced",
+          "It has more 'History'",
+        ],
+        correctAnswer: "Its straight lines align with the square pixel grid",
+        explanation: "Digital screens use square pixels. Clean Sans-Serif lines fit that grid much better than curved serifs.",
+      },
+      {
+        type: "multiple-choice",
+        question: "A font is high-quality, but the size is 6pt and the color is faint grey on white. What is the technical status of this design?",
+        choices: ["It is Illegible", "It is Legible but Unreadable", "It is Macro-typographic", "It is Monospaced"],
+        correctAnswer: "It is Legible but Unreadable",
+        explanation: "You can have a Legible font, but if the layout/styling is bad, the text becomes Unreadable.",
+      },
+      {
+        type: "multiple-choice",
+        question: "In 'Dark Mode,' the letters 'e' and 'a' look like solid white circles. What anatomical feature do you need to fix this 'filling in' effect?",
+        choices: ["Smaller x-height", "Thicker strokes", "Open Apertures", "Monospaced alignment"],
+        correctAnswer: "Open Apertures",
+        explanation: "Open Apertures (like a wide opening in the letter 'c' or 'e') keep letters clear even when colors bleed.",
+      },
+      {
+        type: "multiple-choice",
+        question: "You are designing a 400-page printed book. Why is a Serif font (like Garamond) traditionally used for long-form print?",
+        choices: [
+          "It is more modern",
+          "The serifs create a horizontal line that leads the eye",
+          "It saves ink",
+          "It has no counters",
+        ],
+        correctAnswer: "The serifs create a horizontal line that leads the eye",
+        explanation: "Serifs act as horizontal guides, helping the eye travel smoothly across a printed page.",
+      },
+      {
+        type: "multiple-choice",
+        question: "You are coding a website. You define the font-family, then change the font-weight to 'Bold'. Technically, what have you just done?",
+        choices: [
+          "Changed the Typeface",
+          "Selected a specific Font within a Typeface system",
+          "Changed the Taxonomy",
+          "Adjusted the Macro-typography",
+        ],
+        correctAnswer: "Selected a specific Font within a Typeface system",
+        explanation: "The Typeface is the design; the Font is the specific weight or size you chose to execute that design.",
+      },
+      {
+        type: "multiple-choice",
+        question: "A reader says, 'I can see the letters, but I have to read every sentence twice to understand it.' According to Ellen Lupton, what part of the architecture has failed?",
+        choices: [
+          "The writer's vocabulary",
+          "The typographic interface between eye and brain",
+          "The historical taxonomy",
+          "The physical screen",
+        ],
+        correctAnswer: "The typographic interface between eye and brain",
+        explanation: "Lupton defines typography as the Interface that manages how we perceive and understand language.",
+      },
+      {
+        type: "multiple-choice",
+        question: "A company wants to look 'Logical and Mathematical.' Why would you choose a Geometric Sans-Serif over a Humanist one?",
+        choices: [
+          "Because it has serifs",
+          "It is based on perfect circles/squares rather than handwriting",
+          "It is easier to read in books",
+          "It is older",
+        ],
+        correctAnswer: "It is based on perfect circles/squares rather than handwriting",
+        explanation: "Geometric fonts use mathematical shapes (circles, squares) to feel neutral and efficient.",
+      },
+      {
+        type: "multiple-choice",
+        question: "You are printing a logo on a very small pen. The letters are 'clogging up' with ink. What technical feature is too small?",
+        choices: ["The x-height", "The Counters", "The Ascenders", "The Typeface"],
+        correctAnswer: "The Counters",
+        explanation: "Counters are the 'lungs' of the letter. If they are too small, they 'suffocate' or fill with ink at small sizes.",
+      },
+      {
+        type: "multiple-choice",
+        question: "A client says, 'Just pick a pretty font; it doesn't matter.' Based on Lesson 3, why is this wrong?",
+        choices: [
+          "Because fonts are expensive",
+          "Because typography is a structural management system for thought",
+          "Because only Monospaced fonts work",
+          "Because Micro-typography is for art",
+        ],
+        correctAnswer: "Because typography is a structural management system for thought",
+        explanation: "Typography is the Architecture of Language — it is the structural system that makes communication possible.",
+      },
     ],
-    usersDone: []
   },
+
+  /* ══════════════════════════════════════════════════════
+     LESSON 4 – Typeface Properties & Technical Manipulation
+  ══════════════════════════════════════════════════════ */
   {
-    title: "IV. Typography Tips: A Lesson on Contrast",
-    sourceUrl: "https://www.process-masterclass.com/typography-tips-a-lesson-on-contrast",
+    title: "Lesson IV: Typeface Properties & Technical Manipulation",
+    difficulty: "Advanced",
+    completionTime: "~25 min",
+    lessonImage: LESSON_IMAGE,
+    sourceUrl: "https://help.webflow.com/hc/en-us/articles/33961334261779-Advanced-web-typography",
+    youtubeUrl: "https://www.youtube.com/embed/5HxB4TZYI-c",
+    imageUrls: [CONTENT_IMAGE, CONTENT_IMAGE, CONTENT_IMAGE],
     content: {
-      description: "A comprehensive guide on using typographic contrast as a core principle to elevate design clarity, hierarchy, emotion, and visual beauty.",
-      introduction: "This article explains the foundational role of contrast in typography — covering how designers use size, weight, transforms, color, styles, and font types to create hierarchy, emphasis, emotion, readability, and aesthetic impact in digital design.",
-      headerOne: "Contrast as the Foundation of Good Typography",
-      discussionOne: "The article begins by framing contrast as one of the most essential principles in typography — not just a stylistic choice, but a fundamental tool that shapes how typography communicates meaning and guides the reader. The author explains that many designers know about contrast in a superficial way, but truly mastering it — from an intuitive understanding to practical application — is what separates basic layouts from professional, expressive designs. Contrast in typography is essentially about utilising differences in typographic properties to guide attention, establish hierarchy, communicate emotion, and make content easy to understand. Right away, the article stresses that contrast isn’t limited to any single property; rather, it encompasses several mechanisms such as size, weight, transforms, color, style variations, and even mixing font types. Through each of these, designers can manipulate how text reads visually — what stands out, what recedes into the background, what feels urgent, and what feels supportive. For example, a large, bold headline immediately attracts the eye and signals priority, while smaller, lighter body text communicates secondary information. Understanding and controlling these relationships allows designers to build clear visual hierarchy and meaningful typographic systems rather than relying on arbitrary choices. Furthermore, the article reinforces that contrast is not merely technical — it influences emotion and aesthetic character. Greater contrast can create bold, dynamic expressions that feel powerful or artistic, whereas subtle contrast might produce quieter, refined designs that emphasise simplicity or neutrality. Designers are encouraged to explore contrast through repeated practice and reference to real-world typographic examples, because mastery emerges not just from reading about contrast, but actively applying and observing its effects across many contexts.",
-      headerTwo: "Size and Scale as Contrast Mechanisms",
-      discussionTwo: "The first major category the author explores is typographic size and scale. This begins with the idea that simply varying font sizes can dramatically influence how information is perceived and prioritized. By creating larger type for headlines and progressively smaller type for supporting text, designers construct visual hierarchies that mirror how readers naturally scan content. Size variations immediately signal what is most important, which in turn supports scannability and user comprehension. The article explains that even with a single font family, you can achieve significant contrast and dynamic visual relationships by simply scaling text appropriately. The discussion highlights that these choices should also be user-centric. Designers are encouraged to consider aspects like device contexts (mobile vs desktop vs kiosk), accessibility needs, and user goals before determining how much size contrast is appropriate. For instance, a headline may appear massive on a mobile screen to ensure it reads clearly at a glance, whereas the same size might feel overwhelming and out of balance on a desktop layout. Integrating size with real-world context helps designers create solutions that are purposeful rather than arbitrary. Additionally, scale can be used not only to differentiate elements hierarchically, but also to enhance aesthetic designs — large display typography can become a visual centerpiece that defines the mood of a page. Whether used in editorial headers, product visuals, or interactive UI, deliberate size contrast contributes to both function and beauty. The article includes examples of how tasteful size contrast evokes impact while reinforcing meaning, and it encourages designers to systemise these size decisions in their design systems and component libraries for consistency across projects.",
-      headerThree: "Using Font Weight for Emphasis and Distinction",
-      discussionThree: "Moving beyond size, the article explores font weight — the thickness or thinness of letterforms — as another powerful contrast tool. Weight contrast affects how text elements feel and function within a design. Bold or heavy weights naturally draw the eye and create emphasis, while lighter weights appear more subtle or secondary. When used strategically, weight contrast helps clarify hierarchy without the need for additional fonts or colors. The author presents examples where designers use weight contrast to differentiate headlines, body text, and supporting labels effectively. By using heavier weights for dominant text and lighter weights for subordinate text, contrast relationships become visually intuitive. This is particularly useful in digital UI design where clarity and rapid comprehension are essential. Additionally, weight contrast offers designers an expressive palette — pairing light and bold versions of the same typeface can retain cohesion while still achieving meaningful differentiation. Unlike size, which often affects layout dramatically, weight contrast operates more subtly but has a direct impact on tone. A bold headline may feel assertive and urgent, while a lighter caption might feel gentle or understated. By understanding these emotional nuances, designers can craft typography that aligns with brand voice, mood, and narrative intent. Importantly, weight contrast should be practiced across different contexts — in responsive layouts, dynamic content, and varying text lengths — so that designers can consistently apply these principles to real project constraints.",
-      headerFour: "Text Transforms and Color as Contrast Tools",
-      discussionFour: "The article also discusses text transforms — such as uppercase, lowercase, small caps — and color contrast as manipulators of typographic emphasis and visual clarity. While transforms might seem basic (e.g., capitalizing text), when used intentionally they can reinforce contrast and hierarchy. For instance, uppercase text often reads as more authoritative or headline-level, while lowercase or small caps may feel more approachable or secondary. By mixing transforms with other contrast mechanisms like size or weight, designers can create layered meaning even with limited font resources. Color contrast, on the other hand, operates both functionally and emotionally. High tonal contrast between text and background is essential for accessibility and readability — ensuring that text is clearly legible under different lighting conditions and by users with visual impairments. The article explains the use of color tones to prioritise text: darker tones on light backgrounds draw primary attention, while subtler tones indicate secondary importance. This use of tonal contrast allows designers to reinforce hierarchy without altering size or weight. Color contrast also supports aesthetic expression. By drawing inspiration from existing visual palettes or mood boards, designers can create typographic compositions that harmonize with brand identity and emotional tone. The author recommends tools like contrast checkers and color libraries to test combinations for both style and accessibility. Ultimately, these mechanisms — transforms and color — expand the designer’s toolkit for creating engaging, effective typography that conveys meaning clearly and elegantly.",
-      headerFive: "Font Styles and Font Types for Contrast Variations",
-      discussionFive: "In addition to weight and transforms, the article explores font styles (roman, italics, bold, obliques) and font types (serif, sans serif, display, monospaced) as contrast creators. Each of these contributes visual texture and nuance to typographic designs. When used thoughtfully, mixing styles and types introduces distinct rhythms and moods into layouts without sacrificing structure. For example, italics can convey subtle emphasis or ornamental quality, while bold styles command noticeable priority. Obliques — effectively slanted roman forms — offer a lightweight form of emphasis that differs from true italics. Font types — such as serif versus sans serif versus display — introduce contrast through formal characteristics. Serif fonts often convey tradition and readability in long text, while sans serif fonts typically feel modern and clean. Display fonts serve specific expressive purposes and are best reserved for large-scale headlines or decorative compositions. Mixing these types wisely — such as pairing a serif headline with a sans serif body — balances distinct visual personalities without creating chaos. The article emphasizes that there is no universal rule for font pairing — mastery comes from observation, experimentation, and practice. However, guiding principles include limiting the number of typefaces to maintain cohesion, using styles for emphasis rather than ornamentation, and applying type choices that align with design goals. By learning from existing work, creating mood boards, and iterating through practical exercises, designers can internalise how font styles and types contribute to effective contrast and well-organised typography."
+      description: "Typography is a deliberate process of shaping visual language through technical precision and aesthetic judgment. Understand baselines, x-height, kerning, tracking, and leading — the controlled relationships that make type breathe.",
+      introduction: "Typography is not simply the arrangement of letters on a page. It is a deliberate process of shaping visual language through technical precision and aesthetic judgment. Every typeface contains a system of measurable properties — baselines, proportions, spacing, and alignment — that together determine how text is perceived and understood. These properties are elements of visual engineering, where designers manipulate the physical characteristics of letterforms to produce clarity, hierarchy, and emotional tone.",
+      headerOne: "The Foundation: Baselines and the Optical Illusion of Leveling",
+      discussionOne: "At the core of every typographic layout lies the baseline — the horizontal axis upon which most characters rest. Letters with flat bases (H, L, E) sit precisely on the baseline. Curved characters (O, C, Q) extend slightly below it — a phenomenon known as overshoot. Without this slight extension, round letters would appear smaller or misaligned due to how the human eye perceives curved forms. In grid-based design systems, the baseline becomes part of a larger baseline grid, where all textual elements align consistently along evenly spaced horizontal lines, establishing what is known as vertical rhythm.",
+      headerTwo: "The Core Mechanics: X-Height and Vertical Proportions",
+      discussionTwo: "The x-height refers to the height of lowercase letters, specifically 'x.' Lowercase letters have three main components: the x-height (central body), ascenders (parts extending above the x-height: b, d, h), and descenders (parts extending below the baseline: g, j, p, q, y). Typefaces with a large x-height appear larger and more compact, making characters easier to recognize at small sizes — ideal for digital interfaces. Traditional serif typefaces often feature smaller x-heights and longer ascenders and descenders, creating distinctive word shapes that enhance reading fluency through Bouma recognition — readers perceiving the overall silhouette of words rather than reading each letter.",
+      headerThree: "The Geometry of Space: Font Size and Scaling",
+      discussionThree: "Font size originates from early printing practices where metal type was cast on small lead blocks. In modern web design, relative units (em and rem) rather than fixed measurements (pt) allow typography to adapt to user device settings. If a visually impaired user increases default text size, a design built with relative units scales proportionally, preserving typographic hierarchy. This concept — fluid typography — ensures readability is maintained regardless of display conditions. Frameworks such as Material Design emphasize fluid typography for accessibility and responsive design.",
+      headerFour: "The Horizontal Axis: Kerning and Tracking",
+      discussionFour: "Kerning refers to the adjustment of spacing between specific pairs of letters. Certain combinations create awkward gaps because of their shapes — for example, A and V form a triangular gap when placed side by side. Professional typefaces include thousands of predefined kerning pairs. Tracking refers to the uniform adjustment of spacing across an entire word, sentence, or paragraph. Increasing tracking in all-caps text creates a more open and refined appearance, improving readability. Conversely, tightening tracking for large display headlines can transform a word into a cohesive visual shape.",
+      headerFive: "The Breath of the Page: Line Spacing (Leading)",
+      discussionFive: "Leading — from the lead strips inserted between metal type — determines how comfortably the reader's eye moves from one line to the next. If spacing is too tight, the eye may accidentally reread the same line (doubling). If too wide, the connection between lines weakens, causing paragraphs to feel fragmented. Erik Spiekermann suggests optimal leading typically ranges between 120% to 150% of the font size. Proper leading improves reading comfort, reduces cognitive load, creates visual balance, and is especially important in high-contrast designs such as light text on dark backgrounds.",
     },
-    youtubeUrl: "https://www.youtube.com/embed/GCluIaNmOG0?si=HbPCPakn_mlQm5U6",
-    imageUrls: [
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771163354/9827f200-cf09-436d-a268-ab3f900d7abc.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771163394/abc5439e-159a-457c-bf5f-95fc6d097a85.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771163403/7f9294f7-2a0d-4a81-98a7-467af06aab67.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771163430/431e5734-23f1-42a9-893f-93c1e94b674c.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771163487/17069a77-6fec-45a3-ae87-abdd39a6211f.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771163512/3904b590-8a58-4449-9f55-54e0782840bd.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771163549/4c2fc0b2-7f5b-4ba8-9f09-d01e15568320.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771163571/d0b56fc9-7656-4534-9d7d-b54dc59f72b5.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771163575/5ee31c59-1017-459b-afa9-f99c2acbe2ad.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771163645/275382d8-e46e-4526-b397-6b5ebd217115.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771163694/b3b15fbe-4587-452c-b79c-49878f89256b.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771163734/0d9dbaf7-d472-4447-9e61-a933678d7084.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771163745/9ab425ec-95a3-4a4d-ba44-499d9c5a8177.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771163784/35d8f97c-9a77-4d06-ba5f-0f78986dbb4f.png"
+    quiz: [
+      /* Category 1: Kerning Slide (interactive) — rendered as kerning-slide type */
+      {
+        type: "kerning-slide",
+        question: "The word AVERY has a huge hole between A and V. Slide the letter spacing until it looks balanced.",
+        letterA: "A",
+        letterB: "V",
+        targetOffset: -12,
+        tolerance: 6,
+        min: -40,
+        max: 10,
+        correctAnswer: "correct",
+        explanation: "Perfect! You closed the 'Visual Gap.' That is professional Kerning.",
+      },
+      {
+        type: "kerning-slide",
+        question: "The word WATCH has the W and A drifting apart. Slide them closer together.",
+        letterA: "W",
+        letterB: "A",
+        targetOffset: -8,
+        tolerance: 6,
+        min: -40,
+        max: 10,
+        correctAnswer: "correct",
+        explanation: "Nice! You fixed the 'texture' of the word.",
+      },
+      {
+        type: "kerning-slide",
+        question: "The word FLY looks like 'FL Y'. Bring the Y back to the rest of the word.",
+        letterA: "L",
+        letterB: "Y",
+        targetOffset: -10,
+        tolerance: 6,
+        min: -40,
+        max: 10,
+        correctAnswer: "correct",
+        explanation: "Excellent. Now it reads as one single word.",
+      },
+      /* Category 2: Leading Lines (scenario/MCQ) */
+      {
+        type: "scenario",
+        question: "Two lines of a story are touching each other. What is the correct action?",
+        scenario: "Ascenders and descenders are hitting each other. The text looks cramped and is hard to read.",
+        choices: [
+          "Pull the bottom line down to add Leading.",
+          "Make the font smaller to fit more on the page.",
+          "Decrease the font weight.",
+          "Switch to a monospaced font.",
+        ],
+        correctAnswer: "Pull the bottom line down to add Leading.",
+        explanation: "You added Leading so the eye can find the next line. Much better!",
+      },
+      {
+        type: "scenario",
+        question: "A paragraph looks like a solid black box — a 'wall of ink.' What should you do?",
+        scenario: "The paragraph is dense and the lines are impossible to separate visually.",
+        choices: [
+          "Increase the space between all lines.",
+          "Make the font bold.",
+          "Reduce the font size.",
+          "Remove the paragraph indentation.",
+        ],
+        correctAnswer: "Increase the space between all lines.",
+        explanation: "The paragraph can breathe now! This reduces Cognitive Load.",
+      },
+      {
+        type: "scenario",
+        question: "White text on a black background is 'bleeding' together visually. How do you fix this?",
+        scenario: "In Dark Mode, the bright letters appear to glow, causing the text to look merged.",
+        choices: [
+          "Increase the space between lines (Leading) to stop the 'glow' from overlapping.",
+          "Switch to black text on white.",
+          "Reduce the font weight to thin.",
+          "Use a condensed typeface.",
+        ],
+        correctAnswer: "Increase the space between lines (Leading) to stop the 'glow' from overlapping.",
+        explanation: "Extra Leading is the secret to great Dark Mode design.",
+      },
+      /* Category 3: X-Height Detective (MCQ) */
+      {
+        type: "x-height-detective",
+        question: "You need a font that stays clear and readable at a tiny size on a mobile screen. Which characteristic matters most?",
+        choices: [
+          "Small x-height with long, elegant ascenders",
+          "Large x-height with open counters",
+          "Thin strokes with high contrast",
+          "Heavy weight with tight tracking",
+        ],
+        correctAnswer: "Large x-height with open counters",
+        explanation: "A Large X-height is the 'Digital Survivor' — the bigger the body, the clearer the character at small sizes.",
+      },
+      {
+        type: "x-height-detective",
+        question: "You need a font for a fast highway sign readable at 70mph. Which characteristic is essential?",
+        choices: [
+          "Uniform height for all characters",
+          "Very tight tracking",
+          "Distinct ascenders and descenders creating a unique word silhouette",
+          "A very large cap height",
+        ],
+        correctAnswer: "Distinct ascenders and descenders creating a unique word silhouette",
+        explanation: "Ascenders and Descenders create a unique 'Word Shape.' Our brains instantly recognize the silhouette.",
+      },
+      {
+        type: "x-height-detective",
+        question: "You are designing for a digital dashboard. Which font characteristic aligns best with square-pixel screens?",
+        choices: [
+          "Lots of thin curves and delicate serifs",
+          "Clean, straight lines (Sans-Serif)",
+          "Heavy slab serifs with uniform stroke width",
+          "Script letterforms with continuous strokes",
+        ],
+        correctAnswer: "Clean, straight lines (Sans-Serif)",
+        explanation: "Sans-Serif fonts align with the pixel grid perfectly, making them clearer on digital screens.",
+      },
+      /* Additional MCQ on core concepts */
+      {
+        type: "multiple-choice",
+        question: "Which typographic phenomenon explains why curved letters like 'O' extend slightly below the baseline?",
+        choices: ["Tracking", "Leading", "Overshoot", "Kerning"],
+        correctAnswer: "Overshoot",
+        explanation: "Overshoot ensures curved letters appear visually aligned even though they extend below the baseline — an optical correction based on human perception.",
+      },
+      {
+        type: "multiple-choice",
+        question: "Erik Spiekermann suggests optimal leading typically ranges between what percentage of the font size?",
+        choices: ["80% to 100%", "100% to 110%", "120% to 150%", "160% to 200%"],
+        correctAnswer: "120% to 150%",
+        explanation: "Leading in the range of 120–150% of font size provides comfortable reading rhythm without fragmenting the text.",
+      },
+      {
+        type: "multiple-choice",
+        question: "What is the key advantage of using relative units (em/rem) over fixed units (pt) in web typography?",
+        choices: [
+          "They make fonts larger by default.",
+          "They adapt to user device settings, preserving typographic hierarchy.",
+          "They eliminate the need for leading adjustments.",
+          "They only work with monospaced typefaces.",
+        ],
+        correctAnswer: "They adapt to user device settings, preserving typographic hierarchy.",
+        explanation: "Relative units scale proportionally when a user changes their browser font size, ensuring the hierarchy remains balanced — crucial for accessibility.",
+      },
+      {
+        type: "identification",
+        question: "What is the term for the white space enclosed within or partially enclosed by a letterform, such as inside the letter 'O' or 'e'?",
+        correctAnswer: "counter",
+        explanation: "The counter is the enclosed or partially enclosed white space within a letter. Open counters improve legibility, especially at small sizes.",
+      },
+      {
+        type: "identification",
+        question: "What typographic term describes the phenomenon where readers recognize words by their overall shape or silhouette rather than reading each letter individually?",
+        correctAnswer: "bouma",
+        explanation: "Bouma recognition explains why typefaces with distinct ascenders and descenders aid reading fluency — the overall word shape is processed faster than individual letters.",
+      },
+      {
+        type: "identification",
+        question: "What is the term for the horizontal axis upon which most characters in a typeface rest?",
+        correctAnswer: "baseline",
+        explanation: "The baseline is the structural foundation of all typographic layout. It ensures visual stability and consistency across lines of text.",
+      },
     ],
-    usersDone: []
   },
-  {
-    title: "V. Typography Guidelines and References",
-    sourceUrl: "https://www.smashingmagazine.com/2012/07/typography-guidelines-and-references/",
-    content: {
-      description: "A curated collection of typography guidelines, principles, and resources from Smashing Magazine that educates designers on best practices and deeper typographic understanding.",
-      introduction: "This resource-rich article lists key typography topics and recommended readings, ranging from basic rules of type choice and layout to complex discussions on expressive typography, writing systems, and web typography techniques. It’s designed as a long-term reference for designers to deepen typographic skill.",
-      headerOne: "Curated Typography Topics and Core Principles",
-      discussionOne: "The core of the article is its curated list of typography topics that have appeared on Smashing Magazine over the years. Instead of presenting a single narrative, the article acts as a gateway reference — pointing designers toward a variety of in-depth explorations covering both timeless typography principles and modern web typography practices. The list begins with foundational discussions, such as Respect Thy Typography, which argues that typography deserves thoughtful treatment and should not be reduced to decorative effects or gimmicks. This reflects a core belief among typographers: that typography communicates meaning and should be treated as a central element in design rather than an afterthought. Next, entries like The Perfect Paragraph dive into the mechanics of text presentation, emphasizing readability and classical typesetting conventions adapted for screens. Such topics balance the aesthetic and functional aspects of typography, reminding designers that text is both visual and informational. Other references explore how typography speaks louder than words — a deeper look at how the visual appearance of type affects interpretation — and why subtle typographic choices make all the difference, demonstrating that small, informed adjustments can have significant effects on how messages are perceived. These pieces reinforce the idea that typography isn’t purely decorative but a nuanced and expressive design tool. Beyond theoretical pieces, the list includes practical resources on selecting and combining typefaces, web font embedding techniques, and responsive typography. These are especially useful for digital designers who must account for diverse devices, rendering quirks, and modern user expectations. Examples include guides on embedding fonts via @font-face and comparisons of web font services. Importantly, the article also points to explorations of global writing systems and calligraphy, reminding designers that typography isn’t limited to Latin alphabets — valuable for anyone working on international or multilingual projects. Taken together, the entries span historical context, expressive usage, best practices, tool resources, and web-specific techniques, creating a comprehensive reference that supports both beginners and experienced designers in refining their typographic approach.",
-      headerTwo: "Typography as Craft and Communication Art",
-      discussionTwo: "Another major theme underscored throughout the referenced articles is the idea that typography is both a craft and a form of communication art. Rather than treating typography as a secondary element that simply relays text, the Smashing Magazine collection positions it as a discipline with its own history, rules, and expressive potential. For instance, topics like Mind Your En And Em Dashes: Typographic Etiquette look at typographic details — often overlooked but crucial for polished layouts. These small components (like correct dash usage) may seem trivial, yet they reflect a deep understanding of typography’s role in clarity and readability. Their inclusion indicates that good typographic practice goes beyond surface aesthetics to embrace linguistic precision. Other referenced material delves into stories about type designers and the historical context of type — such as The Font Wars: A Story On Rivalry Between Type Foundries — which enriches reader understanding of how type choices have evolved and why they matter culturally and commercially. This contextual perspective helps designers appreciate the weight of their typographic decisions. A recurring thread in the collection is the tension between traditional typography principles and modern expressive design. Some pieces, like those exploring visually driven typography, show how type can extend beyond literal meaning and influence emotion, tone, and reaction. They highlight examples where the form of words contributes to meaning just as much as their semantic content. On the other hand, the references also stress that expressive typography should never sacrifice communication clarity. Whether it’s a beautifully crafted paragraph or a boldly expressive headline, type must be legible, appropriate, and purposeful. This balance between artistry and functionality is a recurring lesson throughout the linked articles. Ultimately, this curated collection frames typography as more than technical know-how — it’s an ongoing conversation between designers, writers, and readers. It encourages practitioners to learn from history, respect foundational principles, and make informed choices that enhance both the aesthetic quality and interpretive power of their designs.",
-    },
-    youtubeUrl: "https://www.youtube.com/embed/yAuUDyUC-GM?si=PahDF6SBg0x0sXTO",
-    imageUrls: [
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771164691/ad7c4cba-4307-465a-ac8c-ae1c34b29a72.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771164715/b69b844e-5bd5-4634-9bfc-bb4db076cb36.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771164750/c161c302-963c-4797-b102-95354effc478.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771164761/c7435cba-6539-4dff-9514-ee0065ac634f.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771164790/b5a7e6bc-80f4-477b-a00c-359549d63eda.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771164800/e06123b0-a36c-457a-a0e4-bc860d7227f2.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771164860/38bab142-5386-4aac-86f9-2c0d5c0a4355.png"
-    ],
-    usersDone: []
-  },
-  {
-    title: "VI. Graphic Design Basics: Typography Lesson Plan",
-    sourceUrl: "https://www.icevonline.com/hubfs/CEV80528_Lesson_Plan_TX.pdf",
-    content: {
-      description: "A structured multi-day lesson plan from iCEV that teaches Graphic Design Basics: Typography including vocabulary, typeface classifications, projects, and assessments.",
-      introduction: "This iCEV lesson plan guides instructors through teaching typography fundamentals – from basic vocabulary and type anatomy to creative activities like decorative typography, logos, magazine spreads, and culminating assessment. It balances theory, practice, projects, and career connections.",
-      headerOne: "Lesson Goals and Learning Objectives",
-      discussionOne: "The lesson plan begins with clear goals and objectives that define what both instructors and learners should achieve by the end of the typography unit. It’s centered around helping students understand and apply the foundational concepts of typography within design projects rather than just memorizing definitions. First, students are expected to apply principles of typography as they relate to layout and page composition. This means not only identifying typefaces but also making design decisions based on how typography affects visual balance, readability, and overall communication in a layout. Learners are guided to consider the functions and visual qualities of different types of type (such as serif vs. sans serif), spacing, alignment, and expressive use of text — all critical for crafting polished designs. Another major objective is teaching students how to use typography tools within design software. This includes technical skills like manipulating text frames, threading text across columns, and flowing text around other elements. Mastery of these tools ensures that students can implement their typographic knowledge in real digital design environments, bridging theory with practical application. The plan also emphasizes typography as an expressive medium, where students look at how combining type and imagery creates emotional or conceptual impact. Teachers guide students to investigate text used as imagery or how text choices influence meaning — pushing learners to think of typography as visual communication, not just text. Finally, the objectives include explaining attributes and characteristics of various type styles (e.g., x-height, serifs, spacing) and applying typography thoughtfully to design projects. These objectives ensure students walk away with both conceptual understanding and the ability to enact those concepts in their own creative work.",
-      headerTwo: "Class Structure and Activities",
-      discussionTwo: "The lesson plan details a multi-class structure, breaking the typography unit into bite-size instructional days that combine teaching, hands-on activities, and project work. This design helps students build knowledge progressively rather than learning concepts in isolation. Class 1–2 introduce students to typography vocabulary and media basics. The instructor distributes a vocabulary worksheet and shows introductory video segments (e.g., Type Basics and Types of Typefaces). These early sessions emphasize comprehension of key terms and foundational concepts — essential before students tackle hands-on tasks. Teachers administer corresponding assessments to reinforce this initial learning. Class 3–4 shift into the Decorative Typography Activity, where students explore creative applications of type. They are given words and tasked with designing letterforms that visually interpret those words. This hands-on project allows learners to experiment with typography expressively, connecting type forms to emotion and concept. It bridges technical understanding with artistic interpretation. In Class 5–7, students begin the Typographic Logo Activity. Here they choose typefaces and design logos that embody brand personality — challenging them to make typographic decisions with real communicative purpose. Instructors use slide decks from Designing with Type to scaffold student understanding while they work. Assessments continue alongside project progress. Moving into Class 8–9, students work on a Magazine Spread Project. This larger assignment requires them to combine images, multiple typefaces, and alignment choices into a cohesive layout. It synthesizes earlier lessons and tests students’ ability to apply typographic principles in context. A class discussion allows students to reflect on their typography samples and articulate their design choices — reinforcing both technical and critical thinking skills. Lastly, Class 10–11 are dedicated to refining projects and completing the final assessment. Students submit their typography logo projects, complete the assessment, and turn in magazine spreads. These culminating activities evaluate both the knowledge learned and skills applied, ensuring students have internalized key concepts in typography and design.",
-      headerThree: "Resources, Assessment, and Career Connections",
-      discussionThree: "The lesson plan is supplemented by multiple resources and references to reinforce learning and connect it to broader professional contexts. Teachers are encouraged to integrate both internal media (powerpoints and videos) and external web resources such as Butterick’s Practical Typography, Hoefler & Co., and Fonts.com to deepen students’ exposure to typographic expertise beyond the classroom. Assessment is structured throughout the unit — not only at the end. By including ongoing assessments aligned with video segments or activity completion, teachers can monitor student comprehension as it develops rather than just at the final project stage. This ensures learners stay engaged and accountable at every step of the typography journey. Additionally, the plan includes career exploration opportunities. Students use Career Connections Activities to explore professional roles related to graphic design and typography, such as graphic artists, designers in marketing, and communicators in creative industries. Featuring interviews with practicing designers allows students to see real-world applications of the skills they are learning. The inclusion of vocational associations — like Business Professionals of America, Future Business Leaders of America, SkillsUSA, and Technology Student Association — further encourages students to connect classroom learning with competitive and career pathways in advertising, desktop publishing, and graphic communications. These connections help contextualize typography as more than an academic topic — it’s a gateway to potential career interests.",
-    },
-    youtubeUrl: "https://www.youtube.com/embed/7jmrsrRL6FA?si=VEQLG__l38u-8UjL",
-    imageUrls: [
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771165308/e6c38fe3-5169-4bae-8305-c8b49ca2b2ce.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771165331/5f12d60b-70f2-4843-ade0-47b46452dec5.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771165340/282cfa6a-c00c-4595-83df-53b986ccc804.png"
-    ],
-    usersDone: []
-  },
-  {
-    title: "VII. Lessons in Typography: Must-Know Typographic Principles",
-    sourceUrl: "https://www.peachpit.com/store/lessons-in-typography-must-know-typographic-principles-9780133993752",
-    content: {
-      description: "A practical lesson-based typography guide that teaches essential typographic principles through examples, exercises, and design projects.",
-      introduction: "Lessons in Typography introduces readers to core rules and practices of type — from terminology and letterforms to layout, multi-word design, and text-heavy compositions — using hands-on lessons designed to build skill and confidence.",
-      headerOne: "Mastering Typographic Terminology and Fundamentals",
-      discussionOne: "The first major focus of Lessons in Typography is building a strong foundation in typographic terminology and fundamentals — the basic vocabulary, categories, and characteristics that all designers must understand before effectively working with type. The opening chapter dives deeply into the anatomy of type, exploring not only the names of common parts of letter-forms (such as stems, serifs, x-height, ascenders, descenders, and counters), but also classifications of fonts — serif, sans serif, script, blackletter, monospace, display, and ornamental typefaces. This foundation is essential because typography operates both as a visual art and a communicative system, and without knowing the language of type, designers cannot critically evaluate or apply type choices. Krause also uses this section to discuss typographic optics and how human perception affects visual balance in type, teaching readers to see beyond mechanical measurements to how type actually feels on the page. The book balances explanation with “Your Turn To” exercises, encouraging readers to check their understanding of vocabulary and explore typographic history themselves. By grounding readers in terminology and typographic anatomy, this section sets the stage for more advanced design work, ensuring that subsequent lessons on creative application aren’t built on guesswork but on informed design judgment. This approach mirrors how typography is taught in professional design education: foundational knowledge combined with visual examples and direct practice. Understanding type terms and categories enables designers to make intentional choices rather than relying on intuition alone, making this foundational segment one of the book’s most significant contributions to a learner’s growth and confidence.",
-      headerTwo: "The Art of Lettering and Word Craft",
-      discussionTwo: "After establishing foundational terminology, Lessons in Typography transitions to creative expression with letters and words — showing readers how to manipulate individual characters and whole words to create richer and more intentional visuals. This section explores the art of the letter, covering how designers can modify letterforms, embellish characters, and incorporate artistic elements to produce custom typography. Here, Krause walks through the expressive range of letterforms and demonstrates how alterations — whether subtle tweaks or decorative additions — can shift the character and mood of text. Readers are invited to experiment through hands-on activities like building letters using grid systems or applying pathfinder operations to combine shapes, supporting a deeper appreciation for how type can function as graphic art, not just text. The next step is working with words — a transition from single characters to sequences of characters where spacing, case choice, and stylistic treatments significantly impact legibility and visual feel. Here the book addresses issues such as ligatures, custom letterspacing strategies, and how character choices influence word perception. By engaging with exercises intended to develop both perceptual and technical skills, readers learn how to treat words as elements of design, whether presented simply or transformed into illustrations with decorative backdrops and imagery. This emphasis on both fundamental mechanics (like kerning and case decisions) and creative experimentation helps designers grasp that typography isn’t purely functional but also an expressive medium. By guiding learners through composing words with intention — whether for a typographic logo, illustrated word graphic, or expressive headline — this part of the book bridges technical competence and artistic decision-making. The result is a more confident designer who doesn’t just place letters on a page, but crafts typographic visuals with purpose and personality.",
-      headerThree: "Multi-Word Design, Layout, and Practical Projects",
-      discussionThree: "The final major emphasis of Lessons in Typography is on applying typographic principles to multi-word presentations and layout design — a crucial step that shifts typography from isolated practice to integrated visual communication. In this portion of the book, Krause shows how typographic elements work together in contexts like logos, headlines, multi-font combinations, and full text layouts. He discusses how to choose and pair typefaces effectively, avoid common multi-font mistakes, and handle advanced composition concerns such as line breaks, baseline adjustments, and visual emphasis strategies. This builds a bridge between understanding isolated design choices and implementing them cohesively in larger projects — a key skill for professional designers. Practical exercises include creating typographic logos, where designers balance type choice, size, weight, and color to direct the viewer’s eye and convey a brand personality, and mixing type with imagery, which requires thoughtful contrast and legibility strategies. Krause also emphasizes working with backgrounds and backdrops while maintaining readability — a frequent challenge in real-world design. Beyond logos, the book provides lessons on text and layout for extended passages, including tracking, leading, justified text, and column considerations. Here readers learn solutions for typical layout issues like line length, readability, paragraph opening treatments, and typographic hierarchy. The exercises encourage exploration of hierarchical structuring using callouts, captions, excerpts, and text highlighting to aid reader navigation. By combining practical tips, visual examples, and hands-on projects, this section elevates readers from learning isolated principles to applying them in functional, real-world design problems — a vital step for anyone aiming to use typography effectively in branding, editorial work, or digital interfaces.",
-    },
-    youtubeUrl: "https://www.youtube.com/embed/QrNi9FmdlxY?si=UnOXZt9ybr5KooNI",
-    imageUrls: [
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771166116/80b59912-254e-4796-90db-9d4deaaa9f24.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771166142/0fb4aca5-ee5b-473a-9013-2bfd1cdecf20.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771166166/ba2c8fc8-5e9c-4089-a4a4-93ec7f312c64.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771166175/5debac35-b2ff-45c5-935e-a69d3867c08e.png"
-    ],
-    usersDone: []
-  },
-  {
-    title: "VIII. The Importance and Use of Typography in Print and Digital Design",
-    sourceUrl: "https://www.researchgate.net/publication/387291068_THE_IMPORTANCE_AND_USE_OF_TYPOGRAPHY_IN_PRINT_AND_DIGITAL_DESIGN/",
-    content: {
-      description: "A research article examining how typography functions and is applied differently in both printed materials and digital environments, comparing font usage and readability across media.",
-      introduction: "This study explores the evolving role of typography from historical beginnings to modern applications, comparing serif vs. sans-serif selection and showing that typography critically impacts readability, aesthetics, and user experience in both print and digital design.",
-      headerOne: "Historical Development and Definition of Typography",
-      discussionOne: "The paper begins by establishing typography’s origins and foundational meaning, tracing its history from early print technologies to its position today as a core component of visual communication. Typography initially emerged with the advent of movable letterpress printing by Johannes Gutenberg in the 1440s, a technological breakthrough that revolutionized the way written information was produced and disseminated. Early typographers adapted handwritten letterforms into metal type, carrying forward the craftsmanship of scribal writing into a mechanized medium. As printing spread through Europe, typographic design gradually developed rules and conventions — not only about how letters were formed, but also how they were composed on a page to communicate effectively. In the centuries that followed, typography became more than a mechanical process of typesetting. Movements such as the industrial revolution and the rise of photography brought increasing competition in visual media and raised the importance of effective typographic communication in advertisements, books, posters, and catalogs. By the early 20th century, schools like the Bauhaus further legitimized typography as an art and design discipline, emphasizing readability, function, and visual clarity in modern graphic design. A key definitional point in the paper is how typography is both an applied art and a technical practice involving the selection, arrangement, and presentation of type to convey meaning. It isn’t merely about making text legible, but also about shaping how messages are perceived. Typography comprises decisions about typeface, size, spacing, color, alignment, line length, and other features that affect both aesthetics and communication efficiency. In essence, the historical section sets the stage for understanding typography as a dynamic and integral component of design — one that has evolved alongside technology and now plays a central role in how we encounter written information in physical and digital spaces alike.",
-      headerTwo: "Typography in Print: Characteristics and Readability",
-      discussionTwo: "Once the historical and conceptual grounding is established, the paper moves to a focused discussion on typography in printed media and how specific typographic choices affect readability and user experience. In printed materials — such as newspapers, books, brochures, catalogs, magazines, and packaging — typography traditionally emphasizes long-form reading and ease of comprehension. The paper points out that printed typography must balance legibility and visual harmony, ensuring the reader’s eye can smoothly navigate lines of text. ʻReadability’ in this context refers to how easily content can be comprehended with minimal effort — a key goal in printed communication. A central thesis in this section is the enduring preference for serif typefaces in printed design contexts. Serif fonts — such as Times New Roman, Garamond, Cambria, Georgia — feature small strokes (serifs) at the ends of letterforms. These serifs are shown to guide the reader’s eye horizontally across a line of text, aiding in recognition and reducing visual fatigue during extended reading. The paper cites research demonstrating that serif fonts facilitate faster perception and comprehension because their subtle features help differentiate letter shapes and sustain continuity across lines. For example, frequently encountered books and newspapers typically use serif typefaces for body text precisely because of these readability advantages. Furthermore, the study stresses that typographic choices in print are about more than aesthetics: they impact how effectively content reaches the target audience. A well-chosen printed typeface supports clarity, draws attention without strain, and reinforces the text’s message. Poor typography — such as inappropriate font choice or inadequate spacing — can discourage readers entirely. In sum, this part of the paper highlights printed typography as a structured art form rooted in functionality and tradition — where serif forms and careful typographic design have been validated over centuries for readability and communication efficacy.",
-      headerThree: "Typography in Digital Design: Function, Readability, and User Experience",
-      discussionThree: "The research then transitions to typography in digital environments, noting that while some principles from print still apply, digital typography presents unique constraints and opportunities due to screen technologies and interactive interfaces. Today, typography is encountered everywhere — on websites, mobile apps, social media, e-book platforms, and other digital media — and decisions about type significantly shape user experience and readability online. One of the paper’s primary points is that sans-serif fonts dominate digital typography because they tend to display more clearly on screens. Digital environments — particularly those involving screens with varying resolutions and pixel densities — require typefaces that are simple, unobstructed, and scalable. The research finds that sans-serif fonts such as Arial, Helvetica, Verdana, Open Sans, Lato, Montserrat, Roboto are regularly preferred across major digital platforms because their clean forms render crisply on screens, enhancing legibility and comfort during reading. These fonts are also widely supported across browsers and devices, making them practical choices for responsive and cross-platform typography. The study supports its conclusions with evidence comparing reading experiences: one example involved measuring reading speeds on screens vs. print, revealing that fonts like Calibri performed better on digital displays whereas traditional serif fonts were more efficient in print. This highlights an important distinction: what works well in print doesn’t always translate effectively to digital contexts. The research also discusses how digital typography must consider additional design elements such as screen resolution, interaction design, navigation, input controls, and typographic spacing in a UI context. Effective digital typography enhances not just the aesthetic appearance of text but also the usability and accessibility of a design. This includes considering factors like contrast, font scaling, line length, device size, and reading environment — all of which influence how users interpret and interact with textual content in digital spaces. In summary, while print typography emphasizes eye comfort and the seamless flow of long passages, digital typography prioritizes screen legibility, clarity, and interface coherence — often necessitating sans-serif choices and adaptive design practices that respond to different devices and user needs.",
-      headerFour: "Comparative Findings and Typography’s Continued Evolution",
-      discussionFour: "The article culminates in a comparative analysis of typographic practices and preferences across printed and digital media, emphasizing how historical traditions and technological constraints shape modern typographic decisions. One of the key findings is the continuity and divergence in typographic choice: while serif fonts remain prevalent in print due to their readability benefits, sans-serif fonts prevail in digital environments because they generally offer clearer rendering on screens. The research underscores that readability and user understanding are central in both domains, but the criteria for achieving them differ. In print, finer details like serif strokes, letterform proportions, and spacing nuances support extended reading. In digital typography, designers must balance readability with interface functionality and aesthetic consistency across devices — often prioritizing simplicity and scalability. Furthermore, the paper places typography within the broader context of digital literacy and evolving communication technologies. With the rapid expansion of digital media, typography continues to play a vital role not only in visual design but also in how individuals interact with information — influencing navigation, comprehension, and overall user experience. The study suggests that as digital communication technologies evolve, so too will typographic practices, potentially leading to deeper integration of responsive typography and adaptive type systems that account for diverse contexts and user needs. Ultimately, the article reinforces that typography is not static — it evolves with cultural, technological, and communicative demands. By comparing print and digital usage, the paper highlights both enduring principles (such as readability and visual hierarchy) and shifting practices driven by technology, underscoring typography’s essential role in design and communication across media."  
-    },
-    youtubeUrl: "https://www.youtube.com/embed/C_RzDqgGcao?si=Jyu2ntsecoqvRYVo",
-    imageUrls: [
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771166973/defc3899-48f5-4116-a8c3-352ccec90be4.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771167004/21c546e8-8da5-4a71-942f-8037afe07a78.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771167058/a30951fe-d437-4577-ae09-cc956b010b5a.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771167182/cb59f66e-31ae-4795-8514-2ea455ec0744.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771167196/e4e92b9d-4c56-4163-9914-9c6bb730743c.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771167204/7d5e0336-32ba-430a-8214-cddf385fd2ee.png"
-    ],
-    usersDone: []
-  },
-  {
-    title: "IX. The Elements of Typographic Style",
-    sourceUrl: "https://en.wikipedia.org/wiki/The_Elements_of_Typographic_Style",
-    category: "typography",
-    content: {
-      description: "A definitive style guide to typography that combines history, theory, and design principles into a comprehensive manual highly regarded by designers and typographers.",
-      introduction: "The Elements of Typographic Style by Robert Bringhurst is a celebrated reference on typography, covering the art, craft, and history of type. It’s widely praised as an essential resource for designers, often called the “typographer’s bible” for its depth, clarity, and influence in the field.",
-      headerOne: "Origins and Significance of the Book",
-      discussionOne: "The Elements of Typographic Style is a landmark book in the study of typography, first published in 1992 by Canadian typographer, poet, and translator Robert Bringhurst. Rather than simply listing rules or offering quick tips, Bringhurst’s work explores typography as both an artistic and intellectual discipline. It’s often described as much more than a how-to manual — it’s a philosophical and aesthetic treatise that bridges technical practice with cultural and historical insight. The book’s title deliberately references the classic writing style guide The Elements of Style by Strunk & White, positioning Bringhurst’s text as an equivalent for typography — a structured yet eloquent exploration of design principles applied to type. Over many editions, The Elements of Typographic Style has been updated to include expanded discussions on digital typography, additional insights into typeface designers and specimen books, and evolving perspectives on typographic practice, reflecting ongoing developments in the field. What makes this book particularly significant is its holistic approach: it doesn’t just tell designers how to set type but why certain choices work and what they signify. Bringhurst weaves historical context and aesthetic philosophy with practical guidance, encouraging readers to appreciate typography as a craft deeply rooted in both form and meaning. This comprehensive perspective has led many practitioners to describe it as the most important book on typography, praised for its depth, literary quality, and respect for the subject matter. Because of its influence, the book is frequently cited, recommended in design curricula, and referred to simply as “Bringhurst” in professional circles. Its impact extends beyond print designers to digital typographers and anyone interested in how letterforms shape communication and culture.",
-      headerTwo: "Core Themes: Craft, Harmony, and Design Principles",
-      discussionTwo: "At the heart of The Elements of Typographic Style are core design themes that guide readers in both craft and aesthetic judgment. Bringhurst emphasizes that typography is not a set of arbitrary rules but a coherent system of design decisions rooted in proportion, harmony, rhythm, and balance. These themes serve as the backbone for understanding how type behaves visually and how it communicates meaning. One major recurring idea is the concept of typographic harmony — the notion that letterforms and text blocks should fit together in a way that feels natural and pleasurable to the eye. This entails careful attention to proportions like line length, leading (line spacing), and the relationships between fonts and sizes. Rather than imposing rigid formulas, Bringhurst encourages designers to develop an “eye” for proportion, suggesting that good typography respects a sense of visual cadence and balance that can be traced back to classical art and music. Another central theme is the relationship between form and content. Bringhurst makes clear that typography must reflect the nature and tone of the text itself; the visual expression of type should enhance a reader’s understanding without dominating or distracting from meaning. This idea extends into how designers choose and combine typefaces, adjust kerning and tracking, and organize text hierarchically. As a result, typography becomes an interpretive art where choices reflect intention rather than default aesthetics. The book also explores the historical evolution of type, tracing how letterforms and typographic conventions have emerged and changed over centuries — from early movable type to modern designs. This historical context helps designers grasp why certain conventions developed and how they influence contemporary practice. Although Bringhurst’s view is deeply rooted in print tradition, later editions include material on digital typography, acknowledging how new technologies expand the craft without undermining foundational principles. Overall, Bringhurst’s work teaches designers to approach typography not as decoration but as language in form — where every choice, from spacing to font selection, contributes to clarity, beauty, and communication.",
-      headerThree: "Practical Structure and Influence on Design Practice",
-      discussionThree: "While the Wikipedia article itself doesn’t list chapter details, secondary descriptions and commentary indicate that The Elements of Typographic Style is organized not just as reference material but as a progressive guide covering both big-picture philosophy and practical execution. Sections and chapters explore typographic theory, rhythm and proportion, choosing and combining typefaces, usage of structural devices (like spacing and alignment), and design considerations for page layout and composition. Practically, the book also includes specimen examples, type classifications, and glossary resources, giving readers both conceptual frameworks and hands-on references. Mentioned elements include typographic counterpoint, structural forms, and even the inclusion of symbols and special characters — details that help typographers tackle a wide range of design problems. Importantly, the book’s influence extends far beyond individual readers. Its deep integration of theory and practice has made it a staple in design education and professional typography training. Many educators and practitioners refer to it as the definitive style guide for typographic practice — a text that not only teaches technical skills but also nurtures critical thinking about design decisions. Because of this, The Elements of Typographic Style remains a foundational cornerstone in graphic design and typography libraries worldwide, shaping how generations of designers understand, evaluate, and apply type.",
-    },
-    youtubeUrl: "https://www.youtube.com/embed/UK-BAxkMU2k?si=WHGU3Fua-B2Sidar",
-    imageUrls: [
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771167572/19e28a03-365f-463b-a39c-9adf21d95678.png"
-    ],
-    usersDone: []
-  },
-  {
-    title: "X. An Essay on Typography",
-    sourceUrl: "https://en.wikipedia.org/wiki/An_Essay_on_Typography",
-    content: {
-      description: "A concise, influential 1931 book by Eric Gill that explores the art, history, craft, and philosophy of typography.",
-      introduction: "An Essay on Typography is a classic and highly regarded guide on the craft of typography, tracing its development, discussing typographic practice and aesthetics, and offering Gill’s personal insights on how typography should balance form, function, and human artistry.",
-      headerOne: "Origins and Context of the Work",
-      discussionOne: "An Essay on Typography was written by English artist and typographer Eric Gill and first published in 1931 in the United Kingdom. Gill was a multifaceted artist — not only a type designer, but also a sculptor, engraver, and writer — which gives the work its unique voice blending craft, theory, and artistic reflection. The book was printed by Gill and his son-in-law René Hague in a limited edition, and notably set in Gill’s own typeface Joanna, a design that sought to marry classic typographic features with the qualities of hand lettering. From its first appearance, the book gained significant respect in design and typography circles. Influential graphic designer Paul Rand described it as “timeless and absorbing,” highlighting its enduring relevance for practitioners and students alike. Over the decades, An Essay on Typography has been republished and reprinted several times, often included in collections or as part of wider discussions of typographic literature and history. The context of the early 20th century — just after the height of the Arts and Crafts movement and before full modernist dominance — deeply influences Gill’s perspective. Rather than embracing purely mechanized industrial production, Gill emphasizes the handcrafted, artistic soul of typographic work, arguing that meaningful type design must be rooted in humanity and mindful engagement with craft. In this way, the book stands not just as a technical manual, but as a manifesto of typographic values — fighting against thoughtless commercialism and advocating for typography that reflects human intention, intelligence, and artistic integrity. Gill’s writing style — described as clear, direct, and occasionally humorous — makes the text accessible to both practitioners and interested general readers. Its continued citation and republishing underscore its classic status: it’s neither simply a historical curiosity nor a dated manual, but a work that continues to influence how designers think about letterforms, layout, and typographic philosophy.",
-      headerTwo: "Core Themes and Philosophical Outlook",
-      discussionTwo: "At the heart of An Essay on Typography is the idea that typography is more than the arrangement of letters — it is a union of craft, morality, and expressive communication. Gill sees typography not only as a technical task but as a humanistic discipline deeply connected to aesthetic judgment and moral purpose. One recurring theme is the tension between machine production and human craftsmanship. While industrialization made printing and typesetting more efficient, Gill expressed concerns that mechanization risked separating the typographer from the tactile and thoughtful elements of design, ultimately compromising the soul of the work. This reflects a broader Arts and Crafts attitude: machines serve humans, not the other way around. Gill advocates that good typography should integrate clarity, proportion, and harmony. He believed that letterforms should reflect the rhythm and grace inherent in handwritten scripts, drawing on historical models while avoiding dry imitation. His use of his own Joanna typeface in the original edition demonstrated these principles in practice: it is flush left/rag right and designed for visual comfort and human readability, modeled in part on the qualities of calligraphy and hand lettered text. Another philosophical strand in the work is Gill’s belief that typography carries a moral dimension. He often critiques purely commercial motives and champions typographers who work with integrity and intention. He remarks on the relationship between the craftsman’s mind and the type forms he makes: that the creator should focus less on the tool (machines, software, etc.) and more on the quality and meaning of the work itself. This emphasis resonates with designers today who seek to balance efficiency and automation with artistic thoughtfulness. Gill also dives into broader considerations of the role of typography in communication, how text should both serve and honor its content, and the historical development of letters and bookmaking. Some sections even explore his more speculative ideas — such as a proposed alternative to conventional lettering — which underscore his radical thinking about both craft and human expression. Overall, An Essay on Typography articulates a worldview in which good typographic practice reflects not only technical skill but also cultural awareness, ethical pursuit of quality, and a deep appreciation for the living art of letters.",
-    },
-    youtubeUrl: "https://www.youtube.com/embed/NCMkPVEIhQo?si=tudVqNkgtojxZNLI",
-    imageUrls: [
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771167998/a3c0ecbd-a2ad-4330-bbbc-25bd097114b1.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771168176/48ac963a-86ff-4a0f-8b36-2e84a274e2e4.png"
-    ],
-    usersDone: []
-  },
-  {
-    title: "XI. An Essay on Typography",
-    sourceUrl: "https://en.wikipedia.org/wiki/An_Essay_on_Typography",
-    content: {
-      description: "A concise educational video that introduces viewers to the fundamentals of typography, covering key definitions, categories, and basic practices of working with type.",
-      introduction: "The video explains what typography is, why it matters in design, and outlines essential concepts such as the difference between typefaces and fonts, how type is categorized, and foundational practices like pairing fonts and creating visual hierarchy.",
-      headerOne: "Understanding What Typography Is and Why It Matters",
-      discussionOne: "The video Understanding Typography | Theory begins by defining typography as the practice and art of arranging and presenting text in ways that make written communication clear, readable, and visually effective. This foundation establishes typography not simply as lettering on a page but as a fundamental design element that influences how readers perceive and process information. Effective typography is a blend of aesthetics and function — where type must both look good and work well in communicating ideas. To help viewers grasp the concept, the video distinguishes between typefaces and fonts — two terms often used interchangeably but technically different. A typeface refers to a design family such as Helvetica or Times New Roman, while fonts are the specific styles within that family (like bold, italic, and light). Understanding this distinction helps designers communicate more precisely and choose type with intention rather than defaulting to generic labels. The video also covers how typography impacts communication effectiveness. Good typography supports readability — meaning the ease with which a reader can understand text — and legibility — the clarity of individual letterforms. These qualities are influenced by choices like font style, size, spacing, and alignment. Poor typography, even with excellent content, can make text tiring to read or miscommunicate the tone of a message. Another important topic the video touches on is how designers learn to recognize and categorize type styles. Fonts are grouped into broad categories such as serif, sans serif, script, monospaced, and decorative. Each group carries different visual personalities and typical uses: serifs often support extended reading; sans serifs feel cleaner and more modern; scripts convey elegance, and decorative fonts make bold statements. Understanding these categories allows designers to make thoughtful choices that support the tone and function of their design. Finally, the video explains how typography contributes to visual hierarchy — the arrangement of text so that readers can intuitively know what to read first, next, and last. This is achieved through typographic contrast such as changes in size, weight, spacing, and style. Visually distinct headlines, subheadings, and body text help users navigate content more effectively, whether in print or on screens. This underscores that typography is not just cosmetic but a deliberate communication tool in design.",
-    },
-    youtubeUrl: "https://www.youtube.com/embed/zite6MkgX4Y?si=iZNIWzLCRTMGgzti",
-    imageUrls: [
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771168704/ee6f1bc4-1c00-4fae-8086-38a994634d57.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771168715/9ee79b6d-de37-496c-b86f-3ba97de07292.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771168733/466d66cc-0929-479b-adfc-392ed243e0d2.png",
-      "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1771168737/078d0167-b522-454e-a237-8a8c0793db65.png"
-    ],
-    usersDone: []
-  }
 ];
 
-const seedAllLessons = async () => {
+const seed = async () => {
   try {
     await mongoose.connect(process.env.DB_URI);
-    console.log("✅ MongoDB Connected...");
+    console.log("✅ Connected to MongoDB");
 
-    // Clear all existing lessons before seeding
     await Lesson.deleteMany({});
-    console.log("🗑️  Cleared all existing lessons");
+    console.log("🗑️  Cleared existing lessons");
 
-    let insertedCount = 0;
+    const inserted = await Lesson.insertMany(lessons);
+    console.log(`📚 Seeded ${inserted.length} lessons successfully`);
 
-    for (const lessonData of lessons) {
-      await Lesson.create(lessonData);
-      console.log(`✅ Successfully seeded: "${lessonData.title}"`);
-      insertedCount++;
+    for (const l of inserted) {
+      console.log(`   • ${l.title} (${l.quiz.length} quiz items)`);
     }
-
-    console.log("\n📊 Seeding Summary:");
-    console.log(`   ✅ Inserted: ${insertedCount} lessons`);
-    console.log(`   📚 Total: ${lessons.length} lessons processed`);
-
-    process.exit(0);
-  } catch (error) {
-    console.error("❌ Error seeding lessons:", error);
-    process.exit(1);
+  } catch (err) {
+    console.error("❌ Seeding error:", err);
+  } finally {
+    await mongoose.disconnect();
+    console.log("🔌 Disconnected from MongoDB");
   }
 };
 
-seedAllLessons();
+seed();

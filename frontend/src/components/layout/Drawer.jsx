@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { getUserById } from "../../api/user";
 import "./Drawer.css";
-
-// const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure-backend-production.up.railway.app";
-const API_URL = import.meta.env.VITE_CLOUDINARY_URL || "https://cornell-manufacture-plane-experts.trycloudflare.com";
-//const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
 
 const Drawer = ({ isOpen, onClose }) => {
   const [avatarUrl, setAvatarUrl] = useState("https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759649430/user_icon_ze74ys.jpg");
@@ -14,18 +10,15 @@ const Drawer = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Check if the drawer is open and the click is outside the drawer panel
       if (isOpen && !event.target.closest('.drawer-panel') && !event.target.closest('.drawer-overlay')) {
         onClose();
       }
     };
 
-    // Add event listener when drawer is open
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
-    // Cleanup event listener
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -43,20 +36,12 @@ const Drawer = ({ isOpen, onClose }) => {
           return;
         }
 
-        // Fetch user data from backend
-        const response = await axios.get(
-          `${API_URL}/api/user/profile/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const data = await getUserById(userId);
 
-        if (response.data.user) {
-          setUsername(response.data.user.username);
-          setEmail(response.data.user.email);
-          setAvatarUrl(response.data.user.profilePicture || "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759649430/user_icon_ze74ys.jpg");
+        if (data.user) {
+          setUsername(data.user.username);
+          setEmail(data.user.email);
+          setAvatarUrl(data.user.profilePicture || "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1759649430/user_icon_ze74ys.jpg");
         }
       } catch (error) {
         console.error("Error fetching user data:", error);

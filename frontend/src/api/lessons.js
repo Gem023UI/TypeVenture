@@ -1,72 +1,49 @@
-// const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure-backend-production.up.railway.app";
-const API_URL = import.meta.env.VITE_CLOUDINARY_URL || "https://cornell-manufacture-plane-experts.trycloudflare.com";
-//const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
-
-const BASE_URL = `${API_URL}/api/lessons`;
-
-console.log("🔗 API Base URL:", BASE_URL);
-
-const getAuthHeaders = () => ({
-  "Content-Type": "application/json",
-  "Authorization": `Bearer ${localStorage.getItem("token")}`
-});
+import api from "./axiosConfig";
 
 export const fetchAllLessons = async () => {
   try {
-    const response = await fetch(BASE_URL, {
-      headers: getAuthHeaders()
-    });
-    
-    // Check if response is not ok
-    if (!response.ok) {
-      const errorData = await response.json();
-      
-      // Handle 403 - Email verification required
-      if (response.status === 403 && errorData.isVerified === false) {
-        throw {
-          status: 403,
-          isVerified: false,
-          message: errorData.message || "Please verify your email to access lessons"
-        };
-      }
-      
-      throw new Error(errorData.error || "Failed to fetch lessons");
-    }
-    
-    return await response.json();
+    const response = await api.get("/api/lessons");
+    return response.data;
   } catch (error) {
     console.error("Error in fetchAllLessons:", error);
-    // Re-throw the error so it can be handled by the component
+
+    if (
+      error.response?.status === 403 &&
+      error.response?.data?.isVerified === false
+    ) {
+      throw {
+        status: 403,
+        isVerified: false,
+        message:
+          error.response?.data?.message ||
+          "Please verify your email to access lessons",
+      };
+    }
+
     throw error;
   }
 };
 
 export const fetchLessonById = async (id) => {
   try {
-    const response = await fetch(`${BASE_URL}/${id}`, {
-      headers: getAuthHeaders()
-    });
-    
-    // Check if response is not ok
-    if (!response.ok) {
-      const errorData = await response.json();
-      
-      // Handle 403 - Email verification required
-      if (response.status === 403 && errorData.isVerified === false) {
-        throw {
-          status: 403,
-          isVerified: false,
-          message: errorData.message || "Please verify your email to access lessons"
-        };
-      }
-      
-      throw new Error(errorData.error || "Failed to fetch lesson");
-    }
-    
-    return await response.json();
+    const response = await api.get(`/api/lessons/${id}`);
+    return response.data;
   } catch (error) {
     console.error("Error in fetchLessonById:", error);
-    // Re-throw the error so it can be handled by the component
+
+    if (
+      error.response?.status === 403 &&
+      error.response?.data?.isVerified === false
+    ) {
+      throw {
+        status: 403,
+        isVerified: false,
+        message:
+          error.response?.data?.message ||
+          "Please verify your email to access lessons",
+      };
+    }
+
     throw error;
   }
 };
@@ -74,23 +51,43 @@ export const fetchLessonById = async (id) => {
 export const markLessonComplete = async (lessonId) => {
   try {
     console.log("📧 Marking lesson complete and sending email...");
-    
-    const response = await fetch(`${BASE_URL}/${lessonId}/complete`, {
-      method: "POST",
-      headers: getAuthHeaders()
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || "Failed to mark lesson complete");
-    }
-    
-    const data = await response.json();
-    console.log("✅ Lesson completed, email sent:", data);
-    
-    return data;
+    const response = await api.post(`/api/lessons/${lessonId}/complete`);
+    console.log("✅ Lesson completed, email sent:", response.data);
+    return response.data;
   } catch (error) {
     console.error("Error marking lesson complete:", error);
+    throw error;
+  }
+};
+
+/**
+ * Submit a quiz score for a lesson.
+ *
+ * @param {string}  lessonTitle     - Title of the lesson
+ * @param {number}  lessonScore     - Total points earned (time-weighted)
+ * @param {boolean} lessonCompleted - TRUE only if the user PASSED (≥ 50% correct)
+ *
+ * The backend stores the score and only overwrites an existing record when
+ * the new score is strictly higher.
+ */
+export const submitQuizScore = async (
+  lessonTitle,
+  lessonScore,
+  lessonCompleted = false
+) => {
+  try {
+    console.log(
+      `📊 Submitting quiz score for "${lessonTitle}": ${lessonScore} pts | passed: ${lessonCompleted}`
+    );
+    const response = await api.post("/api/lessons/quiz/score", {
+      lessonTitle,
+      lessonScore,
+      lessonCompleted,
+    });
+    console.log("✅ Quiz score submitted:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error submitting quiz score:", error);
     throw error;
   }
 };

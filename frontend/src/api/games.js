@@ -1,41 +1,21 @@
-// const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure-backend-production.up.railway.app";
-const API_URL = import.meta.env.VITE_CLOUDINARY_URL || "https://cornell-manufacture-plane-experts.trycloudflare.com";
-//const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
-
-const BASE_URL = `${API_URL}/api/games`;
-
-console.log("🎮 Game API Base URL:", BASE_URL);
-
-const getAuthHeaders = () => ({
-  "Content-Type": "application/json",
-  "Authorization": `Bearer ${localStorage.getItem("token")}`
-});
+import api from "./axiosConfig";
 
 // Fetch all games
 export const fetchAllGames = async () => {
   try {
-    const response = await fetch(BASE_URL, {
-      headers: getAuthHeaders()
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      
-      // Handle 403 - Email verification required
-      if (response.status === 403 && errorData.isVerified === false) {
-        throw {
-          status: 403,
-          isVerified: false,
-          message: errorData.message || "Please verify your email to access games"
-        };
-      }
-      
-      throw new Error(errorData.error || "Failed to fetch games");
-    }
-    
-    return await response.json();
+    const response = await api.get("/api/games");
+    return response.data;
   } catch (error) {
     console.error("Error in fetchAllGames:", error);
+
+    if (error.response?.status === 403 && error.response?.data?.isVerified === false) {
+      throw {
+        status: 403,
+        isVerified: false,
+        message: error.response?.data?.message || "Please verify your email to access games",
+      };
+    }
+
     throw error;
   }
 };
@@ -43,28 +23,19 @@ export const fetchAllGames = async () => {
 // Fetch single game by ID
 export const fetchGameById = async (id) => {
   try {
-    const response = await fetch(`${BASE_URL}/${id}`, {
-      headers: getAuthHeaders()
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      
-      // Handle 403 - Email verification required
-      if (response.status === 403 && errorData.isVerified === false) {
-        throw {
-          status: 403,
-          isVerified: false,
-          message: errorData.message || "Please verify your email to play this game"
-        };
-      }
-      
-      throw new Error(errorData.error || "Failed to fetch game");
-    }
-    
-    return await response.json();
+    const response = await api.get(`/api/games/${id}`);
+    return response.data;
   } catch (error) {
     console.error("Error in fetchGameById:", error);
+
+    if (error.response?.status === 403 && error.response?.data?.isVerified === false) {
+      throw {
+        status: 403,
+        isVerified: false,
+        message: error.response?.data?.message || "Please verify your email to play this game",
+      };
+    }
+
     throw error;
   }
 };
@@ -73,34 +44,20 @@ export const fetchGameById = async (id) => {
 export const submitScore = async (gameId, score) => {
   try {
     console.log("📤 Submitting score to server...", { gameId, score });
-    
-    const response = await fetch(`${BASE_URL}/score`, {
-      method: "POST",
-      headers: getAuthHeaders(),
-      body: JSON.stringify({ gameId, score })
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      
-      // Handle 403 - Email verification required
-      if (response.status === 403 && errorData.isVerified === false) {
-        throw {
-          status: 403,
-          isVerified: false,
-          message: errorData.message || "Please verify your email to submit scores"
-        };
-      }
-      
-      throw new Error(errorData.error || "Failed to submit score");
-    }
-    
-    const data = await response.json();
-    console.log("✅ Score submitted:", data);
-    
-    return data;
+    const response = await api.post("/api/games/score", { gameId, score });
+    console.log("✅ Score submitted:", response.data);
+    return response.data;
   } catch (error) {
     console.error("Error submitting score:", error);
+
+    if (error.response?.status === 403 && error.response?.data?.isVerified === false) {
+      throw {
+        status: 403,
+        isVerified: false,
+        message: error.response?.data?.message || "Please verify your email to submit scores",
+      };
+    }
+
     throw error;
   }
 };
@@ -108,16 +65,8 @@ export const submitScore = async (gameId, score) => {
 // Fetch user's scores
 export const fetchUserScores = async () => {
   try {
-    const response = await fetch(`${BASE_URL}/user/scores`, {
-      headers: getAuthHeaders()
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || "Failed to fetch user scores");
-    }
-    
-    return await response.json();
+    const response = await api.get("/api/games/user/scores");
+    return response.data;
   } catch (error) {
     console.error("Error in fetchUserScores:", error);
     throw error;
@@ -127,16 +76,8 @@ export const fetchUserScores = async () => {
 // Fetch game leaderboard
 export const fetchGameLeaderboard = async (gameId, limit = 10) => {
   try {
-    const response = await fetch(`${BASE_URL}/${gameId}/leaderboard?limit=${limit}`, {
-      headers: getAuthHeaders()
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || "Failed to fetch leaderboard");
-    }
-    
-    return await response.json();
+    const response = await api.get(`/api/games/${gameId}/leaderboard?limit=${limit}`);
+    return response.data;
   } catch (error) {
     console.error("Error in fetchGameLeaderboard:", error);
     throw error;
@@ -146,16 +87,8 @@ export const fetchGameLeaderboard = async (gameId, limit = 10) => {
 // Fetch user profile by ID (for leaderboard top player)
 export const fetchUserProfile = async (userId) => {
   try {
-    const response = await fetch(`${API_URL}/api/user/profile/${userId}`, {
-      headers: getAuthHeaders()
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || "Failed to fetch user profile");
-    }
-    
-    return await response.json();
+    const response = await api.get(`/api/user/profile/${userId}`);
+    return response.data;
   } catch (error) {
     console.error("Error in fetchUserProfile:", error);
     throw error;

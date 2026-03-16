@@ -1,8 +1,8 @@
 import axios from "axios";
 
-// const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure-backend-production.up.railway.app";
-const API_URL = import.meta.env.VITE_CLOUDINARY_URL || "https://cornell-manufacture-plane-experts.trycloudflare.com";
-//const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
+// const API_URL = import.meta.env.VITE_BACKEND_URL
+// const API_URL = import.meta.env.VITE_CLOUDFARE_URL || "https://brave-convertible-bucks-coupons.trycloudflare.com"
+const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000"
 
 // Create axios instance
 const api = axios.create({
@@ -66,17 +66,3 @@ api.interceptors.response.use(
 );
 
 export default api;
-
-/**
- * Usage example in your service files:
- * 
- * import api from '../config/axiosConfig';
- * 
- * // Instead of:
- * // axios.post(`${BASE_URL}/api/user/profile`, data)
- * 
- * // Use:
- * // api.post('/api/user/profile', data)
- * 
- * // The interceptor will automatically add the Bearer token
- */

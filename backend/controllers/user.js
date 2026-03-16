@@ -32,6 +32,7 @@ export const getUserById = async (req, res) => {
         profilePicture: user.profilePicture,
         hobbies: user.hobbies,
         isVerified: user.isVerified,
+        userrole: user.userrole,    
         createdAt: user.createdAt ? user.createdAt.toISOString() : null,
       },
     });
@@ -49,7 +50,7 @@ export const registerUser = async (req, res) => {
   console.log("🔵 Register endpoint hit");
 
   try {
-    let { username, email, password, profilePicture, hobbies } = req.body;
+    let { username, email, password, userrole, profilePicture, hobbies } = req.body;
 
     if (!username || username.length < 5) {
       return res.status(400).json({ error: "Username must be at least 5 characters long" });
@@ -76,10 +77,10 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ error: "Email already in use" });
     }
 
-    const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
-    if (!passwordRegex.test(password)) {
+    const passwordRegex = /^(?=.*[!@#$%^&*(),.?\":{}|<>]).{6,}$/;
+    if (!password || !passwordRegex.test(password)) {
       return res.status(400).json({
-        error: "Password must be at least 6 characters long and contain at least 1 symbol",
+        message: "Password must be at least 6 characters and contain at least 1 symbol (e.g. ! @ # $)",
       });
     }
 
@@ -111,6 +112,7 @@ export const registerUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      userrole: userrole || "user",
       profilePicture,
       hobbies,
     });
@@ -177,6 +179,7 @@ export const loginUser = async (req, res) => {
         profilePicture: user.profilePicture,
         hobbies: user.hobbies,
         isVerified: user.isVerified,
+        userrole: user.userrole,
       },
     });
 

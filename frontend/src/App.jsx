@@ -3,7 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Aurora from "./components/bins/background/Aurora";
 import LandingSection from "./components/pages/LandingSection";
 import LoginRegister from "./components/pages/Login&Register";
+// import AdminPage from "./components/pages/admin/AdminPage";
 import FrontPage from "./components/pages/FrontPage";
+import LessonDetails from './components/pages/LessonDetails';
+import LessonQuiz from './components/pages/LessonQuiz';
 import GuestGame from './components/pages/GuestGame';
 import Games from './components/pages/GamesGrid';
 import KerningGame from './components/pages/games/Kerning';
@@ -49,7 +52,7 @@ function App() {
       <div className="App">
         {/* Aurora as full background */}
         <Aurora
-          colorStops={["#0029FF", "#FFFFFF", "#FF1414"]}
+          colorStops={["#0029FF", "#a200ff", "#FF1414"]}
           blend={0.0}
           amplitude={2.0}
           speed={0.5}
@@ -60,7 +63,10 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingSection logoUrl={logoUrl} />} />
             <Route path="/login" element={<LoginRegister logoUrl={logoUrl} />} />
+            {/*<Route path="/admin" element={<AdminPage />} />*/}
             <Route path="/lessons" element={<FrontPage />} />
+            <Route path="/lesson/:id" element={<LessonDetails />} />
+            <Route path="/quiz/:id"   element={<LessonQuiz />} />
             <Route path="/articles" element={<ArticleList />} />
             <Route path="/article/font-pairings-2026" element={<ArticleOne />} />
             <Route path="/article/typographic-hierarchies" element={<ArticleTwo />} />

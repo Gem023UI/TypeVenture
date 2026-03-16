@@ -1,15 +1,16 @@
+// routes/user.js
 import express from "express";
 import upload from "../utils/multer.js";
-import { 
-  registerUser, 
-  loginUser, 
+import {
+  registerUser,
+  loginUser,
   editProfile,
   getUserById,
   deleteAccount,
   sendVerificationCode,
   verifyEmail,
   sendPasswordResetCode,
-  resetPassword
+  resetPassword,
 } from "../controllers/user.js";
 import { handleMulterError } from "../middlewares/multer.js";
 import { verifyToken } from "../middlewares/auth.js";
@@ -23,9 +24,10 @@ router.post("/login", loginUser);
 
 router.get("/profile/:id", verifyToken, getUserById);
 
-router.put("/edit-profile", 
+router.put(
+  "/edit-profile",
   verifyToken,
-  upload.single("avatar"), 
+  upload.single("avatar"),
   handleMulterError,
   editProfile
 );

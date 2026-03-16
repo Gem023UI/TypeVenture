@@ -1,59 +1,45 @@
-import axios from "axios";
-
-// const API_URL = import.meta.env.VITE_BACKEND_URL || "https://typeventure-backend-production.up.railway.app";
-const API_URL = import.meta.env.VITE_CLOUDINARY_URL || "https://cornell-manufacture-plane-experts.trycloudflare.com";
-//const API_URL = import.meta.env.VITE_LOCAL_URL || "http://localhost:5000";
-
-const BASE_URL = `${API_URL}`;
+import api from "./axiosConfig";
 
 export const registerUser = async (formData) => {
   try {
-    console.log("Registering to:", `${BASE_URL}/api/user/register`); // Debug
-    const response = await axios.post(`${BASE_URL}/api/user/register`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+    console.log("Registering user...");
+    const response = await api.post("/api/user/register", formData, {
+      headers: { "Content-Type": "application/json" },
     });
-    console.log("Register success:", response.data); // Debug
+    console.log("Register success:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Register error:", error.response || error); // Debug
-    throw error.response?.data?.message || "Registration failed.";
+    console.error("Register error:", error.response || error);
+    console.error("Server said:", error.response?.data);
+    const serverMsg =
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      "Registration failed.";
+    throw serverMsg;
   }
 };
 
 export const loginUser = async (credentials) => {
   try {
-    console.log("Logging in to:", `${BASE_URL}/api/user/login`); // Debug
-    const response = await axios.post(`${BASE_URL}/api/user/login`, credentials, {
-      headers: { 
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      },
-      withCredentials: true,
-    });
-    console.log("Login success:", response.data); // Debug
+    console.log("Logging in...");
+    const response = await api.post("/api/user/login", credentials);
+    console.log("Login success:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Login error:", error.response || error); // Debug
+    console.error("Login error:", error.response || error);
     throw error.response?.data?.message || "Login failed.";
   }
 };
 
 export const editProfile = async (formData) => {
   try {
-    // Grab userId from localStorage
     const userId = localStorage.getItem("userId");
     if (!userId) throw new Error("User ID not found in localStorage");
 
-    // Append userId to the form data
     formData.append("userId", userId);
 
-    console.log("Editing profile at:", `${BASE_URL}/api/user/edit-profile`);
-    const response = await axios.put(`${BASE_URL}/api/user/edit-profile`, formData, {
-      headers: { 
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      },
-      withCredentials: true,
-    });
+    console.log("Editing profile...");
+    const response = await api.put("/api/user/edit-profile", formData);
     console.log("Edit profile success:", response.data);
     return response.data;
   } catch (error) {
@@ -64,25 +50,8 @@ export const editProfile = async (formData) => {
 
 export const getUserById = async (userId) => {
   try {
-    const response = await fetch(`${API_URL}/api/user/profile/${userId}`, {
-      method: "GET",
-      headers: { 
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const contentType = response.headers.get("content-type");
-    if (!contentType || !contentType.includes("application/json")) {
-      throw new Error("Server did not return JSON");
-    }
-
-    const data = await response.json();
-    return data;
+    const response = await api.get(`/api/user/profile/${userId}`);
+    return response.data;
   } catch (error) {
     console.error("Get user error:", error);
     throw error;
@@ -91,14 +60,9 @@ export const getUserById = async (userId) => {
 
 export const deleteAccount = async (credentials) => {
   try {
-    console.log("Deleting account at:", `${BASE_URL}/api/user/delete-account`);
-    const response = await axios.delete(`${BASE_URL}/api/user/delete-account`, {
+    console.log("Deleting account...");
+    const response = await api.delete("/api/user/delete-account", {
       data: credentials,
-      headers: { 
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      },
-      withCredentials: true,
     });
     console.log("Delete account success:", response.data);
     return response.data;
@@ -110,34 +74,31 @@ export const deleteAccount = async (credentials) => {
 
 export const sendPasswordResetCode = async (email) => {
   try {
-    const response = await axios.post(`${BASE_URL}/api/user/forgot-password`, { email });
+    const response = await api.post("/api/user/forgot-password", { email });
     return response.data;
   } catch (error) {
-    console.error('Send password reset code error:', error);
-    throw error.response?.data?.error || 'Failed to send password reset code';
+    console.error("Send password reset code error:", error);
+    throw error.response?.data?.error || "Failed to send password reset code";
   }
 };
 
 export const resetPassword = async (email, code, newPassword) => {
   try {
-    const response = await axios.post(`${BASE_URL}/api/user/reset-password`, { 
-      email, 
-      code, 
-      newPassword 
+    const response = await api.post("/api/user/reset-password", {
+      email,
+      code,
+      newPassword,
     });
     return response.data;
   } catch (error) {
-    console.error('Reset password error:', error);
-    throw error.response?.data?.error || 'Password reset failed';
+    console.error("Reset password error:", error);
+    throw error.response?.data?.error || "Password reset failed";
   }
 };
 
 export const verifyEmail = async (code, userId) => {
   try {
-    const response = await axios.post(`${BASE_URL}/api/user/verify-email`, { userId, code }, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      withCredentials: true,
-    });
+    const response = await api.post("/api/user/verify-email", { userId, code });
     return response.data;
   } catch (error) {
     console.error("Verify email error:", error.response || error);
@@ -147,13 +108,28 @@ export const verifyEmail = async (code, userId) => {
 
 export const getCompletedLessons = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/lessons`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      withCredentials: true,
-    });
+    const response = await api.get("/api/lessons");
     return response.data;
   } catch (error) {
     console.error("Get lessons error:", error.response || error);
     throw error.response?.data?.error || "Failed to fetch lessons.";
+  }
+};
+
+/**
+ * Retrieve the current user's quiz scores from their profile.
+ * Returns the lessonQuiz array stored on the user document.
+ * Used by LessonDetails to gate the "Mark as Complete" button.
+ */
+export const getQuizScores = async () => {
+  try {
+    const userId = localStorage.getItem("userId");
+    if (!userId) throw new Error("User ID not found in localStorage");
+    const response = await api.get(`/api/user/profile/${userId}`);
+    /* lessonQuiz lives on the user object returned by getUserById */
+    return response.data?.user?.lessonQuiz ?? response.data?.lessonQuiz ?? [];
+  } catch (error) {
+    console.error("Get quiz scores error:", error.response || error);
+    throw error.response?.data?.error || "Failed to fetch quiz scores.";
   }
 };

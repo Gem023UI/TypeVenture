@@ -1,6 +1,11 @@
 // routes/lessons.js
 import express from "express";
-import { getAllLessons, getLessonById, markLessonComplete } from "../controllers/lessons.js";
+import {
+  getAllLessons,
+  getLessonById,
+  markLessonComplete,
+  submitQuizScore,
+} from "../controllers/lessons.js";
 import { verifyToken } from "../middlewares/auth.js";
 
 const router = express.Router();
@@ -11,7 +16,10 @@ router.get("/", verifyToken, getAllLessons);
 // Fetch single lesson by ID
 router.get("/:id", verifyToken, getLessonById);
 
-// Post Lesson Complete
+// Mark lesson as complete
 router.post("/:lessonId/complete", verifyToken, markLessonComplete);
+
+// Submit quiz score for a lesson
+router.post("/quiz/score", verifyToken, submitQuizScore);
 
 export default router;

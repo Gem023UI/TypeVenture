@@ -102,6 +102,15 @@
   border: 2px solid #000000;
 }
 
+.login-register-wrapper .container button.btn2:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background-color: #888;
+  border-color: transparent;
+  color: #fff;
+  pointer-events: all;
+}
+
 .login-register-wrapper .container form {
   background-color: var(--text-light);
   display: flex;
@@ -314,6 +323,11 @@
   cursor: pointer;
   font-size: 18px;
   color: var(--text-dark);
+}
+
+.login-register-wrapper .container input[name="confirmPassword"] {
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease;
 }
 
 .eye-btn:disabled {
