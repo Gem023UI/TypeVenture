@@ -6,6 +6,7 @@ import LoginRegister from "./components/pages/Login&Register";
 import FrontPage from "./components/pages/FrontPage";
 import LessonDetails from './components/pages/LessonDetails';
 import LessonQuiz from './components/pages/LessonQuiz';
+import Workspace from './components/pages/Workspace';
 import GuestGame from './components/pages/GuestGame';
 import Games from './components/pages/GamesGrid';
 import KerningGame from './components/pages/games/Kerning';
@@ -76,6 +77,7 @@ function App() {
             <Route path="/lessons" element={<FrontPage />} />
             <Route path="/lesson/:id" element={<LessonDetails />} />
             <Route path="/quiz/:id" element={<LessonQuiz />} />
+            <Route path="/workspace" element={<Workspace />} />
 
             {/* ── Articles ── */}
             <Route path="/articles" element={<ArticleList />} />
