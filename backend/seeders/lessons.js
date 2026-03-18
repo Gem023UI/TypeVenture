@@ -15,7 +15,7 @@ const lessons = [
     title: "Lesson I: The Calligraphic Foundation",
     difficulty: "Beginner",
     completionTime: "~20 min",
-    lessonImage: LESSON_IMAGE,
+    lessonImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1773797232/THE_ANCIENT_ISLAND_z9rtsh.png",
     sourceUrl: "https://lithub.com/how-medieval-monks-and-scribes-helped-preserve-classical-culture/",
     youtubeUrl: "https://www.youtube.com/embed/xGbaXZs9-xA",
     imageUrls: [CONTENT_IMAGE, CONTENT_IMAGE, CONTENT_IMAGE],
@@ -214,7 +214,7 @@ const lessons = [
     title: "Lesson II: Typography Theory and Philosophy",
     difficulty: "Intermediate",
     completionTime: "~18 min",
-    lessonImage: LESSON_IMAGE,
+    lessonImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1773797234/THE_ENGINEERING_ISLAND_j75cvx.png",
     sourceUrl: "https://readings.design/PDF/the_crystal_goblet.pdf",
     youtubeUrl: "https://www.youtube.com/embed/0-LHO1Uzoos",
     imageUrls: [CONTENT_IMAGE, CONTENT_IMAGE],
@@ -347,7 +347,7 @@ const lessons = [
     title: "Lesson III: Advanced Typography Fundamentals & Systems",
     difficulty: "Intermediate",
     completionTime: "~22 min",
-    lessonImage: LESSON_IMAGE,
+    lessonImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1773797235/THE_FONT-SIZE_FORTRESS_ISLAND_flfmvc.png",
     sourceUrl: "https://ellenlupton.com/Thinking-with-Type",
     youtubeUrl: "https://www.youtube.com/embed/Xg-KhUVhtLQ",
     imageUrls: [CONTENT_IMAGE, CONTENT_IMAGE],
@@ -516,7 +516,7 @@ const lessons = [
     title: "Lesson IV: Typeface Properties & Technical Manipulation",
     difficulty: "Advanced",
     completionTime: "~25 min",
-    lessonImage: LESSON_IMAGE,
+    lessonImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1773797236/THE_MODULARITY_ISALND_yyeljt.png",
     sourceUrl: "https://help.webflow.com/hc/en-us/articles/33961334261779-Advanced-web-typography",
     youtubeUrl: "https://www.youtube.com/embed/5HxB4TZYI-c",
     imageUrls: [CONTENT_IMAGE, CONTENT_IMAGE, CONTENT_IMAGE],
@@ -696,6 +696,535 @@ const lessons = [
       },
     ],
   },
+
+  /* ══════════════════════════════════════════════════════
+     LESSON 5 – Typography in Branding
+  ══════════════════════════════════════════════════════ */
+  {
+    title: "Lesson V: Typography in Branding",
+    difficulty: "Intermediate",
+    completionTime: "~20 min",
+    lessonImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1773797238/THE_SUMMIT_OD_BRANDING_ISLAND_rhp7ne.png",
+    sourceUrl: "https://youtu.be/p6C7qFhy7ow?si=mek9bI3bYsjPbi8J",
+    youtubeUrl: "https://www.youtube.com/embed/p6C7qFhy7ow",
+    imageUrls: [CONTENT_IMAGE, CONTENT_IMAGE, CONTENT_IMAGE],
+    content: {
+      description:
+        "In this lesson, the discussion moves beyond the structural mechanics of typography toward its strategic role in communication and branding. While previous lessons focused on the anatomy and manipulation of typefaces, typography in branding explores how these technical elements function as powerful tools for shaping public perception. Typography is one of the most influential visual components of a brand identity system. Before consumers consciously read the words on a page or screen, they subconsciously interpret the style of the letters used to present those words. The typeface becomes a visual voice, expressing personality, credibility, and emotional tone. For this reason, typography is not simply a design choice—it is a strategic decision that influences how a brand is perceived in the marketplace. Effective branding requires a consistent typographic system that reflects the company's values, resonates with its target audience, and adapts across multiple media platforms.",
+ 
+      introduction:
+        "Typography is one of the most influential visual components of a brand identity system. Before consumers consciously read the words on a page or screen, they subconsciously interpret the style of the letters used to present those words. The typeface becomes a visual voice, expressing personality, credibility, and emotional tone. For this reason, typography is not simply a design choice—it is a strategic decision that influences how a brand is perceived in the marketplace. The following sections examine how typography functions as a psychological signal, a contextual tool, a system of hierarchy, and an instrument of inclusive communication within modern branding practices.",
+ 
+      headerOne: "I. Brand Personality: The Psychology of Typeface Choice",
+      discussionOne:
+        "Every typeface carries its own visual character and emotional associations, often referred to as the personality of the font. These associations are not arbitrary; they have developed through centuries of cultural use, historical context, and design conventions. As a result, different typefaces evoke different psychological responses in viewers. When designers select a typeface for a brand, they are effectively choosing the tone of voice that the brand will use in visual communication. Just as a spoken voice can sound formal, playful, authoritative, or friendly, the visual form of letters can convey similar qualities. Serif typefaces are historically rooted in classical Roman inscriptions and traditional printing practices. The small decorative strokes at the ends of the letters—known as serifs—create a sense of stability and continuity. Because of this historical association, serif fonts are often perceived as trustworthy, authoritative, and sophisticated. Institutions such as financial organizations, academic institutions, law firms, and traditional newspapers frequently rely on serif typography to reinforce their credibility and long-standing reputation. In contrast, sans-serif typefaces emerged during the modernist design movements of the twentieth century, where simplicity, clarity, and functionality became central design principles. Sans-serif fonts remove the decorative strokes of serif fonts, resulting in clean, minimalist letterforms that feel contemporary and efficient. Because of their clarity and modern appearance, sans-serif fonts are widely used by technology companies, digital platforms, and innovative startups seeking to communicate progressiveness and accessibility. Another category of typefaces includes script and handwritten fonts, which mimic the appearance of cursive handwriting. These fonts often convey elegance, creativity, warmth, or a handcrafted aesthetic. They are commonly used by brands in industries such as luxury fashion, boutique retail, beauty products, and artisanal food businesses where a sense of personal craftsmanship is desirable. Decorative or display typefaces are designed primarily for visual impact rather than readability. These fonts often feature elaborate shapes or unconventional structures and are typically used in headlines, logos, or short phrases rather than extended text. Design researchers and branding specialists frequently refer to this relationship between typography and perception as font psychology. According to this principle, the emotional tone of a typeface can either reinforce or contradict a brand's intended message. For example, if a cybersecurity company used a playful or whimsical script font, the result would be cognitive dissonance—a psychological mismatch between the seriousness of the service and the tone of the typography. Therefore, successful branding requires designers to carefully evaluate the symbolic meaning and emotional associations of typefaces.",
+ 
+      headerTwo: "II. Audience and Medium: Contextual Adaptability",
+      discussionTwo:
+        "While typeface personality is important, typography must also adapt to the context in which it will be experienced. A brand rarely communicates through a single medium; instead, it interacts with audiences through websites, social media, advertisements, packaging, mobile applications, and physical environments. Each of these platforms imposes unique technical constraints and viewing conditions. Typography must therefore function as a flexible system, capable of maintaining brand consistency while adapting to different environments. One major factor in this adaptability is audience demographics. Designers must consider the characteristics of the intended audience when selecting and configuring typography. For instance, brands targeting older audiences may use larger font sizes, increased spacing, and higher color contrast to accommodate reduced visual acuity. Conversely, brands targeting younger audiences may experiment with bolder display fonts and more dynamic typographic arrangements. Cultural context also plays a role in typographic interpretation. Letterforms that appear neutral or professional in one cultural setting may carry different associations in another. Global brands must therefore conduct research to ensure that their typographic choices do not unintentionally convey inappropriate or misleading meanings in different regions. Another important consideration is the technical environment in which typography is displayed. A font that looks elegant in print may not perform well on digital screens. Thin strokes and intricate details can become difficult to read when rendered on low-resolution displays or compressed images. This challenge becomes particularly important in the era of responsive design, where websites and applications must function across a wide range of devices—from large desktop monitors to small smartphone screens and wearable devices. Typography must scale fluidly while preserving readability and hierarchy. User experience researchers describe this principle as the contextual reading experience. The effectiveness of typography depends not only on the design of the letterforms but also on the environment in which they are read. Designers must test typography at multiple screen sizes and interface conditions to ensure that it remains legible and visually balanced. Brands that ignore these contextual considerations risk creating inconsistent or frustrating experiences for users. Poor typography on key platforms—such as mobile apps or websites—can negatively affect consumer perception, making the brand appear outdated, careless, or unprofessional.",
+ 
+      headerThree: "III. Strategic Constraints: Limiting Font Variety",
+      discussionThree:
+        "In professional branding systems, consistency is essential. One of the most effective ways to maintain visual consistency is by limiting the number of typefaces used within a brand identity. Designers often follow what is commonly known as the 'Rule of Two' or 'Rule of Three,' which suggests using two to three complementary typefaces within a brand's typographic system. This limitation helps create a clear and recognizable visual language that audiences can easily associate with the brand. A typical typographic system may include: a display typeface used for headlines, titles, or promotional content; a body typeface used for paragraphs and longer blocks of text; and an optional accent typeface used for small highlights, captions, or supporting elements. This structured approach allows designers to establish visual hierarchy, guiding the reader's attention through information in a logical order. Headlines capture attention first, subheadings organize content, and body text delivers the detailed message. Using too many fonts within a single brand identity can create visual confusion. When multiple unrelated typefaces compete for attention, the design becomes cluttered and difficult to read. This phenomenon is often referred to as visual noise, where excessive variation disrupts the clarity of communication. Strategic font pairing, however, can produce a balanced and harmonious design system. Designers often select typefaces that share certain characteristics—such as similar x-heights or proportions—while differing in other aspects like weight, serif style, or geometric structure. This combination creates contrast without sacrificing unity. For example, a brand might pair a bold sans-serif display font with a clean serif body font. The contrast between the two adds visual interest while maintaining readability and structural balance. Over time, consistent use of these typographic combinations builds brand recognition. Consumers begin to associate the specific style of typography with the brand itself, reinforcing the brand's identity across advertisements, packaging, and digital platforms.",
+ 
+      headerFour: "IV. Inclusive Design: Accessibility as a Brand Value",
+      discussionFour:
+        "In contemporary design practice, typography must also meet the standards of inclusive and accessible communication. Accessibility ensures that information can be understood and navigated by people with diverse abilities, including individuals with visual impairments, dyslexia, or situational reading challenges. Typography plays a central role in accessibility because text is the primary medium through which information is conveyed in digital and print environments. Accessible typography requires attention to several key factors. Color Contrast: Text must have sufficient contrast with its background to remain readable under different lighting conditions. International accessibility standards recommend minimum contrast ratios to ensure that users with low vision can distinguish the text clearly. Letterform Clarity: Certain typefaces make it difficult to distinguish between similar characters, such as the uppercase 'I,' lowercase 'l,' and the numeral '1.' Accessible fonts are designed with distinct shapes that reduce confusion between these characters. Adequate Spacing: Proper letter spacing, word spacing, and line spacing help readers process information more comfortably. Tight spacing can make words appear crowded, while excessive spacing can disrupt reading flow. Readable Font Sizes: Small text sizes can create barriers for many readers. Accessible design encourages the use of scalable typography so that users can enlarge text without losing functionality or layout structure. These practices are guided by international standards such as the Web Content Accessibility Guidelines (WCAG). Compliance with these guidelines is not only a legal requirement in many contexts but also an ethical responsibility for designers and organizations. Brands that prioritize accessibility demonstrate a commitment to inclusive user experience. By ensuring that typography is readable for individuals with diverse needs, companies expand their reach while communicating values of empathy, social responsibility, and professionalism. Inclusive typography ultimately strengthens brand loyalty. Consumers are more likely to trust and support organizations that demonstrate respect for accessibility and equal access to information.",
+ 
+      headerFive: "Conclusion: Typography as a Strategic Branding Tool",
+      discussionFive:
+        "Typography in branding is far more than aesthetic decoration. It is a strategic communication tool that shapes how audiences perceive and interact with a brand. Through careful selection and systematic application of typefaces, designers create a consistent visual voice that reflects a company's identity and values. Typeface personality communicates emotional tone, contextual adaptability ensures readability across platforms, strategic limitations create visual hierarchy, and accessibility guarantees inclusivity. Together, these principles transform typography into a powerful instrument of brand storytelling. In the modern design landscape, brands that understand and apply these typographic principles gain a significant advantage. Their visual identities become clearer, more recognizable, and more meaningful to their audiences—demonstrating that the careful design of letters can influence not only how messages are read, but also how they are remembered.",
+    },
+    quiz: [
+      /* ─── EASY: Branding Face-Offs (10 items) ─── */
+      {
+        type: "scenario",
+        question: "A bank needs to look 'Safe, Strong, and Trustworthy.' Which font should they choose?",
+        scenario: "Font A: A thin, curly Script font with hearts. Font B: A bold, thick Slab Serif (like a 19th-century safe).",
+        choices: [
+          "Font A — thin, curly Script font with hearts",
+          "Font B — bold, thick Slab Serif",
+        ],
+        correctAnswer: "Font B — bold, thick Slab Serif",
+        explanation: "Slab Serifs project authority and physical strength. A thin, curly script would create cognitive dissonance — you would not trust a bank that looks like a wedding invitation.",
+      },
+      {
+        type: "scenario",
+        question: "A courier company wants to look 'Lightning Fast and Efficient.' Which font should they choose?",
+        scenario: "Font A: An Italic (Slanted) Sans-Serif (leaning forward). Font B: A tall, vertical Old Style Serif with curly feet.",
+        choices: [
+          "Font A — Italic (Slanted) Sans-Serif leaning forward",
+          "Font B — tall, vertical Old Style Serif with curly feet",
+        ],
+        correctAnswer: "Font A — Italic (Slanted) Sans-Serif leaning forward",
+        explanation: "Italic Sans-Serifs create a 'Visual Forward Motion' that signals speed. In typography, leaning forward suggests motion. A straight, old-fashioned newspaper font does not look like it is in a hurry.",
+      },
+      {
+        type: "scenario",
+        question: "An organic farm wants to look 'Hand-Grown and Personal.' Which font should they choose?",
+        scenario: "Font A: A cold, sharp Geometric Sans-Serif (built with a ruler). Font B: A soft, Rounded Sans-Serif or Hand-Drawn Script.",
+        choices: [
+          "Font A — cold, sharp Geometric Sans-Serif",
+          "Font B — soft, Rounded Sans-Serif or Hand-Drawn Script",
+        ],
+        correctAnswer: "Font B — soft, Rounded Sans-Serif or Hand-Drawn Script",
+        explanation: "Hand-Drawn styles create a 'Handcrafted' emotional DNA. Perfect circles and squares feel like a factory. To feel 'Organic,' you need shapes that look like they were made by a human hand.",
+      },
+      {
+        type: "scenario",
+        question: "A high-end perfume brand wants to look 'Elegant and Expensive.' Which font should they choose?",
+        scenario: "Font A: A High-Contrast Serif with very thin and very thick lines (like Vogue). Font B: A heavy, blocky Monospaced font (like a computer terminal).",
+        choices: [
+          "Font A — High-Contrast Serif with thin and thick lines",
+          "Font B — heavy, blocky Monospaced font",
+        ],
+        correctAnswer: "Font A — High-Contrast Serif with thin and thick lines",
+        explanation: "High-Contrast Serifs are the international visual language of 'High Fashion.' Luxury is about grace and detail — a chunky computer font does not feel like a $200 bottle of perfume.",
+      },
+      {
+        type: "scenario",
+        question: "A children's toy brand wants to look 'Playful and Energetic.' Which font should they choose?",
+        scenario: "Font A: A stiff, all-caps Traditional Serif (like a law book). Font B: A Bouncy, Irregular Decorative font with different heights.",
+        choices: [
+          "Font A — stiff, all-caps Traditional Serif",
+          "Font B — Bouncy, Irregular Decorative font",
+        ],
+        correctAnswer: "Font B — Bouncy, Irregular Decorative font",
+        explanation: "Irregular shapes break the 'Grid' and create a sense of energy and play. A serious, straight law-office font does not make you want to play with toys.",
+      },
+      {
+        type: "scenario",
+        question: "A 100-year-old news outlet wants to look 'Authoritative and Historical.' Which font should they choose?",
+        scenario: "Font A: A modern Sans-Serif (like Arial). Font B: A classic Blackletter or Old Style Serif.",
+        choices: [
+          "Font A — modern Sans-Serif like Arial",
+          "Font B — classic Blackletter or Old Style Serif",
+        ],
+        correctAnswer: "Font B — classic Blackletter or Old Style Serif",
+        explanation: "Serifs and Blackletter styles communicate legacy and 'The Truth.' History lives in the 'feet' of the letters — this font looks like it was printed on an old-school mechanical press.",
+      },
+      {
+        type: "scenario",
+        question: "A robotics company wants to look 'Innovative and Minimalist.' Which font should they choose?",
+        scenario: "Font A: A clean, wide Geometric Sans-Serif. Font B: A vintage Script font (like a 1950s diner).",
+        choices: [
+          "Font A — clean, wide Geometric Sans-Serif",
+          "Font B — vintage Script font like a 1950s diner",
+        ],
+        correctAnswer: "Font A — clean, wide Geometric Sans-Serif",
+        explanation: "Sans-Serif is the 'Voice' of the future and tech efficiency. Innovation is about removing clutter — a robot would not use messy, handwritten loops to communicate.",
+      },
+      {
+        type: "scenario",
+        question: "A neighborhood cafe wants to look 'Cozy and Friendly.' Which font should they choose?",
+        scenario: "Font A: A sharp, aggressive All-Caps Slab Serif. Font B: A soft, Lower-case Rounded font.",
+        choices: [
+          "Font A — sharp, aggressive All-Caps Slab Serif",
+          "Font B — soft, Lower-case Rounded font",
+        ],
+        correctAnswer: "Font B — soft, Lower-case Rounded font",
+        explanation: "Rounded letters remove 'visual friction' and feel more inviting. Sharp corners feel 'cold' while soft, rounded corners feel like a warm hug.",
+      },
+      {
+        type: "scenario",
+        question: "A watch brand wants to look 'Precise and Timeless.' Which font should they choose?",
+        scenario: "Font A: A Thin Sans-Serif with lots of letter-spacing (Tracking). Font B: A bubbly, thick Cartoon font.",
+        choices: [
+          "Font A — Thin Sans-Serif with generous letter-spacing",
+          "Font B — bubbly, thick Cartoon font",
+        ],
+        correctAnswer: "Font A — Thin Sans-Serif with generous letter-spacing",
+        explanation: "Generous Tracking and thin lines signal 'Luxury Precision.' Precision is about 'air' and clean lines — a thick, bubbly font does not look like it can measure time to the millisecond.",
+      },
+      {
+        type: "scenario",
+        question: "A bodybuilding gym wants to look 'Powerful and Heavy.' Which font should they choose?",
+        scenario: "Font A: A light, airy Italic Serif. Font B: An Extra-Bold, Compressed Sans-Serif.",
+        choices: [
+          "Font A — light, airy Italic Serif",
+          "Font B — Extra-Bold, Compressed Sans-Serif",
+        ],
+        correctAnswer: "Font B — Extra-Bold, Compressed Sans-Serif",
+        explanation: "Extra-Bold weights communicate physical power and impact. If you are lifting heavy weights, you need a font that looks like it weighs 500 lbs.",
+      },
+      /* ─── MEDIUM: Strategic Consultant (7 items) ─── */
+      {
+        type: "scenario",
+        question: "A 100-year-old bank is launching a modern mobile app. They want to look 'Innovative but still Trustworthy.' Which font best bridges this gap?",
+        scenario: "Font A: A very thin, ultra-modern Geometric Sans-Serif. Font B: A Humanist Sans-Serif (clean like tech, but with calligraphic strokes that feel traditional).",
+        choices: [
+          "Font A — very thin, ultra-modern Geometric Sans-Serif",
+          "Font B — Humanist Sans-Serif with calligraphic strokes",
+        ],
+        correctAnswer: "Font B — Humanist Sans-Serif with calligraphic strokes",
+        explanation: "Humanist Sans-Serifs bridge the gap between 'Digital' and 'Human Trust.' A purely geometric font can feel 'cold' and 'robotic,' lacking the human touch needed to maintain 100 years of trust.",
+      },
+      {
+        type: "scenario",
+        question: "A credit card company for everyone wants to look 'Accessible and Error-Free.' Which font best supports this mission?",
+        scenario: "Font A: A 'Grotesque' Sans-Serif where 'I', 'l', and '1' are identical vertical lines. Font B: A Highly Legible Sans-Serif with distinct 'hooks' on the 'l' and a base on the '1'.",
+        choices: [
+          "Font A — Grotesque Sans-Serif with identical vertical lines",
+          "Font B — Highly Legible Sans-Serif with distinct character shapes",
+        ],
+        correctAnswer: "Font B — Highly Legible Sans-Serif with distinct character shapes",
+        explanation: "Distinct Character Shapes are an ethical design choice that proves the brand cares about all users. Accessibility is a brand value — if a user cannot distinguish a number from a letter in their account balance, the brand fails.",
+      },
+      {
+        type: "scenario",
+        question: "A digital news site wants to look 'Hard-Hitting, Urgent, and Loud.' Which font best creates this effect?",
+        scenario: "Font A: A Wide, Airy Extended Sans-Serif. Font B: A Tall, Compressed, Heavy Sans-Serif (like Impact or Headline styles).",
+        choices: [
+          "Font A — Wide, Airy Extended Sans-Serif",
+          "Font B — Tall, Compressed, Heavy Sans-Serif",
+        ],
+        correctAnswer: "Font B — Tall, Compressed, Heavy Sans-Serif",
+        explanation: "Compressed Bold fonts create a 'Visual Shout' perfect for high-impact headlines. 'Wide' fonts feel expensive and slow — to look 'Urgent' and 'Breaking News,' you need a font that feels crowded and shouting.",
+      },
+      {
+        type: "scenario",
+        question: "A Michelin-star restaurant wants to look 'Handcrafted but Luxury.' Which font best serves this dual identity?",
+        scenario: "Font A: A casual, messy Brush Script. Font B: A Refined, High-Contrast Serif with subtle 'hand-carved' terminals.",
+        choices: [
+          "Font A — casual, messy Brush Script",
+          "Font B — Refined, High-Contrast Serif with hand-carved terminals",
+        ],
+        correctAnswer: "Font B — Refined, High-Contrast Serif with hand-carved terminals",
+        explanation: "A Refined Serif suggests the precision of a chef while keeping a 'human' historical touch. Too much 'hand-drawn' energy can look 'cheap' or like a 'cafe' — luxury needs 'High Contrast' (thin and thick lines) to feel expensive.",
+      },
+      {
+        type: "scenario",
+        question: "An architecture firm wants to look 'Structural, Mathematical, and Unshakable.' Which font best embodies this identity?",
+        scenario: "Font A: A Geometric Sans-Serif based on perfect circles and squares. Font B: A Humanist Sans-Serif based on the flow of the human hand.",
+        choices: [
+          "Font A — Geometric Sans-Serif based on perfect circles and squares",
+          "Font B — Humanist Sans-Serif based on human hand flow",
+        ],
+        correctAnswer: "Font A — Geometric Sans-Serif based on perfect circles and squares",
+        explanation: "Geometric fonts represent the 'Logic of the System' and structural perfection. Architecture is built on blueprints and math — this font looks like it was drawn with a compass and a ruler.",
+      },
+      {
+        type: "scenario",
+        question: "A clothing brand for Gen-Z wants to look 'Trendy, Rebellious, and Rule-Breaking.' Which font choice best achieves this?",
+        scenario: "Font A: A perfectly balanced Helvetica (Neutral and Safe). Font B: An Extra-Wide, High-Contrast Display font with 'Reverse Contrast' (thick tops, thin sides).",
+        choices: [
+          "Font A — perfectly balanced Helvetica",
+          "Font B — Extra-Wide, High-Contrast Display with Reverse Contrast",
+        ],
+        correctAnswer: "Font B — Extra-Wide, High-Contrast Display with Reverse Contrast",
+        explanation: "Experimental Display fonts signal that a brand is ahead of the curve and not afraid to be different. Helvetica is the ultimate 'safe' choice — to be a 'Trendsetter,' you need a font that breaks the rules of 'Normal' typography.",
+      },
+      {
+        type: "scenario",
+        question: "A company that builds back-end servers wants to look 'Technical, Precise, and Developer-Friendly.' Which font best communicates this?",
+        scenario: "Font A: A beautiful Serif font with elegant curves. Font B: A high-quality Monospaced font (where every letter is the same width).",
+        choices: [
+          "Font A — beautiful Serif with elegant curves",
+          "Font B — high-quality Monospaced font",
+        ],
+        correctAnswer: "Font B — high-quality Monospaced font",
+        explanation: "Using a Monospaced font for a tech brand signals 'We speak the language of the machine.' Developers live in the world of 'Code' — Monospaced is the universal language of software engineering.",
+      },
+      /* ─── HARD: Senior Director Audit (5 items) ─── */
+      {
+        type: "multiple-choice",
+        question: "A heritage French fashion house is expanding into Digital-First Accessories (smartwatches and apps). They must maintain 'Ultra-High-End' status while surviving low-resolution screens. Which typeface is the correct strategic choice?",
+        choices: [
+          "A Didone Serif (extremely thin hairlines and thick stems)",
+          "A Geometric Sans-Serif with tight tracking",
+          "A Transitional Serif with increased x-height and sturdy hairlines",
+          "A Humanist Script based on 18th-century handwriting",
+        ],
+        correctAnswer: "A Transitional Serif with increased x-height and sturdy hairlines",
+        explanation: "Transitional Serifs (like Baskerville or its modern cousins) offer the perfect balance of 'Classical Authority' and 'Digital Durability.' Didone hairlines will disappear on a small screen, and Geometric Sans-Serif is too 'tech-cheap' for a luxury heritage brand.",
+      },
+      {
+        type: "multiple-choice",
+        question: "A national healthcare provider needs a typeface for an app used by people with Dyslexia and Visual Impairments. The brand must feel 'Professional' but 'Utterly Readable.' Which is the correct choice?",
+        choices: [
+          "A Grotesque Sans-Serif with mirrored shapes (where 'b' and 'd' are identical flips)",
+          "A Sans-Serif with Asymmetric characters and distinct openings (Apertures)",
+          "A Slab Serif with very heavy weights and tight leading",
+          "A Monospaced font to ensure character alignment",
+        ],
+        correctAnswer: "A Sans-Serif with Asymmetric characters and distinct openings (Apertures)",
+        explanation: "Asymmetric character design is a hallmark of 'Inclusive Branding,' making the text easier for the brain to decode. For users with Dyslexia, 'Mirrored' letters (where 'b' looks like a flipped 'd') cause confusion — every letter needs a unique weight or shape.",
+      },
+      {
+        type: "multiple-choice",
+        question: "A 'Sustainable Wealth' firm wants to attract Gen-Z investors. They want to look 'Organic and Ethical' but also 'Financially Powerful.' Which typeface best serves this dual mission?",
+        choices: [
+          "A Rounded Sans-Serif (very soft and bubbly)",
+          "A Blackletter font (Gothic/Historical)",
+          "A High-Contrast Modern Serif with sharp edges",
+          "A Semi-Serif with Soft Terminals (rounded tips) and a sturdy structure",
+        ],
+        correctAnswer: "A Semi-Serif with Soft Terminals (rounded tips) and a sturdy structure",
+        explanation: "Semi-Serifs with Soft Terminals communicate 'Natural Growth' without sacrificing the feeling of 'Financial Stability.' A Rounded Sans-Serif looks like a 'Baby Brand,' while a High-Contrast Serif looks like a 'Fashion Brand' — you need a hybrid with the bone structure of a bank and the softness of nature.",
+      },
+      {
+        type: "multiple-choice",
+        question: "A massive Social Media platform is accused of being 'Cold and Robotic.' They want a rebrand that feels 'Conversational, Friendly, and Human.' Which typeface is the correct strategic choice?",
+        choices: [
+          "A Geometric Sans-Serif (like Futura or Product Sans)",
+          "A Humanist Sans-Serif with a True Italic (cursive-style slanted letters)",
+          "A Monospaced font to look like code",
+          "A Square-Slab Serif to look structural",
+        ],
+        correctAnswer: "A Humanist Sans-Serif with a True Italic (cursive-style slanted letters)",
+        explanation: "Humanist Sans-Serifs (like Gill Sans or Lucida Grande) use biological proportions to feel 'Conversational.' Geometric fonts are built by machines — to feel 'Human,' you need a font whose DNA comes from Calligraphy, with a 'True Italic' where the slanted 'a' or 'f' changes shape like handwriting.",
+      },
+      {
+        type: "multiple-choice",
+        question: "A high-fashion streetwear brand wants to look 'Aggressive, Brutalist, and Intentional,' ignoring traditional beauty entirely. Which typeface is the correct strategic choice?",
+        choices: [
+          "A Classic Serif (like Garamond)",
+          "A Script font with elegant loops",
+          "A Grotesque Sans-Serif with Ink Traps and Reverse Contrast",
+          "A Light Sans-Serif with extra-wide tracking",
+        ],
+        correctAnswer: "A Grotesque Sans-Serif with Ink Traps and Reverse Contrast",
+        explanation: "Ink Traps and Reverse Contrast are the visual language of 'Brutalist Design,' projecting raw, unpolished power. To be 'Brutalist,' the font should look like it was built for a factory, not a palace — Ink Traps (weird cut-outs in the corners) make the letter look like a heavy tool.",
+      },
+    ],
+  },
+
+  /* ══════════════════════════════════════════════════════
+     LESSON 6 – Best Practices in Typography
+  ══════════════════════════════════════════════════════ */
+  {
+    title: "Lesson VI: Best Practices in Typography",
+    difficulty: "Advanced",
+    completionTime: "~25 min",
+    lessonImage: "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1773797239/THE_INDUSTRY_ISLAND_ptnwzh.png",
+    sourceUrl: "https://help.webflow.com/hc/en-us/articles/33961334261779-Advanced-web-typography",
+    youtubeUrl: "https://www.youtube.com/embed/estMrKHqByE",
+    imageUrls: [CONTENT_IMAGE, CONTENT_IMAGE, CONTENT_IMAGE],
+    content: {
+      description:
+        "To conclude this typography masterclass, we shift our focus from theory and structural understanding to professional execution. While earlier lessons explored the anatomy of typefaces and their strategic role in branding, this final lesson examines the best practices used by professional designers to transform typographic knowledge into effective visual communication. Typography in professional design environments is not based on guesswork or personal preference. Instead, it relies on established guidelines developed through decades of usability studies, cognitive psychology research, and design experimentation. These practices help designers create layouts that are not only aesthetically appealing but also highly functional, readable, and accessible. The principles discussed in this lesson represent the refined techniques that distinguish amateur typographic layouts from professional interface design. By applying these practices consistently, designers ensure that typography contributes to clarity, hierarchy, and user comfort across both print and digital environments.",
+ 
+      introduction:
+        "Typography in professional design environments is not based on guesswork or personal preference. Instead, it relies on established guidelines developed through decades of usability studies, cognitive psychology research, and design experimentation. These practices help designers create layouts that are not only aesthetically appealing but also highly functional, readable, and accessible. The principles discussed in this lesson represent the refined techniques that distinguish amateur typographic layouts from professional interface design. By applying these practices consistently, designers ensure that typography contributes to clarity, hierarchy, and user comfort across both print and digital environments.",
+ 
+      headerOne: "1. Achieving Visual Balance and Harmony",
+      discussionOne:
+        "Visual balance is one of the most fundamental goals of typographic design. In a well-designed layout, typography must work harmoniously with images, color schemes, icons, and other visual components. The goal is to create a composition where no element overwhelms the others, allowing the viewer to process information effortlessly. Typography contributes to balance through several adjustable properties: Weight – the thickness or boldness of letterforms; Width – the horizontal proportion of characters; Color – the tonal contrast between text and background; and Scale – the size relationship between typographic elements. These properties determine how much visual 'weight' text carries within a design. For example, large bold headlines create strong visual anchors, while lighter body text provides supporting information. In luxury branding, designers often use thin font weights combined with generous white space. This approach creates a sense of sophistication, elegance, and exclusivity. The abundance of empty space allows the typography to breathe, reinforcing the brand's premium identity. Conversely, in information-dense environments such as financial dashboards, medical interfaces, or data visualization systems, typography must be more structured and robust. Designers rely on stronger weights and clearly differentiated font sizes to ensure that numbers, labels, and data points are immediately distinguishable. When typography is carefully balanced with other visual elements, it enhances both aesthetic harmony and functional clarity. Poor balance, however, can lead to cluttered layouts that overwhelm users and reduce usability.",
+ 
+      headerTwo: "2. The Discipline of Limiting Font Variety",
+      discussionTwo:
+        "One of the most frequent mistakes among beginner designers is the tendency to use too many different fonts in a single design. This phenomenon is often referred to as the 'font soup' effect, where multiple unrelated typefaces compete for attention. Professional designers follow a strict guideline that limits typographic systems to two or three fonts per project. This restriction is not meant to limit creativity but rather to ensure consistency and clarity. Instead of introducing new typefaces to create variation, experienced designers explore the internal flexibility of a single type family. Most professional typefaces include a wide range of variations, such as Light, Regular, Medium, Bold, Extra Bold, Italic, and Condensed or Extended versions. By manipulating these variations, designers can build a sophisticated typographic hierarchy while maintaining a unified visual identity. For example, a design might use Bold weight for headlines, Regular weight for body text, and Italic style for emphasis or quotations. This approach ensures that the typography feels cohesive rather than fragmented. It also allows users to quickly recognize patterns within the layout, improving their ability to navigate information. Maintaining typographic discipline is especially important in branding and interface design, where consistency across multiple screens, advertisements, and publications is essential for establishing a recognizable identity.",
+ 
+      headerThree: "3. Mastering Typographic Contrast",
+      discussionThree:
+        "Contrast is the primary mechanism used to organize information within a layout. Without contrast, all text appears visually similar, making it difficult for readers to determine what information is most important. Typographic contrast can be created in several ways: Size Contrast — large headlines immediately capture attention, while smaller body text delivers supporting details. Weight Contrast — bold text stands out against regular or light text, helping to highlight key information. Style Contrast — combining serif and sans-serif fonts can create visual interest and personality within a layout. Color Contrast — differences in color between text and background can emphasize important elements and improve readability. Effective contrast establishes a clear information hierarchy, guiding readers through content in a logical order. The reader's eye is naturally drawn to the most visually prominent elements first, such as headlines or call-to-action buttons. In addition to aesthetic contrast, designers must also ensure functional contrast, particularly in terms of color accessibility. International accessibility standards recommend maintaining specific contrast ratios between text and background colors to ensure readability for users with visual impairments or color blindness. Tools that measure WCAG contrast ratios help designers verify whether their color choices meet accessibility guidelines. Ensuring sufficient contrast is not only a design best practice but also an ethical responsibility that promotes inclusive communication.",
+ 
+      headerFour: "4. The Science of Optimal Line Length (Measure) & Professional Tools",
+      discussionFour:
+        "The measure refers to the horizontal width of a block of text, typically measured by the number of characters contained in a single line. Research in readability has shown that line length has a significant impact on reading speed, comprehension, and eye movement patterns. If lines are too long, readers may struggle to locate the beginning of the next line after finishing the previous one. This difficulty can cause readers to accidentally reread lines or skip lines entirely. This problem is known as doubling, and it disrupts the natural rhythm of reading. On the other hand, extremely short lines create excessive line breaks. The reader's eyes must constantly move back and forth, which interrupts cognitive flow and reduces reading efficiency. Studies in typographic ergonomics have identified an optimal range of 50 to 75 characters per line for body text. This range provides enough horizontal space for comfortable reading while maintaining a clear path for the eye to follow. Designers often adjust column widths, margins, and font sizes to maintain this optimal measure. Modern digital design workflows also rely heavily on specialized tools that help maintain typographic consistency across complex projects. In large-scale design systems — such as websites, mobile apps, or software interfaces — typography may appear across hundreds or even thousands of screens. Professional designers address this challenge by using design plugins and style management tools. These tools act as a 'Single Source of Truth', ensuring that typographic styles remain standardized throughout the project. Plugins can scan an interface to detect unauthorized fonts or inconsistent text styles. Global style systems allow designers to update a font size or color once and apply the change automatically across the entire design. Text auditing tools help maintain brand guidelines by ensuring that only approved typefaces and sizes are used.",
+ 
+      headerFive: "5. Line Height, Font Scaling, and Mobile Typography",
+      discussionFive:
+        "Line height, traditionally known as leading, refers to the vertical spacing between lines of text measured from baseline to baseline. This spacing plays a crucial role in determining how easily readers can scan and interpret paragraphs. If lines are placed too close together, the descenders of one line may collide visually with the ascenders of the line below, creating a crowded appearance that slows down reading and increases visual fatigue. If the spacing is too wide, the connection between lines weakens and the paragraph begins to appear fragmented. Professional typographic practice generally recommends a line height between 120% and 180% of the font size. A 16px body font may use a line height between 19px and 29px. Digital environments often benefit from slightly larger line heights than print to compensate for the pixel glow effect, where illuminated screens can make tightly spaced text appear blurry or congested. For font sizes, 16 pixels is widely recognized as the minimum comfortable size for body text in web interfaces. Professional designers use type scales — such as Major Third, Perfect Fourth, or the Golden Ratio — to create proportional relationships between different text elements, ensuring size differences between headings, subheadings, and body text feel intentional and harmonious. In mobile environments, typography faces unique challenges due to significantly less horizontal space. Responsive typography adjusts font sizes, line heights, column widths, and spacing between elements. For mobile displays, designers often reduce heading sizes slightly and tighten line spacing. Another critical consideration in mobile typography is touch interaction — links, buttons, and text-based controls must be large enough to be easily tapped without accidentally activating nearby elements. Designers typically ensure that touch targets have sufficient 'tap-friendly spacing' to accommodate natural thumb movement.",
+    },
+    quiz: [
+      /* ─── PART 1 EASY: The Layout Fixer (5 scenario items) ─── */
+      {
+        type: "scenario",
+        question: "A blog post stretches across the entire width of a 27-inch monitor with lines over 200 characters long. Which adjustment correctly fixes the Measure?",
+        scenario: "A junior designer submitted a draft where text spans the full screen width, causing extreme eye fatigue when trying to find the start of the next line.",
+        choices: [
+          "Increase the font size so fewer words fit per line",
+          "Shrink the text container width until lines reach 50–75 characters per line",
+          "Increase letter-spacing (tracking) to fill out the long lines",
+          "Switch to a condensed typeface to fit more content",
+        ],
+        correctAnswer: "Shrink the text container width until lines reach 50–75 characters per line",
+        explanation: "50–75 characters per line is the 'Sweet Spot' for comfortable reading speed and comprehension. When a line is too long, the eye gets lost trying to find the start of the next one — this is known as doubling.",
+      },
+      {
+        type: "scenario",
+        question: "A mobile news app has text where descenders are crashing into the ascenders on the line below, creating a 'visual traffic jam.' Which adjustment fixes this?",
+        scenario: "Letters from one line are visually colliding with the letters in the line below, slowing reading and causing visual fatigue.",
+        choices: [
+          "Decrease the font size so letters take up less space",
+          "Switch to a sans-serif font with no descenders",
+          "Increase the Line Height (Leading) to approximately 140% of the font size",
+          "Tighten the tracking so words are more compact",
+        ],
+        correctAnswer: "Increase the Line Height (Leading) to approximately 140% of the font size",
+        explanation: "Increasing Line Height to 140% adds 'lungs' to the page and significantly reduces the reader's Cognitive Load. The page cannot breathe with tight leading — giving lines air prevents pixels from blurring together.",
+      },
+      {
+        type: "scenario",
+        question: "A Dark Mode interface uses dark grey text on a black background. Users cannot read it clearly. Which fix correctly addresses this 'low-contrast disaster'?",
+        scenario: "The text color and background are too similar in brightness, failing the WCAG accessibility check and making text disappear for users in direct sunlight.",
+        choices: [
+          "Switch to a bold font weight to add visual mass",
+          "Increase the font size to 24px minimum",
+          "Slide the text color brightness up until it passes the WCAG contrast ratio check",
+          "Add a text-shadow to create the illusion of contrast",
+        ],
+        correctAnswer: "Slide the text color brightness up until it passes the WCAG contrast ratio check",
+        explanation: "Passed! Inclusive Design ensures everyone can read your message regardless of their lighting or vision. Sufficient WCAG contrast is not only a design best practice but also an ethical responsibility.",
+      },
+      {
+        type: "scenario",
+        question: "A landing page uses 6 different fonts (Script, Slab, Sans, Serif, and more). It looks chaotic. Which action correctly applies the Rule of Two?",
+        scenario: "Multiple unrelated typefaces are competing for attention across the page, creating a 'font soup' that confuses users and weakens the brand identity.",
+        choices: [
+          "Keep all 6 fonts but assign each a specific color",
+          "Delete 4 fonts, keeping only one Display font for headers and one Workhorse font for body text",
+          "Replace all fonts with a single monospaced typeface",
+          "Reduce all fonts to the same size so they feel more unified",
+        ],
+        correctAnswer: "Delete 4 fonts, keeping only one Display font for headers and one Workhorse font for body text",
+        explanation: "The Rule of Two limits the typographic palette to 2–3 complementary fonts. Now the brand identity feels concentrated, unified, and expensive. Too many styles create 'Visual Noise' that confuses the user.",
+      },
+      {
+        type: "scenario",
+        question: "On a smartphone, a desktop-sized headline is so large that only one or two letters fit on each line, breaking the layout completely. Which fix is correct?",
+        scenario: "A 96px desktop headline is being displayed on a mobile screen, causing severe line breaks that destroy visual balance and readability.",
+        choices: [
+          "Keep the size but reduce the letter spacing to compress the word",
+          "Scale the headline down to approximately 32px to fit the mobile breakpoint",
+          "Switch the headline to all-lowercase to reduce its visual footprint",
+          "Add a line break after every three characters manually",
+        ],
+        correctAnswer: "Scale the headline down to approximately 32px to fit the mobile breakpoint",
+        explanation: "Desktop sizes 'break' on mobile. Scaling down to 32px makes the design feel 'Responsive' and intentional. This is the core principle of Responsive Typography — font sizes must adapt to the viewing environment.",
+      },
+      /* ─── PART 1 MEDIUM: Senior UI Architect (5 scenario items) ─── */
+      {
+        type: "scenario",
+        question: "A financial dashboard uses 10px Light weight font for stock prices. The numbers are 'washing out.' You cannot change the layout width. What is the correct adjustment?",
+        scenario: "Tiny numbers in a light font weight are disappearing into the background on a laptop screen. The column width is fixed and cannot be changed.",
+        choices: [
+          "Switch to Bold weight to increase mass",
+          "Increase Font Weight to Medium and add +2% Tracking",
+          "Increase font size to 14px and reduce column padding",
+          "Switch to a high-contrast Serif font",
+        ],
+        correctAnswer: "Increase Font Weight to Medium and add +2% Tracking",
+        explanation: "When fonts get small, they lose 'Visual Mass.' Making them Medium weight with a little extra Tracking between letters maintains Data Density without sacrificing legibility. Full Bold at small sizes can create a blurry blob.",
+      },
+      {
+        type: "scenario",
+        question: "A news article has a Headline at 32px and a Subheading at 30px. They appear to be the same size and are fighting for visual attention, making the page feel flat. What is the correct fix?",
+        scenario: "The hierarchy between Headline and Subheading is unclear because the size difference is too small — only 2px apart. The page feels undifferentiated.",
+        choices: [
+          "Make both the same size but use different colors",
+          "Set the Subheading to 24px following a Major Third scale to create a clear Visual Jump",
+          "Make the Headline italic to differentiate it from the Subheading",
+          "Increase the Subheading weight to Bold to make it stand out",
+        ],
+        correctAnswer: "Set the Subheading to 24px following a Major Third scale to create a clear Visual Jump",
+        explanation: "Typographic Contrast through scale creates a 'Visual Map' telling the reader exactly where to start and what to read next. If two things are nearly the same size, the brain gets confused about what is more important.",
+      },
+      {
+        type: "scenario",
+        question: "A narrow sidebar has only 20 characters per line, making text feel 'jumpy' and frantic as the eye must return to a new line every two words. What is the correct fix?",
+        scenario: "The extremely short measure is causing rapid eye movement and interrupting cognitive flow. The sidebar width cannot be increased.",
+        choices: [
+          "Increase font size so fewer characters fit per line",
+          "Slightly decrease Leading and decrease Font Size to fit 40–50 characters per line",
+          "Switch to a wider, extended typeface to stretch each word",
+          "Increase word spacing so each line appears longer",
+        ],
+        correctAnswer: "Slightly decrease Leading and decrease Font Size to fit 40–50 characters per line",
+        explanation: "By shrinking the text size slightly, more words fit on one line, slowing down the rhythm and allowing the eye to flow naturally. Even in a narrow sidebar, adjusting size and leading finds a comfortable Measure.",
+      },
+      {
+        type: "scenario",
+        question: "On a mobile checkout page, a 12px 'Terms and Conditions' link is buried inside a tight paragraph. Users keep accidentally tapping the 'Buy Now' button instead. What is the correct fix?",
+        scenario: "The touch target for the link is physically too small, and tight line spacing means users' fingers frequently hit the wrong element.",
+        choices: [
+          "Bold the link text so it stands out visually",
+          "Move the link to the bottom of the page away from the button",
+          "Increase Line Height to 160% and add 8px of Touch-Target padding around the link",
+          "Increase font size to 16px only for the link text",
+        ],
+        correctAnswer: "Increase Line Height to 160% and add 8px of Touch-Target padding around the link",
+        explanation: "Accessibility isn't just about eyes — it's about the physical interaction between a human thumb and the screen interface. This is a 'fat-finger' problem. The Touch Target needs Physical Air so it can be tapped safely without errors.",
+      },
+      {
+        type: "scenario",
+        question: "A Power User interface uses bright neon green text on a dark grey background. Users report the text 'vibrates' and causes eye strain after 5 minutes. What is the correct fix?",
+        scenario: "High-saturation neon text on dark backgrounds is causing visual vibration (halation), where glowing pixels appear to shimmer and merge together.",
+        choices: [
+          "Switch to white text to eliminate the color entirely",
+          "Reduce the text saturation to a muted green and increase Leading to 150%",
+          "Add a drop shadow to separate the text from the background",
+          "Reduce font weight to thin so the text occupies fewer pixels",
+        ],
+        correctAnswer: "Reduce the text saturation to a muted green and increase Leading to 150%",
+        explanation: "High-saturation colors on dark backgrounds cause 'Visual Vibration' in the eye. Dulling the color slightly and giving lines more 'Breath' stops glowing pixels from merging together. This is Visual Ergonomics — making design comfortable for long-term professional use.",
+      },
+      /* ─── PART 2: Final Mastery (5 multiple-choice items) ─── */
+      {
+        type: "multiple-choice",
+        question: "What is the 'Rule of Two' in professional typography?",
+        choices: [
+          "Use only two colors on the page.",
+          "Limit the typographic palette to 2–3 complementary fonts.",
+          "Headlines must be exactly twice the size of body text.",
+          "Every paragraph must have only two lines.",
+        ],
+        correctAnswer: "Limit the typographic palette to 2–3 complementary fonts.",
+        explanation: "The Rule of Two keeps Visual Hierarchy clear and the brand identity strong. Using too many fonts creates 'Font Soup' — a cluttered, amateurish appearance where multiple unrelated typefaces compete for attention.",
+      },
+      {
+        type: "multiple-choice",
+        question: "What is the risk of a 'Measure' (line length) that is too long?",
+        choices: [
+          "The font file size becomes too large for mobile.",
+          "The eye struggles to find the start of the next line — a problem known as 'Doubling'.",
+          "The ink or pixels will bleed into the counters.",
+          "It forces the font to become Monospaced.",
+        ],
+        correctAnswer: "The eye struggles to find the start of the next line — a problem known as 'Doubling'.",
+        explanation: "50–75 characters is the sweet spot for human biology. When a line is too long, the eye loses its place after reaching the end and struggles to return to the correct starting position on the next line.",
+      },
+      {
+        type: "multiple-choice",
+        question: "Why is a 'Type Scale' (such as the Golden Ratio or Major Third) used for font sizes in professional design?",
+        choices: [
+          "To make the code run faster.",
+          "To ensure the jump between a subhead and a title feels intentional and proportional.",
+          "To save space on small smartphone screens.",
+          "To match the baseline overshoot of round letters.",
+        ],
+        correctAnswer: "To ensure the jump between a subhead and a title feels intentional and proportional.",
+        explanation: "Mathematical Proportions create a sense of harmony that the eye subconsciously appreciates. Without a scale, you are just guessing sizes. A type scale uses math to ensure different headings look like they belong to the same visual family.",
+      },
+      {
+        type: "multiple-choice",
+        question: "In Dark Mode, why is a slightly higher Line Height (Leading) recommended compared to light mode?",
+        choices: [
+          "To make the black background look darker.",
+          "To counteract the 'glow' of white pixels, which can make tight text appear blurry.",
+          "To allow for more Touch-Target space for thumbs.",
+          "To increase Word Shape recognition speed.",
+        ],
+        correctAnswer: "To counteract the 'glow' of white pixels, which can make tight text appear blurry.",
+        explanation: "Light text on dark backgrounds creates a 'halation' effect — it glows. If lines are too close together, that light bleeds between them and merges the text into an unreadable blur. Giving text room to breathe is essential for digital legibility.",
+      },
+      {
+        type: "multiple-choice",
+        question: "What is the primary purpose of professional typographic plugins such as text audit tools and global style systems?",
+        choices: [
+          "To automatically pick a 'pretty' font for you.",
+          "To audit the project and ensure no 'stray' fonts or unauthorized sizes have entered the design.",
+          "To turn Sans-Serif fonts into Serif fonts instantly.",
+          "To increase the x-height of a font automatically.",
+        ],
+        correctAnswer: "To audit the project and ensure no 'stray' fonts or unauthorized sizes have entered the design.",
+        explanation: "Plugins help maintain Systemic Consistency — the hallmark of a Senior Designer. They act as a 'Single Source of Truth,' ensuring that typographic styles remain standardized across every screen in a large-scale design system.",
+      },
+    ],
+  },
+
+  
 ];
 
 const seed = async () => {

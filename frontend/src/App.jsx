@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Aurora from "./components/bins/background/Aurora";
 import LandingSection from "./components/pages/LandingSection";
 import LoginRegister from "./components/pages/Login&Register";
-// import AdminPage from "./components/pages/admin/AdminPage";
 import FrontPage from "./components/pages/FrontPage";
 import LessonDetails from './components/pages/LessonDetails';
 import LessonQuiz from './components/pages/LessonQuiz';
@@ -30,17 +29,27 @@ import Leaderboard from './components/pages/Leaderboard';
 import Citations from './components/pages/Citations';
 import AboutUs from './components/pages/AboutUs';
 import ArticleList from './components/pages/ArticleList';
-import ArticleOne from './components/pages/articles/ArticleOne';
-import ArticleTwo from './components/pages/articles/ArticleTwo';
+import ArticleDetails from './components/pages/ArticleDetails';
+
+// Static individual article pages (kept for backward compatibility)
+import ArticleOne   from './components/pages/articles/ArticleOne';
+import ArticleTwo   from './components/pages/articles/ArticleTwo';
 import ArticleThree from './components/pages/articles/ArticleThree';
-import ArticleFour from './components/pages/articles/ArticleFour';
-import ArticleFive from './components/pages/articles/ArticleFive';
-import ArticleSix from './components/pages/articles/ArticleSix';
+import ArticleFour  from './components/pages/articles/ArticleFour';
+import ArticleFive  from './components/pages/articles/ArticleFive';
+import ArticleSix   from './components/pages/articles/ArticleSix';
 import ArticleSeven from './components/pages/articles/ArticleSeven';
 
-// Inside your Routes:
-<Route path="/leaderboard" element={<Leaderboard />} />
-
+// Admin pages
+import AdminPage        from './components/pages/admin/AdminPage';
+import AdminUsers       from './components/pages/admin/AdminUsers';
+import AdminUserInfo    from './components/pages/admin/AdminUserInfo';
+import AdminLessons     from './components/pages/admin/AdminLessons';
+import AdminLessonEdit  from './components/pages/admin/AdminLessonEdit';
+import AdminArticles    from './components/pages/admin/AdminArticles';
+import AdminArticleEdit from './components/pages/admin/AdminArticleEdit';
+import AdminGames       from './components/pages/admin/AdminGames';
+import AdminGameEdit    from './components/pages/admin/AdminGameEdit';
 
 function App() {
   const [logoUrl] = useState(
@@ -61,42 +70,64 @@ function App() {
         {/* Foreground content */}
         <div className="page-content">
           <Routes>
+            {/* ── Public routes ── */}
             <Route path="/" element={<LandingSection logoUrl={logoUrl} />} />
             <Route path="/login" element={<LoginRegister logoUrl={logoUrl} />} />
-            {/*<Route path="/admin" element={<AdminPage />} />*/}
             <Route path="/lessons" element={<FrontPage />} />
             <Route path="/lesson/:id" element={<LessonDetails />} />
-            <Route path="/quiz/:id"   element={<LessonQuiz />} />
+            <Route path="/quiz/:id" element={<LessonQuiz />} />
+
+            {/* ── Articles ── */}
             <Route path="/articles" element={<ArticleList />} />
-            <Route path="/article/font-pairings-2026" element={<ArticleOne />} />
+
+            {/* Dynamic DB-driven article — NEW: handles articles created via admin */}
+            <Route path="/article/:id" element={<ArticleDetails />} />
+
+            {/* Static individual article pages — kept for the existing 7 hardcoded articles */}
+            <Route path="/article/font-pairings-2026"   element={<ArticleOne />} />
             <Route path="/article/typographic-hierarchies" element={<ArticleTwo />} />
-            <Route path="/article/kerning-guide" element={<ArticleThree />} />
+            <Route path="/article/kerning-guide"         element={<ArticleThree />} />
             <Route path="/article/font-management-issues" element={<ArticleFour />} />
-            <Route path="/article/font-psychology" element={<ArticleFive />} />
-            <Route path="/article/ux-typography-guide" element={<ArticleSix />} />
-            <Route path="/article/design-trends-2026" element={<ArticleSeven />} />
+            <Route path="/article/font-psychology"       element={<ArticleFive />} />
+            <Route path="/article/ux-typography-guide"   element={<ArticleSix />} />
+            <Route path="/article/design-trends-2026"    element={<ArticleSeven />} />
+
+            {/* ── Games ── */}
             <Route path="/guest-game" element={<GuestGame />} />
             <Route path="/games" element={<Games />} />
-            <Route path="/games/kerning/:gameId" element={<KerningGame />} />
-            <Route path="/games/typeface/:gameId" element={<TypefaceGame />} />
-            <Route path="/games/fontpairing/:gameId" element={<FontPairingGame />} />
-            <Route path="/games/leading/:gameId" element={<LeadingGame />} />
+            <Route path="/games/kerning/:gameId"      element={<KerningGame />} />
+            <Route path="/games/typeface/:gameId"     element={<TypefaceGame />} />
+            <Route path="/games/fontpairing/:gameId"  element={<FontPairingGame />} />
+            <Route path="/games/leading/:gameId"      element={<LeadingGame />} />
             <Route path="/games/fontselection/:gameId" element={<FontSelectionGame />} />
-            <Route path="/games/lesson1quiz/:gameId" element={<Lesson1QuizGame />} />
-            <Route path="/games/lesson2quiz/:gameId" element={<Lesson2QuizGame />} />
-            <Route path="/games/lesson3quiz/:gameId" element={<Lesson3QuizGame />} />
-            <Route path="/games/lesson4quiz/:gameId" element={<Lesson4QuizGame />} />
-            <Route path="/games/lesson5quiz/:gameId" element={<Lesson5QuizGame />} />
-            <Route path="/games/lesson6quiz/:gameId" element={<Lesson6QuizGame />} />
-            <Route path="/games/lesson7quiz/:gameId" element={<Lesson7QuizGame />} />
-            <Route path="/games/lesson8quiz/:gameId" element={<Lesson8QuizGame />} />
-            <Route path="/games/lesson9quiz/:gameId" element={<Lesson9QuizGame />} />
+            <Route path="/games/lesson1quiz/:gameId"  element={<Lesson1QuizGame />} />
+            <Route path="/games/lesson2quiz/:gameId"  element={<Lesson2QuizGame />} />
+            <Route path="/games/lesson3quiz/:gameId"  element={<Lesson3QuizGame />} />
+            <Route path="/games/lesson4quiz/:gameId"  element={<Lesson4QuizGame />} />
+            <Route path="/games/lesson5quiz/:gameId"  element={<Lesson5QuizGame />} />
+            <Route path="/games/lesson6quiz/:gameId"  element={<Lesson6QuizGame />} />
+            <Route path="/games/lesson7quiz/:gameId"  element={<Lesson7QuizGame />} />
+            <Route path="/games/lesson8quiz/:gameId"  element={<Lesson8QuizGame />} />
+            <Route path="/games/lesson9quiz/:gameId"  element={<Lesson9QuizGame />} />
             <Route path="/games/lesson10quiz/:gameId" element={<Lesson10QuizGame />} />
             <Route path="/games/lesson11quiz/:gameId" element={<Lesson11QuizGame />} />
-            <Route path="/profile" element={<Profile />} />
+
+            {/* ── User ── */}
+            <Route path="/profile"     element={<Profile />} />
             <Route path="/leaderboards" element={<Leaderboard />} />
-            <Route path="/citations" element={<Citations />} />
-            <Route path="/aboutus" element={<AboutUs />} />
+            <Route path="/citations"   element={<Citations />} />
+            <Route path="/aboutus"     element={<AboutUs />} />
+
+            {/* ── Admin routes ── */}
+            <Route path="/admin"             element={<AdminPage />} />
+            <Route path="/adminusers"        element={<AdminUsers />} />
+            <Route path="/adminusers/:id"    element={<AdminUserInfo />} />
+            <Route path="/adminlessons"      element={<AdminLessons />} />
+            <Route path="/adminlessons/:id"  element={<AdminLessonEdit />} />
+            <Route path="/adminarticles"     element={<AdminArticles />} />
+            <Route path="/adminarticles/:id" element={<AdminArticleEdit />} />
+            <Route path="/admingames"        element={<AdminGames />} />
+            <Route path="/admingames/:id"    element={<AdminGameEdit />} />
           </Routes>
         </div>
       </div>

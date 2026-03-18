@@ -159,18 +159,13 @@ export const submitQuizScore = async (req, res) => {
     );
 
     if (existingIdx >= 0) {
-      if (lessonScore > user.lessonQuiz[existingIdx].lessonScore) {
-        user.lessonQuiz[existingIdx].lessonScore     = lessonScore;
-        user.lessonQuiz[existingIdx].lessonCompleted = lessonCompleted ?? false;
-        user.lessonQuiz[existingIdx].completedAt     = new Date();
-        console.log(
-          `🔄 Updated quiz score for "${lessonTitle}" → ${lessonScore} pts | passed: ${lessonCompleted}`
-        );
-      } else {
-        console.log(
-          `ℹ️  Score for "${lessonTitle}" not updated (new: ${lessonScore} ≤ existing: ${user.lessonQuiz[existingIdx].lessonScore})`
-        );
-      }
+      // Always overwrite on retake — latest attempt is always saved
+      user.lessonQuiz[existingIdx].lessonScore     = lessonScore;
+      user.lessonQuiz[existingIdx].lessonCompleted = lessonCompleted ?? false;
+      user.lessonQuiz[existingIdx].completedAt     = new Date();
+      console.log(
+        `🔄 Updated quiz score for "${lessonTitle}" → ${lessonScore} pts | passed: ${lessonCompleted}`
+      );
     } else {
       user.lessonQuiz.push({
         lessonTitle,

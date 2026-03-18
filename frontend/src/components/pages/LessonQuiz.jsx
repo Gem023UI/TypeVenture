@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchLessonById, fetchAllLessons, submitQuizScore } from "../../api/lessons";
+import { fetchLessonById, fetchAllLessons, submitQuizScore, markLessonComplete } from "../../api/lessons";
 import MainLayout from "../layout/MainLayout";
 import "./LessonQuiz.css";
 
@@ -313,7 +313,7 @@ const ResultScreen = ({
           Try Again
         </button>
         {passed && onNext && (
-          <button className="lq-result-btn next" onClick={navigate("/lessons")}>
+          <button className="lq-result-btn next" onClick={onNext}>
             Next Lesson →
           </button>
         )}
@@ -468,10 +468,20 @@ const LessonQuiz = () => {
       const finalCorrect = correctCount;   // state already updated
       const passed       = finalCorrect >= passMarkCount;
 
+      // Always submit the latest score (overwrites existing on retake)
       try {
         await submitQuizScore(lesson.title, totalPoints, passed);
       } catch (e) {
         console.warn("Score submission failed:", e);
+      }
+
+      // Mark lesson complete in DB so the next lesson unlocks on FrontPage
+      if (passed) {
+        try {
+          await markLessonComplete(lesson._id);
+        } catch (e) {
+          console.warn("markLessonComplete failed:", e);
+        }
       }
 
       /* find next lesson */

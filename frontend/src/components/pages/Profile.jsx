@@ -361,19 +361,20 @@ const Profile = () => {
     e.preventDefault();
     setDeleteLoading(true);
     setDeleteError("");
-
+  
     if (deleteUsername !== username) {
       setDeleteError("Username doesn't match");
       setDeleteLoading(false);
       return;
     }
-
+  
     try {
-      await deleteAccount({ username: deleteUsername, password: deletePassword });
-      
+      const userId = localStorage.getItem("userId");
+      await deleteAccount({ userId, username: deleteUsername, password: deletePassword });
+  
       Swal.fire({
-        title: 'Account Deleted',
-        text: 'Your account has been permanently deleted.',
+        title: 'Account Deactivated',
+        text: 'Your account has been deactivated.',
         icon: 'success',
         confirmButtonText: 'OK'
       }).then(() => {
@@ -381,7 +382,7 @@ const Profile = () => {
         window.location.href = '/login';
       });
     } catch (err) {
-      setDeleteError(err || "Failed to delete account");
+      setDeleteError(err || "Failed to deactivate account");
       setDeleteLoading(false);
     }
   };
@@ -491,7 +492,7 @@ const Profile = () => {
                 Edit Profile
               </button>
               <button className="delete-profile-btn" onClick={() => setShowDeleteModal(true)}>
-                Delete Account
+                Deactivate Account
               </button>
               {!isVerified && (
                 <button className="verify-email-btn" onClick={handleSendVerificationCode}>
@@ -710,7 +711,7 @@ const Profile = () => {
               </button>
 
               <form onSubmit={handleDeleteAccount}>
-                <h2 style={{ color: "#dc3545", marginBottom: "20px" }}>Delete Account</h2>
+                <h2 style={{ color: "#dc3545", marginBottom: "20px" }}>Deactivate Account</h2>
                 
                 {deleteError && <div className="error-message">{deleteError}</div>}
                 

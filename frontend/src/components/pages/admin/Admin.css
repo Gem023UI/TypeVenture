@@ -1,0 +1,1104 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+:root {
+  --color1: #FFFFFF;
+  --color2: #FF1414;
+  --color3: #0029FF;
+  --color4: #a200ff;
+  --text-gradient: linear-gradient(135deg, #ff1414, #a200ff, #0029ff);
+  --card-bg: rgba(255, 255, 255, 0.04);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --text-muted: rgba(255, 255, 255, 0.6);
+}
+
+/* ════════════════════════════════════
+   WRAPPER
+════════════════════════════════════ */
+.admin-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px 24px 80px;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ════════════════════════════════════
+   HEADER
+════════════════════════════════════ */
+.admin-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.admin-title {
+  font-size: 2.6rem;
+  font-weight: 800;
+  background: var(--text-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 6px;
+}
+
+.admin-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ════════════════════════════════════
+   NAV BUTTONS ROW
+════════════════════════════════════ */
+.admin-nav-row {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.admin-nav-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 18px 24px;
+  border-radius: 16px;
+  border: 1.5px solid var(--card-border);
+  background: var(--card-bg);
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  min-width: 120px;
+  text-transform: uppercase;
+}
+
+.admin-nav-btn:hover {
+  border-color: #a200ff;
+  background: rgba(162, 0, 255, 0.12);
+  transform: translateY(-3px);
+}
+
+.admin-nav-emoji {
+  font-size: 1.6rem;
+}
+
+.admin-nav-label {
+  white-space: nowrap;
+}
+
+/* ════════════════════════════════════
+   STAT CARDS
+════════════════════════════════════ */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.admin-stat-card {
+  background: var(--card-bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: 16px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent, #a200ff);
+}
+
+.admin-stat-emoji { font-size: 1.8rem; }
+.admin-stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+}
+.admin-stat-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+/* ════════════════════════════════════
+   GRAPHS
+════════════════════════════════════ */
+.admin-graphs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 36px;
+}
+
+.admin-graph-card {
+  background: var(--card-bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.admin-graph-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.admin-graph-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.admin-date-range {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.admin-date-range span {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.admin-date-range input[type="date"] {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  color: white;
+  padding: 6px 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.78rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.admin-date-range input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+.admin-chart-wrap {
+  position: relative;
+  height: 220px;
+}
+
+/* ════════════════════════════════════
+   REGISTRANTS
+════════════════════════════════════ */
+.admin-registrants-card {
+  background: var(--card-bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.admin-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 20px;
+}
+
+.admin-empty {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.admin-reg-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-reg-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--card-border);
+}
+
+.admin-reg-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid var(--card-border);
+}
+
+.admin-reg-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-reg-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: white;
+}
+
+.admin-reg-email {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.admin-reg-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 50px;
+  letter-spacing: 0.05em;
+}
+
+.admin-reg-badge.admin {
+  background: linear-gradient(135deg, #ff1414, #a200ff);
+  color: white;
+}
+
+.admin-reg-badge.user {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7);
+  border: 1px solid var(--card-border);
+}
+
+/* ════════════════════════════════════
+   PAGINATION
+════════════════════════════════════ */
+.admin-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.admin-page-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1.5px solid var(--card-border);
+  background: transparent;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-page-btn:hover,
+.admin-page-btn.active {
+  background: linear-gradient(135deg, #a200ff, #0029ff);
+  border-color: transparent;
+}
+
+/* ════════════════════════════════════
+   SHARED SECTION PAGES (users, lessons, etc.)
+════════════════════════════════════ */
+.admin-section-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px 24px 80px;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1.5px solid var(--card-border);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 28px;
+}
+
+.admin-back-btn:hover {
+  border-color: #a200ff;
+  background: rgba(162, 0, 255, 0.1);
+  transform: translateX(-3px);
+}
+
+.admin-page-header {
+  margin-bottom: 30px;
+}
+
+.admin-page-title {
+  font-size: 2rem;
+  font-weight: 800;
+  background: var(--text-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 4px;
+}
+
+.admin-page-sub {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Create button ── */
+.admin-create-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #a200ff, #0029ff);
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 24px;
+}
+
+.admin-create-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(162, 0, 255, 0.35);
+}
+
+/* ── Card grid ── */
+.admin-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.admin-card {
+  background: var(--card-bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.admin-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(162, 0, 255, 0.4);
+}
+
+.admin-card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+.admin-card-body {
+  padding: 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.admin-card-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.admin-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding: 0 14px 14px;
+}
+
+.admin-btn-edit,
+.admin-btn-delete,
+.admin-btn-details,
+.admin-btn-toggle {
+  flex: 1;
+  padding: 9px 0;
+  border-radius: 8px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.admin-btn-edit {
+  background: linear-gradient(135deg, #a200ff, #0029ff);
+  color: white;
+}
+
+.admin-btn-delete {
+  background: linear-gradient(135deg, #ff1414, #ff6b6b);
+  color: white;
+}
+
+.admin-btn-details {
+  background: linear-gradient(135deg, #0029ff, #3b82f6);
+  color: white;
+}
+
+.admin-btn-toggle.active-status {
+  background: linear-gradient(135deg, #ff1414, #ff6b6b);
+  color: white;
+}
+
+.admin-btn-toggle.deactivated-status {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+}
+
+.admin-btn-edit:hover,
+.admin-btn-delete:hover,
+.admin-btn-details:hover,
+.admin-btn-toggle:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+/* ── User card ── */
+.admin-user-card {
+  background: var(--card-bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: 16px;
+  padding: 24px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.admin-user-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(162, 0, 255, 0.4);
+}
+
+.admin-user-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid rgba(162, 0, 255, 0.5);
+  margin-bottom: 4px;
+}
+
+.admin-user-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: white;
+}
+
+.admin-user-role {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 10px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #a200ff, #0029ff);
+  color: white;
+}
+
+.admin-user-email {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  word-break: break-all;
+}
+
+.admin-user-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 50px;
+}
+
+.admin-user-status.active {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.admin-user-status.deactivated {
+  background: rgba(255, 20, 20, 0.1);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 20, 20, 0.25);
+}
+
+/* ── Status badge (general) ── */
+.status-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ════════════════════════════════════
+   MODAL
+════════════════════════════════════ */
+.admin-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.admin-modal-box {
+  background: #111;
+  border: 1.5px solid var(--card-border);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 420px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  animation: modalPop 0.28s cubic-bezier(.4,0,.2,1);
+}
+
+@keyframes modalPop {
+  from { transform: scale(0.88); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+.admin-modal-emoji { font-size: 2.8rem; }
+
+.admin-modal-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.admin-modal-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.admin-modal-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.admin-modal-confirm-btn,
+.admin-modal-cancel-btn {
+  flex: 1;
+  padding: 11px 0;
+  border-radius: 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s ease;
+}
+
+.admin-modal-confirm-btn {
+  background: linear-gradient(135deg, #ff1414, #a200ff);
+  color: white;
+}
+
+.admin-modal-cancel-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  border: 1.5px solid var(--card-border);
+}
+
+.admin-modal-confirm-btn:hover,
+.admin-modal-cancel-btn:hover {
+  opacity: 0.85;
+}
+
+/* ════════════════════════════════════
+   FORM (Edit/Create pages)
+════════════════════════════════════ */
+.admin-form-card {
+  background: var(--card-bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: 20px;
+  padding: 32px;
+}
+
+.admin-form-section {
+  margin-bottom: 28px;
+}
+
+.admin-form-section-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 0 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.admin-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.admin-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.admin-form-group.full {
+  grid-column: 1 / -1;
+}
+
+.admin-form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admin-form-input,
+.admin-form-select,
+.admin-form-textarea {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid var(--card-border);
+  border-radius: 10px;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.admin-form-input:focus,
+.admin-form-select:focus,
+.admin-form-textarea:focus {
+  border-color: #a200ff;
+}
+
+.admin-form-select option {
+  background: #111;
+  color: white;
+}
+
+.admin-form-textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* ── Image upload ── */
+.admin-upload-area {
+  border: 2px dashed var(--card-border);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.admin-upload-area:hover,
+.admin-upload-area.dragging {
+  border-color: #a200ff;
+  background: rgba(162, 0, 255, 0.06);
+}
+
+.admin-upload-area input[type="file"] { display: none; }
+
+.admin-upload-preview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-top: 12px;
+}
+
+.admin-upload-hint {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Quiz / item builder ── */
+.admin-quiz-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.admin-quiz-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.admin-quiz-item-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admin-remove-btn {
+  background: rgba(255, 20, 20, 0.12);
+  border: 1px solid rgba(255, 20, 20, 0.3);
+  color: #ff6b6b;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.admin-remove-btn:hover {
+  background: rgba(255, 20, 20, 0.22);
+}
+
+.admin-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(162, 0, 255, 0.12);
+  border: 1.5px dashed rgba(162, 0, 255, 0.4);
+  color: #a200ff;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+}
+
+.admin-add-btn:hover {
+  background: rgba(162, 0, 255, 0.2);
+}
+
+/* ── Submit row ── */
+.admin-form-submit-row {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.admin-submit-btn {
+  padding: 12px 32px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #a200ff, #0029ff);
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(162, 0, 255, 0.35);
+}
+
+.admin-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.admin-cancel-btn {
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: 1.5px solid var(--card-border);
+  background: transparent;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.admin-cancel-btn:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+/* ════════════════════════════════════
+   USER INFO PAGE
+════════════════════════════════════ */
+.admin-user-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+}
+
+.admin-info-section {
+  background: var(--card-bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.admin-info-section-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 0 0 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.admin-info-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid rgba(162, 0, 255, 0.5);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.admin-info-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 12px;
+}
+
+.admin-info-field-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.admin-info-field-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: white;
+}
+
+.admin-achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 14px;
+}
+
+.admin-achievement-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-achievement-img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+}
+
+.admin-achievement-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.admin-lesson-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.admin-lesson-row:last-child { border-bottom: none; }
+
+.admin-lesson-title {
+  font-size: 0.88rem;
+  color: white;
+  font-weight: 500;
+}
+
+.admin-lesson-score {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #a200ff;
+}
+
+/* ════════════════════════════════════
+   LOADING / ERROR
+════════════════════════════════════ */
+.admin-loading,
+.admin-error {
+  text-align: center;
+  padding: 60px 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.admin-error { color: #ff6b6b; }
+
+/* ════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════ */
+@media (max-width: 900px) {
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-graphs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-user-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-wrapper,
+  .admin-section-wrapper {
+    padding: 24px 16px 60px;
+  }
+
+  .admin-title { font-size: 1.8rem; }
+  .admin-page-title { font-size: 1.5rem; }
+
+  .admin-nav-row { gap: 10px; }
+  .admin-nav-btn { min-width: 80px; padding: 14px 12px; font-size: 0.72rem; }
+  .admin-nav-emoji { font-size: 1.3rem; }
+
+  .admin-stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .admin-stat-value { font-size: 1.6rem; }
+
+  .admin-graph-header { flex-direction: column; align-items: flex-start; }
+  .admin-date-range { width: 100%; }
+
+  .admin-cards-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+
+  .admin-form-card { padding: 20px 16px; }
+  .admin-form-submit-row { justify-content: stretch; }
+  .admin-submit-btn, .admin-cancel-btn { flex: 1; }
+
+  .admin-modal-box { padding: 28px 20px; }
+}
+
+/* ════════════════════════════════════
+   GAME CATEGORY SELECTOR
+════════════════════════════════════ */
+.admin-game-category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.admin-category-btn {
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1.5px solid var(--card-border);
+  background: var(--card-bg);
+  color: rgba(255,255,255,0.75);
+  font-family: "Poppins", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-category-btn:hover {
+  border-color: #a200ff;
+  background: rgba(162, 0, 255, 0.1);
+  color: white;
+}
+
+.admin-category-btn.selected {
+  background: linear-gradient(135deg, #a200ff, #0029ff);
+  border-color: transparent;
+  color: white;
+}
+
+/* ── Form hint text ── */
+.admin-form-hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0 0 14px;
+  line-height: 1.5;
+}

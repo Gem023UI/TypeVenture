@@ -155,13 +155,20 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ error: "No existing email" });
     }
 
+    // Block deactivated users from logging in
+    if (user.status === "deactivated") {
+      return res.status(403).json({
+        error: "Your account has been deactivated. Please contact support.",
+      });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ error: "Incorrect Password" });
     }
 
     const token = jwt.sign(
-      { id: user._id, username: user.username, email: user.email },
+      { id: user._id, username: user.username, email: user.email, userrole: user.userrole },
       process.env.JWT_SECRET || "defaultsecret",
       { expiresIn: "1d" }
     );
@@ -296,9 +303,9 @@ export const editProfile = async (req, res) => {
   }
 };
 
-// DELETE ACCOUNT
+// DEACTIVATE ACCOUNT
 export const deleteAccount = async (req, res) => {
-  console.log("🔴 Delete account endpoint hit");
+  console.log("🔴 Delete/Deactivate account endpoint hit");
 
   try {
     const { userId, username, password } = req.body;
@@ -321,26 +328,22 @@ export const deleteAccount = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ error: "Password is incorrect" });
-    };
-    
-    await Score.deleteMany({ userId: userId });
-    console.log("✅ Deleted user scores");
-    
-    await UserAchievement.deleteMany({ userId: userId });
-    console.log("✅ Deleted user achievements");
-    
-    await User.findByIdAndDelete(userId);
-    console.log("✅ Deleted user account");
+    }
+
+    // Deactivate instead of delete
+    user.status = "deactivated";
+    await user.save();
+    console.log("✅ Account deactivated:", user.username);
 
     res.json({
       success: true,
-      message: "Account and all related data deleted successfully"
+      message: "Account deactivated successfully"
     });
 
   } catch (err) {
-    console.error("❌ Delete account error:", err);
+    console.error("❌ Deactivate account error:", err);
     res.status(500).json({
-      error: "Account deletion failed",
+      error: "Account deactivation failed",
       details: err.message,
     });
   }
@@ -440,7 +443,6 @@ export const sendPasswordResetCode = async (req, res) => {
       return res.status(400).json({ error: "Email is required" });
     }
     
-    // Check if user exists
     const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
       return res.status(404).json({ 
@@ -449,18 +451,13 @@ export const sendPasswordResetCode = async (req, res) => {
       });
     }
     
-    // Generate 6-digit code
     const resetCode = generateVerificationCode();
-    
-    // Set expiration to 15 minutes from now
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
     
-    // Save code to database
     user.passwordResetCode = resetCode;
     user.passwordResetExpires = expiresAt;
     await user.save();
     
-    // Send email
     await sendPasswordResetEmail(user.email, user.username, resetCode);
     
     console.log("✅ Password reset code sent to:", user.email);
@@ -493,49 +490,40 @@ export const resetPassword = async (req, res) => {
       });
     }
     
-    // Find user by email
     const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
     
-    // Check if reset code exists
     if (!user.passwordResetCode) {
       return res.status(400).json({ 
         error: "No password reset code found. Please request a new code." 
       });
     }
     
-    // Check if code expired
     if (new Date() > user.passwordResetExpires) {
       return res.status(400).json({ 
         error: "Password reset code expired. Please request a new code." 
       });
     }
     
-    // Check if code matches
     if (user.passwordResetCode !== code.trim()) {
       return res.status(400).json({ error: "Invalid reset code" });
     }
     
-    // Validate new password
-    const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
+    const passwordRegex = /^(?=.*[!@#$%^&*(),.?\":{}|<>]).{6,}$/;
     if (!passwordRegex.test(newPassword)) {
       return res.status(400).json({
         error: "Password must be at least 6 characters long and contain at least 1 symbol",
       });
     }
     
-    // Hash new password
     user.password = await bcrypt.hash(newPassword, 10);
-    
-    // Clear reset code and expiration
     user.passwordResetCode = undefined;
     user.passwordResetExpires = undefined;
     
     await user.save();
     
-    // Send success email
     await sendPasswordResetSuccessEmail(user.email, user.username);
     
     console.log("✅ Password reset successfully for:", user.email);

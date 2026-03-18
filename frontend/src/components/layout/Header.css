@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --color1: #FFFFFF; /* Primary */
-  --color2: #FF1414; /* Accent */
-  --color3: #0029FF; /* Secondary */
-  --color4: #a200ff; /* Tertiary */
+  --color1: #FFFFFF;
+  --color2: #FF1414;
+  --color3: #0029FF;
+  --color4: #a200ff;
   --text-light: white;
 }
 
@@ -48,7 +48,6 @@
   font-size: 1.2rem;
   font-weight: 600;
   text-decoration: none;
-
   --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
   background-image: var(--border-gradient);
   background-clip: text;
@@ -102,17 +101,14 @@
   padding: 0.45rem 0.9rem;
   border-radius: 0.6rem;
   text-decoration: none;
-  transition: background-color 0.18s ease, color 0.18s ease, transform 0.12s ease, border 0.18s;
-  border: 1px solid transparent; /* default transparent border to avoid layout shift on hover */
+  border: 1px solid transparent;
   font-weight: 500;
-
   --border-gradient: linear-gradient(135deg, #ff1414, purple, #0029ff);
   background-image: var(--border-gradient);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-
   transition: all 0.3s ease;
 }
 
@@ -122,6 +118,10 @@
 
 .header-right .header-links li { cursor: default; }
 .header-right .header-links li:hover { cursor: pointer; }
+
+/* ════════════════════════════════════════════════
+   LOGOUT MODAL
+════════════════════════════════════════════════ */
 
 .logout-modal-overlay {
   position: fixed;
@@ -180,14 +180,114 @@
   font-family: "Poppins", sans-serif;
 }
 
+/* ════════════════════════════════════════════════
+   MANAGEMENT DROPDOWN
+════════════════════════════════════════════════ */
+
+.management-menu {
+  position: relative;
+  cursor: pointer;
+  list-style: none;
+}
+
+.management-label {
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.4px;
+  padding: 0.45rem 0.9rem;
+  white-space: nowrap;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.management-caret {
+  font-size: 10px;
+  display: inline-block;
+  transition: transform 0.2s ease;
+  background: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Caret rotates when dropdown is open via .open class set in JSX */
+.management-caret.open {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown panel ── */
+.management-dropdown {
+  position: absolute;
+  top: calc(100% + 16px);
+  right: 0;
+  min-width: 160px;
+  background: rgba(255, 255, 255, 0.416);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 6px 0;
+  list-style: none;
+  margin: 0;
+  z-index: 1000;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(162, 0, 255, 0.15);
+  animation: dropdownFadeIn 0.18s ease;
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.management-dropdown li {
+  list-style: none;
+}
+
+.management-dropdown li a {
+  display: block;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  /* reset the global gradient text rule that affects all .header-right a */
+  background-image: none;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
+  transition: background 0.15s ease, padding-left 0.15s ease;
+}
+
+.management-dropdown li a:hover {
+  background: rgba(162, 0, 255, 0.12);
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+  padding-left: 24px;
+  transform: none;
+}
+
+.management-dropdown li:first-child a {
+  border-radius: 10px 10px 0 0;
+}
+
+.management-dropdown li:last-child a {
+  border-radius: 0 0 10px 10px;
+}
+
+.management-dropdown li + li {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════════ */
+
 @media (max-width: 768px) {
   .header-right .header-links { display: none; }
+  .header-right ul { display: none; }
 }
-
-@media (max-width: 768px) {
-  .header-right ul {
-    display: none;
-  }
-}
-
-
