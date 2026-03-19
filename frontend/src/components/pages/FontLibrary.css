@@ -1,0 +1,291 @@
+/* ══════════════════════════════════════════════
+   FONT LIBRARY — FontLibrary.css
+   Import this in FontLibrary.jsx
+   The FAB button styles live in Workspace.css
+══════════════════════════════════════════════ */
+
+/* ── BACKDROP ── */
+.fl-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: flFadeIn 0.2s ease;
+  }
+  
+  @keyframes flFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  
+  /* ── MODAL ── */
+  .fl-modal {
+    background: #16161e;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
+    animation: flSlideUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  @keyframes flSlideUp {
+    from { transform: translateY(32px) scale(0.96); opacity: 0; }
+    to   { transform: translateY(0)    scale(1);    opacity: 1; }
+  }
+  
+  /* ── HEADER ── */
+  .fl-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 28px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    flex-shrink: 0;
+  }
+  
+  .fl-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  
+  .fl-header-icon {
+    font-size: 1.8rem;
+    line-height: 1;
+  }
+  
+  .fl-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    background: linear-gradient(135deg, #ff1414, #a200ff, #0029ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .fl-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.45);
+    margin: 2px 0 0;
+  }
+  
+  .fl-close {
+    background: rgba(255, 255, 255, 0.06);
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+  .fl-close:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+  }
+  
+  /* ── THEME TABS ── */
+  .fl-theme-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 14px 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    overflow-x: auto;
+    flex-shrink: 0;
+    scrollbar-width: none;
+  }
+  .fl-theme-tabs::-webkit-scrollbar { display: none; }
+  
+  .fl-theme-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px 11px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.45);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    border-radius: 8px 8px 0 0;
+    transition: color 0.18s, border-color 0.18s, background 0.18s;
+  }
+  .fl-theme-tab:hover {
+    color: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .fl-theme-tab.active {
+    color: #ffffff;
+    border-bottom-color: #a200ff;
+    background: rgba(162, 0, 255, 0.08);
+  }
+  
+  .fl-tab-emoji { font-size: 1rem; }
+  .fl-tab-name  { font-size: 0.8rem; }
+  
+  /* ── BODY ── */
+  .fl-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 22px 28px 28px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+  }
+  .fl-body::-webkit-scrollbar { width: 5px; }
+  .fl-body::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 99px; }
+  
+  /* ── THEME META ── */
+  .fl-theme-meta {
+    margin-bottom: 20px;
+  }
+  
+  .fl-emotions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  
+  .fl-meta-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 2px;
+  }
+  
+  .fl-emotion-tag {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 999px;
+    background: rgba(162, 0, 255, 0.15);
+    border: 1px solid rgba(162, 0, 255, 0.3);
+    color: rgba(255, 255, 255, 0.8);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .fl-purpose {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.83rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+    line-height: 1.5;
+  }
+  
+  .fl-purpose strong {
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 600;
+  }
+  
+  /* ── TABLE ── */
+  .fl-table-wrap {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  
+  .fl-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .fl-table thead tr {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .fl-table th {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 12px 18px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  
+  .fl-table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    transition: background 0.15s;
+  }
+  .fl-table tbody tr:last-child { border-bottom: none; }
+  .fl-table tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
+  
+  .fl-table td {
+    padding: 14px 18px;
+    vertical-align: middle;
+  }
+  
+  /* ── TYPEFACE CELL ── */
+  .fl-font-name {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #ffffff;
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+    display: block;
+  }
+  
+  /* ── PAIR CELL ── */
+  .fl-pair-display {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+  
+  .fl-pair-font {
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.4;
+  }
+  
+  .fl-pair-plus {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem;
+    color: rgba(162, 0, 255, 0.7);
+    font-weight: 700;
+    padding: 0 2px;
+  }
+  
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .fl-modal { border-radius: 16px 16px 0 0; max-height: 92vh; }
+    .fl-header { padding: 18px 18px 14px; }
+    .fl-body   { padding: 16px 16px 24px; }
+    .fl-theme-tab { padding: 7px 12px 10px; }
+    .fl-title  { font-size: 1.1rem; }
+    .fl-table td { padding: 12px 14px; }
+    .fl-font-name { font-size: 0.95rem; }
+    .fl-pair-font { font-size: 0.9rem; }
+  }

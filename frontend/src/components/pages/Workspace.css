@@ -842,6 +842,121 @@
   font-style: italic;
 }
 
+/*
+  ── FLOATING ACTION BUTTON STACK ──
+  Positioned at the bottom-right corner of the screen.
+  Two buttons stacked vertically: library on top, bot below.
+*/
+ 
+.tw-fab-stack {
+  position: fixed;
+  bottom: 32px;
+  right: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 1100;
+}
+ 
+.tw-fab {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 1.45rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.2s ease,
+              opacity 0.2s ease;
+  position: relative;
+}
+ 
+.tw-fab:hover {
+  transform: scale(1.12);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+}
+ 
+.tw-fab:active {
+  transform: scale(0.96);
+}
+ 
+/* Font Library button — gradient from purple to blue */
+.tw-fab-library {
+  background: linear-gradient(135deg, #a200ff, #0029ff);
+}
+ 
+.tw-fab-library::before {
+  content: "Font Library";
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(20, 20, 30, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+ 
+.tw-fab-library:hover::before { opacity: 1; }
+ 
+/* FontBot button — gradient from red to purple */
+.tw-fab-bot {
+  background: linear-gradient(135deg, #ff1414, #a200ff);
+}
+ 
+.tw-fab-bot::before {
+  content: "FontBot";
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(20, 20, 30, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+ 
+.tw-fab-bot:hover::before { opacity: 1; }
+ 
+/* Responsive — smaller buttons on mobile */
+@media (max-width: 640px) {
+  .tw-fab-stack {
+    bottom: 20px;
+    right: 16px;
+    gap: 10px;
+  }
+  .tw-fab {
+    width: 46px;
+    height: 46px;
+    font-size: 1.25rem;
+  }
+  .tw-fab-library::before,
+  .tw-fab-bot::before {
+    display: none;
+  }
+}
+
 /* ═══════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════ */

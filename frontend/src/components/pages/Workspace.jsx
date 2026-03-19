@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import MainLayout from "../layout/MainLayout";
+import FontLibrary from "./FontLibrary";
+import FontBot from "./FontBot";
 import "./Workspace.css";
 
 /* ─────────────────────────────────────────
@@ -210,6 +212,9 @@ const Workspace = () => {
   const [undoStack, setUndoStack]         = useState([]);
   const [redoStack, setRedoStack]         = useState([]);
   const [canvasBg, setCanvasBg]           = useState("#0d0d0d");
+
+  const [showFontLibrary, setShowFontLibrary] = useState(false);
+  const [showFontBot, setShowFontBot]         = useState(false);
 
   const headlineRef   = useRef(null);
   const subheadingRef = useRef(null);
@@ -641,6 +646,39 @@ const Workspace = () => {
             </div>
           </div>
         )}
+
+        {/* ── FLOATING ACTION BUTTONS ── */}
+        <div className="tw-fab-stack">
+          {/* Font Library button */}
+          <button
+            className="tw-fab tw-fab-library"
+            onClick={() => { setShowFontLibrary(true); setShowFontBot(false); }}
+            title="Font Pairing Library"
+            aria-label="Open Font Pairing Library"
+          >
+            📚
+          </button>
+  
+          {/* FontBot button */}
+          <button
+            className="tw-fab tw-fab-bot"
+            onClick={() => { setShowFontBot(true); setShowFontLibrary(false); }}
+            title="FontBot — Typography Assistant"
+            aria-label="Open FontBot"
+          >
+            🤖
+          </button>
+        </div>
+  
+        {/* ── MODALS ── */}
+        <FontLibrary
+          isOpen={showFontLibrary}
+          onClose={() => setShowFontLibrary(false)}
+        />
+        <FontBot
+          isOpen={showFontBot}
+          onClose={() => setShowFontBot(false)}
+        />
 
       </div>
     </MainLayout>
