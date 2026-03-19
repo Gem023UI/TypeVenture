@@ -1013,6 +1013,230 @@
 .admin-error { color: #ff6b6b; }
 
 /* ════════════════════════════════════
+   ROLE DROPDOWN
+════════════════════════════════════ */
+
+.admin-role-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.admin-role-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 50px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.admin-role-trigger:hover {
+  opacity: 0.82;
+  transform: scale(1.03);
+}
+
+.admin-role-trigger.admin {
+  background: linear-gradient(135deg, #ff1414, #a200ff);
+  color: white;
+}
+
+.admin-role-trigger.user {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.admin-role-caret {
+  font-size: 9px;
+  opacity: 0.7;
+  transition: transform 0.15s ease;
+}
+
+.admin-role-trigger:hover .admin-role-caret {
+  transform: rotate(180deg);
+}
+
+.admin-role-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 120px;
+  background: rgba(18, 18, 18, 0.98);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 4px 0;
+  list-style: none;
+  margin: 0;
+  z-index: 200;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5);
+  animation: roleDropIn 0.15s ease;
+}
+
+@keyframes roleDropIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.admin-role-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+  text-transform: capitalize;
+}
+
+.admin-role-option:hover {
+  background: rgba(162, 0, 255, 0.12);
+  color: #fff;
+}
+
+.admin-role-option.current {
+  color: #fff;
+  font-weight: 600;
+}
+
+.admin-role-option + .admin-role-option {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.admin-role-check {
+  font-size: 0.7rem;
+  color: #a200ff;
+  width: 12px;
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════════
+   VERIFIED BADGE
+════════════════════════════════════ */
+
+.admin-user-verified {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 50px;
+}
+
+.admin-user-verified.verified {
+  background: rgba(34, 197, 94, 0.12);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.admin-user-verified.unverified {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+/* ── Section Image Carousel ───────────────────────────── */
+.admin-carousel {
+  margin-top: 10px;
+}
+
+.admin-carousel-viewer {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.admin-carousel-img {
+  width: 100%;
+  max-width: 420px;
+  max-height: 240px;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+.admin-carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.admin-carousel-count {
+  font-size: 12px;
+  color: #888;
+}
+
+.admin-carousel-arrow {
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  color: #ccc;
+  border-radius: 4px;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.admin-carousel-arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.admin-carousel-remove {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid #c0392b;
+  color: #c0392b;
+  border-radius: 4px;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.admin-carousel-remove:hover {
+  background: #c0392b;
+  color: #fff;
+}
+
+.admin-carousel-thumbs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.admin-carousel-thumb {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s, border-color 0.2s;
+}
+
+.admin-carousel-thumb.active {
+  border-color: #e0c97f;
+  opacity: 1;
+}
+
+.admin-carousel-thumb:hover {
+  opacity: 1;
+}
+
+/* ════════════════════════════════════
    RESPONSIVE
 ════════════════════════════════════ */
 @media (max-width: 900px) {

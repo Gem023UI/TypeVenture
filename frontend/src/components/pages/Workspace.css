@@ -320,7 +320,7 @@
 
 /* Font list */
 .tw-font-list {
-  max-height: 180px;
+  max-height: 1800px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;

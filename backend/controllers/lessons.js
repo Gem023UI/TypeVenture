@@ -124,7 +124,8 @@ export const markLessonComplete = async (req, res) => {
         ? {
             _id: nextLesson._id,
             title: nextLesson.title,
-            description: nextLesson.content.description,
+            // support both new top-level description and legacy content.description
+            description: nextLesson.description || nextLesson.content?.description || "",
           }
         : null,
     });
@@ -159,13 +160,18 @@ export const submitQuizScore = async (req, res) => {
     );
 
     if (existingIdx >= 0) {
-      // Always overwrite on retake — latest attempt is always saved
-      user.lessonQuiz[existingIdx].lessonScore     = lessonScore;
-      user.lessonQuiz[existingIdx].lessonCompleted = lessonCompleted ?? false;
-      user.lessonQuiz[existingIdx].completedAt     = new Date();
-      console.log(
-        `🔄 Updated quiz score for "${lessonTitle}" → ${lessonScore} pts | passed: ${lessonCompleted}`
-      );
+      if (lessonScore > user.lessonQuiz[existingIdx].lessonScore) {
+        user.lessonQuiz[existingIdx].lessonScore     = lessonScore;
+        user.lessonQuiz[existingIdx].lessonCompleted = lessonCompleted ?? false;
+        user.lessonQuiz[existingIdx].completedAt     = new Date();
+        console.log(
+          `🔄 Updated quiz score for "${lessonTitle}" → ${lessonScore} pts | passed: ${lessonCompleted}`
+        );
+      } else {
+        console.log(
+          `ℹ️  Score for "${lessonTitle}" not updated (new: ${lessonScore} ≤ existing: ${user.lessonQuiz[existingIdx].lessonScore})`
+        );
+      }
     } else {
       user.lessonQuiz.push({
         lessonTitle,

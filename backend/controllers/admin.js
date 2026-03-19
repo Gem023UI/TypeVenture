@@ -32,23 +32,15 @@ export const getDashboardStats = async (req, res) => {
 export const getLessonCompletionsGraph = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
-
-    // Build fixed date boundaries — never mutate these after creation
-    const start = startDate
-      ? new Date(`${startDate}T00:00:00.000Z`)
-      : (() => { const d = new Date(); d.setUTCDate(d.getUTCDate() - 6); d.setUTCHours(0,0,0,0); return d; })();
-    const end = endDate
-      ? new Date(`${endDate}T23:59:59.999Z`)
-      : (() => { const d = new Date(); d.setUTCHours(23,59,59,999); return d; })();
+    const start = startDate ? new Date(startDate) : (() => { const d = new Date(); d.setDate(d.getDate() - 6); d.setHours(0,0,0,0); return d; })();
+    const end   = endDate   ? new Date(endDate)   : (() => { const d = new Date(); d.setHours(23,59,59,999); return d; })();
 
     const lessons = await Lesson.find({ "usersDone.completedAt": { $gte: start, $lte: end } });
 
-    // Build counts map — use a fresh Date object for the loop, never touch start/end
+    // Count completions per day
     const counts = {};
-    const cursor = new Date(start.getTime()); // clone so start is not mutated
-    while (cursor <= end) {
-      counts[cursor.toISOString().slice(0, 10)] = 0;
-      cursor.setUTCDate(cursor.getUTCDate() + 1);
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      counts[d.toISOString().slice(0, 10)] = 0;
     }
 
     lessons.forEach(lesson => {
@@ -75,21 +67,15 @@ export const getLessonCompletionsGraph = async (req, res) => {
 export const getLoginsGraph = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
+    const start = startDate ? new Date(startDate) : (() => { const d = new Date(); d.setDate(d.getDate() - 6); d.setHours(0,0,0,0); return d; })();
+    const end   = endDate   ? new Date(endDate)   : (() => { const d = new Date(); d.setHours(23,59,59,999); return d; })();
 
-    const start = startDate
-      ? new Date(`${startDate}T00:00:00.000Z`)
-      : (() => { const d = new Date(); d.setUTCDate(d.getUTCDate() - 6); d.setUTCHours(0,0,0,0); return d; })();
-    const end = endDate
-      ? new Date(`${endDate}T23:59:59.999Z`)
-      : (() => { const d = new Date(); d.setUTCHours(23,59,59,999); return d; })();
-
+    // We'll track updatedAt as a proxy for login activity
     const users = await User.find({ updatedAt: { $gte: start, $lte: end } });
 
     const counts = {};
-    const cursor = new Date(start.getTime()); // clone so start is not mutated
-    while (cursor <= end) {
-      counts[cursor.toISOString().slice(0, 10)] = 0;
-      cursor.setUTCDate(cursor.getUTCDate() + 1);
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      counts[d.toISOString().slice(0, 10)] = 0;
     }
 
     users.forEach(user => {
@@ -181,8 +167,30 @@ export const toggleUserStatus = async (req, res) => {
   }
 };
 
+export const updateUserRole = async (req, res) => {
+  try {
+    const { role } = req.body;
+
+    if (!role || !["user", "admin"].includes(role)) {
+      return res.status(400).json({ error: "Invalid role. Must be 'user' or 'admin'." });
+    }
+
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    user.userrole = role;
+    await user.save();
+
+    console.log(`✅ Role updated for ${user.username} → ${role}`);
+    res.status(200).json({ message: `Role updated to ${role}`, user });
+  } catch (error) {
+    console.error("❌ updateUserRole error:", error);
+    res.status(500).json({ error: "Failed to update user role" });
+  }
+};
+
 // ─────────────────────────────────────────
-// LESSON CRUD
+// LESSON CRUD  (drop-in replacement for the lesson section of admin.js)
 // ─────────────────────────────────────────
 
 export const adminGetAllLessons = async (req, res) => {
@@ -190,6 +198,7 @@ export const adminGetAllLessons = async (req, res) => {
     const lessons = await Lesson.find().sort({ createdAt: -1 });
     res.status(200).json(lessons);
   } catch (error) {
+    console.error("❌ adminGetAllLessons error:", error);
     res.status(500).json({ error: "Failed to fetch lessons" });
   }
 };
@@ -200,29 +209,94 @@ export const adminGetLessonById = async (req, res) => {
     if (!lesson) return res.status(404).json({ error: "Lesson not found" });
     res.status(200).json(lesson);
   } catch (error) {
+    console.error("❌ adminGetLessonById error:", error);
     res.status(500).json({ error: "Failed to fetch lesson" });
   }
 };
 
 export const adminCreateLesson = async (req, res) => {
   try {
-    const lesson = new Lesson(req.body);
+    // Accept only the fields defined on the schema — never trust the client
+    // to not send _id, usersDone, createdAt, etc.
+    const {
+      title,
+      lessonImage,
+      difficulty,
+      completionTime,
+      youtubeUrl,
+      description,
+      instruction,
+      sections,
+      quiz,
+    } = req.body;
+
+    if (!title || !title.trim()) {
+      return res.status(400).json({ error: "Lesson title is required." });
+    }
+
+    const lesson = new Lesson({
+      title:          title.trim(),
+      lessonImage:    lessonImage    || "",
+      difficulty:     difficulty     || "Beginner",
+      completionTime: completionTime || "~15 min",
+      youtubeUrl:     youtubeUrl     || "",
+      description:    description    || "",
+      instruction:    instruction    || "",
+      sections:       sections       || [],
+      quiz:           quiz           || [],
+    });
+
     await lesson.save();
     res.status(201).json({ message: "Lesson created", lesson });
   } catch (error) {
     console.error("❌ adminCreateLesson error:", error);
-    res.status(500).json({ error: "Failed to create lesson" });
+    res.status(500).json({ error: "Failed to create lesson", details: error.message });
   }
 };
 
 export const adminUpdateLesson = async (req, res) => {
   try {
-    const lesson = await Lesson.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    const {
+      title,
+      lessonImage,
+      difficulty,
+      completionTime,
+      youtubeUrl,
+      description,
+      instruction,
+      sections,
+      quiz,
+    } = req.body;
+
+    if (title !== undefined && !title.trim()) {
+      return res.status(400).json({ error: "Lesson title cannot be empty." });
+    }
+
+    // Only set the fields we explicitly allow — usersDone, createdAt, __v
+    // are intentionally excluded so they can never be overwritten by the client.
+    const updatePayload = {
+      ...(title          !== undefined && { title: title.trim() }),
+      ...(lessonImage    !== undefined && { lessonImage }),
+      ...(difficulty     !== undefined && { difficulty }),
+      ...(completionTime !== undefined && { completionTime }),
+      ...(youtubeUrl     !== undefined && { youtubeUrl }),
+      ...(description    !== undefined && { description }),
+      ...(instruction    !== undefined && { instruction }),
+      ...(sections       !== undefined && { sections }),
+      ...(quiz           !== undefined && { quiz }),
+    };
+
+    const lesson = await Lesson.findByIdAndUpdate(
+      req.params.id,
+      { $set: updatePayload },
+      { new: true, runValidators: true }
+    );
+
     if (!lesson) return res.status(404).json({ error: "Lesson not found" });
     res.status(200).json({ message: "Lesson updated", lesson });
   } catch (error) {
     console.error("❌ adminUpdateLesson error:", error);
-    res.status(500).json({ error: "Failed to update lesson" });
+    res.status(500).json({ error: "Failed to update lesson", details: error.message });
   }
 };
 
@@ -231,11 +305,16 @@ export const adminDeleteLesson = async (req, res) => {
     const lesson = await Lesson.findByIdAndDelete(req.params.id);
     if (!lesson) return res.status(404).json({ error: "Lesson not found" });
 
-    // Remove lesson references from users' lessonQuiz
-    await User.updateMany(
-      { "lessonQuiz.lessonTitle": lesson.title },
-      { $pull: { lessonQuiz: { lessonTitle: lesson.title } } }
-    );
+    // Best-effort cleanup — remove the lesson from users' quiz records.
+    // If this fails we still return success (lesson is already deleted).
+    try {
+      await User.updateMany(
+        { "lessonQuiz.lessonTitle": lesson.title },
+        { $pull: { lessonQuiz: { lessonTitle: lesson.title } } }
+      );
+    } catch (cleanupErr) {
+      console.error("⚠️ lessonQuiz cleanup failed (non-fatal):", cleanupErr);
+    }
 
     res.status(200).json({ message: "Lesson deleted" });
   } catch (error) {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import * as Chart from 'chart.js';
-import { getUserById, editProfile, deleteAccount, verifyEmail, getCompletedLessons } from "../../api/user"
+import { getUserById, editProfile, deleteAccount, verifyEmail, getCompletedLessons, getQuizScores } from "../../api/user"
 import { fetchUserScores } from "../../api/games";
 import { sendVerificationCode } from '../../api/emailVerify';
 import Swal from 'sweetalert2';
@@ -38,6 +38,8 @@ const Profile = () => {
 
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
+  const lessonChartRef = useRef(null);
+  const lessonChartInstance = useRef(null);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteUsername, setDeleteUsername] = useState("");
@@ -142,27 +144,39 @@ const Profile = () => {
       try {
         const userId = localStorage.getItem('userId');
         const data = await getCompletedLessons();
-  
+
+        // Fetch the user's quiz scores so we can attach them to each lesson
+        let quizScores = [];
+        try {
+          quizScores = await getQuizScores();
+        } catch (_) {}
+
         const completed = data
           .filter(lesson =>
             lesson.usersDone.some(entry => entry.userId === userId)
           )
           .map(lesson => {
-            const userEntry = lesson.usersDone.find(entry => entry.userId === userId);
+            const userEntry  = lesson.usersDone.find(entry => entry.userId === userId);
+            const quizRecord = quizScores.find(q => q.lessonTitle?.trim().toLowerCase() === lesson.title?.trim().toLowerCase());
             return {
-              _id: lesson._id,
-              title: lesson.title,
-              completedAt: userEntry.completedAt
+              _id:         lesson._id,
+              title:       lesson.title,
+              completedAt: userEntry.completedAt,
+              // score earned (raw points from submitQuizScore)
+              lessonScore: quizRecord?.lessonScore ?? null,
+              // total quiz items in this lesson
+              totalItems:  lesson.quiz?.length ?? 0,
+              passed:      quizRecord?.lessonCompleted ?? false,
             };
           })
           .sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt));
-  
+
         setCompletedLessons(completed);
       } catch (err) {
         console.error("Error fetching completed lessons:", err);
       }
     };
-  
+
     fetchCompletedLessons();
   }, []);
 
@@ -262,6 +276,103 @@ const Profile = () => {
       }
     };
   }, [allScores]);
+
+  // ── Lesson quiz score bar chart ──────────────────────────────
+  useEffect(() => {
+    Chart.Chart.register(
+      Chart.BarController,
+      Chart.BarElement,
+      Chart.LinearScale,
+      Chart.CategoryScale,
+      Chart.Title,
+      Chart.Tooltip,
+      Chart.Legend
+    );
+
+    const lessonsWithScores = completedLessons.filter(l => l.lessonScore !== null);
+
+    if (lessonsWithScores.length > 0 && lessonChartRef.current) {
+      if (lessonChartInstance.current) {
+        lessonChartInstance.current.destroy();
+      }
+
+      // Reverse so oldest lesson appears first (left to right)
+      const ordered = [...lessonsWithScores].reverse();
+
+      const ctx = lessonChartRef.current.getContext('2d');
+      lessonChartInstance.current = new Chart.Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ordered.map(l => l.title.length > 18 ? l.title.slice(0, 18) + '…' : l.title),
+          datasets: [{
+            label: 'Quiz Score (pts)',
+            data: ordered.map(l => l.lessonScore),
+            backgroundColor: ordered.map(l =>
+              l.passed
+                ? 'rgba(162, 0, 255, 0.6)'
+                : 'rgba(255, 20, 20, 0.5)'
+            ),
+            borderColor: ordered.map(l =>
+              l.passed ? '#a200ff' : '#FF1414'
+            ),
+            borderWidth: 2,
+            borderRadius: 6,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {
+              backgroundColor: 'rgba(0,0,0,0.85)',
+              titleColor: '#FFFFFF',
+              bodyColor: '#FFFFFF',
+              borderColor: '#a200ff',
+              borderWidth: 1,
+              padding: 12,
+              displayColors: false,
+              callbacks: {
+                title: (context) => ordered[context[0].dataIndex].title,
+                label: (context) => {
+                  const l = ordered[context[0].dataIndex];
+                  const status = l.passed ? '✓ Passed' : '✗ Failed';
+                  return [`Score: ${context.parsed.y} pts`, status];
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                color: '#FFFFFF',
+                font: { family: 'Poppins' },
+              },
+              grid: { color: 'rgba(255,255,255,0.1)' }
+            },
+            x: {
+              ticks: {
+                color: '#FFFFFF',
+                font: { family: 'Poppins', size: 11 },
+                maxRotation: 35,
+                minRotation: 20,
+              },
+              grid: { color: 'rgba(255,255,255,0.06)' }
+            }
+          }
+        }
+      });
+    }
+
+    return () => {
+      if (lessonChartInstance.current) {
+        lessonChartInstance.current.destroy();
+      }
+    };
+  }, [completedLessons]);
 
   useEffect(() => {
     if (timeLeft > 0 && showVerificationModal) {
@@ -547,20 +658,46 @@ const Profile = () => {
 
         <div className="lessons-section">
           <h2>COMPLETED LESSONS</h2>
+
+          {/* ── Lesson quiz score bar chart ── */}
+          {completedLessons.filter(l => l.lessonScore !== null).length > 0 && (
+            <div className="lesson-chart-container">
+              <p className="lesson-chart-label">Quiz Score History</p>
+              <div className="lesson-chart-wrap">
+                <canvas ref={lessonChartRef} />
+              </div>
+              <div className="lesson-chart-legend">
+                <span className="lc-legend-dot passed" /> Passed &nbsp;
+                <span className="lc-legend-dot failed" /> Failed
+              </div>
+            </div>
+          )}
+
           {completedLessons.length > 0 ? (
             <div className="lessons-list">
               {completedLessons.map((lesson) => (
                 <div key={lesson._id} className="lesson-item">
-                  <div className="lesson-icon">✓</div>
+                  <div className={`lesson-icon ${lesson.passed ? 'passed' : lesson.lessonScore !== null ? 'failed' : ''}`}>
+                    {lesson.passed ? '✓' : lesson.lessonScore !== null ? '✗' : '✓'}
+                  </div>
                   <div className="lesson-info">
                     <h3 className="lesson-title">{lesson.title}</h3>
-                    <p className="lesson-date">
-                      Completed {new Date(lesson.completedAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </p>
+                    <div className="lesson-meta-row">
+                      {lesson.lessonScore !== null ? (
+                        <span className={`lesson-score-badge ${lesson.passed ? 'passed' : 'failed'}`}>
+                          {lesson.lessonScore} pts{lesson.totalItems > 0 && ` · ${lesson.totalItems} items`}
+                        </span>
+                      ) : (
+                        <span className="lesson-score-badge no-quiz">No quiz taken</span>
+                      )}
+                      <p className="lesson-date">
+                        Completed {new Date(lesson.completedAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </p>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -773,7 +910,7 @@ const Profile = () => {
                       opacity: deleteLoading ? 0.6 : 1
                     }}
                   >
-                    {deleteLoading ? "Deleting..." : "Delete Account"}
+                    {deleteLoading ? "Deactivate..." : "Deactivate Account"}
                   </button>
                 </div>
               </form>

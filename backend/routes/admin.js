@@ -8,6 +8,7 @@ import {
   getAllUsers,
   getUserDetail,
   toggleUserStatus,
+  updateUserRole,
   adminGetAllLessons,
   adminGetLessonById,
   adminCreateLesson,
@@ -41,6 +42,7 @@ router.get("/registrants/today",   getTodayRegistrants);
 router.get("/users",               getAllUsers);
 router.get("/users/:id",           getUserDetail);
 router.patch("/users/:id/toggle",  toggleUserStatus);
+router.patch("/users/:id/role",    updateUserRole);
 
 // Lessons
 router.get("/lessons",             adminGetAllLessons);

@@ -13,12 +13,14 @@ const LessonDetail = () => {
   const [lesson, setLesson]                       = useState(null);
   const [loading, setLoading]                     = useState(true);
   const [error, setError]                         = useState("");
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [quizModal, setQuizModal]                 = useState(false);
   const [completing, setCompleting]               = useState(false);
 
+  // Per-section slideshow indices: { [sectionIndex]: currentImageIndex }
+  const [slideIndices, setSlideIndices] = useState({});
+
   /* quiz gate state */
-  const [quizRecord, setQuizRecord]   = useState(null);   // the matching lessonQuiz entry
+  const [quizRecord, setQuizRecord]       = useState(null);
   const [scoresLoading, setScoresLoading] = useState(true);
 
   const userId = localStorage.getItem("userId");
@@ -39,7 +41,6 @@ const LessonDetail = () => {
         setScoresLoading(true);
         setError("");
 
-        /* run both fetches at the same time */
         const [data, scores] = await Promise.all([
           fetchLessonById(id),
           getQuizScores(),
@@ -47,12 +48,19 @@ const LessonDetail = () => {
 
         setLesson(data);
 
-        /* find the quiz record that matches this lesson by title */
         const match = scores.find(
           s => s.lessonTitle === data.title && s.lessonCompleted === true
         );
         setQuizRecord(match ?? null);
 
+        // Initialise slideshow index for every section that has images
+        if (data.sections?.length) {
+          const init = {};
+          data.sections.forEach((sec, i) => {
+            if (sec.images?.length) init[i] = 0;
+          });
+          setSlideIndices(init);
+        }
       } catch (err) {
         console.error("❌ Failed to load lesson:", err);
         if (err.status === 403 && err.isVerified === false) {
@@ -72,19 +80,24 @@ const LessonDetail = () => {
     load();
   }, [id]);
 
-  /* ── image slideshow ── */
-  const prevImage = () =>
-    setCurrentImageIndex(p =>
-      p === 0 ? (lesson?.imageUrls?.length ?? 1) - 1 : p - 1
-    );
-  const nextImage = () =>
-    setCurrentImageIndex(p =>
-      p === (lesson?.imageUrls?.length ?? 1) - 1 ? 0 : p + 1
-    );
+  /* ── per-section slideshow helpers ── */
+  const prevImage = (sectionIdx, total) =>
+    setSlideIndices(prev => ({
+      ...prev,
+      [sectionIdx]: prev[sectionIdx] === 0 ? total - 1 : prev[sectionIdx] - 1,
+    }));
+
+  const nextImage = (sectionIdx, total) =>
+    setSlideIndices(prev => ({
+      ...prev,
+      [sectionIdx]: prev[sectionIdx] === total - 1 ? 0 : prev[sectionIdx] + 1,
+    }));
+
+  const goToImage = (sectionIdx, imgIdx) =>
+    setSlideIndices(prev => ({ ...prev, [sectionIdx]: imgIdx }));
 
   /* ── mark complete ── */
   const handleComplete = async () => {
-    /* double-check gate before firing */
     if (!quizRecord) {
       Swal.fire({
         icon: "warning",
@@ -137,16 +150,8 @@ const LessonDetail = () => {
   /* ── derived ── */
   const quizCount   = lesson?.quiz?.length ?? 0;
   const isCompleted = hasUserCompleted(lesson);
-
-  /*
-    Gate logic:
-      - quizPassed  → user has a passing score record for THIS lesson
-      - canComplete → lesson already done OR quiz has been passed
-  */
   const quizPassed  = !!quizRecord;
   const canComplete = isCompleted || quizPassed;
-
-  const sections = ["One","Two","Three","Four","Five","Six","Seven"];
 
   /* ── loading / error / null guards ── */
   if (loading)
@@ -168,15 +173,10 @@ const LessonDetail = () => {
           {lesson.difficulty && (
             <span className="ld-difficulty">{lesson.difficulty}</span>
           )}
-          {lesson.sourceUrl && (
-            <a
-              className="ld-source"
-              href={lesson.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Source ↗
-            </a>
+          {lesson.completionTime && (
+            <span className="ld-difficulty" style={{ background: "#e0e7ff", color: "#3730a3" }}>
+              ⏱ {lesson.completionTime}
+            </span>
           )}
         </header>
 
@@ -197,50 +197,78 @@ const LessonDetail = () => {
         {/* ── CONTENT ── */}
         <article className="ld-content">
 
-          {lesson.content?.description && (
-            <p className="ld-description">{lesson.content.description}</p>
+          {/* Description */}
+          {lesson.description && (
+            <p className="ld-description">{lesson.description}</p>
           )}
 
-          {lesson.content?.introduction && (
+          {/* Instruction */}
+          {lesson.instruction && (
             <section className="ld-section">
-              <h2 className="ld-section-title">Introduction</h2>
-              <p>{lesson.content.introduction}</p>
+              <h2 className="ld-section-title">Instructions</h2>
+              <p>{lesson.instruction}</p>
             </section>
           )}
 
-          {/* IMAGE SLIDESHOW */}
-          {lesson.imageUrls?.length > 0 && (
-            <div className="ld-slideshow">
-              <div className="ld-slide-wrap">
-                <button className="ld-slide-btn prev" onClick={prevImage}>‹</button>
-                <img
-                  src={lesson.imageUrls[currentImageIndex]}
-                  alt={`Visual ${currentImageIndex + 1}`}
-                  className="ld-slide-img"
-                />
-                <button className="ld-slide-btn next" onClick={nextImage}>›</button>
-              </div>
-              <div className="ld-indicators">
-                {lesson.imageUrls.map((_, i) => (
-                  <span
-                    key={i}
-                    className={`ld-dot ${i === currentImageIndex ? "active" : ""}`}
-                    onClick={() => setCurrentImageIndex(i)}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+          {/* ── DYNAMIC SECTIONS ── */}
+          {lesson.sections?.map((sec, sIdx) => {
+            const hasImages = sec.images?.length > 0;
+            const currentIdx = slideIndices[sIdx] ?? 0;
 
-          {/* DISCUSSION SECTIONS */}
-          {sections.map((num) => {
-            const h = lesson.content?.[`header${num}`];
-            const d = lesson.content?.[`discussion${num}`];
-            if (!h && !d) return null;
             return (
-              <section key={num} className="ld-section">
-                {h && <h2 className="ld-section-title">{h}</h2>}
-                {d && <p>{d}</p>}
+              <section key={sIdx} className="ld-section">
+
+                {sec.header && (
+                  <h2 className="ld-section-title">{sec.header}</h2>
+                )}
+
+                {sec.discussion && <p>{sec.discussion}</p>}
+
+                {/* Per-section image slideshow */}
+                {hasImages && (
+                  <div className="ld-slideshow">
+                    <div className="ld-slide-wrap">
+                      <button
+                        className="ld-slide-btn prev"
+                        onClick={() => prevImage(sIdx, sec.images.length)}
+                      >
+                        ‹
+                      </button>
+                      <img
+                        src={sec.images[currentIdx]}
+                        alt={`${sec.header || "Visual"} ${currentIdx + 1}`}
+                        className="ld-slide-img"
+                      />
+                      <button
+                        className="ld-slide-btn next"
+                        onClick={() => nextImage(sIdx, sec.images.length)}
+                      >
+                        ›
+                      </button>
+                    </div>
+                    <div className="ld-indicators">
+                      {sec.images.map((_, i) => (
+                        <span
+                          key={i}
+                          className={`ld-dot ${i === currentIdx ? "active" : ""}`}
+                          onClick={() => goToImage(sIdx, i)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {sec.authorLink && (
+                  <a
+                    className="ld-source"
+                    href={sec.authorLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Source ↗
+                  </a>
+                )}
+
               </section>
             );
           })}
@@ -257,14 +285,14 @@ const LessonDetail = () => {
               : `Answer the Quiz (${quizCount} items)`}
           </button>
 
-          {/* ── QUIZ GATE NOTICE ── */}
+          {/* Quiz gate notice */}
           {!isCompleted && !scoresLoading && !quizPassed && (
             <div className="ld-gate-notice">
               🔒 Pass the quiz above to unlock <strong>Mark as Complete</strong>
             </div>
           )}
 
-          {/* ── QUIZ SCORE BADGE (when passed but not yet lesson-completed) ── */}
+          {/* Score badge */}
           {!isCompleted && quizPassed && (
             <div className="ld-score-badge">
               🎯 Quiz score on record: <strong>{quizRecord.lessonScore} pts</strong>
@@ -309,7 +337,6 @@ const LessonDetail = () => {
             <div className="ld-modal-emoji">⚔️</div>
             <h2 className="ld-modal-title">Ready for the Quiz?</h2>
 
-            {/* show score if already passed */}
             {quizPassed ? (
               <p className="ld-modal-desc">
                 You already passed this quiz with{" "}

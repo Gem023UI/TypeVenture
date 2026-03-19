@@ -37,6 +37,11 @@ export const toggleUserStatus = async (userId) => {
   return res.data;
 };
 
+export const updateUserRole = async (userId, role) => {
+  const res = await api.patch(`/api/admin/users/${userId}/role`, { role });
+  return res.data;
+};
+
 // ─── Lessons ─────────────────────────────
 export const adminFetchAllLessons = async () => {
   const res = await api.get("/api/admin/lessons");
