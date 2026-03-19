@@ -9,8 +9,8 @@ import "./FontBot.css";
 ───────────────────────────────────────── */
 
 const GROK_API_KEY = import.meta.env?.VITE_GROK_API_KEY || "";
-const GROK_ENDPOINT = "https://api.x.ai/v1/chat/completions";
-const GROK_MODEL    = "grok-3-mini"; // or "grok-2-1212" depending on your access tier
+const GROK_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
+const GROK_MODEL    = "llama-3.3-70b-versatile";
 
 /* ─────────────────────────────────────────
    SYSTEM PROMPT
@@ -113,7 +113,6 @@ const FontBot = ({ isOpen, onClose }) => {
             ...apiMessages,
           ],
           max_tokens: 800,
-          temperature: 0.7,
         }),
       });
 
