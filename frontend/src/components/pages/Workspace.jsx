@@ -346,7 +346,7 @@ const Workspace = () => {
           <div className="tw-topbar-right">
             <button className="tw-btn tw-btn-ghost" onClick={handleReset}>Reset</button>
             <button className="tw-btn tw-btn-save" onClick={handleSave}>
-              {savedMsg ? "✓ Saved!" : "Save"}
+              {savedMsg ? "✓ Updated!" : "Update Work"}
             </button>
             <button className="tw-btn tw-btn-check" onClick={handleCheckWork}>Check My Work</button>
           </div>

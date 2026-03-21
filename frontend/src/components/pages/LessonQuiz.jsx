@@ -252,6 +252,14 @@ const FontSelect = ({ question, onAnswer, answered, selected }) => {
   }, [question]);
   const [isSelected, setIsSelected] = useState(false);
 
+  const [canvasAspect, setCanvasAspect] = useState(null);
+  useEffect(() => {
+    if (!bgImage) return;
+    const img = new window.Image();
+    img.onload = () => setCanvasAspect(img.naturalWidth / img.naturalHeight);
+    img.src = bgImage;
+  }, [bgImage]);
+
   const canvasRef    = useRef(null);
   const groupRef     = useRef(null);
   const dragging     = useRef(false);
@@ -383,6 +391,10 @@ const FontSelect = ({ question, onAnswer, answered, selected }) => {
           backgroundPosition: "center",
           position:           "relative",
           overflow:           "hidden",
+          width:              "100%",
+          ...(canvasAspect
+            ? { aspectRatio: `${canvasAspect}`, height: "auto", minHeight: "unset" }
+            : { height: 340 }),
         }}
         onClick={() => setIsSelected(false)}
       >
@@ -633,6 +645,14 @@ const HierarchyBuilder = ({ question, onAnswer, answered }) => {
     });
     setPositions(initialPos);
   }, [question]);
+
+  const [canvasAspect, setCanvasAspect] = useState(null);
+  useEffect(() => {
+    if (!canvasImage) return;
+    const img = new window.Image();
+    img.onload = () => setCanvasAspect(img.naturalWidth / img.naturalHeight);
+    img.src = canvasImage;
+  }, [canvasImage]);
 
   // Select + optionally update position
   const handleSelect = (idx, newPos, toggle = false) => {

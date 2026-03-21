@@ -146,7 +146,6 @@ const Profile = () => {
     const fetchCompletedLessons = async () => {
       try {
         const userId = localStorage.getItem('userId');
-        if (lessonQuiz.length === 0) return;
         const data = await getCompletedLessons();
 
         const quizScores = lessonQuiz;
@@ -157,11 +156,7 @@ const Profile = () => {
           )
           .map(lesson => {
             const userEntry = lesson.usersDone.find(entry => entry.userId?.toString() === userId);
-            const quizRecord = quizScores.find(q => {
-              const a = q.lessonTitle?.trim().toLowerCase() || "";
-              const b = lesson.title?.trim().toLowerCase() || "";
-              return a === b || a.includes(b) || b.includes(a);
-            });
+            const quizRecord = quizScores.find(q => q.lessonTitle?.trim().toLowerCase() === lesson.title?.trim().toLowerCase());
             return {
               _id:         lesson._id,
               title:       lesson.title,
@@ -182,7 +177,7 @@ const Profile = () => {
     };
 
     fetchCompletedLessons();
-  }, [lessonQuiz.length]);
+  }, [lessonQuiz]);
 
   useEffect(() => {
     Chart.Chart.register(
