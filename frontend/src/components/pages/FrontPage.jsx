@@ -34,16 +34,18 @@ const FrontPage = () => {
   const navigate  = useNavigate();
   const trackRef  = useRef(null);
 
-  const [lessons, setLessons]     = useState([]);
-  const [loading, setLoading]     = useState(false);
-  const [error, setError]         = useState("");
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [dragStart, setDragStart] = useState(null);
+  const [lessons, setLessons]           = useState([]);
+  const [loading, setLoading]           = useState(false);
+  const [error, setError]               = useState("");
+  const [activeIdx, setActiveIdx]       = useState(0);
+  const [dragStart, setDragStart]       = useState(null);
 
   /* modal states */
-  const [infoModal, setInfoModal]   = useState(false);
-  const [learnModal, setLearnModal] = useState(false);
-  const [quizModal, setQuizModal]   = useState(false);
+  const [infoModal, setInfoModal]       = useState(false);
+  const [learnModal, setLearnModal]     = useState(false);
+  const [quizModal, setQuizModal]       = useState(false);
+  const [welcomeModal, setWelcomeModal] = useState(false);
+  const [completeModal, setCompleteModal] = useState(false);
 
   /* helpers */
   const userId = localStorage.getItem("userId");
@@ -91,6 +93,27 @@ const FrontPage = () => {
   };
 
   useEffect(() => { fetchLessons(); }, []);
+
+  /* ─── sessionStorage: welcome modal (once per session) ─── */
+  useEffect(() => {
+    if (!sessionStorage.getItem("tv_welcomed")) {
+      sessionStorage.setItem("tv_welcomed", "1");
+      setWelcomeModal(true);
+    }
+  }, []);
+
+  /* ─── sessionStorage: all-complete modal (once per session, after lessons load) ─── */
+  useEffect(() => {
+    if (lessons.length === 0) return;
+    if (sessionStorage.getItem("tv_complete_shown")) return;
+    const ordered = [...lessons].reverse();
+    const allDone = ordered.length > 0 && ordered.every(l => hasUserCompleted(l));
+    if (allDone) {
+      sessionStorage.setItem("tv_complete_shown", "1");
+      setCompleteModal(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lessons]);
 
   /* ─── carousel navigation ─── */
   const goTo = (idx) => {
@@ -325,6 +348,105 @@ const FrontPage = () => {
                   onClick={() => setQuizModal(false)}
                 >
                   Not Yet
+                </button>
+              </div>
+            </div>
+          </Modal>
+        )}
+
+        {/* ══ WELCOME MODAL ══ */}
+        {welcomeModal && (
+          <Modal onClose={() => setWelcomeModal(false)}>
+            <div className="fp-modal-inner fp-welcome-inner">
+              <div className="fp-modal-emoji">🌊</div>
+              <h2 className="fp-modal-title">Welcome to TypeVenture!</h2>
+              <p className="fp-welcome-quote">
+                "Where letters aren't just shapes — they are the architecture of human thought."
+              </p>
+              <p className="fp-modal-desc">
+                Greetings, Traveler! You are about to embark on a journey across a vast ocean of
+                history and design. From the ancient scribes of the past to the digital pioneers
+                of the future, each island you visit will grant you the power to master the{" "}
+                <strong>"Visual Form of Language."</strong>
+              </p>
+              <p className="fp-modal-desc">
+                Explore the islands, gather the <strong>"biological fossils"</strong> of design,
+                and prove your skills in the Expert Missions to become a{" "}
+                <strong>Master Visual Engineer!</strong>
+              </p>
+              <button
+                className="fp-btn fp-btn-learn fp-welcome-proceed-btn"
+                onClick={() => setWelcomeModal(false)}
+              >
+                Proceed to Lessons
+              </button>
+            </div>
+          </Modal>
+        )}
+
+        {/* ══ ALL-COMPLETE MODAL ══ */}
+        {completeModal && (
+          <Modal onClose={() => setCompleteModal(false)}>
+            <div className="fp-modal-inner fp-complete-inner">
+              <div className="fp-modal-emoji">🎉</div>
+              <h2 className="fp-modal-title">Congratulations, Typography Explorer!</h2>
+              <p className="fp-modal-desc">
+                You have successfully completed the final island currently available in{" "}
+                <strong>TYPEVENTURE</strong>. Your journey through the world of typography has
+                demonstrated your skills in recognizing typefaces, applying proper hierarchy, and
+                making effective design decisions.
+              </p>
+              <p className="fp-modal-desc">
+                Your progress and achievements reflect your dedication to improving your typography
+                knowledge and visual design abilities. Each challenge you completed helped strengthen
+                your understanding of important typography principles used in graphic design.
+              </p>
+              <p className="fp-modal-desc">
+                While this is the final island for now, the adventure does not end here. New islands,
+                typography challenges, and learning missions will soon be added in future updates to
+                further enhance your creative journey.
+              </p>
+              <p className="fp-complete-prompt">What would you like to do next?</p>
+              <div className="fp-complete-actions">
+                <button
+                  className="fp-complete-action-btn"
+                  onClick={() => { setCompleteModal(false); navigate("/games"); }}
+                >
+                  <span className="fp-complete-action-icon">🔁</span>
+                  <span className="fp-complete-action-label">Play Games</span>
+                  <span className="fp-complete-action-sub">
+                    Play other challenges to practice your typography skills and improve your score.
+                  </span>
+                </button>
+                <button
+                  className="fp-complete-action-btn"
+                  onClick={() => { setCompleteModal(false); navigate("/leaderboards"); }}
+                >
+                  <span className="fp-complete-action-icon">🏆</span>
+                  <span className="fp-complete-action-label">View Leaderboard</span>
+                  <span className="fp-complete-action-sub">
+                    See your ranking and compare your performance with other explorers.
+                  </span>
+                </button>
+                <button
+                  className="fp-complete-action-btn"
+                  onClick={() => { setCompleteModal(false); navigate("/profile"); }}
+                >
+                  <span className="fp-complete-action-icon">📊</span>
+                  <span className="fp-complete-action-label">Review Performance</span>
+                  <span className="fp-complete-action-sub">
+                    Check your results and see how well you performed in different typography challenges.
+                  </span>
+                </button>
+                <button
+                  className="fp-complete-action-btn fp-complete-action-btn-muted"
+                  onClick={() => setCompleteModal(false)}
+                >
+                  <span className="fp-complete-action-icon">🏠</span>
+                  <span className="fp-complete-action-label">Return to Main Menu</span>
+                  <span className="fp-complete-action-sub">
+                    Exit the island and explore other features of the application.
+                  </span>
                 </button>
               </div>
             </div>

@@ -240,39 +240,133 @@ const LeadingLines = ({ question, onAnswer, answered }) => {
 const FontSelect = ({ question, onAnswer, answered, selected }) => {
   const [chosen, setChosen] = useState(null);
 
-  const options       = question.typefaceOptions || [];
-  const bgImage       = question.backgroundImage || "";
-  const wrongFont     = question.wrongFont        || options[0]?.font || "serif";
-  // Support both single correctAnswer and correctAnswers array
-  const correctList   = question.correctAnswers?.length
+  // ── Drag state ──────────────────────────────────────────────
+  const [pos, setPos]     = useState({ x: null, y: null });
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    setPos({ x: null, y: null });
+    setScale(1);
+    setIsSelected(false);
+  }, [question]);
+  const [isSelected, setIsSelected] = useState(false);
+
+  const canvasRef    = useRef(null);
+  const groupRef     = useRef(null);
+  const dragging     = useRef(false);
+  const resizing     = useRef(false);
+  const dragStart    = useRef({ mx: 0, my: 0, px: 0, py: 0 });
+  const resizeStart  = useRef({ mx: 0, my: 0, scale: 1, w: 0, h: 0 });
+
+  // Centre the text group on first paint
+  useEffect(() => {
+    if (pos.x === null && canvasRef.current && groupRef.current) {
+      const cr = canvasRef.current.getBoundingClientRect();
+      const gr = groupRef.current.getBoundingClientRect();
+      setPos({
+        x: (cr.width  - gr.width)  / 2,
+        y: (cr.height - gr.height) / 2,
+      });
+    }
+  }, [pos]);
+
+  // ── Drag handlers ───────────────────────────────────────────
+  const onGroupPointerDown = (e) => {
+    // Don't start drag if clicking the resize handle
+    if (e.target.classList.contains("lq-fs-resize-handle")) return;
+    e.stopPropagation();
+    setIsSelected(true);
+    dragging.current = true;
+    dragStart.current = { mx: e.clientX, my: e.clientY, px: pos.x, py: pos.y };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const onGroupPointerMove = (e) => {
+    if (!dragging.current) return;
+    const dx = e.clientX - dragStart.current.mx;
+    const dy = e.clientY - dragStart.current.my;
+    const canvas = canvasRef.current;
+    const group  = groupRef.current;
+    if (!canvas || !group) return;
+
+    const cr = canvas.getBoundingClientRect();
+    const gr = group.getBoundingClientRect();
+    const newX = Math.max(0, Math.min(dragStart.current.px + dx, cr.width  - gr.width));
+    const newY = Math.max(0, Math.min(dragStart.current.py + dy, cr.height - gr.height));
+    setPos({ x: newX, y: newY });
+  };
+
+  const onGroupPointerUp = () => { dragging.current = false; };
+
+  // ── Resize handlers ─────────────────────────────────────────
+  const onResizePointerDown = (e) => {
+    e.stopPropagation();
+    resizing.current = true;
+    const gr = groupRef.current.getBoundingClientRect();
+    resizeStart.current = {
+      mx:    e.clientX,
+      my:    e.clientY,
+      scale: scale,
+      w:     gr.width  / scale,
+      h:     gr.height / scale,
+    };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const onResizePointerMove = (e) => {
+    if (!resizing.current) return;
+    const dx       = e.clientX - resizeStart.current.mx;
+    const dy       = e.clientY - resizeStart.current.my;
+    const baseDim  = Math.max(resizeStart.current.w, resizeStart.current.h);
+    const delta    = (dx + dy) / 2;
+    const newScale = Math.max(0.4, Math.min(3.5, resizeStart.current.scale + delta / baseDim));
+    setScale(newScale);
+  };
+
+  const onResizePointerUp = () => { resizing.current = false; };
+
+  // Click outside canvas → deselect
+  useEffect(() => {
+    const handler = (e) => {
+      if (canvasRef.current && !canvasRef.current.contains(e.target)) {
+        setIsSelected(false);
+      }
+    };
+    document.addEventListener("pointerdown", handler);
+    return () => document.removeEventListener("pointerdown", handler);
+  }, []);
+
+  // ── Quiz logic ───────────────────────────────────────────────
+  const options     = question.typefaceOptions || [];
+  const bgImage     = question.backgroundImage || "";
+  const wrongFont   = question.wrongFont || options[0]?.font || "serif";
+  const correctList = question.correctAnswers?.length
     ? question.correctAnswers
-    : question.correctAnswer
-    ? [question.correctAnswer]
-    : [];
+    : question.correctAnswer ? [question.correctAnswer] : [];
 
   const isCorrectChoice = (title) => correctList.includes(title);
+  const activeFont      = chosen ? chosen.font : wrongFont;
 
-  // Active font: start with wrongFont, switch when player selects
-  const activeFont = chosen ? chosen.font : wrongFont;
-
-  // Meter: 0 when no choice / wrong font showing, 100 when correct selected
-  const meterPct = answered
-    ? isCorrectChoice(selected) ? 100 : 0
-    : chosen
-    ? isCorrectChoice(chosen.typefaceTitle) ? 100 : 20
-    : 0;
-
-  const handleSelect = (opt) => {
-    if (answered) return;
-    setChosen(opt);
-  };
-
-  const handleSubmit = () => {
-    if (!chosen) return;
-    onAnswer(chosen.typefaceTitle, isCorrectChoice(chosen.typefaceTitle));
-  };
-
+  const handleSelect  = (opt) => { if (answered) return; setChosen(opt); };
+  const handleSubmit  = () => { if (!chosen) return; onAnswer(chosen.typefaceTitle, isCorrectChoice(chosen.typefaceTitle)); };
   const isAnswerCorrect = answered && isCorrectChoice(selected);
+
+  const groupStyle = {
+    position:   "absolute",
+    left:       pos.x === null ? "50%" : pos.x,
+    top:        pos.y === null ? "50%" : pos.y,
+    transform:  pos.x === null
+      ? `translate(-50%, -50%) scale(${scale})`
+      : `scale(${scale})`,
+    transformOrigin: "top left",
+    cursor:     "grab",
+    userSelect: "none",
+    touchAction:"none",
+    display:    "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign:  "center",
+  };
 
   return (
     <div className="lq-mc">
@@ -280,37 +374,53 @@ const FontSelect = ({ question, onAnswer, answered, selected }) => {
 
       {/* Canvas */}
       <div
+        ref={canvasRef}
         className="lq-fontselect-canvas"
         style={{
-          backgroundImage: bgImage ? `url(${bgImage})` : "none",
-          backgroundSize: "cover",
+          backgroundImage:    bgImage ? `url(${bgImage})` : "none",
+          backgroundSize:     "cover",
           backgroundPosition: "center",
+          position:           "relative",
+          overflow:           "hidden",
         }}
+        onClick={() => setIsSelected(false)}
       >
-        <div className="lq-fontselect-canvas-inner">
-          <p className="lq-fontselect-display" style={{ fontFamily: activeFont }}>
+        {/* Draggable + resizable text group */}
+        <div
+          ref={groupRef}
+          className={`lq-fs-text-group ${isSelected ? "selected" : ""}`}
+          style={groupStyle}
+          onPointerDown={onGroupPointerDown}
+          onPointerMove={onGroupPointerMove}
+          onPointerUp={onGroupPointerUp}
+          onClick={(e) => { e.stopPropagation(); setIsSelected(true); }}
+        >
+          <p className="lq-fontselect-display" style={{ fontFamily: activeFont, margin: 0 }}>
             {question.displayText || "Typography"}
           </p>
           {question.subtext && (
-            <p className="lq-fontselect-subtext" style={{ fontFamily: activeFont }}>
+            <p className="lq-fontselect-subtext" style={{ fontFamily: activeFont, margin: "6px 0 0" }}>
               {question.subtext}
             </p>
           )}
-        </div>
-      </div>
 
-      {/* Emotional Matching Meter */}
-      <div className="lq-meter-wrap">
-        <div className="lq-meter-label">
-          <span>Emotional Match</span>
-          <span className="lq-meter-pct">{meterPct}%</span>
+          {/* Resize handle — bottom-right corner */}
+          {isSelected && (
+            <div
+              className="lq-fs-resize-handle"
+              onPointerDown={onResizePointerDown}
+              onPointerMove={onResizePointerMove}
+              onPointerUp={onResizePointerUp}
+            />
+          )}
         </div>
-        <div className="lq-meter-bar-wrap">
-          <div
-            className={`lq-meter-bar ${meterPct === 100 ? "full" : meterPct > 0 ? "partial" : ""}`}
-            style={{ width: `${meterPct}%` }}
-          />
-        </div>
+
+        {/* Hint shown when nothing is selected */}
+        {!isSelected && (
+          <div className="lq-fs-canvas-hint">
+            Click text to select · Drag to move · Drag corner to resize
+          </div>
+        )}
       </div>
 
       {/* Typeface options */}
@@ -318,8 +428,8 @@ const FontSelect = ({ question, onAnswer, answered, selected }) => {
         {options.map((opt, i) => {
           let cls = "lq-fontselect-btn";
           if (answered) {
-            if (isCorrectChoice(opt.typefaceTitle))                                      cls += " correct";
-            else if (opt.typefaceTitle === selected && !isCorrectChoice(opt.typefaceTitle)) cls += " wrong";
+            if (isCorrectChoice(opt.typefaceTitle))                                          cls += " correct";
+            else if (opt.typefaceTitle === selected && !isCorrectChoice(opt.typefaceTitle))  cls += " wrong";
           } else if (chosen?.typefaceTitle === opt.typefaceTitle) {
             cls += " active";
           }
@@ -354,125 +464,342 @@ const FontSelect = ({ question, onAnswer, answered, selected }) => {
 
 /* ─────────────────────────────────────────
    HIERARCHY BUILDER
-   — Player sees all text layers at flat 16px (broken state)
-   — Drag-assigns a role label to each layer
-   — Correct when all layers have the right role assigned
+   — Canvas shows all text layers in "broken" flat state (same size/color)
+   — Player assigns roles via selectors below the canvas
+   — As roles are assigned the canvas updates live with correct typography
+   — On submit, canvas snaps to fully correct or shows remaining errors
+   — canvasImage (Cloudinary URL) is used as the canvas background
 ───────────────────────────────────────── */
-const ROLE_STYLES = {
-  title:    { fontSize: "2.4rem",  fontWeight: "700", color: "#111111",  textTransform: "none"      },
-  subtitle: { fontSize: "1.3rem",  fontWeight: "500", color: "#333333",  textTransform: "none"      },
-  body:     { fontSize: "1rem",    fontWeight: "400", color: "#555555",  textTransform: "none"      },
-  alert:    { fontSize: "0.95rem", fontWeight: "700", color: "#dc2626",  textTransform: "uppercase" },
+
+/* ─────────────────────────────────────────
+   HIERARCHY BUILDER — NEW MECHANIC (Lesson 9)
+   — All text elements start at 16px flat, shuffled order
+   — Each element is draggable anywhere on the canvas
+   — Clicking an element selects it → font-size slider appears below canvas
+   — Slider adjusts only the selected element's fontSize (8–72px)
+   — Both elements act independently
+   — On submit: graded on (1) font sizes match targets (±4px tolerance)
+     and (2) vertical order on canvas matches title > subtitle > body > caption
+   — Score is percentage of correct elements × 100
+───────────────────────────────────────── */
+
+// Role display colours on canvas
+const ROLE_COLORS = {
+  title:    "#ffffff",
+  subtitle: "#a3e0ff",
+  body:     "#d1d5db",
+  alert:    "#ff4444",
+  caption:  "#9ca3af",
+  discount: "#fbbf24",
+  headline: "#ffffff",
+  subheadline: "#e5e7eb",
+  cta:      "#ffffff",
+  warning:  "#ff4444",
+  dosage:   "#ffffff",
+  instructions: "#d1d5db",
+  notes:    "#9ca3af",
+  floor:    "#ffffff",
+  roomRange:"#a3e0ff",
+  direction:"#d1d5db",
+  info:     "#9ca3af",
+  artist:   "#ffffff",
+  date:     "#a3e0ff",
+  venue:    "#d1d5db",
+  details:  "#9ca3af",
+  keyPoint: "#fbbf24",
+  supporting:"#d1d5db",
+  footnote: "#9ca3af",
+  step:     "#ffffff",
+  instruction:"#d1d5db",
+  tips:     "#9ca3af",
+  price:    "#a3e0ff",
+  description:"#d1d5db",
+  productName:"#ffffff",
+  sectionHeader:"#a3e0ff",
+  keyTerms: "#fbbf24",
 };
 
-const ROLE_LABELS = {
-  title:    "Title — 48px Bold",
-  subtitle: "Subtitle — 24px Medium",
-  body:     "Body — 16px Regular",
-  alert:    "Alert — Red Uppercase",
+// Shuffle an array (Fisher-Yates)
+const shuffleArray = (arr) => {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+
+// Single draggable text element on the canvas
+const HierarchyTextEl = ({
+  layer, idx, fontSize, pos, isSelected, answered,
+  onSelect, canvasRef,
+}) => {
+  const elRef      = useRef(null);
+  const dragging   = useRef(false);
+  const dragStart  = useRef({ mx: 0, my: 0, px: 0, py: 0 });
+
+  const onPointerDown = (e) => {
+    if (answered) return;
+    e.stopPropagation();
+    onSelect(idx);
+    dragging.current = true;
+    dragStart.current = { mx: e.clientX, my: e.clientY, px: pos.x, py: pos.y };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const onPointerMove = (e) => {
+    if (!dragging.current) return;
+    const dx = e.clientX - dragStart.current.mx;
+    const dy = e.clientY - dragStart.current.my;
+    const canvas = canvasRef.current;
+    const el     = elRef.current;
+    if (!canvas || !el) return;
+    const cr  = canvas.getBoundingClientRect();
+    const elR = el.getBoundingClientRect();
+    const newX = Math.max(0, Math.min(dragStart.current.px + dx, cr.width  - elR.width));
+    const newY = Math.max(0, Math.min(dragStart.current.py + dy, cr.height - elR.height));
+    // Call parent updater via callback stored on ref to avoid stale closure
+    onSelect(idx, { x: newX, y: newY });
+  };
+
+  const onPointerUp = () => { dragging.current = false; };
+
+  const color     = ROLE_COLORS[layer.role] || "#ffffff";
+  const isAlert   = layer.role === "alert"   || layer.role === "warning";
+  const fontWeight = (layer.targetWeight === "Bold" || isAlert) ? "700"
+                   : layer.targetWeight === "Medium" ? "500" : "400";
+
+  return (
+    <div
+      ref={elRef}
+      className={`lq-hb-text-el ${isSelected ? "selected" : ""} ${answered ? "answered" : ""}`}
+      style={{
+        position:   "absolute",
+        left:       pos.x,
+        top:        pos.y,
+        fontSize:   `${fontSize}px`,
+        fontWeight,
+        color:      answered ? color : "#ffffff",
+        textTransform: isAlert ? "uppercase" : "none",
+        lineHeight: 1.2,
+        cursor:     answered ? "default" : "grab",
+        userSelect: "none",
+        touchAction:"none",
+        maxWidth:   "90%",
+        textShadow: "0 1px 6px rgba(0,0,0,0.7)",
+        transition: answered ? "font-size 0.3s ease, color 0.3s ease" : "none",
+      }}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+    >
+      {isAlert ? layer.text.toUpperCase() : layer.text}
+    </div>
+  );
 };
 
 const HierarchyBuilder = ({ question, onAnswer, answered }) => {
-  const layers        = question.textLayers    || [];
-  const availableRoles = question.availableRoles || ["title", "subtitle", "body", "alert"];
+  const layers      = question.textLayers  || [];
+  const canvasImage = question.canvasImage || "";
 
-  // assignments: { layerIndex: role }
-  const [assignments, setAssignments] = useState({});
+  // shuffled order — randomised once per question mount
+  const [order, setOrder]       = useState(() => shuffleArray(layers.map((_, i) => i)));
+  // fontSizes: { [layerIdx]: number } — all start at 16
+  const [fontSizes, setFontSizes] = useState(() => Object.fromEntries(layers.map((_, i) => [i, 16])));
+  // positions: { [layerIdx]: {x, y} } — spread vertically on mount
+  const [positions, setPositions] = useState({});
+  const [selectedIdx, setSelectedIdx] = useState(null);
+  const [scoreInfo, setScoreInfo]     = useState(null);
 
-  const assign = (layerIdx, role) => {
-    if (answered) return;
-    setAssignments(prev => ({ ...prev, [layerIdx]: role }));
+  const canvasRef = useRef(null);
+
+  // Initialise positions spread down the canvas in shuffled order
+  useEffect(() => {
+    setOrder(shuffleArray(layers.map((_, i) => i)));
+    setFontSizes(Object.fromEntries(layers.map((_, i) => [i, 16])));
+    setSelectedIdx(null);
+    setScoreInfo(null);
+
+    // Stagger initial Y positions so elements don't stack
+    const initialPos = {};
+    layers.forEach((_, i) => {
+      initialPos[i] = { x: 24, y: 24 + i * 52 };
+    });
+    setPositions(initialPos);
+  }, [question]);
+
+  // Select + optionally update position
+  const handleSelect = (idx, newPos) => {
+    setSelectedIdx(idx);
+    if (newPos) {
+      setPositions(prev => ({ ...prev, [idx]: newPos }));
+    }
   };
 
-  const allAssigned = layers.every((_, i) => assignments[i]);
+  // Deselect when clicking canvas background
+  const handleCanvasClick = () => setSelectedIdx(null);
 
+  const currentSize = selectedIdx !== null ? (fontSizes[selectedIdx] ?? 16) : 16;
+
+  const handleSlider = (e) => {
+    if (selectedIdx === null) return;
+    setFontSizes(prev => ({ ...prev, [selectedIdx]: +e.target.value }));
+  };
+
+  // ── Grading ─────────────────────────────────────────────────────────
   const handleSubmit = () => {
-    if (!allAssigned) return;
-    // Correct when every layer's assigned role matches its targetRole
-    const isCorrect = layers.every((layer, i) => assignments[i] === layer.role);
-    onAnswer(isCorrect ? "correct" : "incorrect", isCorrect);
+    const SIZE_TOLERANCE = 4; // px
+    let sizeCorrect  = 0;
+    let orderCorrect = 0;
+
+    // 1. Size check — each element vs its target
+    const sizeResults = layers.map((layer, i) => {
+      const diff = Math.abs((fontSizes[i] ?? 16) - layer.targetFontSize);
+      return diff <= SIZE_TOLERANCE;
+    });
+    sizeCorrect = sizeResults.filter(Boolean).length;
+
+    // 2. Order check — vertical position should match role hierarchy
+    // Expected order top-to-bottom: title → subtitle/subheadline/headline/discount/cta/artist/floor/step/keyPoint/warning
+    //   → body/instructions/productName/supporting/sectionHeader/roomRange/direction/date/venue/dosage
+    //   → caption/notes/info/details/footnote/description/tips/keyTerms/price
+    const ROLE_RANK = {
+      title: 1, headline: 1, discount: 1, cta: 1, artist: 1, floor: 1, step: 1, warning: 1, alert: 1,
+      subtitle: 2, subheadline: 2, productName: 2, keyPoint: 2, sectionHeader: 2, roomRange: 2, date: 2, venue: 2, dosage: 2,
+      body: 3, instructions: 3, supporting: 3, direction: 3, instruction: 3, description: 3,
+      caption: 4, notes: 4, info: 4, details: 4, footnote: 4, keyTerms: 4, tips: 4, price: 4,
+    };
+
+    // Sort layers by their canvas Y position
+    const sorted = layers.map((layer, i) => ({
+      i,
+      role: layer.role,
+      rank: ROLE_RANK[layer.role] ?? 3,
+      y: positions[i]?.y ?? 0,
+    })).sort((a, b) => a.y - b.y);
+
+    // Check if Y-sorted ranks are non-decreasing
+    let prevRank = 0;
+    for (const el of sorted) {
+      if (el.rank >= prevRank) { orderCorrect++; prevRank = el.rank; }
+    }
+
+    const total       = layers.length * 2; // size + order per element
+    const earned      = sizeCorrect + orderCorrect;
+    const scorePct    = Math.round((earned / total) * 100);
+    const passed      = scorePct >= 50;
+
+    setScoreInfo({ scorePct, sizeResults, passed });
+    onAnswer(passed ? "correct" : "incorrect", passed);
   };
 
-  // Derive live style for a layer based on its current assignment
-  const getStyle = (layerIdx) => {
-    const role = assignments[layerIdx];
-    if (!role) return { fontSize: "1rem", fontWeight: "400", color: "#555555" };
-    return ROLE_STYLES[role] || {};
-  };
+  const selectedLayer = selectedIdx !== null ? layers[selectedIdx] : null;
 
   return (
     <div className="lq-mc">
       <p className="lq-q-text">{question.question}</p>
-
-      <p className="lq-hierarchy-hint">
-        Assign the correct role to each text element. The preview updates live.
+      <p className="lq-hierarchy-hint" style={{ marginBottom: 8 }}>
+        Click a text element to select it, then use the slider to set its font size. Drag elements to arrange them from largest (top) to smallest (bottom).
       </p>
 
-      {/* Role legend */}
-      <div className="lq-hierarchy-legend">
-        {availableRoles.map(role => (
-          <span key={role} className={`lq-role-badge lq-role-${role}`}>
-            {ROLE_LABELS[role] || role}
-          </span>
+      {/* ── CANVAS ── */}
+      <div
+        ref={canvasRef}
+        className="lq-hierarchy-canvas"
+        style={{
+          backgroundImage:    canvasImage ? `url(${canvasImage})` : "none",
+          backgroundSize:     "cover",
+          backgroundPosition: "center",
+          height:             340,
+          minHeight:          340,
+          position:           "relative",
+          overflow:           "hidden",
+          cursor:             "default",
+        }}
+        onClick={handleCanvasClick}
+      >
+        {layers.map((layer, i) => (
+          <HierarchyTextEl
+            key={i}
+            layer={layer}
+            idx={i}
+            fontSize={fontSizes[i] ?? 16}
+            pos={positions[i] || { x: 24, y: 24 + i * 52 }}
+            isSelected={selectedIdx === i}
+            answered={answered}
+            onSelect={handleSelect}
+            canvasRef={canvasRef}
+          />
         ))}
+
+        {/* Canvas hint */}
+        {!answered && selectedIdx === null && (
+          <div className="lq-hierarchy-broken-label">
+            ⚠ All text is 16px — fix the hierarchy
+          </div>
+        )}
+
+        {/* Score overlay after submit */}
+        {answered && scoreInfo && (
+          <div className="lq-hb-score-overlay">
+            <span className={`lq-hb-score-val ${scoreInfo.passed ? "pass" : "fail"}`}>
+              {scoreInfo.scorePct}%
+            </span>
+            <span className="lq-hb-score-label">
+              {scoreInfo.passed ? "Hierarchy Established!" : "Hierarchy Needs Work"}
+            </span>
+          </div>
+        )}
       </div>
 
-      {/* Text layers */}
-      <div className="lq-hierarchy-layers">
-        {layers.map((layer, i) => {
-          const currentRole = answered ? layer.role : assignments[i];
-          const style = answered ? (ROLE_STYLES[layer.role] || {}) : getStyle(i);
-          const isWrong = answered && assignments[i] !== layer.role;
-          const isRight = answered && assignments[i] === layer.role;
-
-          return (
-            <div
-              key={i}
-              className={`lq-hierarchy-row ${isRight ? "correct" : ""} ${isWrong ? "wrong" : ""}`}
-            >
-              {/* Live text preview */}
-              <div className="lq-hierarchy-preview" style={style}>
-                {layer.text}
-              </div>
-
-              {/* Role selector */}
-              {!answered ? (
-                <select
-                  className="lq-hierarchy-select"
-                  value={assignments[i] || ""}
-                  onChange={e => assign(i, e.target.value)}
-                >
-                  <option value="">— Assign role —</option>
-                  {availableRoles.map(role => (
-                    <option key={role} value={role}>{ROLE_LABELS[role] || role}</option>
-                  ))}
-                </select>
-              ) : (
-                <span className={`lq-hierarchy-tag lq-role-${layer.role}`}>
-                  {isRight ? "✓ " : "✗ "}{ROLE_LABELS[layer.role] || layer.role}
+      {/* ── FONT SIZE SLIDER ── */}
+      {!answered && (
+        <div className="lq-hb-slider-wrap">
+          {selectedLayer ? (
+            <>
+              <div className="lq-hb-slider-header">
+                <span className="lq-hb-slider-name">
+                  Editing: <strong>{selectedLayer.text.length > 40 ? selectedLayer.text.slice(0, 37) + "…" : selectedLayer.text}</strong>
                 </span>
-              )}
+                <span className="lq-hb-slider-px">{fontSizes[selectedIdx] ?? 16}px</span>
+              </div>
+              <input
+                type="range"
+                min="8"
+                max="72"
+                value={fontSizes[selectedIdx] ?? 16}
+                onChange={handleSlider}
+                className="lq-hb-slider"
+              />
+              <div className="lq-hb-slider-ticks">
+                <span>8px</span><span>24px</span><span>40px</span><span>56px</span><span>72px</span>
+              </div>
+            </>
+          ) : (
+            <div className="lq-hb-slider-idle">
+              👆 Click a text element above to select it and adjust its size
             </div>
-          );
-        })}
-      </div>
+          )}
+        </div>
+      )}
 
+      {/* ── SUBMIT ── */}
       {!answered && (
         <button
           className="lq-id-submit"
-          style={{ marginTop: 16 }}
+          style={{ marginTop: 14 }}
           onClick={handleSubmit}
-          disabled={!allAssigned}
         >
-          {allAssigned ? "Submit Hierarchy" : `Assign all ${layers.length} elements first`}
+          Submit Hierarchy
         </button>
       )}
 
-      {answered && (
-        <div className={`lq-feedback ${layers.every((l, i) => assignments[i] === l.role) ? "ok" : "bad"}`}>
-          {layers.every((l, i) => assignments[i] === l.role)
-            ? "✓ The hierarchy is correct! The manual is now readable."
-            : "✗ Some roles were wrong. The correct hierarchy is shown above."}
+      {/* ── RESULT ── */}
+      {answered && scoreInfo && (
+        <div className={`lq-feedback ${scoreInfo.passed ? "ok" : "bad"}`}>
+          {scoreInfo.passed
+            ? `✓ ${scoreInfo.scorePct}% — The hierarchy is readable and well-structured.`
+            : `✗ ${scoreInfo.scorePct}% — The hierarchy needs adjustment. Check sizes and vertical order.`}
           {question.explanation && <p className="lq-explanation">{question.explanation}</p>}
         </div>
       )}
@@ -656,6 +983,7 @@ const LessonQuiz = () => {
   const [finished, setFinished]         = useState(false);
   const [nextLessonId, setNextLessonId] = useState(null);
   const [timeLeft, setTimeLeft]         = useState(TIME_PER_QUESTION);
+  const [timeoutModal, setTimeoutModal] = useState(false);
 
   const timerRef    = useRef(null);
   const answeredRef = useRef(false);
@@ -694,6 +1022,7 @@ const LessonQuiz = () => {
             setAnswered(true);
             setItemPoints(0);
             setItemCorrect(false);
+            setTimeoutModal(true);
           }
           return 0;
         }
@@ -764,6 +1093,7 @@ const LessonQuiz = () => {
     setCorrectCount(0); setTotalPoints(0);
     setItemPoints(null); setItemCorrect(null);
     setFinished(false); setTimeLeft(TIME_PER_QUESTION);
+    setTimeoutModal(false);
     answeredRef.current = false;
   };
 
@@ -862,6 +1192,34 @@ const LessonQuiz = () => {
           <button className="lq-next-btn" onClick={handleNext}>
             {qIdx + 1 < quiz.length ? "Next Question →" : "See Results"}
           </button>
+        )}
+
+        {/* ══ TIMEOUT MODAL ══ */}
+        {timeoutModal && (
+          <div className="lq-timeout-modal-backdrop">
+            <div className="lq-timeout-modal-box">
+              <div className="lq-timeout-modal-emoji">⏰</div>
+              <h2 className="lq-timeout-modal-title">Time's Up!</h2>
+              <p className="lq-timeout-modal-desc">
+                You ran out of time and have <strong>failed</strong> this quiz attempt.
+                Don't give up — review the material and try again!
+              </p>
+              <div className="lq-timeout-modal-btns">
+                <button
+                  className="lq-timeout-btn lq-timeout-btn-restart"
+                  onClick={handleRetry}
+                >
+                  🔁 Restart Quiz
+                </button>
+                <button
+                  className="lq-timeout-btn lq-timeout-btn-home"
+                  onClick={() => navigate("/lessons")}
+                >
+                  🏠 Back to Lessons
+                </button>
+              </div>
+            </div>
+          </div>
         )}
 
       </div>

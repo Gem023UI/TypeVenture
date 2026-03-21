@@ -92,8 +92,10 @@ const quizItemSchema = new mongoose.Schema({
   typefaceOptions:    [typefaceOptionSchema],
 
   // ── hierarchy-builder ───────────────────
-  // correctAnswer = comma-joined "role:text" pairs used for evaluation
+  // correctAnswer = "correct" | "incorrect" (evaluated client-side by role matching)
+  // canvasImage   = Cloudinary URL for the background shown in the live canvas panel
   // textLayers holds all layers; player assigns each a role
+  canvasImage:        { type: String, default: "" },     // ← NEW: canvas bg for hierarchy-builder
   textLayers:         [textLayerSchema],
   availableRoles:     [{ type: String }],  // roles the player can assign, e.g. ["title","subtitle","body","alert"]
 
