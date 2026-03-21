@@ -24,7 +24,15 @@ const QUIZ_TYPES = [
   { value: "brand-pairing",     label: "Brand Pairing" },
 ];
 
-const HIERARCHY_ROLES = ["title", "subtitle", "body", "alert"];
+const HIERARCHY_ROLES = [
+  "title", "subtitle", "body", "alert", "caption",
+  "headline", "subheadline", "discount", "productName", "price", "description",
+  "cta", "sectionHeader", "keyTerms", "keyPoint", "supporting", "footnote",
+  "warning", "dosage", "instructions", "notes",
+  "floor", "roomRange", "direction", "info",
+  "artist", "date", "venue", "details",
+  "step", "instruction", "tips",
+];
 
 const blankSection = () => ({
   header: "", discussion: "", images: [], authorLink: "",
@@ -54,6 +62,7 @@ const blankQuizItem = () => ({
   correctAnswers: [],
   typefaceOptions: [],
   // hierarchy-builder
+  canvasImage: "",
   textLayers: [],
   availableRoles: ["title", "subtitle", "body", "alert"],
   // brand-pairing
@@ -96,6 +105,7 @@ const normaliseQuizItem = (item) => ({
   wrongFont:          item.wrongFont          || "",
   correctAnswers:     item.correctAnswers     || [],
   typefaceOptions:    item.typefaceOptions    || [],
+  canvasImage:        item.canvasImage        || "",
   textLayers:         item.textLayers         || [],
   availableRoles:     item.availableRoles     || ["title","subtitle","body","alert"],
   brandBackground:    item.brandBackground    || "",
@@ -326,6 +336,7 @@ const AdminLessonEdit = () => {
         base.typefaceOptions=item.typefaceOptions||[];
       }
       if (item.type === "hierarchy-builder") {
+        base.canvasImage=item.canvasImage||"";
         base.textLayers=item.textLayers||[];
         base.availableRoles=item.availableRoles||["title","subtitle","body","alert"];
       }
@@ -679,27 +690,107 @@ const AdminLessonEdit = () => {
                 {item.type === "hierarchy-builder" && (
                   <>
                     <p className="admin-form-hint">
-                      Add each text element from the broken layout. Set its correct role — the player will assign roles and the quiz evaluates whether they match.
+                      Each text layer starts at 16px flat on the canvas. Set the correct target properties — the quiz grades the student on how accurately they match these values using font size, drag position, and colour controls.
                     </p>
+
+                    {/* Canvas Background */}
                     <div className="admin-form-group">
-                      <label className="admin-form-label">Text Layers</label>
-                      {(item.textLayers||[]).map((layer,li) => (
-                        <div key={li} className="admin-quiz-item" style={{ marginBottom:8, padding:"12px 16px" }}>
-                          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
-                            <span className="admin-form-optional">Layer {li+1}</span>
+                      <label className="admin-form-label">Canvas Background Image URL</label>
+                      <input className="admin-form-input" value={item.canvasImage}
+                        onChange={e => updateQuizItem(i,"canvasImage",e.target.value)}
+                        placeholder="https://res.cloudinary.com/…" />
+                    </div>
+
+                    {/* Available Roles editor */}
+                    <div className="admin-form-group">
+                      <label className="admin-form-label">
+                        Available Roles <span className="admin-form-optional">(shown to player — add only the roles used in this scenario)</span>
+                      </label>
+                      <div style={{ display:"flex", flexWrap:"wrap", gap:6, marginBottom:8 }}>
+                        {(item.availableRoles||[]).map((role, ri) => (
+                          <div key={ri} style={{ display:"flex", alignItems:"center", gap:4, background:"#f1f5f9", borderRadius:6, padding:"3px 10px" }}>
+                            <span style={{ fontSize:"0.8rem", fontWeight:600 }}>{role}</span>
+                            <button className="admin-remove-btn" style={{ padding:"0 4px", fontSize:"0.7rem" }}
+                              onClick={() => updateQuizItem(i,"availableRoles",(item.availableRoles||[]).filter((_,idx)=>idx!==ri))}>✕</button>
+                          </div>
+                        ))}
+                      </div>
+                      <select className="admin-form-select" style={{ maxWidth:220 }}
+                        onChange={e => {
+                          const val = e.target.value;
+                          if (!val || (item.availableRoles||[]).includes(val)) return;
+                          updateQuizItem(i,"availableRoles",[...(item.availableRoles||[]),val]);
+                          e.target.value = "";
+                        }}
+                        defaultValue="">
+                        <option value="">+ Add role…</option>
+                        {HIERARCHY_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
+                      </select>
+                    </div>
+
+                    {/* Text Layers */}
+                    <div className="admin-form-group">
+                      <label className="admin-form-label">Text Layers ({(item.textLayers||[]).length})</label>
+                      {(item.textLayers||[]).map((layer, li) => (
+                        <div key={li} className="admin-quiz-item" style={{ marginBottom:10, padding:"14px 16px" }}>
+                          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
+                            <span className="admin-quiz-item-label" style={{ fontSize:"0.78rem" }}>Layer {li+1}</span>
                             <button className="admin-remove-btn" onClick={() => removeTextLayer(i,li)}>Remove</button>
                           </div>
+
+                          {/* Text content */}
+                          <div className="admin-form-group">
+                            <label className="admin-form-label">Text Content</label>
+                            <input className="admin-form-input" value={layer.text}
+                              onChange={e => updateTextLayer(i,li,"text",e.target.value)}
+                              placeholder="Text shown to the player on the canvas" />
+                          </div>
+
                           <div className="admin-form-row">
-                            <div className="admin-form-group">
-                              <label className="admin-form-label">Text</label>
-                              <input className="admin-form-input" value={layer.text}
-                                onChange={e => updateTextLayer(i,li,"text",e.target.value)} placeholder="Text content shown to player" />
-                            </div>
+                            {/* Correct Role */}
                             <div className="admin-form-group">
                               <label className="admin-form-label">Correct Role</label>
                               <select className="admin-form-select" value={layer.role}
                                 onChange={e => updateTextLayer(i,li,"role",e.target.value)}>
                                 {HIERARCHY_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
+                              </select>
+                            </div>
+
+                            {/* Target Font Size */}
+                            <div className="admin-form-group">
+                              <label className="admin-form-label">Target Size (px)</label>
+                              <input type="number" className="admin-form-input" value={layer.targetFontSize ?? 16}
+                                onChange={e => updateTextLayer(i,li,"targetFontSize",+e.target.value)}
+                                min={8} max={120} />
+                            </div>
+
+                            {/* Target Weight */}
+                            <div className="admin-form-group">
+                              <label className="admin-form-label">Target Weight</label>
+                              <select className="admin-form-select" value={layer.targetWeight || "Regular"}
+                                onChange={e => updateTextLayer(i,li,"targetWeight",e.target.value)}>
+                                {["Regular","Medium","Bold","Extra Bold"].map(w => <option key={w} value={w}>{w}</option>)}
+                              </select>
+                            </div>
+
+                            {/* Target Color */}
+                            <div className="admin-form-group">
+                              <label className="admin-form-label">Target Color</label>
+                              <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                                <input type="color" value={layer.targetColor || "#ffffff"}
+                                  onChange={e => updateTextLayer(i,li,"targetColor",e.target.value)}
+                                  style={{ width:36, height:32, border:"1.5px solid #d1d5db", borderRadius:6, padding:2, cursor:"pointer" }} />
+                                <span style={{ fontSize:"0.75rem", color:"#6b7280", fontFamily:"monospace" }}>{layer.targetColor || "#ffffff"}</span>
+                              </div>
+                            </div>
+
+                            {/* Target Case */}
+                            <div className="admin-form-group">
+                              <label className="admin-form-label">Text Case</label>
+                              <select className="admin-form-select" value={layer.targetCase || "normal"}
+                                onChange={e => updateTextLayer(i,li,"targetCase",e.target.value)}>
+                                <option value="normal">Normal</option>
+                                <option value="uppercase">UPPERCASE</option>
                               </select>
                             </div>
                           </div>

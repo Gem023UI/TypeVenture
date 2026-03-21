@@ -252,14 +252,6 @@ const FontSelect = ({ question, onAnswer, answered, selected }) => {
   }, [question]);
   const [isSelected, setIsSelected] = useState(false);
 
-  const [canvasAspect, setCanvasAspect] = useState(null);
-  useEffect(() => {
-    if (!bgImage) return;
-    const img = new window.Image();
-    img.onload = () => setCanvasAspect(img.naturalWidth / img.naturalHeight);
-    img.src = bgImage;
-  }, [bgImage]);
-
   const canvasRef    = useRef(null);
   const groupRef     = useRef(null);
   const dragging     = useRef(false);
@@ -360,6 +352,26 @@ const FontSelect = ({ question, onAnswer, answered, selected }) => {
   const handleSubmit  = () => { if (!chosen) return; onAnswer(chosen.typefaceTitle, isCorrectChoice(chosen.typefaceTitle)); };
   const isAnswerCorrect = answered && isCorrectChoice(selected);
 
+  // ── Adaptive canvas aspect ratio ────────────────────────────
+  const [canvasAspect, setCanvasAspect] = useState(null);
+  useEffect(() => {
+    if (!bgImage) return;
+    const img = new window.Image();
+    img.onload = () => setCanvasAspect(img.naturalWidth / img.naturalHeight);
+    img.src = bgImage;
+  }, [bgImage]);
+
+  const fsCanvasStyle = {
+    backgroundImage:    bgImage ? `url(${bgImage})` : "none",
+    backgroundSize:     "cover",
+    backgroundPosition: "center",
+    position:           "relative",
+    overflow:           "hidden",
+    ...(canvasAspect
+      ? { width: "100%", aspectRatio: `${canvasAspect}`, height: "auto", minHeight: "unset" }
+      : {}),
+  };
+
   const groupStyle = {
     position:   "absolute",
     left:       pos.x === null ? "50%" : pos.x,
@@ -385,17 +397,7 @@ const FontSelect = ({ question, onAnswer, answered, selected }) => {
       <div
         ref={canvasRef}
         className="lq-fontselect-canvas"
-        style={{
-          backgroundImage:    bgImage ? `url(${bgImage})` : "none",
-          backgroundSize:     "cover",
-          backgroundPosition: "center",
-          position:           "relative",
-          overflow:           "hidden",
-          width:              "100%",
-          ...(canvasAspect
-            ? { aspectRatio: `${canvasAspect}`, height: "auto", minHeight: "unset" }
-            : { height: 340 }),
-        }}
+        style={fsCanvasStyle}
         onClick={() => setIsSelected(false)}
       >
         {/* Draggable + resizable text group */}
@@ -630,7 +632,26 @@ const HierarchyBuilder = ({ question, onAnswer, answered }) => {
 
   const canvasRef = useRef(null);
 
-  // Initialise positions spread down the canvas in shuffled order
+  // ── Adaptive canvas aspect ratio ────────────────────────────
+  const [canvasAspect, setCanvasAspect] = useState(null);
+  useEffect(() => {
+    if (!canvasImage) return;
+    const img = new window.Image();
+    img.onload = () => setCanvasAspect(img.naturalWidth / img.naturalHeight);
+    img.src = canvasImage;
+  }, [canvasImage]);
+
+  const hbCanvasStyle = {
+    backgroundImage:    canvasImage ? `url(${canvasImage})` : "none",
+    backgroundSize:     "cover",
+    backgroundPosition: "center",
+    position:           "relative",
+    overflow:           "hidden",
+    cursor:             "default",
+    ...(canvasAspect
+      ? { width: "100%", aspectRatio: `${canvasAspect}`, height: "auto", minHeight: "unset" }
+      : { height: 340, minHeight: 340 }),
+  };
   useEffect(() => {
     setOrder(shuffleArray(layers.map((_, i) => i)));
     setFontSizes(Object.fromEntries(layers.map((_, i) => [i, 16])));
@@ -645,14 +666,6 @@ const HierarchyBuilder = ({ question, onAnswer, answered }) => {
     });
     setPositions(initialPos);
   }, [question]);
-
-  const [canvasAspect, setCanvasAspect] = useState(null);
-  useEffect(() => {
-    if (!canvasImage) return;
-    const img = new window.Image();
-    img.onload = () => setCanvasAspect(img.naturalWidth / img.naturalHeight);
-    img.src = canvasImage;
-  }, [canvasImage]);
 
   // Select + optionally update position
   const handleSelect = (idx, newPos, toggle = false) => {
@@ -733,16 +746,7 @@ const HierarchyBuilder = ({ question, onAnswer, answered }) => {
       <div
         ref={canvasRef}
         className="lq-hierarchy-canvas"
-        style={{
-          backgroundImage:    canvasImage ? `url(${canvasImage})` : "none",
-          backgroundSize:     "cover",
-          backgroundPosition: "center",
-          height:             340,
-          minHeight:          340,
-          position:           "relative",
-          overflow:           "hidden",
-          cursor:             "default",
-        }}
+        style={hbCanvasStyle}
         onClick={handleCanvasClick}
       >
         {layers.map((layer, i) => (
