@@ -531,7 +531,7 @@ const shuffleArray = (arr) => {
 
 // Single draggable text element on the canvas
 const HierarchyTextEl = ({
-  layer, idx, fontSize, pos, isSelected, answered,
+  layer, idx, fontSize, fontColor, pos, isSelected, answered,
   onSelect, canvasRef,
 }) => {
   const elRef      = useRef(null);
@@ -541,7 +541,6 @@ const HierarchyTextEl = ({
   const onPointerDown = (e) => {
     if (answered) return;
     e.stopPropagation();
-    onSelect(idx);
     dragging.current = true;
     dragStart.current = { mx: e.clientX, my: e.clientY, px: pos.x, py: pos.y };
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -559,7 +558,7 @@ const HierarchyTextEl = ({
     const newX = Math.max(0, Math.min(dragStart.current.px + dx, cr.width  - elR.width));
     const newY = Math.max(0, Math.min(dragStart.current.py + dy, cr.height - elR.height));
     // Call parent updater via callback stored on ref to avoid stale closure
-    onSelect(idx, { x: newX, y: newY });
+    onSelect(idx, { x: newX, y: newY }, false);
   };
 
   const onPointerUp = () => { dragging.current = false; };
@@ -579,7 +578,7 @@ const HierarchyTextEl = ({
         top:        pos.y,
         fontSize:   `${fontSize}px`,
         fontWeight,
-        color:      answered ? color : "#ffffff",
+        color: fontColor,
         textTransform: isAlert ? "uppercase" : "none",
         lineHeight: 1.2,
         cursor:     answered ? "default" : "grab",
@@ -592,6 +591,10 @@ const HierarchyTextEl = ({
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
+      onClick={(e) => {
+        e.stopPropagation();
+        onSelect(idx, null, true); // true = toggle
+      }}
     >
       {isAlert ? layer.text.toUpperCase() : layer.text}
     </div>
@@ -606,6 +609,7 @@ const HierarchyBuilder = ({ question, onAnswer, answered }) => {
   const [order, setOrder]       = useState(() => shuffleArray(layers.map((_, i) => i)));
   // fontSizes: { [layerIdx]: number } — all start at 16
   const [fontSizes, setFontSizes] = useState(() => Object.fromEntries(layers.map((_, i) => [i, 16])));
+  const [fontColors, setFontColors] = useState(() => Object.fromEntries(layers.map((_, i) => [i, "#ffffff"])));
   // positions: { [layerIdx]: {x, y} } — spread vertically on mount
   const [positions, setPositions] = useState({});
   const [selectedIdx, setSelectedIdx] = useState(null);
@@ -619,6 +623,7 @@ const HierarchyBuilder = ({ question, onAnswer, answered }) => {
     setFontSizes(Object.fromEntries(layers.map((_, i) => [i, 16])));
     setSelectedIdx(null);
     setScoreInfo(null);
+    setFontColors(Object.fromEntries(layers.map((_, i) => [i, "#ffffff"])));
 
     // Stagger initial Y positions so elements don't stack
     const initialPos = {};
@@ -629,10 +634,11 @@ const HierarchyBuilder = ({ question, onAnswer, answered }) => {
   }, [question]);
 
   // Select + optionally update position
-  const handleSelect = (idx, newPos) => {
-    setSelectedIdx(idx);
+  const handleSelect = (idx, newPos, toggle = false) => {
     if (newPos) {
       setPositions(prev => ({ ...prev, [idx]: newPos }));
+    } else if (toggle) {
+      setSelectedIdx(prev => prev === idx ? null : idx);
     }
   };
 
@@ -724,6 +730,7 @@ const HierarchyBuilder = ({ question, onAnswer, answered }) => {
             layer={layer}
             idx={i}
             fontSize={fontSizes[i] ?? 16}
+            fontColor={answered ? (ROLE_COLORS[layer.role] || "#ffffff") : (fontColors[i] ?? "#ffffff")}
             pos={positions[i] || { x: 24, y: 24 + i * 52 }}
             isSelected={selectedIdx === i}
             answered={answered}
@@ -761,7 +768,16 @@ const HierarchyBuilder = ({ question, onAnswer, answered }) => {
                 <span className="lq-hb-slider-name">
                   Editing: <strong>{selectedLayer.text.length > 40 ? selectedLayer.text.slice(0, 37) + "…" : selectedLayer.text}</strong>
                 </span>
-                <span className="lq-hb-slider-px">{fontSizes[selectedIdx] ?? 16}px</span>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <input
+                    type="color"
+                    value={fontColors[selectedIdx] ?? "#ffffff"}
+                    onChange={e => setFontColors(prev => ({ ...prev, [selectedIdx]: e.target.value }))}
+                    style={{ width: 32, height: 32, border: "1.5px solid #d1d5db", borderRadius: 6, padding: 2, cursor: "pointer", background: "white" }}
+                    title="Text color"
+                  />
+                  <span className="lq-hb-slider-px">{fontSizes[selectedIdx] ?? 16}px</span>
+                </div>
               </div>
               <input
                 type="range"

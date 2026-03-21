@@ -5,7 +5,16 @@ import Lesson from "../../models/lessons.js";
 dotenv.config();
 
 // Replace each PLACEHOLDER_BG with the actual Cloudinary URL for that scenario once uploaded
-const PLACEHOLDER_BG = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1773966455/b60cffde-5955-4138-9404-70851fc8061c.png";
+const SCENARIO1 = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1774067862/5fee29b4-a494-47f4-ac04-1db4bf597726.png";
+const SCENARIO2 = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1774067870/2346e567-18ae-4049-8d1d-12e599616f93.png";
+const SCENARIO3 = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1774067963/dd4c7708-75b7-4168-95dc-4142bb60dcf5.png";
+const SCENARIO4 = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1774067980/dec0598d-b205-4ed4-9160-055a2303f7dc.png";
+const SCENARIO5 = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1774075716/483b22e9-c38e-4f07-b30d-64cf85d0c1e1.png";
+const SCENARIO6 = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1774067987/001fe6f8-51aa-4aa4-a2c0-d4807cc934d8.png";
+const SCENARIO7 = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1774068027/1df395f5-fb8b-4835-ae97-9547acf8d8dd.png";
+const SCENARIO8 = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1774068042/5fa3b195-1f81-4382-a105-39f570bfacf8.png";
+const SCENARIO9 = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1774068063/76758fcf-19e8-4b57-9e7f-d8c67c3a9ff1.png";
+const SCENARIO10 = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1774068139/ad38fa0a-0431-4378-a358-3eec637a49d5.png";
 
 const lessons = [
   {
@@ -27,7 +36,7 @@ const lessons = [
         question: "The Island Power Grid Emergency Manual has been flattened — every line is 16px. Drag and resize each element so engineers can instantly find the Emergency Shutoff.",
         correctAnswer: "correct",
         explanation: "Title (48px) anchors the document, Subtitle (24px) organizes sections, Body (16px) delivers detail, and Alert text demands immediate attention through bold uppercase treatment. Hierarchy saves lives in emergencies.",
-        canvasImage: PLACEHOLDER_BG,
+        canvasImage: SCENARIO1,
         availableRoles: ["title", "subtitle", "body", "alert"],
         textLayers: [
           {
@@ -73,7 +82,7 @@ const lessons = [
         question: "A flash sale page is failing to convert customers. The discount, product name, and price all look identical. Fix the hierarchy so shoppers immediately see the deal.",
         correctAnswer: "correct",
         explanation: "The discount (48px) must dominate as the hero element. Product name (28px) follows, then price (24px), then description (16px). Visual weight guides the eye to the most important selling point first.",
-        canvasImage: PLACEHOLDER_BG,
+        canvasImage: SCENARIO2,
         availableRoles: ["discount", "productName", "price", "description"],
         textLayers: [
           {
@@ -119,7 +128,7 @@ const lessons = [
         question: "A major breaking news story is being ignored because all text looks the same. Fix the hierarchy so readers immediately grasp the urgency of the headline.",
         correctAnswer: "correct",
         explanation: "A bold headline (52px) stops the scroll. The subheadline (26px) adds context. Body (16px) delivers the story. Caption (12px) is a supporting detail. This is the foundation of editorial typography.",
-        canvasImage: PLACEHOLDER_BG,
+        canvasImage: SCENARIO3,
         availableRoles: ["headline", "subheadline", "body", "caption"],
         textLayers: [
           {
@@ -165,7 +174,7 @@ const lessons = [
         question: "Users of a food delivery app are abandoning orders because the 'Order Now' button is visually lost. Establish hierarchy so the call-to-action is unmistakable.",
         correctAnswer: "correct",
         explanation: "The CTA (32px, Bold) is the most important action element and must dominate. Restaurant name (24px) establishes context, menu item (18px) shows what's ordered, and details (14px) provide supporting info.",
-        canvasImage: PLACEHOLDER_BG,
+        canvasImage: SCENARIO4,
         availableRoles: ["cta", "title", "subtitle", "caption"],
         textLayers: [
           {
@@ -211,7 +220,7 @@ const lessons = [
         question: "Students are confused by an online lesson with no visual separation between sections. Establish a clear typographic structure so learners can follow the content flow.",
         correctAnswer: "correct",
         explanation: "The lesson title (48px) frames the entire module. Section headers (28px) divide topics clearly. Body (16px) delivers the lesson content. Key terms (bold) stand out as reference points without disrupting reading flow.",
-        canvasImage: PLACEHOLDER_BG,
+        canvasImage: SCENARIO5,
         availableRoles: ["title", "sectionHeader", "body", "keyTerms"],
         textLayers: [
           {
@@ -257,7 +266,7 @@ const lessons = [
         question: "Patients are misreading a prescription guide because critical warnings blend in with regular text. Restructure the hierarchy to make warnings impossible to miss.",
         correctAnswer: "correct",
         explanation: "Warning text (Red, Bold, Uppercase) must stand apart from everything else — it carries the highest urgency. Dosage (20px Bold) is next in importance. Instructions (16px) deliver detail. Notes (14px) are supplementary.",
-        canvasImage: PLACEHOLDER_BG,
+        canvasImage: SCENARIO6,
         availableRoles: ["warning", "dosage", "instructions", "notes"],
         textLayers: [
           {
@@ -303,7 +312,7 @@ const lessons = [
         question: "Hotel guests are wandering hallways because the directory board shows all information at the same visual weight. Fix the wayfinding hierarchy so guests find their rooms instantly.",
         correctAnswer: "correct",
         explanation: "Floor number (48px) is the primary navigation anchor — it must be seen from a distance. Room range (28px) provides the secondary filter. Direction (20px) gives the action step. Additional info (14px) supports without competing.",
-        canvasImage: PLACEHOLDER_BG,
+        canvasImage: SCENARIO7,
         availableRoles: ["floor", "roomRange", "direction", "info"],
         textLayers: [
           {
@@ -349,7 +358,7 @@ const lessons = [
         question: "A concert poster is failing to generate buzz because the artist name, date, and venue all fight for equal attention. Make the artist the undeniable star of the poster.",
         correctAnswer: "correct",
         explanation: "The artist name (50px Bold) is the hero — it's what people come to see. Date (28px) is the second decision point. Venue (22px) answers 'where'. Details (16px) fill in the rest. This is standard concert poster hierarchy.",
-        canvasImage: PLACEHOLDER_BG,
+        canvasImage: SCENARIO8,
         availableRoles: ["artist", "date", "venue", "details"],
         textLayers: [
           {
@@ -395,7 +404,7 @@ const lessons = [
         question: "Investors are losing focus during a startup pitch because all slide text looks equally important. Rebuild the hierarchy so the key insight dominates every slide.",
         correctAnswer: "correct",
         explanation: "The slide title (40px) sets the topic. The key point (26px) is the insight investors must remember. Supporting text (18px) provides the evidence. Footnotes (12px) offer sourcing without competing for attention.",
-        canvasImage: PLACEHOLDER_BG,
+        canvasImage: SCENARIO9,
         availableRoles: ["title", "keyPoint", "supporting", "footnote"],
         textLayers: [
           {
@@ -441,7 +450,7 @@ const lessons = [
         question: "Assembly errors keep occurring because workers can't distinguish steps from warnings and tips. Establish a clear typographic hierarchy that prevents mistakes on the production floor.",
         correctAnswer: "correct",
         explanation: "Step numbers (32px Bold) are the primary navigation anchors — workers scan for them first. Instructions (18px) deliver the action. Warnings (Red Bold) must stand out to prevent damage or injury. Tips (14px) offer supplementary guidance.",
-        canvasImage: PLACEHOLDER_BG,
+        canvasImage: SCENARIO10,
         availableRoles: ["step", "instruction", "warning", "tips"],
         textLayers: [
           {
