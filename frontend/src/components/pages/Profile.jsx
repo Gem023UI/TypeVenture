@@ -55,6 +55,8 @@ const Profile = () => {
   const [timeLeft, setTimeLeft] = useState(900);
   const [canResend, setCanResend] = useState(false);
 
+  const [lessonQuiz, setLessonQuiz] = useState([]);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -72,6 +74,7 @@ const Profile = () => {
           setEmail(response.user.email);
           setHobbies(response.user.hobbies || []);
           setIsVerified(response.user.isVerified || false);
+          setLessonQuiz(response.user.lessonQuiz || []);
           localStorage.setItem('isVerified', response.user.isVerified || false);
 
           if (response.user.createdAt) {
@@ -143,21 +146,22 @@ const Profile = () => {
     const fetchCompletedLessons = async () => {
       try {
         const userId = localStorage.getItem('userId');
+        if (lessonQuiz.length === 0) return;
         const data = await getCompletedLessons();
 
-        // Fetch the user's quiz scores so we can attach them to each lesson
-        let quizScores = [];
-        try {
-          quizScores = await getQuizScores();
-        } catch (_) {}
+        const quizScores = lessonQuiz;
 
         const completed = data
           .filter(lesson =>
-            lesson.usersDone.some(entry => entry.userId === userId)
+            lesson.usersDone.some(entry => entry.userId?.toString() === userId)
           )
           .map(lesson => {
-            const userEntry  = lesson.usersDone.find(entry => entry.userId === userId);
-            const quizRecord = quizScores.find(q => q.lessonTitle?.trim().toLowerCase() === lesson.title?.trim().toLowerCase());
+            const userEntry = lesson.usersDone.find(entry => entry.userId?.toString() === userId);
+            const quizRecord = quizScores.find(q => {
+              const a = q.lessonTitle?.trim().toLowerCase() || "";
+              const b = lesson.title?.trim().toLowerCase() || "";
+              return a === b || a.includes(b) || b.includes(a);
+            });
             return {
               _id:         lesson._id,
               title:       lesson.title,
@@ -178,7 +182,7 @@ const Profile = () => {
     };
 
     fetchCompletedLessons();
-  }, []);
+  }, [lessonQuiz.length]);
 
   useEffect(() => {
     Chart.Chart.register(

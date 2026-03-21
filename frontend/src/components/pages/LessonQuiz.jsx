@@ -8,6 +8,7 @@ import "./LessonQuiz.css";
    CONSTANTS
 ───────────────────────────────────────── */
 const TIME_PER_QUESTION = 30;
+const TIME_BRAND_PAIRING = 60; // Lesson 10 gets 60 seconds per scenario
 const MAX_POINTS_PER_Q  = 100;
 const PASS_RATE         = 0.5;
 
@@ -824,98 +825,552 @@ const HierarchyBuilder = ({ question, onAnswer, answered }) => {
 };
 
 /* ─────────────────────────────────────────
-   BRAND PAIRING
-   — Canvas shows broken state (wrongHeadlineFont + wrongBodyFont)
-   — Player picks a brand persona — both headline and body update live
-   — correctAnswer = personaTitle of the right persona
+   BRAND IDENTITY — LESSON 10
+   Full typography workbench: font pairing + size + position (drag) + kerning + leading + tracking
+   Graded on 10 typography principles. Timer starts only after instructions modal is dismissed.
 ───────────────────────────────────────── */
-const BrandPairing = ({ question, onAnswer, answered, selected, correct }) => {
-  const [chosen, setChosen] = useState(null);
 
-  const personas         = question.brandPersonas    || [];
-  const bgImage          = question.brandBackground  || "";
-  const headlineText     = question.headlineText     || "Brand Name";
-  const bodyText         = question.bodyText         || "Tagline or body copy goes here.";
-  const wrongHeadline    = question.wrongHeadlineFont || "'Courier New', monospace";
-  const wrongBody        = question.wrongBodyFont     || "'Comic Sans MS', cursive";
+/* ── Google Font loader (reuse from FontSelect) ── */
+const loadedBPFonts = new Set();
+const loadBPFont = (fontName) => {
+  if (!fontName || loadedBPFonts.has(fontName)) return;
+  loadedBPFonts.add(fontName);
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = `https://fonts.googleapis.com/css2?family=${fontName.replace(/ /g,"+")}:wght@300;400;500;600;700;800&display=swap`;
+  document.head.appendChild(link);
+};
 
-  const activeHeadline = chosen ? chosen.headlineFont : wrongHeadline;
-  const activeBody     = chosen ? chosen.bodyFont     : wrongBody;
+/* Available fonts grouped */
+const BP_FONTS = [
+  "Orbitron","Audiowide","Exo 2","Roboto Mono","Roboto","Open Sans",
+  "Playfair Display","Merriweather","Lora","Libre Baskerville","Source Sans 3",
+  "Cormorant Garamond","Montserrat","Didot","EB Garamond",
+  "Quicksand","Raleway","Poppins","Lato",
+  "Press Start 2P","Abril Fatface",
+];
 
-  const handleSelect = (persona) => {
+/* Colour contrast helper — luminance ratio */
+const getLuminance = (hex) => {
+  const c = hex.replace("#","");
+  const r = parseInt(c.slice(0,2),16)/255;
+  const g = parseInt(c.slice(2,4),16)/255;
+  const b = parseInt(c.slice(4,6),16)/255;
+  const toLinear = x => x <= 0.03928 ? x/12.92 : Math.pow((x+0.055)/1.055,2.4);
+  return 0.2126*toLinear(r)+0.7152*toLinear(g)+0.0722*toLinear(b);
+};
+const contrastRatio = (hex1, hex2) => {
+  const l1 = getLuminance(hex1), l2 = getLuminance(hex2);
+  return (Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05);
+};
+
+/* Ideal targets per scenario (keyed by correctAnswer / personaTitle) */
+const IDEAL_TARGETS = {
+  "The High-Tech Startup":    { headlineFont:"Orbitron",    bodyFont:"Roboto",          kerning:-5, leading:48, bodyLeading:22, tracking:0, alignment:"left",   bgLuminance:"dark",   tone:"Futuristic" },
+  "Heritage Coffee Shop":     { headlineFont:"Playfair Display", bodyFont:"Source Sans 3", kerning:0, leading:44, bodyLeading:22, tracking:0, alignment:"left",   bgLuminance:"warm",   tone:"Warm" },
+  "Luxury Fashion Boutique":  { headlineFont:"Cormorant Garamond", bodyFont:"Montserrat", kerning:-2, leading:50, bodyLeading:24, tracking:0, alignment:"center", bgLuminance:"light",  tone:"Luxury" },
+  "Eco Skincare Brand":       { headlineFont:"Quicksand",   bodyFont:"Lora",            kerning:-1, leading:42, bodyLeading:20, tracking:0, alignment:"center", bgLuminance:"light",  tone:"Organic" },
+  "Futuristic Fitness App":   { headlineFont:"Exo 2",       bodyFont:"Roboto",          kerning:-3, leading:44, bodyLeading:22, tracking:0, alignment:"left",   bgLuminance:"light",  tone:"Energetic" },
+  "Art Gallery":              { headlineFont:"Playfair Display", bodyFont:"Lato",        kerning:-1, leading:48, bodyLeading:22, tracking:0, alignment:"left",   bgLuminance:"light",  tone:"Premium" },
+  "Gaming Startup":           { headlineFont:"Orbitron",    bodyFont:"Exo 2",           kerning:-5, leading:50, bodyLeading:24, tracking:0, alignment:"left",   bgLuminance:"dark",   tone:"Dynamic" },
+  "Modern Cafe":              { headlineFont:"Montserrat",  bodyFont:"Quicksand",       kerning:-2, leading:44, bodyLeading:22, tracking:0, alignment:"center", bgLuminance:"warm",   tone:"Friendly" },
+  "AI Consulting":            { headlineFont:"Orbitron",    bodyFont:"Roboto",          kerning:-4, leading:48, bodyLeading:22, tracking:0, alignment:"left",   bgLuminance:"dark",   tone:"Futuristic" },
+  "High-End Hotel":           { headlineFont:"Cormorant Garamond", bodyFont:"Montserrat", kerning:-2, leading:50, bodyLeading:24, tracking:0, alignment:"center", bgLuminance:"light",  tone:"Elegant" },
+};
+
+/* Tone → matching font families */
+const TONE_FONTS = {
+  Futuristic: ["Orbitron","Audiowide","Exo 2","Roboto Mono"],
+  Warm:       ["Playfair Display","Merriweather","Lora","Libre Baskerville"],
+  Luxury:     ["Cormorant Garamond","Playfair Display","EB Garamond"],
+  Organic:    ["Quicksand","Raleway","Poppins","Lato"],
+  Energetic:  ["Exo 2","Orbitron","Roboto","Raleway"],
+  Premium:    ["Playfair Display","Lora","Abril Fatface","EB Garamond"],
+  Dynamic:    ["Orbitron","Exo 2","Press Start 2P","Audiowide"],
+  Friendly:   ["Montserrat","Quicksand","Poppins","Lato"],
+  Elegant:    ["Cormorant Garamond","Playfair Display","Lora","EB Garamond"],
+};
+
+/* ── Grade a submission ── */
+const gradeBrandIdentity = (state, question) => {
+  const target = IDEAL_TARGETS[question.correctAnswer] || {};
+  const results = [];
+
+  // 1. Typeface Selection
+  const hOk = state.headlineFont === target.headlineFont;
+  const bOk = state.bodyFont     === target.bodyFont;
+  const fontScore = hOk && bOk ? 100 : hOk || bOk ? 60 : 20;
+  results.push({ label: "Typeface Selection", score: fontScore,
+    feedback: fontScore===100 ? "✅ Excellent — perfect font pairing for the brand" :
+              fontScore===60  ? "🟡 Good — one font matches but the pairing needs work" :
+                                "🔴 Needs Adjustment — neither font matches the brand identity" });
+
+  // 2. Hierarchy / Scale
+  const hDiff = Math.abs(state.headlineSize - state.bodySize);
+  const hierarchyScore = hDiff >= 20 ? 100 : hDiff >= 10 ? 70 : 30;
+  results.push({ label: "Hierarchy / Scale", score: hierarchyScore,
+    feedback: hierarchyScore===100 ? "✅ Good Job — clear size contrast between headline and body" :
+              hierarchyScore===70  ? "🟡 Too Close — increase size difference between headline and body" :
+                                     "🔴 Too Close — headline and body are nearly the same size" });
+
+  // 3. Kerning
+  const kDiff = Math.abs(state.kerning - (target.kerning ?? 0));
+  const kerningScore = kDiff <= 1 ? 100 : kDiff <= 3 ? 75 : 40;
+  results.push({ label: "Kerning", score: kerningScore,
+    feedback: kerningScore===100 ? "✅ Excellent — letter spacing is perfectly balanced" :
+              kerningScore===75  ? "🟡 Very Good — kerning is close, minor adjustment needed" :
+                                   `🔴 ${state.kerning < (target.kerning??0) ? "Too Tight" : "Too Loose"} — adjust kerning closer to ${target.kerning}%` });
+
+  // 4. Leading
+  const lDiff = Math.abs(state.leading - (target.leading ?? 48));
+  const leadingScore = lDiff <= 2 ? 100 : lDiff <= 6 ? 75 : 40;
+  results.push({ label: "Leading", score: leadingScore,
+    feedback: leadingScore===100 ? "✅ Excellent — line height is perfectly spaced" :
+              leadingScore===75  ? "🟡 Very Good — leading is close, slight adjustment needed" :
+                                   `🔴 ${state.leading < (target.leading??48) ? "Too Tight" : "Too Loose"} — target ~${target.leading}px` });
+
+  // 5. Tracking
+  const tDiff = Math.abs(state.tracking - (target.tracking ?? 0));
+  const trackingScore = tDiff === 0 ? 100 : tDiff <= 2 ? 80 : 50;
+  results.push({ label: "Tracking", score: trackingScore,
+    feedback: trackingScore===100 ? "✅ Excellent — overall letter spacing is balanced" :
+              trackingScore===80  ? "🟡 Good — tracking is slightly off from ideal" :
+                                    `🔴 ${state.tracking > 0 ? "Too Loose" : "Too Tight"} — adjust tracking to ${target.tracking}%` });
+
+  // 6. Alignment
+  const alignScore = state.alignment === (target.alignment ?? "left") ? 100 : 50;
+  results.push({ label: "Alignment", score: alignScore,
+    feedback: alignScore===100 ? `✅ Good — ${state.alignment} alignment suits the brand` :
+                                  `🟡 Needs Adjustment — ${target.alignment} alignment works better for this brand` });
+
+  // 7. Contrast / Readability — text colour vs bg luminance
+  const bgDark = target.bgLuminance === "dark";
+  const hlColor = state.headlineColor || "#ffffff";
+  const bodyColor = state.bodyColor || "#ffffff";
+  // For dark bg: need light text (high contrast); for light bg: need dark text
+  const hlLum   = getLuminance(hlColor);
+  const bodyLum = getLuminance(bodyColor);
+  const contrastOk = bgDark
+    ? (hlLum > 0.3 && bodyLum > 0.2)
+    : (hlLum < 0.5 && bodyLum < 0.5);
+  const contrastScore = contrastOk ? 100 : 55;
+  results.push({ label: "Contrast / Readability", score: contrastScore,
+    feedback: contrastScore===100 ? "✅ Excellent — text is highly readable against the background" :
+                                    `🔴 Too Low — use ${bgDark ? "lighter" : "darker"} text colours for better readability` });
+
+  // 8. Consistency
+  const headlineToneFonts = TONE_FONTS[target.tone] || [];
+  const bodyIsComplement  = state.bodyFont !== state.headlineFont;
+  const consistencyScore  = (headlineToneFonts.includes(state.headlineFont) && bodyIsComplement) ? 100 :
+                             bodyIsComplement ? 65 : 30;
+  results.push({ label: "Consistency", score: consistencyScore,
+    feedback: consistencyScore===100 ? "✅ Excellent — fonts are consistent with brand tone" :
+              consistencyScore===65  ? "🟡 Good — fonts differ but tone alignment could improve" :
+                                       "🔴 Needs Adjustment — avoid using the same font for both headline and body" });
+
+  // 9. Whitespace & Composition
+  // Check: are both text elements positioned? Are they not overlapping?
+  const hPos = state.headlinePos || { x: 0, y: 0 };
+  const bPos = state.bodyPos     || { x: 0, y: 0 };
+  const vertDist = Math.abs(hPos.y - bPos.y);
+  const whitespaceScore = vertDist >= 40 ? 100 : vertDist >= 20 ? 70 : 40;
+  results.push({ label: "Whitespace & Composition", score: whitespaceScore,
+    feedback: whitespaceScore===100 ? "✅ Excellent — elements are well-spaced with breathing room" :
+              whitespaceScore===70  ? "🟡 Balanced — slight crowding between elements" :
+                                      "🔴 Too Crowded — increase vertical spacing between text elements" });
+
+  // 10. Emotional Tone (Semiotics)
+  const toneMatch = headlineToneFonts.includes(state.headlineFont);
+  const toneScore = toneMatch ? 100 : 30;
+  results.push({ label: "Emotional Tone", score: toneScore,
+    feedback: toneScore===100 ? `✅ Excellent — typography communicates the "${target.tone}" brand feeling` :
+                                 `🔴 Misaligned — choose fonts that express "${target.tone}" to match the brand` });
+
+  const total = Math.round(results.reduce((s,r) => s + r.score, 0) / results.length);
+  return { results, total, passed: total >= 60 };
+};
+
+/* ── Draggable text element ── */
+const BPTextEl = ({ text, elKey, style, pos, isSelected, answered, onSelect, canvasRef }) => {
+  const elRef    = useRef(null);
+  const dragging = useRef(false);
+  const origin   = useRef({ mx:0, my:0, px:0, py:0 });
+
+  const onPD = (e) => {
     if (answered) return;
-    setChosen(persona);
+    e.stopPropagation();
+    dragging.current = true;
+    origin.current = { mx: e.clientX, my: e.clientY, px: pos.x, py: pos.y };
+    e.currentTarget.setPointerCapture(e.pointerId);
   };
+  const onPM = (e) => {
+    if (!dragging.current) return;
+    const dx = e.clientX - origin.current.mx;
+    const dy = e.clientY - origin.current.my;
+    const cr = canvasRef.current?.getBoundingClientRect();
+    const er = elRef.current?.getBoundingClientRect();
+    if (!cr || !er) return;
+    onSelect(elKey, { x: Math.max(0, Math.min(origin.current.px+dx, cr.width-er.width)), y: Math.max(0, Math.min(origin.current.py+dy, cr.height-er.height)) }, false);
+  };
+  const onPU = () => { dragging.current = false; };
+
+  return (
+    <div
+      ref={elRef}
+      className={`lq-bp-text-el ${isSelected?"selected":""} ${answered?"answered":""}`}
+      style={{ position:"absolute", left:pos.x, top:pos.y, cursor:answered?"default":"grab",
+               userSelect:"none", touchAction:"none", ...style,
+               outline: isSelected ? "2px dashed rgba(255,255,255,0.7)" : "2px solid transparent",
+               padding:"4px 8px", borderRadius:4 }}
+      onPointerDown={onPD}
+      onPointerMove={onPM}
+      onPointerUp={onPU}
+      onClick={(e) => { e.stopPropagation(); onSelect(elKey, null, true); }}
+    >
+      {text}
+    </div>
+  );
+};
+
+/* ── Main BrandPairing component ── */
+const BrandPairing = ({ question, onAnswer, answered, selected, correct, onTimerStart }) => {
+  const personas      = question.brandPersonas   || [];
+  const bgImage       = question.brandBackground || "";
+  const headlineText  = question.headlineText    || "Brand Name";
+  const bodyText      = question.bodyText        || "Tagline here.";
+  const wrongHL       = question.wrongHeadlineFont || "'Courier New', monospace";
+  const wrongBody     = question.wrongBodyFont     || "'Comic Sans MS', cursive";
+
+  // Extract font name from CSS font string
+  const extractFont = (cssFont) => cssFont.split(",")[0].replace(/'/g,"").trim();
+
+  const [chosenPersona, setChosenPersona] = useState(null);
+
+  // Typography state
+  const [headlineFont,  setHeadlineFont]  = useState(() => extractFont(wrongHL));
+  const [bodyFont,      setBodyFont]      = useState(() => extractFont(wrongBody));
+  const [headlineSize,  setHeadlineSize]  = useState(32);
+  const [bodySize,      setBodySize]      = useState(14);
+  const [headlineColor, setHeadlineColor] = useState("#ffffff");
+  const [bodyColor,     setBodyColor]     = useState("#ffffff");
+  const [kerning,       setKerning]       = useState(0);
+  const [leading,       setLeading]       = useState(48);
+  const [tracking,      setTracking]      = useState(0);
+  const [alignment,     setAlignment]     = useState("left");
+
+  // Positions
+  const [headlinePos, setHeadlinePos] = useState({ x: 24, y: 40 });
+  const [bodyPos,     setBodyPos]     = useState({ x: 24, y: 120 });
+  const [selectedEl,  setSelectedEl]  = useState(null);
+
+  // Feedback
+  const [gradeResult, setGradeResult] = useState(null);
+  const [showFontPicker, setShowFontPicker] = useState(false);
+  const [fontPickerTarget, setFontPickerTarget] = useState("headline");
+
+  const canvasRef = useRef(null);
+
+  // Load fonts
+  useEffect(() => { BP_FONTS.forEach(loadBPFont); }, []);
+  useEffect(() => { loadBPFont(headlineFont); }, [headlineFont]);
+  useEffect(() => { loadBPFont(bodyFont); }, [bodyFont]);
+
+  // Reset on new question
+  useEffect(() => {
+    setChosenPersona(null);
+    setHeadlineFont(extractFont(wrongHL));
+    setBodyFont(extractFont(wrongBody));
+    setHeadlineSize(32); setBodySize(14);
+    setHeadlineColor("#ffffff"); setBodyColor("#ffffff");
+    setKerning(0); setLeading(48); setTracking(0); setAlignment("left");
+    setHeadlinePos({ x: 24, y: 40 }); setBodyPos({ x: 24, y: 120 });
+    setSelectedEl(null); setGradeResult(null);
+  }, [question]);
+
+  // Apply persona → set fonts
+  const applyPersona = (persona) => {
+    if (answered) return;
+    setChosenPersona(persona);
+    setHeadlineFont(extractFont(persona.headlineFont));
+    setBodyFont(extractFont(persona.bodyFont));
+  };
+
+  // Select element (toggle) or update position
+  const handleElSelect = (key, newPos, toggle) => {
+    if (newPos) {
+      if (key === "headline") setHeadlinePos(newPos);
+      else setBodyPos(newPos);
+    } else if (toggle) {
+      setSelectedEl(prev => prev === key ? null : key);
+    }
+  };
+
+  const handleCanvasClick = () => setSelectedEl(null);
 
   const handleSubmit = () => {
-    if (!chosen) return;
-    onAnswer(chosen.personaTitle);
+    if (!chosenPersona) return;
+    const state = {
+      headlineFont, bodyFont, headlineSize, bodySize,
+      headlineColor, bodyColor, kerning, leading, tracking, alignment,
+      headlinePos, bodyPos,
+    };
+    const grade = gradeBrandIdentity(state, question);
+    setGradeResult(grade);
+    onAnswer(chosenPersona.personaTitle, grade.passed);
   };
 
+  const headlineCss = `'${headlineFont}', sans-serif`;
+  const bodyCss     = `'${bodyFont}', sans-serif`;
+
+  const curFont  = selectedEl === "headline" ? headlineFont : bodyFont;
+  const curSize  = selectedEl === "headline" ? headlineSize : bodySize;
+  const curColor = selectedEl === "headline" ? headlineColor : bodyColor;
+  const setFont  = (v) => selectedEl === "headline" ? setHeadlineFont(v) : setBodyFont(v);
+  const setSize  = (v) => selectedEl === "headline" ? setHeadlineSize(v) : setBodySize(v);
+  const setColor = (v) => selectedEl === "headline" ? setHeadlineColor(v) : setBodyColor(v);
+
   const isCorrect = answered && selected === correct;
+
+  // Detect canvas aspect ratio from bg image
+  const [canvasAspect, setCanvasAspect] = useState(null);
+  useEffect(() => {
+    if (!bgImage) return;
+    const img = new Image();
+    img.onload = () => setCanvasAspect(img.naturalWidth / img.naturalHeight);
+    img.src = bgImage;
+  }, [bgImage]);
+
+  const canvasStyle = canvasAspect
+    ? { width: "100%", aspectRatio: `${canvasAspect}`, height: "auto", minHeight: "unset" }
+    : { width: "100%", height: 340 };
 
   return (
     <div className="lq-mc">
       <p className="lq-q-text">{question.question}</p>
 
-      {/* Canvas */}
+      {/* ── CANVAS ── */}
       <div
+        ref={canvasRef}
         className="lq-brandpair-canvas"
         style={{
+          ...canvasStyle,
           backgroundImage: bgImage ? `url(${bgImage})` : "none",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundSize: "cover", backgroundPosition: "center",
+          position: "relative", overflow: "hidden", cursor: "default",
         }}
+        onClick={handleCanvasClick}
       >
-        <div className="lq-brandpair-canvas-inner">
-          <p className="lq-brandpair-headline" style={{ fontFamily: activeHeadline }}>
-            {headlineText}
-          </p>
-          <p className="lq-brandpair-body" style={{ fontFamily: activeBody }}>
-            {bodyText}
-          </p>
-        </div>
+        <BPTextEl
+          text={headlineText} elKey="headline"
+          style={{
+            fontFamily: headlineCss, fontSize: headlineSize,
+            color: headlineColor, letterSpacing: `${kerning * 0.01}em`,
+            lineHeight: `${leading / headlineSize}`,
+            textAlign: alignment, fontWeight: 700,
+            textShadow: "0 1px 6px rgba(0,0,0,0.6)",
+          }}
+          pos={headlinePos} isSelected={selectedEl==="headline"}
+          answered={answered} onSelect={handleElSelect} canvasRef={canvasRef}
+        />
+        <BPTextEl
+          text={bodyText} elKey="body"
+          style={{
+            fontFamily: bodyCss, fontSize: bodySize,
+            color: bodyColor, letterSpacing: `${tracking * 0.01}em`,
+            lineHeight: `${leading / bodySize}`, textAlign: alignment,
+            fontWeight: 400, maxWidth: "80%",
+            textShadow: "0 1px 4px rgba(0,0,0,0.5)",
+          }}
+          pos={bodyPos} isSelected={selectedEl==="body"}
+          answered={answered} onSelect={handleElSelect} canvasRef={canvasRef}
+        />
+
+        {!answered && selectedEl === null && (
+          <div className="lq-hierarchy-broken-label">Click a text element to select it</div>
+        )}
+
+        {/* Grade overlay after submit */}
+        {answered && gradeResult && (
+          <div className="lq-hb-score-overlay">
+            <span className={`lq-hb-score-val ${gradeResult.passed ? "pass" : "fail"}`}>
+              {gradeResult.total}%
+            </span>
+            <span className="lq-hb-score-label">Brand Cohesion Score</span>
+          </div>
+        )}
       </div>
 
-      {/* Persona options */}
-      <div className="lq-brandpair-options">
-        {personas.map((persona, i) => {
-          let cls = "lq-brandpair-btn";
-          if (answered) {
-            if (persona.personaTitle === correct)  cls += " correct";
-            else if (persona.personaTitle === selected && persona.personaTitle !== correct) cls += " wrong";
-          } else if (chosen?.personaTitle === persona.personaTitle) {
-            cls += " active";
-          }
-          return (
-            <button key={i} className={cls} onClick={() => handleSelect(persona)} disabled={answered}>
-              <span className="lq-brandpair-persona-title">{persona.personaTitle}</span>
-              <div className="lq-brandpair-fonts">
-                <span style={{ fontFamily: persona.headlineFont }} className="lq-brandpair-font-preview">
-                  {persona.headlineFont.split(",")[0].replace(/'/g, "")}
-                </span>
-                <span className="lq-brandpair-font-plus">+</span>
-                <span style={{ fontFamily: persona.bodyFont }} className="lq-brandpair-font-preview">
-                  {persona.bodyFont.split(",")[0].replace(/'/g, "")}
-                </span>
-              </div>
-              <span className="lq-brandpair-vibe">{persona.vibe}</span>
+      {/* ── TYPOGRAPHY CONTROLS ── */}
+      {!answered && (
+        <div className="lq-bp-controls">
+
+          {/* Element selector */}
+          <div className="lq-bp-el-tabs">
+            <button className={`lq-bp-el-tab ${selectedEl==="headline"?"active":""}`}
+              onClick={() => setSelectedEl(prev => prev==="headline" ? null : "headline")}>
+              Headline
             </button>
-          );
-        })}
-      </div>
+            <button className={`lq-bp-el-tab ${selectedEl==="body"?"active":""}`}
+              onClick={() => setSelectedEl(prev => prev==="body" ? null : "body")}>
+              Body Text
+            </button>
+          </div>
 
-      {!answered && chosen && (
+          {selectedEl ? (
+            <div className="lq-bp-panel">
+
+              {/* Font picker */}
+              <div className="lq-bp-control-row">
+                <label className="lq-bp-ctrl-label">Typeface</label>
+                <div className="lq-bp-font-selector">
+                  <button className="lq-bp-font-trigger"
+                    onClick={() => setShowFontPicker(p => !p)}
+                    style={{ fontFamily: `'${curFont}', sans-serif` }}>
+                    {curFont} ▾
+                  </button>
+                  {showFontPicker && (
+                    <div className="lq-bp-font-dropdown">
+                      {BP_FONTS.map(f => (
+                        <button key={f} className={`lq-bp-font-opt ${curFont===f?"active":""}`}
+                          style={{ fontFamily: `'${f}', sans-serif` }}
+                          onClick={() => { setFont(f); setShowFontPicker(false); }}>
+                          {f}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Size */}
+              <div className="lq-bp-control-row">
+                <label className="lq-bp-ctrl-label">Size</label>
+                <div className="lq-bp-slider-wrap">
+                  <span className="lq-bp-val">{curSize}px</span>
+                  <input type="range" min="8" max="80" value={curSize}
+                    onChange={e => setSize(+e.target.value)} className="lq-hb-slider" />
+                </div>
+              </div>
+
+              {/* Color */}
+              <div className="lq-bp-control-row">
+                <label className="lq-bp-ctrl-label">Color</label>
+                <input type="color" value={curColor}
+                  onChange={e => setColor(e.target.value)} className="lq-bp-color" />
+                <span className="lq-bp-val" style={{ marginLeft: 6 }}>{curColor}</span>
+              </div>
+
+              {/* Kerning — applies to headline only */}
+              {selectedEl === "headline" && (
+                <div className="lq-bp-control-row">
+                  <label className="lq-bp-ctrl-label">Kerning</label>
+                  <div className="lq-bp-slider-wrap">
+                    <span className="lq-bp-val">{kerning}%</span>
+                    <input type="range" min="-10" max="10" step="0.5" value={kerning}
+                      onChange={e => setKerning(+e.target.value)} className="lq-hb-slider" />
+                  </div>
+                </div>
+              )}
+
+              {/* Leading */}
+              <div className="lq-bp-control-row">
+                <label className="lq-bp-ctrl-label">Leading</label>
+                <div className="lq-bp-slider-wrap">
+                  <span className="lq-bp-val">{leading}px</span>
+                  <input type="range" min="12" max="80" value={leading}
+                    onChange={e => setLeading(+e.target.value)} className="lq-hb-slider" />
+                </div>
+              </div>
+
+              {/* Tracking — applies to body only */}
+              {selectedEl === "body" && (
+                <div className="lq-bp-control-row">
+                  <label className="lq-bp-ctrl-label">Tracking</label>
+                  <div className="lq-bp-slider-wrap">
+                    <span className="lq-bp-val">{tracking}%</span>
+                    <input type="range" min="-5" max="20" step="0.5" value={tracking}
+                      onChange={e => setTracking(+e.target.value)} className="lq-hb-slider" />
+                  </div>
+                </div>
+              )}
+
+              {/* Alignment */}
+              <div className="lq-bp-control-row">
+                <label className="lq-bp-ctrl-label">Align</label>
+                <div className="lq-bp-align-btns">
+                  {["left","center","right"].map(a => (
+                    <button key={a} className={`lq-bp-align-btn ${alignment===a?"active":""}`}
+                      onClick={() => setAlignment(a)}>
+                      {a==="left" ? "⬛▪▪" : a==="center" ? "▪⬛▪" : "▪▪⬛"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          ) : (
+            <div className="lq-hb-slider-idle">
+              👆 Select Headline or Body Text above to adjust its properties
+            </div>
+          )}
+
+          {/* Persona selector */}
+          <div className="lq-bp-persona-section">
+            <p className="lq-bp-persona-label">Font Pairing Presets</p>
+            <div className="lq-brandpair-options">
+              {personas.map((persona, i) => (
+                <button key={i}
+                  className={`lq-brandpair-btn ${chosenPersona?.personaTitle===persona.personaTitle?"active":""}`}
+                  onClick={() => applyPersona(persona)}>
+                  <span className="lq-brandpair-persona-title">{persona.personaTitle}</span>
+                  <div className="lq-brandpair-fonts">
+                    <span style={{ fontFamily: persona.headlineFont }} className="lq-brandpair-font-preview">
+                      {persona.headlineFont.split(",")[0].replace(/'/g,"")}
+                    </span>
+                    <span className="lq-brandpair-font-plus">+</span>
+                    <span style={{ fontFamily: persona.bodyFont }} className="lq-brandpair-font-preview">
+                      {persona.bodyFont.split(",")[0].replace(/'/g,"")}
+                    </span>
+                  </div>
+                  <span className="lq-brandpair-vibe">{persona.vibe}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      )}
+
+      {/* Submit */}
+      {!answered && chosenPersona && (
         <button className="lq-id-submit" style={{ marginTop: 12 }} onClick={handleSubmit}>
-          Apply This Pairing
+          Submit Brand Identity
         </button>
       )}
 
-      {answered && (
-        <div className={`lq-feedback ${isCorrect ? "ok" : "bad"}`}>
-          {isCorrect
-            ? "✓ The brand identity is aligned. The logo activates!"
-            : `✗ Correct pairing: ${correct}`}
+      {/* Detailed feedback */}
+      {answered && gradeResult && (
+        <div className={`lq-bp-feedback-wrap ${gradeResult.passed ? "ok" : "bad"}`}>
+          <div className="lq-bp-feedback-header">
+            <span className={`lq-bp-total ${gradeResult.passed ? "pass" : "fail"}`}>
+              {gradeResult.total}% Brand Cohesion
+            </span>
+            <span className="lq-bp-verdict">
+              {gradeResult.passed ? "✅ Brand identity achieved!" : "⚠️ Brand identity needs work"}
+            </span>
+          </div>
+          <div className="lq-bp-feedback-grid">
+            {gradeResult.results.map((r, i) => (
+              <div key={i} className={`lq-bp-feedback-row ${r.score>=90?"excellent":r.score>=70?"good":"poor"}`}>
+                <div className="lq-bp-feedback-label">{r.label}</div>
+                <div className="lq-bp-feedback-bar-wrap">
+                  <div className="lq-bp-feedback-bar" style={{ width: `${r.score}%` }} />
+                </div>
+                <div className="lq-bp-feedback-score">{r.score}%</div>
+                <div className="lq-bp-feedback-text">{r.feedback}</div>
+              </div>
+            ))}
+          </div>
           {question.explanation && <p className="lq-explanation">{question.explanation}</p>}
         </div>
       )}
@@ -1000,6 +1455,8 @@ const LessonQuiz = () => {
   const [nextLessonId, setNextLessonId] = useState(null);
   const [timeLeft, setTimeLeft]         = useState(TIME_PER_QUESTION);
   const [timeoutModal, setTimeoutModal] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
+  const [instructionsRead, setInstructionsRead] = useState(false);
 
   const timerRef    = useRef(null);
   const answeredRef = useRef(false);
@@ -1015,6 +1472,10 @@ const LessonQuiz = () => {
         setLoading(true);
         const data = await fetchLessonById(id);
         setLesson(data);
+        // Show instructions modal for brand-pairing lessons before timer starts
+        if (data?.quiz?.length && data.quiz[0]?.type === "brand-pairing") {
+          setShowInstructions(true);
+        }
       } catch {
         setError("Failed to load quiz.");
       } finally {
@@ -1025,8 +1486,11 @@ const LessonQuiz = () => {
 
   useEffect(() => {
     if (loading || !lesson || finished) return;
+    // For brand-pairing, wait until instructions modal is dismissed
+    if (currentQ?.type === "brand-pairing" && !instructionsRead) return;
+    const timeForQ = currentQ?.type === "brand-pairing" ? TIME_BRAND_PAIRING : TIME_PER_QUESTION;
     answeredRef.current = false;
-    setTimeLeft(TIME_PER_QUESTION);
+    setTimeLeft(timeForQ);
     clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setTimeLeft(prev => {
@@ -1047,7 +1511,7 @@ const LessonQuiz = () => {
     }, 1000);
     return () => clearInterval(timerRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [qIdx, loading, finished]);
+  }, [qIdx, loading, finished, instructionsRead]);
 
   useEffect(() => {
     if (answered) {
@@ -1111,11 +1575,49 @@ const LessonQuiz = () => {
     setFinished(false); setTimeLeft(TIME_PER_QUESTION);
     setTimeoutModal(false);
     answeredRef.current = false;
+    // Re-show instructions for brand-pairing retries
+    if (lesson?.quiz?.[0]?.type === "brand-pairing") {
+      setShowInstructions(true);
+      setInstructionsRead(false);
+    }
   };
 
   if (loading) return <MainLayout><div className="lq-loading">Loading quiz…</div></MainLayout>;
   if (error)   return <MainLayout><div className="lq-error">{error}</div></MainLayout>;
   if (!lesson) return null;
+
+  // Instructions modal for brand-pairing (Lesson 10)
+  if (showInstructions) {
+    return (
+      <MainLayout>
+        <div className="lq-wrapper">
+          <div className="lq-instructions-overlay">
+            <div className="lq-instructions-modal">
+              <div className="lq-instructions-icon">🎨</div>
+              <h2 className="lq-instructions-title">Lesson 10: Brand Identity Workshop</h2>
+              <p className="lq-instructions-subtitle">{lesson.title}</p>
+              <div className="lq-instructions-body">
+                <p>{lesson.instruction || "Read the scenario carefully, then use the typography tools to create a cohesive brand identity."}</p>
+                <ul className="lq-instructions-list">
+                  <li>⏱ You have <strong>60 seconds</strong> per scenario</li>
+                  <li>🔠 Select a font pairing preset or choose fonts manually</li>
+                  <li>📐 Drag text elements to position them on the canvas</li>
+                  <li>🎚 Adjust font size, kerning, leading, tracking, and alignment</li>
+                  <li>🎨 Pick text colours that contrast well with the background</li>
+                  <li>📊 Your work is graded on 10 typography principles</li>
+                  <li>✅ Score 60% or above to pass each scenario</li>
+                </ul>
+              </div>
+              <button className="lq-instructions-start"
+                onClick={() => { setShowInstructions(false); setInstructionsRead(true); }}>
+                Start Challenge →
+              </button>
+            </div>
+          </div>
+        </div>
+      </MainLayout>
+    );
+  }
 
   if (quiz.length === 0) return (
     <MainLayout>
@@ -1181,7 +1683,7 @@ const LessonQuiz = () => {
         <div className={`lq-card ${timerUrgent ? "urgent" : ""}`}>
           <div className="lq-card-header">
             <div className="lq-q-num">Question {qIdx + 1}</div>
-            <TimerRing timeLeft={timeLeft} total={TIME_PER_QUESTION} />
+            <TimerRing timeLeft={timeLeft} total={currentQ?.type === "brand-pairing" ? TIME_BRAND_PAIRING : TIME_PER_QUESTION} />
           </div>
 
           {selected === "__timeout__" ? (

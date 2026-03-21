@@ -275,7 +275,7 @@ const FrontPage = () => {
                 <StarRating count={diff.stars} />
               </div>
               <p className="fp-modal-desc">
-                {activeLesson.content?.description || "No description available."}
+              {activeLesson.description || activeLesson.content?.description || "No description available."}
               </p>
               <div className="fp-modal-meta">
                 <span>⏱ {activeLesson.completionTime || "~15 min"}</span>

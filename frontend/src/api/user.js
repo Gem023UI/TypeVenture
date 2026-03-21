@@ -127,7 +127,8 @@ export const getQuizScores = async () => {
     if (!userId) throw new Error("User ID not found in localStorage");
     const response = await api.get(`/api/user/profile/${userId}`);
     /* lessonQuiz lives on the user object returned by getUserById */
-    return response.data?.user?.lessonQuiz ?? response.data?.lessonQuiz ?? [];
+    const userData = response.data?.user ?? response.data;
+    return userData?.lessonQuiz ?? [];
   } catch (error) {
     console.error("Get quiz scores error:", error.response || error);
     throw error.response?.data?.error || "Failed to fetch quiz scores.";

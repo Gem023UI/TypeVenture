@@ -23,7 +23,6 @@ export const getUserById = async (req, res) => {
     }
 
     console.log("📦 USER FETCHED:", user);
-
     res.json({
       user: {
         _id: user._id,
@@ -32,8 +31,9 @@ export const getUserById = async (req, res) => {
         profilePicture: user.profilePicture,
         hobbies: user.hobbies,
         isVerified: user.isVerified,
-        userrole: user.userrole,    
+        userrole: user.userrole,
         createdAt: user.createdAt ? user.createdAt.toISOString() : null,
+        lessonQuiz: user.lessonQuiz || [],
       },
     });
   } catch (err) {
