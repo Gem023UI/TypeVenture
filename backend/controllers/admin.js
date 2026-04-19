@@ -155,15 +155,15 @@ export const getUserDetail = async (req, res) => {
 export const toggleUserStatus = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ error: "User not found" });
+    if (!user) return res.status(404).json({ error: "User not found." });
 
-    user.status = user.status === "active" ? "deactivated" : "active";
+    user.status = user.status === "deactivated" ? "active" : "deactivated";
     await user.save();
 
-    res.status(200).json({ message: `User ${user.status}`, user });
-  } catch (error) {
-    console.error("❌ toggleUserStatus error:", error);
-    res.status(500).json({ error: "Failed to update user status" });
+    return res.json({ message: "Status updated.", user });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Failed to toggle user status." });
   }
 };
 
@@ -460,5 +460,117 @@ export const uploadImage = async (req, res) => {
   } catch (error) {
     console.error("❌ uploadImage error:", error);
     res.status(500).json({ error: "Failed to upload image" });
+  }
+};
+
+// ─────────────────────────────────────────
+// PDF REPORT DATA
+// ─────────────────────────────────────────
+
+export const getPdfUsersData = async (req, res) => {
+  try {
+    const allUsers = await User.find().select("userrole createdAt").sort({ createdAt: 1 });
+
+    const adminCount = allUsers.filter(u => u.userrole === "admin").length;
+    const userCount  = allUsers.filter(u => u.userrole === "user").length;
+
+    // Group registrations by date
+    const countsByDate = {};
+    allUsers.forEach(u => {
+      const day = u.createdAt?.toISOString().slice(0, 10);
+      if (day) countsByDate[day] = (countsByDate[day] || 0) + 1;
+    });
+
+    const labels = Object.keys(countsByDate);
+    const data   = Object.values(countsByDate);
+
+    res.status(200).json({ labels, data, adminCount, userCount, totalUsers: allUsers.length });
+  } catch (error) {
+    console.error("❌ getPdfUsersData error:", error);
+    res.status(500).json({ error: "Failed to fetch users PDF data" });
+  }
+};
+
+export const getPdfLessonsData = async (req, res) => {
+  try {
+    const lessons = await Lesson.find().select("title description usersDone").sort({ createdAt: 1 });
+    const allUsers = await User.find().select("lessonQuiz");
+
+    const lessonStats = lessons.map(lesson => {
+      const completionCount = lesson.usersDone?.length || 0;
+
+      // Collect scores for this lesson from all users
+      const scores = [];
+      allUsers.forEach(u => {
+        const entry = u.lessonQuiz?.find(lq => lq.lessonTitle === lesson.title);
+        if (entry && typeof entry.lessonScore === "number") scores.push(entry.lessonScore);
+      });
+
+      const avgScore = scores.length
+        ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+        : 0;
+
+      return {
+        title:           lesson.title,
+        description:     lesson.description,
+        completionCount,
+        avgScore,
+      };
+    });
+
+    res.status(200).json({ lessonStats });
+  } catch (error) {
+    console.error("❌ getPdfLessonsData error:", error);
+    res.status(500).json({ error: "Failed to fetch lessons PDF data" });
+  }
+};
+
+export const getPdfGamesData = async (req, res) => {
+  try {
+    const games      = await Game.find().select("title gameType difficulty");
+    const allScores  = await GameScore.find().populate("gameId", "gameType");
+
+    // Games played per day
+    const countsByDate = {};
+    allScores.forEach(s => {
+      const day = s.completedAt?.toISOString().slice(0, 10);
+      if (day) countsByDate[day] = (countsByDate[day] || 0) + 1;
+    });
+    const dateLabels = Object.keys(countsByDate).sort();
+    const dateData   = dateLabels.map(d => countsByDate[d]);
+
+    // Players per game category
+    const categoryMap = {};
+    allScores.forEach(s => {
+      const type = s.gameId?.gameType || "unknown";
+      categoryMap[type] = (categoryMap[type] || 0) + 1;
+    });
+    const categoryLabels = Object.keys(categoryMap);
+    const categoryData   = categoryLabels.map(c => categoryMap[c]);
+
+    // Difficulty breakdown
+    const easy   = games.filter(g => g.difficulty === "easy").length;
+    const medium = games.filter(g => g.difficulty === "medium").length;
+    const hard   = games.filter(g => g.difficulty === "hard").length;
+
+    // Achievements
+    const totalAchievements     = allScores.filter(s => s.achievement !== "none").length;
+    const usersWithAchievements = new Set(
+      allScores.filter(s => s.achievement !== "none").map(s => s.userId.toString())
+    ).size;
+
+    res.status(200).json({
+      dateLabels,
+      dateData,
+      categoryLabels,
+      categoryData,
+      totalGames: games.length,
+      easy, medium, hard,
+      totalAchievements,
+      usersWithAchievements,
+    });
+  } catch (error) {
+    console.error("❌ getPdfGamesData error:", error);
+    res.status(500).json({ error: "Failed to fetch games PDF data" });
   }
 };

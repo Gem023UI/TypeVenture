@@ -63,14 +63,6 @@ const LessonDetail = () => {
         }
       } catch (err) {
         console.error("❌ Failed to load lesson:", err);
-        if (err.status === 403 && err.isVerified === false) {
-          Swal.fire({
-            icon: "warning",
-            title: "Email Verification Required",
-            text: err.message || "Please verify your email.",
-            confirmButtonText: "OK",
-          });
-        }
         setError("Failed to load lesson. Please try again.");
       } finally {
         setLoading(false);

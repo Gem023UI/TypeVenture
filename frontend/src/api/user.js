@@ -27,7 +27,17 @@ export const loginUser = async (credentials) => {
     return response.data;
   } catch (error) {
     console.error("Login error:", error.response || error);
-    throw error.response?.data?.message || "Login failed.";
+    const data = error.response?.data;
+    if (data?.isDeactivated) {
+      const Swal = (await import("sweetalert2")).default;
+      await Swal.fire({
+        icon: "error",
+        title: "Account Deactivated",
+        text: "Your account has been deactivated. Please contact support.",
+      });
+      throw null;
+    }
+    throw data?.message || data?.error || "Login failed.";
   }
 };
 
@@ -72,40 +82,6 @@ export const deleteAccount = async (credentials) => {
   }
 };
 
-export const sendPasswordResetCode = async (email) => {
-  try {
-    const response = await api.post("/api/user/forgot-password", { email });
-    return response.data;
-  } catch (error) {
-    console.error("Send password reset code error:", error);
-    throw error.response?.data?.error || "Failed to send password reset code";
-  }
-};
-
-export const resetPassword = async (email, code, newPassword) => {
-  try {
-    const response = await api.post("/api/user/reset-password", {
-      email,
-      code,
-      newPassword,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Reset password error:", error);
-    throw error.response?.data?.error || "Password reset failed";
-  }
-};
-
-export const verifyEmail = async (code, userId) => {
-  try {
-    const response = await api.post("/api/user/verify-email", { userId, code });
-    return response.data;
-  } catch (error) {
-    console.error("Verify email error:", error.response || error);
-    throw error.response?.data?.error || "Email verification failed.";
-  }
-};
-
 export const getCompletedLessons = async () => {
   try {
     const response = await api.get("/api/lessons");
@@ -116,11 +92,6 @@ export const getCompletedLessons = async () => {
   }
 };
 
-/**
- * Retrieve the current user's quiz scores from their profile.
- * Returns the lessonQuiz array stored on the user document.
- * Used by LessonDetails to gate the "Mark as Complete" button.
- */
 export const getQuizScores = async () => {
   try {
     const userId = localStorage.getItem("userId");

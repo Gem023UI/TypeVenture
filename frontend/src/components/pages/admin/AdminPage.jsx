@@ -7,6 +7,12 @@ import {
   fetchLoginsGraph,
   fetchTodayRegistrants,
 } from "../../../api/admin";
+import { fetchPdfUsersData, fetchPdfLessonsData, fetchPdfGamesData } from "../../../api/admin";
+import { jsPDF } from "jspdf";
+import {
+  makeBarChart, addChart, checkBreak,
+  drawHeader, drawSectionLabel, drawStatPills, drawAnalysis, drawDivider, drawFooter,
+} from "./pdfUtils";
 import MainLayout from "../../layout/MainLayout";
 import "./Admin.css";
 
@@ -177,6 +183,118 @@ const AdminPage = () => {
     { label: "Total Games",    value: stats?.totalGames    ?? "—", emoji: "🎮", color: "#22c55e" },
   ];
 
+  const handleDownloadPdf = async () => {
+    try {
+      const [usersData, lessonsData, gamesData] = await Promise.all([
+        fetchPdfUsersData(),
+        fetchPdfLessonsData(),
+        fetchPdfGamesData(),
+      ]);
+  
+      const GAME_TYPE_LABELS = {
+        kerning:          "Kerning",
+        leading:          "Leading",
+        "font-pairing":   "Font Pairing",
+        "typeface-guess": "Typeface",
+        quiz:             "Quiz",
+      };
+  
+      const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      let y = drawHeader(doc, "Typeventure — Full Report", "Complete overview of users, lessons and games");
+  
+      // ══ USERS SECTION ══
+      y = drawSectionLabel(doc, "Users", y, [255, 20, 20]);
+      y = drawStatPills(doc, [
+        { label: "Total Users",   value: usersData.totalUsers,  color: [162, 0,  255] },
+        { label: "Admins",        value: usersData.adminCount,  color: [255, 20,  20] },
+        { label: "Regular Users", value: usersData.userCount,   color: [0,   41, 255] },
+      ], y);
+  
+      if (usersData.labels.length > 0) {
+        y = checkBreak(doc, y, 90);
+        const imgU = makeBarChart({ labels: usersData.labels, data: usersData.data, color: "rgba(162,0,255,0.85)" });
+        y = addChart(doc, imgU, y);
+        const peakU  = usersData.labels[usersData.data.indexOf(Math.max(...usersData.data))];
+        const totalU = usersData.data.reduce((a, b) => a + b, 0);
+        y = drawAnalysis(doc,
+          `${totalU} total registration(s) recorded. Peak day: ${peakU}. ` +
+          `${usersData.adminCount} admin(s) and ${usersData.userCount} regular user(s) on the platform.`, y);
+      }
+  
+      // ══ LESSONS SECTION ══
+      y = checkBreak(doc, y, 20);
+      y = drawDivider(doc, y);
+      y = drawSectionLabel(doc, "Lessons", y, [0, 41, 255]);
+  
+      const { lessonStats } = lessonsData;
+      const lessonLabels   = lessonStats.map((_, i) => `L${i + 1}`);
+      const completions    = lessonStats.map(l => l.completionCount);
+      const avgScores      = lessonStats.map(l => l.avgScore);
+      const totalComps     = completions.reduce((a, b) => a + b, 0);
+      const overallAvg     = avgScores.length
+        ? Math.round(avgScores.reduce((a, b) => a + b, 0) / avgScores.length) : 0;
+  
+      y = drawStatPills(doc, [
+        { label: "Total Lessons",     value: lessonStats.length, color: [162, 0, 255] },
+        { label: "Total Completions", value: totalComps,          color: [0,  41, 255] },
+        { label: "Avg Score",         value: `${overallAvg}%`,    color: [34, 197, 94] },
+      ], y);
+  
+      y = checkBreak(doc, y, 90);
+      const imgL1 = makeBarChart({ labels: lessonLabels, data: completions, color: "rgba(0,41,255,0.85)" });
+      y = addChart(doc, imgL1, y);
+      y = drawAnalysis(doc,
+        `Lesson ${completions.indexOf(Math.max(...completions)) + 1} had the most completions. ` +
+        `Total completions: ${totalComps}. Overall average score: ${overallAvg}%.`, y);
+  
+      y = checkBreak(doc, y, 90);
+      const imgL2 = makeBarChart({ labels: lessonLabels, data: avgScores, color: "rgba(162,0,255,0.85)", maxY: 1000 });
+      y = addChart(doc, imgL2, y);
+      y = drawAnalysis(doc,
+        `Lesson ${avgScores.indexOf(Math.max(...avgScores)) + 1} had the highest average score. ` +
+        `Lesson ${avgScores.indexOf(Math.min(...avgScores)) + 1} had the lowest, suggesting it may need review.`, y);
+  
+      // ══ GAMES SECTION ══
+      y = checkBreak(doc, y, 20);
+      y = drawDivider(doc, y);
+      y = drawSectionLabel(doc, "Games", y, [34, 197, 94]);
+  
+      const { dateLabels, dateData, categoryLabels, categoryData,
+              totalGames, easy, medium, hard, totalAchievements, usersWithAchievements } = gamesData;
+  
+      y = drawStatPills(doc, [
+        { label: "Total Games",      value: totalGames,            color: [34,  197, 94]  },
+        { label: "Easy / Med / Hard",value: `${easy}/${medium}/${hard}`, color: [255, 180, 0] },
+        { label: "Achievements",     value: totalAchievements,     color: [162, 0,   255] },
+        { label: "Users w/ Achiev.", value: usersWithAchievements, color: [0,   41,  255] },
+      ], y);
+  
+      if (dateLabels.length > 0) {
+        y = checkBreak(doc, y, 90);
+        const imgG1 = makeBarChart({ labels: dateLabels, data: dateData, color: "rgba(34,197,94,0.85)" });
+        y = addChart(doc, imgG1, y);
+        const peakG  = dateLabels[dateData.indexOf(Math.max(...dateData))];
+        const totalG = dateData.reduce((a, b) => a + b, 0);
+        y = drawAnalysis(doc,
+          `${totalG} total game session(s) recorded. Peak activity: ${peakG}.`, y);
+      }
+  
+      if (categoryLabels.length > 0) {
+        y = checkBreak(doc, y, 90);
+        const friendlyLabels = categoryLabels.map(c => GAME_TYPE_LABELS[c] || c);
+        const imgG2 = makeBarChart({ labels: friendlyLabels, data: categoryData, color: "rgba(162,0,255,0.85)", horizontal: true, height: 300 });
+        y = addChart(doc, imgG2, y);
+        const topCat = friendlyLabels[categoryData.indexOf(Math.max(...categoryData))];
+        y = drawAnalysis(doc, `${topCat} is the most played game category.`, y);
+      }
+  
+      drawFooter(doc);
+      doc.save("typeventure-full-report.pdf");
+    } catch (err) {
+      console.error("Full report PDF failed:", err);
+    }
+  };
+
   return (
     <MainLayout>
       <div className="admin-wrapper">
@@ -188,6 +306,12 @@ const AdminPage = () => {
         </div>
 
         {/* ── Nav Buttons ── */}
+        <div style={{ textAlign: "center", marginBottom: 8 }}>
+          <button className="admin-pdf-btn" onClick={handleDownloadPdf}>
+            ⬇ Download Full Report PDF
+          </button>
+        </div>
+
         <div className="admin-nav-row">
           {navButtons.map(btn => (
             <button key={btn.path} className="admin-nav-btn" onClick={() => navigate(btn.path)}>

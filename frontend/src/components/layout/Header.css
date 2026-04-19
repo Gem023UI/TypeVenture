@@ -217,7 +217,6 @@
   background-clip: text;
 }
 
-/* Caret rotates when dropdown is open via .open class set in JSX */
 .management-caret.open {
   transform: rotate(180deg);
 }
@@ -256,7 +255,6 @@
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   letter-spacing: 0.3px;
-  /* reset the global gradient text rule that affects all .header-right a */
   background-image: none;
   -webkit-text-fill-color: rgba(255, 255, 255, 0.8);
   white-space: nowrap;
@@ -284,10 +282,131 @@
 }
 
 /* ════════════════════════════════════════════════
+   MOBILE NAV
+════════════════════════════════════════════════ */
+
+/* Hide mobile nav on desktop */
+.mobile-nav {
+  display: none;
+  position: relative;
+}
+
+/* ── Mobile top bar: Menu + Login/Logout in a row ── */
+.mobile-top-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile-top-bar li a {
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.6rem;
+  text-decoration: none;
+  font-weight: 500;
+  background: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.mobile-top-bar li a:hover {
+  transform: scale(1.05);
+}
+
+/* ── "Menu" text toggle ── */
+.mobile-menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.6rem;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  user-select: none;
+  background: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  transition: transform 0.2s ease;
+}
+
+.mobile-menu-toggle:hover {
+  transform: scale(1.05);
+}
+
+/* ── Mobile dropdown panel ── */
+.mobile-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 180px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 6px 0;
+  list-style: none;
+  margin: 0;
+  z-index: 1000;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(162, 0, 255, 0.1);
+  animation: dropdownFadeIn 0.18s ease;
+}
+
+.mobile-dropdown li {
+  list-style: none;
+}
+
+.mobile-dropdown li a {
+  display: block;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  background: linear-gradient(135deg, #ff1414, purple, #0029ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  transition: background-color 0.15s ease, padding-left 0.15s ease;
+}
+
+.mobile-dropdown li a:hover {
+  background-color: rgba(162, 0, 255, 0.08);
+  padding-left: 24px;
+}
+
+.mobile-dropdown li:first-child a { border-radius: 10px 10px 0 0; }
+.mobile-dropdown li:last-child a  { border-radius: 0 0 10px 10px; }
+.mobile-dropdown li + li { border-top: 1px solid rgba(0, 0, 0, 0.06); }
+
+/* ════════════════════════════════════════════════
    RESPONSIVE
 ════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
-  .header-right .header-links { display: none; }
-  .header-right ul { display: none; }
+  /* Hide desktop nav */
+  .desktop-nav {
+    display: none;
+  }
+
+  /* Show mobile nav */
+  .mobile-nav {
+    display: block;
+  }
+
+  /* Adjust header right margin on mobile */
+  .header-right {
+    margin-right: 0;
+  }
 }

@@ -7,15 +7,6 @@ export const fetchAllGames = async () => {
     return response.data;
   } catch (error) {
     console.error("Error in fetchAllGames:", error);
-
-    if (error.response?.status === 403 && error.response?.data?.isVerified === false) {
-      throw {
-        status: 403,
-        isVerified: false,
-        message: error.response?.data?.message || "Please verify your email to access games",
-      };
-    }
-
     throw error;
   }
 };
@@ -27,15 +18,6 @@ export const fetchGameById = async (id) => {
     return response.data;
   } catch (error) {
     console.error("Error in fetchGameById:", error);
-
-    if (error.response?.status === 403 && error.response?.data?.isVerified === false) {
-      throw {
-        status: 403,
-        isVerified: false,
-        message: error.response?.data?.message || "Please verify your email to play this game",
-      };
-    }
-
     throw error;
   }
 };
@@ -48,16 +30,7 @@ export const submitScore = async (gameId, score) => {
     console.log("✅ Score submitted:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error submitting score:", error);
-
-    if (error.response?.status === 403 && error.response?.data?.isVerified === false) {
-      throw {
-        status: 403,
-        isVerified: false,
-        message: error.response?.data?.message || "Please verify your email to submit scores",
-      };
-    }
-
+    console.error("Error in submitScore:", error);
     throw error;
   }
 };

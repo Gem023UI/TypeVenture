@@ -17,7 +17,9 @@ const Header = ({ onMenuClick }) => {
   const [isAdmin, setIsAdmin]                 = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [dropdownOpen, setDropdownOpen]       = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen]   = useState(false);
   const dropdownRef                           = useRef(null);
+  const mobileMenuRef                         = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -31,18 +33,23 @@ const Header = ({ onMenuClick }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setDropdownOpen(false);
+      }
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target)) {
+        setMobileMenuOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleLogout = () => setShowLogoutModal(true);
+  const handleLogout = () => {
+    setShowLogoutModal(true);
+    setMobileMenuOpen(false);
+  };
 
   const confirmLogout = () => {
     localStorage.clear();
@@ -63,12 +70,12 @@ const Header = ({ onMenuClick }) => {
         <Link to="/">TypeVenture</Link>
       </div>
 
-      <div className="header-right">
+      {/* ── Desktop Nav ── */}
+      <div className="header-right desktop-nav">
         <ul className="header-links">
           <li className="green"><Link to="/citations">Citations</Link></li>
           <li className="orange"><Link to="/aboutus">About Us</Link></li>
 
-          {/* ── Admin Management Dropdown ── */}
           {isAdmin && (
             <li className="management-menu" ref={dropdownRef}>
               <span
@@ -83,10 +90,7 @@ const Header = ({ onMenuClick }) => {
                 <ul className="management-dropdown">
                   {MANAGEMENT_LINKS.map((item) => (
                     <li key={item.path}>
-                      <Link
-                        to={item.path}
-                        onClick={() => setDropdownOpen(false)}
-                      >
+                      <Link to={item.path} onClick={() => setDropdownOpen(false)}>
                         {item.label}
                       </Link>
                     </li>
@@ -97,15 +101,49 @@ const Header = ({ onMenuClick }) => {
           )}
 
           {hasToken ? (
-            <li className="orange">
-              <Link onClick={handleLogout}>Log Out</Link>
-            </li>
+            <li className="orange"><Link onClick={handleLogout}>Log Out</Link></li>
           ) : (
-            <li className="orange">
-              <Link to="/login">Log In</Link>
-            </li>
+            <li className="orange"><Link to="/login">Log In</Link></li>
           )}
         </ul>
+      </div>
+
+      {/* ── Mobile Nav ── */}
+      <div className="mobile-nav" ref={mobileMenuRef}>
+        {/* Top row: Menu toggle + Login/Logout */}
+        <ul className="mobile-top-bar header-links">
+          <li>
+            <span
+              className="mobile-menu-toggle"
+              onClick={() => setMobileMenuOpen(prev => !prev)}
+            >
+              Menu
+              <span className={`management-caret ${mobileMenuOpen ? "open" : ""}`}>▾</span>
+            </span>
+          </li>
+          <li>
+            {hasToken ? (
+              <Link onClick={handleLogout}>Log Out</Link>
+            ) : (
+              <Link to="/login">Log In</Link>
+            )}
+          </li>
+        </ul>
+
+        {/* Expandable dropdown */}
+        {mobileMenuOpen && (
+          <ul className="mobile-dropdown">
+            <li><Link to="/citations" onClick={() => setMobileMenuOpen(false)}>Citations</Link></li>
+            <li><Link to="/aboutus" onClick={() => setMobileMenuOpen(false)}>About Us</Link></li>
+            {isAdmin && MANAGEMENT_LINKS.map((item) => (
+              <li key={item.path}>
+                <Link to={item.path} onClick={() => setMobileMenuOpen(false)}>
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       {showLogoutModal && (

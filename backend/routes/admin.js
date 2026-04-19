@@ -25,6 +25,9 @@ import {
   adminUpdateGame,
   adminDeleteGame,
   uploadImage,
+  getPdfUsersData,
+  getPdfLessonsData,
+  getPdfGamesData,
 } from "../controllers/admin.js";
 
 const router = express.Router();
@@ -64,6 +67,11 @@ router.get("/games/:id",           adminGetGameById);
 router.post("/games",              adminCreateGame);
 router.put("/games/:id",           adminUpdateGame);
 router.delete("/games/:id",        adminDeleteGame);
+
+// PDF Report Data
+router.get("/pdf/users",   getPdfUsersData);
+router.get("/pdf/lessons", getPdfLessonsData);
+router.get("/pdf/games",   getPdfGamesData);
 
 // Cloudinary upload
 router.post("/upload",             uploadImage);

@@ -1,18 +1,25 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchAllUsers, toggleUserStatus, updateUserRole } from "../../../api/admin";
+import { fetchAllUsers, toggleUserStatus, updateUserRole, fetchPdfUsersData } from "../../../api/admin";
+import { jsPDF } from "jspdf";
+import {
+  makeBarChart, addChart, checkBreak,
+  drawHeader, drawSectionLabel, drawStatPills, drawAnalysis, drawDivider, drawFooter,
+} from "./pdfUtils";
 import MainLayout from "../../layout/MainLayout";
 import "./Admin.css";
 
 const DEFAULT_PROFILE = "https://res.cloudinary.com/dxnb2ozgw/image/upload/v1773666923/THE_ANCIENT_ISLAND_ysi0di.png";
 const ROLES = ["user", "admin"];
 
+// Normalize missing/undefined status to "active" so all comparisons are safe
+const normalizeStatus = (status) => status === "deactivated" ? "deactivated" : "active";
+
 /* ── Small inline dropdown component ── */
 const RoleDropdown = ({ user, onRoleSelect }) => {
   const [open, setOpen]   = useState(false);
   const dropRef           = useRef(null);
 
-  // Close when clicking outside
   useEffect(() => {
     const handler = (e) => {
       if (dropRef.current && !dropRef.current.contains(e.target)) setOpen(false);
@@ -23,8 +30,8 @@ const RoleDropdown = ({ user, onRoleSelect }) => {
 
   const handleSelect = (role) => {
     setOpen(false);
-    if (role === user.userrole) return; // same role — just close
-    onRoleSelect(user, role);           // different role — trigger modal
+    if (role === user.userrole) return;
+    onRoleSelect(user, role);
   };
 
   return (
@@ -60,6 +67,7 @@ const AdminUsers = () => {
   const navigate = useNavigate();
   const [users, setUsers]             = useState([]);
   const [loading, setLoading]         = useState(true);
+  const [error, setError]             = useState(null);
 
   // Status toggle modal
   const [statusModal, setStatusModal]   = useState(null); // { user, action }
@@ -71,8 +79,14 @@ const AdminUsers = () => {
 
   useEffect(() => {
     fetchAllUsers()
-      .then(setUsers)
-      .catch(console.error)
+      .then(data => {
+        // Normalize status on every user right after fetching
+        setUsers(data.map(u => ({ ...u, status: normalizeStatus(u.status) })));
+      })
+      .catch(err => {
+        console.error(err);
+        setError("Failed to load users. Please try again.");
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -82,10 +96,20 @@ const AdminUsers = () => {
     setProcessing(true);
     try {
       const res = await toggleUserStatus(statusModal.user._id);
-      setUsers(prev => prev.map(u => u._id === statusModal.user._id ? res.user : u));
+  
+      const newStatus = statusModal.action === "deactivate" ? "deactivated" : "active";
+  
+      const updatedUser = res?.user
+        ? { ...res.user, status: normalizeStatus(res.user.status) }
+        : { ...statusModal.user, status: newStatus };
+  
+      setUsers(prev =>
+        prev.map(u => u._id === statusModal.user._id ? updatedUser : u)
+      );
       setStatusModal(null);
     } catch (e) {
       console.error(e);
+      setError("Failed to update user status. Please try again.");
     } finally {
       setProcessing(false);
     }
@@ -101,12 +125,61 @@ const AdminUsers = () => {
     setRoleProcessing(true);
     try {
       const res = await updateUserRole(roleModal.user._id, roleModal.newRole);
-      setUsers(prev => prev.map(u => u._id === roleModal.user._id ? res.user : u));
+
+      const updatedUser = res?.user
+        ? { ...res.user, status: normalizeStatus(res.user.status) }
+        : { ...roleModal.user, userrole: roleModal.newRole };
+
+      setUsers(prev =>
+        prev.map(u => u._id === roleModal.user._id ? updatedUser : u)
+      );
       setRoleModal(null);
     } catch (e) {
       console.error(e);
+      setError("Failed to update user role. Please try again.");
     } finally {
       setRoleProcessing(false);
+    }
+  };
+
+  const handleDownloadPdf = async () => {
+    try {
+      const { labels, data, adminCount, userCount, totalUsers } = await fetchPdfUsersData();
+      const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      let y = drawHeader(doc, "Typeventure — Users", "Platform user registration and role analytics");
+  
+      // Stat pills
+      y = drawSectionLabel(doc, "Overview", y);
+      y = drawStatPills(doc, [
+        { label: "Total Users",    value: totalUsers,  color: [162, 0,  255] },
+        { label: "Admins",         value: adminCount,  color: [255, 20,  20] },
+        { label: "Regular Users",  value: userCount,   color: [0,   41, 255] },
+      ], y);
+  
+      y = drawDivider(doc, y);
+  
+      // Bar chart
+      y = drawSectionLabel(doc, "User Registrations Over Time", y);
+      if (labels.length > 0) {
+        const img = makeBarChart({ labels, data, color: "rgba(162,0,255,0.85)" });
+        y = addChart(doc, img, y);
+  
+        const peak     = labels[data.indexOf(Math.max(...data))];
+        const total    = data.reduce((a, b) => a + b, 0);
+        const avg      = (total / labels.length).toFixed(1);
+        y = drawAnalysis(doc,
+          `The registration graph spans ${labels.length} day(s) with ${total} total new registrations. ` +
+          `Peak activity was on ${peak}. On average, ${avg} user(s) registered per day. ` +
+          `The platform currently has ${adminCount} admin(s) and ${userCount} regular user(s).`, y);
+      } else {
+        doc.setFontSize(9); doc.setTextColor(160, 160, 180);
+        doc.text("No registration data available.", 14, y); y += 10;
+      }
+  
+      drawFooter(doc);
+      doc.save("typeventure-users.pdf");
+    } catch (err) {
+      console.error("PDF generation failed:", err);
     }
   };
 
@@ -123,61 +196,79 @@ const AdminUsers = () => {
           <p className="admin-page-sub">{users.length} total users</p>
         </div>
 
+        <button className="admin-pdf-btn" onClick={handleDownloadPdf}>
+          ⬇ Download PDF Report
+        </button>
+
+        {error && (
+          <div className="admin-error-banner" onClick={() => setError(null)}>
+            ⚠️ {error} <span style={{ float: "right", cursor: "pointer" }}>✕</span>
+          </div>
+        )}
+
         {loading ? (
           <div className="admin-loading">Loading users…</div>
         ) : (
           <div className="admin-cards-grid">
-            {users.map(user => (
-              <div key={user._id} className="admin-user-card">
+            {users.map(user => {
+              const status = normalizeStatus(user.status);
+              return (
+                <div key={user._id} className="admin-user-card">
 
-                {/* Profile Picture */}
-                <img
-                  src={user.profilePicture || DEFAULT_PROFILE}
-                  alt={user.username}
-                  className="admin-user-avatar"
-                  onError={e => { e.target.src = DEFAULT_PROFILE; }}
-                />
+                  {/* Profile Picture */}
+                  <img
+                    src={user.profilePicture || DEFAULT_PROFILE}
+                    alt={user.username}
+                    className="admin-user-avatar"
+                    onError={e => { e.target.src = DEFAULT_PROFILE; }}
+                  />
 
-                {/* Username */}
-                <span className="admin-user-name">{user.username}</span>
+                  {/* Username */}
+                  <span className="admin-user-name">{user.username}</span>
 
-                {/* Role — dropdown */}
-                <RoleDropdown
-                  user={user}
-                  onRoleSelect={handleRoleSelect}
-                />
+                  {/* Role — dropdown */}
+                  <RoleDropdown
+                    user={user}
+                    onRoleSelect={handleRoleSelect}
+                  />
 
-                {/* Email */}
-                <span className="admin-user-email">{user.email}</span>
+                  {/* Email */}
+                  <span className="admin-user-email">{user.email}</span>
 
-                {/* Account Status */}
-                <span className={`admin-user-status ${user.status || "active"}`}>
-                  {user.status || "active"}
-                </span>
+                  {/* Account Status */}
+                  <span className={`admin-user-status ${status}`}>
+                    {status}
+                  </span>
 
-                {/* Email Verification */}
-                <span className={`admin-user-verified ${user.isVerified ? "verified" : "unverified"}`}>
-                  {user.isVerified ? "✓ Verified" : "✗ Unverified"}
-                </span>
+                  {/* Email Verification */}
+                  <span className={`admin-user-verified ${user.isVerified ? "verified" : "unverified"}`}>
+                    {user.isVerified ? "✓ Verified" : "✗ Unverified"}
+                  </span>
 
-                {/* Action Buttons */}
-                <div className="admin-card-actions" style={{ padding: 0, marginTop: 10, width: "100%" }}>
-                  <button
-                    className="admin-btn-details"
-                    onClick={() => navigate(`/adminusers/${user._id}`)}
-                  >
-                    Details
-                  </button>
-                  <button
-                    className={`admin-btn-toggle ${user.status === "deactivated" ? "deactivated-status" : "active-status"}`}
-                    onClick={() => setStatusModal({ user, action: user.status === "deactivated" ? "activate" : "deactivate" })}
-                  >
-                    {user.status === "deactivated" ? "Activate" : "Deactivate"}
-                  </button>
+                  {/* Action Buttons */}
+                  <div className="admin-card-actions" style={{ padding: 0, marginTop: 10, width: "100%" }}>
+                    <button
+                      className="admin-btn-details"
+                      onClick={() => navigate(`/adminusers/${user._id}`)}
+                    >
+                      Details
+                    </button>
+                    <button
+                      className={`admin-btn-toggle ${status === "deactivated" ? "deactivated-status" : "active-status"}`}
+                      onClick={() =>
+                        setStatusModal({
+                          user,
+                          action: status === "deactivated" ? "activate" : "deactivate",
+                        })
+                      }
+                    >
+                      {status === "deactivated" ? "Activate" : "Deactivate"}
+                    </button>
+                  </div>
+
                 </div>
-
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 

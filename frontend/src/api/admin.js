@@ -125,3 +125,19 @@ export const adminUploadImage = async (imageData, folder) => {
   const res = await api.post("/api/admin/upload", { imageData, folder });
   return res.data;
 };
+
+// ─── PDF Report Data ─────────────────────
+export const fetchPdfUsersData = async () => {
+  const res = await api.get("/api/admin/pdf/users");
+  return res.data;
+};
+
+export const fetchPdfLessonsData = async () => {
+  const res = await api.get("/api/admin/pdf/lessons");
+  return res.data;
+};
+
+export const fetchPdfGamesData = async () => {
+  const res = await api.get("/api/admin/pdf/games");
+  return res.data;
+};

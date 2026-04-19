@@ -3,13 +3,6 @@ import jwt from "jsonwebtoken";
 import validator from "validator";
 import { uploadToCloudinary } from "../utils/multer.js";
 import User from "../models/user.js";
-import { 
-  generateVerificationCode, 
-  sendVerificationEmail, 
-  sendVerificationSuccessEmail,
-  sendPasswordResetEmail,
-  sendPasswordResetSuccessEmail
-} from "../utils/emailVerify.js";
 
 // GET USER BY ID
 export const getUserById = async (req, res) => {
@@ -50,7 +43,7 @@ export const registerUser = async (req, res) => {
   console.log("🔵 Register endpoint hit");
 
   try {
-    let { username, email, password, userrole, profilePicture, hobbies } = req.body;
+    let { username, email, password, userrole, status, profilePicture, hobbies } = req.body;
 
     if (!username || username.length < 5) {
       return res.status(400).json({ error: "Username must be at least 5 characters long" });
@@ -113,6 +106,7 @@ export const registerUser = async (req, res) => {
       email,
       password: hashedPassword,
       userrole: userrole || "user",
+      status: status || "active",
       profilePicture,
       hobbies,
     });
@@ -159,6 +153,7 @@ export const loginUser = async (req, res) => {
     if (user.status === "deactivated") {
       return res.status(403).json({
         error: "Your account has been deactivated. Please contact support.",
+        isDeactivated: true,
       });
     }
 
@@ -351,193 +346,20 @@ export const deleteAccount = async (req, res) => {
 
 // SEND VERIFICATION CODE
 export const sendVerificationCode = async (req, res) => {
-  console.log("📧 Send verification code endpoint hit");
-  try {
-    const { userId } = req.body;
-    if (!userId) {
-      return res.status(400).json({ error: "User ID is required" });
-    }
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    if (user.isVerified) {
-      return res.status(400).json({ error: "Email already verified" });
-    }
-    const verificationCode = generateVerificationCode();
-    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
-    user.verificationCode = verificationCode;
-    user.verificationCodeExpires = expiresAt;
-    await user.save();
-    await sendVerificationEmail(user.email, user.username, verificationCode);
-    console.log("✅ Verification code sent to:", user.email);
-    res.json({
-      message: "Verification code sent to your email",
-      expiresIn: "15 minutes"
-    });
-  } catch (err) {
-    console.error("❌ Send verification code error:", err);
-    res.status(500).json({
-      error: "Failed to send verification code",
-      details: err.message,
-    });
-  }
+  res.status(410).json({ error: "Email verification has been disabled." });
 };
 
 // VERIFY EMAIL
 export const verifyEmail = async (req, res) => {
-  console.log("✅ Verify email endpoint hit");
-  try {
-    const { userId, code } = req.body;
-    if (!userId || !code) {
-      return res.status(400).json({ error: "User ID and verification code are required" });
-    }
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    if (user.isVerified) {
-      return res.status(400).json({ error: "Email already verified" });
-    }
-    if (!user.verificationCode) {
-      return res.status(400).json({ error: "No verification code found. Please request a new code." });
-    }
-    if (new Date() > user.verificationCodeExpires) {
-      return res.status(400).json({ error: "Verification code expired. Please request a new code." });
-    }
-    if (user.verificationCode !== code.trim()) {
-      return res.status(400).json({ error: "Invalid verification code" });
-    }
-    user.isVerified = true;
-    user.verificationCode = undefined;
-    user.verificationCodeExpires = undefined;
-    await user.save();
-    await sendVerificationSuccessEmail(user.email, user.username);
-    console.log("✅ Email verified for:", user.email);
-    res.json({
-      message: "Email verified successfully!",
-      user: {
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        isVerified: user.isVerified,
-      },
-    });
-  } catch (err) {
-    console.error("❌ Verify email error:", err);
-    res.status(500).json({
-      error: "Email verification failed",
-      details: err.message,
-    });
-  }
+  res.status(410).json({ error: "Email verification has been disabled." });
 };
 
 // SEND PASSWORD RESET CODE
 export const sendPasswordResetCode = async (req, res) => {
-  console.log("🔑 Send password reset code endpoint hit");
-  
-  try {
-    const { email } = req.body;
-    
-    if (!email) {
-      return res.status(400).json({ error: "Email is required" });
-    }
-    
-    const user = await User.findOne({ email: email.toLowerCase() });
-    if (!user) {
-      return res.status(404).json({ 
-        error: "No account found with this email address",
-        accountExists: false
-      });
-    }
-    
-    const resetCode = generateVerificationCode();
-    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
-    
-    user.passwordResetCode = resetCode;
-    user.passwordResetExpires = expiresAt;
-    await user.save();
-    
-    await sendPasswordResetEmail(user.email, user.username, resetCode);
-    
-    console.log("✅ Password reset code sent to:", user.email);
-    
-    res.json({
-      message: "Password reset code sent to your email",
-      email: user.email,
-      expiresIn: "15 minutes"
-    });
-    
-  } catch (err) {
-    console.error("❌ Send password reset code error:", err);
-    res.status(500).json({
-      error: "Failed to send password reset code",
-      details: err.message,
-    });
-  }
+  res.status(410).json({ error: "Password reset via email has been disabled." });
 };
 
 // VERIFY PASSWORD RESET CODE AND RESET PASSWORD
 export const resetPassword = async (req, res) => {
-  console.log("🔓 Reset password endpoint hit");
-  
-  try {
-    const { email, code, newPassword } = req.body;
-    
-    if (!email || !code || !newPassword) {
-      return res.status(400).json({ 
-        error: "Email, code, and new password are required" 
-      });
-    }
-    
-    const user = await User.findOne({ email: email.toLowerCase() });
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    
-    if (!user.passwordResetCode) {
-      return res.status(400).json({ 
-        error: "No password reset code found. Please request a new code." 
-      });
-    }
-    
-    if (new Date() > user.passwordResetExpires) {
-      return res.status(400).json({ 
-        error: "Password reset code expired. Please request a new code." 
-      });
-    }
-    
-    if (user.passwordResetCode !== code.trim()) {
-      return res.status(400).json({ error: "Invalid reset code" });
-    }
-    
-    const passwordRegex = /^(?=.*[!@#$%^&*(),.?\":{}|<>]).{6,}$/;
-    if (!passwordRegex.test(newPassword)) {
-      return res.status(400).json({
-        error: "Password must be at least 6 characters long and contain at least 1 symbol",
-      });
-    }
-    
-    user.password = await bcrypt.hash(newPassword, 10);
-    user.passwordResetCode = undefined;
-    user.passwordResetExpires = undefined;
-    
-    await user.save();
-    
-    await sendPasswordResetSuccessEmail(user.email, user.username);
-    
-    console.log("✅ Password reset successfully for:", user.email);
-    
-    res.json({
-      message: "Password reset successfully!",
-      success: true
-    });
-    
-  } catch (err) {
-    console.error("❌ Reset password error:", err);
-    res.status(500).json({
-      error: "Password reset failed",
-      details: err.message,
-    });
-  }
+  res.status(410).json({ error: "Password reset via email has been disabled." });
 };

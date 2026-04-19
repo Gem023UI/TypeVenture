@@ -6,20 +6,6 @@ export const fetchAllLessons = async () => {
     return response.data;
   } catch (error) {
     console.error("Error in fetchAllLessons:", error);
-
-    if (
-      error.response?.status === 403 &&
-      error.response?.data?.isVerified === false
-    ) {
-      throw {
-        status: 403,
-        isVerified: false,
-        message:
-          error.response?.data?.message ||
-          "Please verify your email to access lessons",
-      };
-    }
-
     throw error;
   }
 };
@@ -29,21 +15,7 @@ export const fetchLessonById = async (id) => {
     const response = await api.get(`/api/lessons/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error in fetchLessonById:", error);
-
-    if (
-      error.response?.status === 403 &&
-      error.response?.data?.isVerified === false
-    ) {
-      throw {
-        status: 403,
-        isVerified: false,
-        message:
-          error.response?.data?.message ||
-          "Please verify your email to access lessons",
-      };
-    }
-
+    console.error("Error in fetchAllLessons:", error);
     throw error;
   }
 };

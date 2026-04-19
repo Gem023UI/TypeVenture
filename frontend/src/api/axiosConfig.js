@@ -1,8 +1,8 @@
 import axios from "axios";
 
 // const API_URL = import.meta.env.VITE_BACKEND_URL
-const API_URL =  import.meta.env.VITE_CLOUDFARE_URL || "https://departure-males-que-deemed.trycloudflare.com"
-// const API_URL = import.meta.env.VITE_LOCAL_URL
+// const API_URL =  import.meta.env.VITE_CLOUDFARE_URL || "https://applied-solaris-parade-items.trycloudflare.com"
+const API_URL = import.meta.env.VITE_LOCAL_URL
 
 // Create axios instance
 const api = axios.create({
