@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import * as Chart from 'chart.js';
-import { getUserById, editProfile, deleteAccount, verifyEmail, getCompletedLessons, getQuizScores } from "../../api/user"
+import { getUserById, editProfile, deleteAccount, getCompletedLessons, getQuizScores } from "../../api/user"
 import { fetchUserScores } from "../../api/games";
 import Swal from 'sweetalert2';
 import MainLayout from "../layout/MainLayout";

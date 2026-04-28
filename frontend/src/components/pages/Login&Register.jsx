@@ -129,7 +129,6 @@ export default function LoginRegister({ logoUrl }) {
 
   return (
     <div className="login-register-wrapper">
-      {resetLoading && <Loader />}
       <div className={`container ${isActive ? "active" : ""}`} id="container">
         {/* LOGIN */}
         <div className="form-container sign-up">
@@ -441,7 +440,6 @@ export default function LoginRegister({ logoUrl }) {
           </div>
         </div>
       )}
-
     </div>
   );
 }
